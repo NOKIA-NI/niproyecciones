@@ -1,0 +1,40 @@
+{% if is_paginated %}
+<div class="col">
+  <form class="form-inline" action="." method="get">
+    <div class="form-group mb-2">
+      <label>items por pagina</label>
+      <div class="col-sm-1">
+      <select class="form-control form-control-sm" name="paginate_by" onchange='if(this.value != 0) { this.form.submit(); }'>
+          <option>{{ paginate_by }}</option>
+          <option>15</option>
+          <option>25</option>
+          <option>50</option>
+          <option>75</option>
+          <option>100</option>
+      </select>
+      </div>
+    </div>
+  </form>
+</div>
+<p> de {{ items.count }}</p>
+<div class="col">
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-left">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a></li>
+    {% endif %}
+  </ul>
+  </nav>
+</div>
+
+
+
+{% endif %}

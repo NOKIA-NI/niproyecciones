@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+{% block navbar %}
+{% include "includes/partials/navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h1 class="display-4">Bienvenidos</h1>
+  <p class="lead">Esta es una aplicación web para el control de proyecciones de Ni.</p>
+  <hr class="my-4">
+  <p class="lead">
+    <button class="btn btn-primary" onclick="return login('{% url 'users:login' %}')"  role="button">Entrar</button>
+    <button class="btn btn-primary" onclick="return signin('{% url 'users:signin' %}')" role="button">Registrarse</button>
+  </p>
+</div>
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include "users/includes/partials/login.html" %}
+</div>
+<div class="modal fade" id="signin" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include "users/includes/partials/signin.html" %}
+</div>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+<script>
+function login (url) {
+  $('#login').modal('show').load(url)
+};
+function signin (url) {
+  $('#signin').modal('show').load(url)
+};
+</script>
+{% endblock extra_js %}
