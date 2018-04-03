@@ -2,14 +2,20 @@ from django.db import models
 
 from django.urls import reverse
 from . import choices
+from django.utils import timezone
+
+TODAY = timezone.now()
+WEEK = TODAY.isocalendar()[1]
 
 class Estacion(models.Model):
     site_name = models.CharField(max_length=255, unique=True)
     region = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
     scope_claro = models.CharField(max_length=255, choices=choices.SCOPE_CHOICES, blank=True, null=True)
     w_fc_imp = models.PositiveIntegerField(blank=True, null=True)
+    w_fc_sal = models.PositiveIntegerField(blank=True, null=True)
     total_actividades = models.PositiveIntegerField(blank=True, null=True)
     estado_wr = models.CharField(max_length=255, choices=choices.ESTADO_WR_CHOICES, blank=True, null=True)
+    mos = models.DateField(blank=True, null=True)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -18,11 +24,18 @@ class Estacion(models.Model):
 
     class Meta:
         ordering = ('creado',)
-        verbose_name = "estacion"
-        verbose_name_plural = "estaciones"
+        verbose_name = 'estacion'
+        verbose_name_plural = 'estaciones'
 
     def __str__(self):
         return self.site_name
 
     def get_absolute_url(self):
         return reverse('estaciones:detail_estacion', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        if self.w_fc_imp is not None:
+            self.w_fc_sal = self.w_fc_imp - 3
+            if self.w_fc_sal < WEEK:
+                self.w_fc_sal = WEEK
+        super(Estacion, self).save(*args, **kwargs)
