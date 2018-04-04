@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'estaciones.apps.EstacionesConfig',
     'partes.apps.PartesConfig',
     'proyecciones.apps.ProyeccionesConfig',
+    'consumos.apps.ConsumosConfig',
     # third
     'crispy_forms',
     'import_export',

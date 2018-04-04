@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Consumos Claro{% endblock title %}
+
+{% block navbar %}
+{% include 'dashboard/includes/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block sidebar %}
+{% include 'dashboard/includes/partials/sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content_dashboard %}
+
+<main role="main" class="">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+    <h1 class="h2">Consumos Claro</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_consumo_claro('{% url 'consumos:create_consumo_claro' %}')">
+          <span data-feather="plus"></span>
+          Crear
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_consumo_claro(url_update)">
+          <span data-feather="edit"></span>
+          Actualizar
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_consumo_claro(url_delete)">
+          <span data-feather="trash"></span>
+          Borrar
+        </button>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'consumos:export_consumo_claro' %}">
+          <span data-feather="download"></span>
+          Exportar
+        </a>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle mr-2  disabled" id="action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="play"></span>
+          Accion
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">link</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="calendar"></span>
+          Hoy
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">link</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm" id="table_consumo_claro">
+      <thead>
+        {% include 'consumo_claro/includes/partials/head_consumo_claro.html' %}
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          {% include 'consumo_claro/includes/partials/body_consumo_claro.html' %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+<div class="row border-bottom">
+    {% include 'dashboard/includes/partials/nav_paginate.html' %}
+</div>
+
+
+<div class="modal fade" id="create_consumo_claro" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include 'consumo_claro/includes/partials/create_consumo_claro.html' %}
+</div>
+
+<div class="modal fade" id="update_consumo_claro" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include 'consumo_claro/includes/partials/update_consumo_claro.html' %}
+</div>
+{% endblock content_dashboard %}
