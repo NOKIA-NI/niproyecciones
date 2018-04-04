@@ -85,21 +85,3 @@
   {% include 'estacion/includes/partials/update_estacion.html' %}
 </div>
 {% endblock content_dashboard %}
-
-
-
-
-
-{% block extra_js %}
-<script>
-function create_estacion (url) {
-  $('#create_estacion').modal('show').load(url)
-}
-function update_estacion (url_update) {
-  $('#update_estacion').modal('show').load(url_update)
-}
-function delete_estacion (url_delete) {
-  $('#delete_estacion').modal('show').load(url_delete)
-}
-</script>
-{% endblock extra_js %}

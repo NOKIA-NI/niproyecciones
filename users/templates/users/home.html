@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock title %}
 
 {% block navbar %}
-{% include "includes/partials/navbar.html" %}
+{% include "users/includes/partials/navbar.html" %}
 {% endblock navbar %}
 
 {% block content %}
@@ -25,15 +25,3 @@
 </div>
 
 {% endblock content %}
-
-
-{% block extra_js %}
-<script>
-function login (url) {
-  $('#login').modal('show').load(url)
-};
-function signin (url) {
-  $('#signin').modal('show').load(url)
-};
-</script>
-{% endblock extra_js %}
