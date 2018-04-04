@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Estaciones{% endblock title %}
+{% block title %}Partes{% endblock title %}
 
 {% block navbar %}
 {% include 'dashboard/includes/partials/navbar.html' %}
@@ -14,22 +14,22 @@
 
 <main role="main" class="">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
-    <h1 class="h2">Estaciones</h1>
+    <h1 class="h2">Partes</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary" onclick="return create_estacion('{% url 'estaciones:create_estacion' %}')">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_parte('{% url 'partes:create_parte' %}')">
           <span data-feather="plus"></span>
           Crear
         </button>
-        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_estacion(url_update)">
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_parte(url_update)">
           <span data-feather="edit"></span>
           Actualizar
         </button>
-        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_estacion(url_delete)">
+        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_parte(url_delete)">
           <span data-feather="trash"></span>
           Borrar
         </button>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'estaciones:export_estacion' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'partes:export_parte' %}">
           <span data-feather="download"></span>
           Exportar
         </a>
@@ -60,13 +60,13 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped table-sm" id="table_estacion">
+    <table class="table table-striped table-sm" id="table_parte">
       <thead>
-        {% include 'estacion/includes/partials/head_estacion.html' %}
+        {% include 'parte/includes/partials/head_parte.html' %}
       </thead>
       <tbody>
         {% for object in object_list %}
-          {% include 'estacion/includes/partials/body_estacion.html' %}
+          {% include 'parte/includes/partials/body_parte.html' %}
         {% endfor %}
       </tbody>
     </table>
@@ -77,11 +77,11 @@
 </div>
 
 
-<div class="modal fade" id="create_estacion" tabindex="-1" role="dialog" aria-hidden="true">
-  {% include 'estacion/includes/partials/create_estacion.html' %}
+<div class="modal fade" id="create_parte" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include 'parte/includes/partials/create_parte.html' %}
 </div>
 
-<div class="modal fade" id="update_estacion" tabindex="-1" role="dialog" aria-hidden="true">
-  {% include 'estacion/includes/partials/update_estacion.html' %}
+<div class="modal fade" id="update_parte" tabindex="-1" role="dialog" aria-hidden="true">
+  {% include 'parte/includes/partials/update_parte.html' %}
 </div>
 {% endblock content_dashboard %}

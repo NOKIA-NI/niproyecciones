@@ -77,7 +77,7 @@ class SearchEstacion(ListEstacion):
             )
         return queryset
 
-def export_estaciones(request):
+def export_estacion(request):
     estacion_resource = EstacionResource()
     dataset = estacion_resource.export()
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')

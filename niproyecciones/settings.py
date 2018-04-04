@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # ni proyecciones
     'users.apps.UsersConfig',
     'dashboard.apps.DashboardConfig',
     'estaciones.apps.EstacionesConfig',
+    'partes.apps.PartesConfig',
+    # third
     'crispy_forms',
     'import_export',
 ]
