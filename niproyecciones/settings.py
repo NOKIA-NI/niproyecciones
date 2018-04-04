@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'estaciones.apps.EstacionesConfig',
     'partes.apps.PartesConfig',
+    'proyecciones.apps.ProyeccionesConfig',
     # third
     'crispy_forms',
     'import_export',
