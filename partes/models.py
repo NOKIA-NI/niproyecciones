@@ -4,7 +4,7 @@ from django.urls import reverse
 from . import choices
 
 class Parte(models.Model):
-    cod_sap = models.PositiveIntegerField(blank=True, null=True, unique=True)
+    cod_sap = models.PositiveIntegerField(blank=True, null=True)
     parte_nokia = models.CharField(max_length=255, blank=True, null=True)
     capex = models.CharField(max_length=255, blank=True, null=True)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES)
