@@ -32,7 +32,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a {% if request.resolver_match.url_name == 'list_hw_actividad' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'hw_actividades:list_hw_actividad' %}">
                   <span data-feather="layers"></span>
                   HW Actividad
                 </a>

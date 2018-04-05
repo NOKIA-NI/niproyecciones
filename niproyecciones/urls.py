@@ -24,5 +24,6 @@ urlpatterns = [
     path('estaciones/', include('estaciones.urls', namespace='estaciones')),
     path('partes/', include('partes.urls', namespace='partes')),
     path('proyecciones/', include('proyecciones.urls', namespace='proyecciones')),
+    path('hw_actividades/', include('hw_actividades.urls', namespace='hw_actividades')),
     path('consumos/', include('consumos.urls', namespace='consumos')),
 ]

@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
 ListProyeccion,
 DetailProyeccion,
-UpdateProyeccion,
 CreateProyeccion,
+UpdateProyeccion,
 DeleteProyeccion,
 SearchProyeccion,
 export_proyeccion

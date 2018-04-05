@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}HW Actividad{% endblock title %}
+
+{% block navbar %}
+{% include 'dashboard/includes/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block sidebar %}
+{% include 'dashboard/includes/partials/sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content_dashboard %}
+
+<main role="main" class="">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+    <h1 class="h2">HW Actividad</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_hw_actividad('{% url 'hw_actividades:create_hw_actividad' %}')">
+          <span data-feather="plus"></span>
+          Crear
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_hw_actividad(url_update)">
+          <span data-feather="edit"></span>
+          Actualizar
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_hw_actividad(url_delete)">
+          <span data-feather="trash"></span>
+          Borrar
+        </button>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'hw_actividades:export_hw_actividad' %}">
+          <span data-feather="download"></span>
+          Exportar
+        </a>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle mr-2  disabled" id="action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="play"></span>
+          Accion
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">link</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="calendar"></span>
+          Hoy
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">link</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm" id="table_hw_actividad">
+      <thead>
+        {% include 'hw_actividad/includes/partials/head_hw_actividad.html' %}
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          {% include 'hw_actividad/includes/partials/body_hw_actividad.html' %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+<div class="row border-bottom">
+    {% include 'dashboard/includes/partials/nav_paginate.html' %}
+</div>
+
+<div class="modal fade" id="update_hw_actividad" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+{% endblock content_dashboard %}

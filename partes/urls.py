@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
 ListParte,
 DetailParte,
-UpdateParte,
 CreateParte,
+UpdateParte,
 DeleteParte,
 SearchParte,
 export_parte

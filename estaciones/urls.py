@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
 ListEstacion,
 DetailEstacion,
-UpdateEstacion,
 CreateEstacion,
+UpdateEstacion,
 DeleteEstacion,
 SearchEstacion,
 export_estacion

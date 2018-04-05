@@ -2,16 +2,16 @@ from django.urls import path
 from .views import (
 ListConsumoNokia,
 DetailConsumoNokia,
-UpdateConsumoNokia,
 CreateConsumoNokia,
+UpdateConsumoNokia,
 DeleteConsumoNokia,
 SearchConsumoNokia,
 export_consumo_nokia,
 
 ListConsumoClaro,
 DetailConsumoClaro,
-UpdateConsumoClaro,
 CreateConsumoClaro,
+UpdateConsumoClaro,
 DeleteConsumoClaro,
 SearchConsumoClaro,
 export_consumo_claro,

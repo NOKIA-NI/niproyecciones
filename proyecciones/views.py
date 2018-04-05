@@ -65,7 +65,7 @@ class SearchProyeccion(ListProyeccion):
                 reduce(operator.and_,
                           (Q(estacion__site_name__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(proyecto_nokia__icontains=q) for q in query_list)) |
+                          (Q(proyecto__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(escenario__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
