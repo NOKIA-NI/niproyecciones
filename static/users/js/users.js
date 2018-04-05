@@ -1,6 +1,16 @@
+// event.PreventDefault()
+// event.stopPropagation()
+
 function login (url) {
-  $('#login').modal('show').load(url)
-};
+  $('#login').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
+}
+
 function signin (url) {
-  $('#signin').modal('show').load(url)
-};
+  $('#signin').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
+}

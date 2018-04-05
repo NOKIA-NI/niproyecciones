@@ -17,7 +17,7 @@ from .resources import EstacionResource
 from django.http import HttpResponse
 
 class ListEstacion(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Estacion
     template_name = 'estacion/list_estacion.html'
     paginate_by = 15
@@ -32,23 +32,23 @@ class ListEstacion(LoginRequiredMixin, ListView):
         return context
 
 class DetailEstacion(LoginRequiredMixin, DetailView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Estacion
     template_name = 'estacion/detail_estacion.html'
 
 class CreateEstacion(LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     form_class = EstacionForm
     template_name = 'estacion/includes/partials/create_estacion.html'
 
 class UpdateEstacion(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Estacion
     form_class = EstacionForm
     template_name = 'estacion/includes/partials/update_estacion.html'
 
 class DeleteEstacion(LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Estacion
     template_name = 'estacion/includes/partials/delete_estacion.html'
 

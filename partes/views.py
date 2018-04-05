@@ -17,7 +17,7 @@ from .resources import ParteResource
 from django.http import HttpResponse
 
 class ListParte(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Parte
     template_name = 'parte/list_parte.html'
     paginate_by = 15
@@ -32,23 +32,23 @@ class ListParte(LoginRequiredMixin, ListView):
         return context
 
 class DetailParte(LoginRequiredMixin, DetailView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Parte
     template_name = 'parte/detail_parte.html'
 
 class CreateParte(LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     form_class = ParteForm
     template_name = 'parte/includes/partials/create_parte.html'
 
 class UpdateParte(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Parte
     form_class = ParteForm
     template_name = 'parte/includes/partials/update_parte.html'
 
 class DeleteParte(LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Parte
     template_name = 'parte/includes/partials/delete_parte.html'
 

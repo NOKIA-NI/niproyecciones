@@ -17,7 +17,7 @@ from .resources import ProyeccionResource
 from django.http import HttpResponse
 
 class ListProyeccion(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Proyeccion
     template_name = 'proyeccion/list_proyeccion.html'
     paginate_by = 15
@@ -32,23 +32,23 @@ class ListProyeccion(LoginRequiredMixin, ListView):
         return context
 
 class DetailProyeccion(LoginRequiredMixin, DetailView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Proyeccion
     template_name = 'proyeccion/detail_proyeccion.html'
 
 class CreateProyeccion(LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     form_class = ProyeccionForm
     template_name = 'proyeccion/includes/partials/create_proyeccion.html'
 
 class UpdateProyeccion(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Proyeccion
     form_class = ProyeccionForm
     template_name = 'proyeccion/includes/partials/update_proyeccion.html'
 
 class DeleteProyeccion(LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = Proyeccion
     template_name = 'proyeccion/includes/partials/delete_proyeccion.html'
 

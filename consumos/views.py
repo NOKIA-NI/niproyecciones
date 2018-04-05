@@ -17,7 +17,7 @@ from .resources import ConsumoNokiaResource, ConsumoClaroResource
 from django.http import HttpResponse
 
 class ListConsumoNokia(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoNokia
     template_name = 'consumo_nokia/list_consumo_nokia.html'
     paginate_by = 15
@@ -32,23 +32,23 @@ class ListConsumoNokia(LoginRequiredMixin, ListView):
         return context
 
 class DetailConsumoNokia(LoginRequiredMixin, DetailView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoNokia
     template_name = 'consumo_nokia/detail_consumo_nokia.html'
 
 class CreateConsumoNokia(LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     form_class = ConsumoNokiaForm
     template_name = 'consumo_nokia/includes/partials/create_consumo_nokia.html'
 
 class UpdateConsumoNokia(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoNokia
     form_class = ConsumoNokiaForm
     template_name = 'consumo_nokia/includes/partials/update_consumo_nokia.html'
 
 class DeleteConsumoNokia(LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoNokia
     template_name = 'consumo_nokia/includes/partials/delete_consumo_nokia.html'
 
@@ -75,7 +75,7 @@ def export_consumo_nokia(request):
     return response
 
 class ListConsumoClaro(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/list_consumo_claro.html'
     paginate_by = 15
@@ -90,23 +90,23 @@ class ListConsumoClaro(LoginRequiredMixin, ListView):
         return context
 
 class DetailConsumoClaro(LoginRequiredMixin, DetailView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/detail_consumo_claro.html'
 
 class CreateConsumoClaro(LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     form_class = ConsumoClaroForm
     template_name = 'consumo_claro/includes/partials/create_consumo_claro.html'
 
 class UpdateConsumoClaro(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoClaro
     form_class = ConsumoClaroForm
     template_name = 'consumo_claro/includes/partials/update_consumo_claro.html'
 
 class DeleteConsumoClaro(LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
+    login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/includes/partials/delete_consumo_claro.html'
 
