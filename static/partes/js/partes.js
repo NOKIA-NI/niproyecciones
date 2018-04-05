@@ -1,3 +1,6 @@
+// event.PreventDefault()
+// event.stopPropagation()
+
 $('#table_parte').on('click', '.clickable-row', function(event) {
   $(this).addClass('active').siblings().removeClass('active');
   $('#update').removeClass('disabled');
@@ -10,15 +13,24 @@ $('#table_parte').on('click', '.clickable-row', function(event) {
 });
 
 function create_parte (url) {
-  $('#create_parte').modal('show').load(url)
+  $('#create_parte').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_parte (url_update) {
-  $('#update_parte').modal('show').load(url_update)
+  $('#update_parte').load(url_update, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function delete_parte (url_delete) {
-  $('#delete_parte').modal('show').load(url_delete)
+  $('#delete_parte').load(url_delete, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_url_parte (form) {

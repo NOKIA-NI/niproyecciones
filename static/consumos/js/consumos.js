@@ -1,3 +1,6 @@
+// event.PreventDefault()
+// event.stopPropagation()
+
 $('#table_consumo_nokia').on('click', '.clickable-row', function(event) {
   $(this).addClass('active').siblings().removeClass('active');
   $('#update').removeClass('disabled');
@@ -10,15 +13,24 @@ $('#table_consumo_nokia').on('click', '.clickable-row', function(event) {
 });
 
 function create_consumo_nokia (url) {
-  $('#create_consumo_nokia').modal('show').load(url)
+  $('#create_consumo_nokia').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_consumo_nokia (url_update) {
-  $('#update_consumo_nokia').modal('show').load(url_update)
+  $('#update_consumo_nokia').load(url_update, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function delete_consumo_nokia (url_delete) {
-  $('#delete_consumo_nokia').modal('show').load(url_delete)
+  $('#delete_consumo_nokia').load(url_delete, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_url_consumo_nokia (form) {
@@ -41,15 +53,24 @@ $('#table_consumo_claro').on('click', '.clickable-row', function(event) {
 });
 
 function create_consumo_claro (url) {
-  $('#create_consumo_claro').modal('show').load(url)
+  $('#create_consumo_claro').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_consumo_claro (url_update) {
-  $('#update_consumo_claro').modal('show').load(url_update)
+  $('#update_consumo_claro').load(url_update, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function delete_consumo_claro (url_delete) {
-  $('#delete_consumo_claro').modal('show').load(url_delete)
+  $('#delete_consumo_claro').load(url_delete, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_url_consumo_claro (form) {

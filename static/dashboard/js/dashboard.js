@@ -7,8 +7,11 @@ $('#sidebar-toggle').on('click', function (event) {
 function search_url (form) {
   var current_url = window.location.href
   var url_search_estacion = '/estaciones/search/estacion/'
-  if ( current_url.includes('/estaciones/list/estacion/')) {
+  var url_search_parte = '/partes/search/parte/'
+  if (current_url.includes('/estaciones/')) {
     form.action = url_search_estacion;
+  } else if (current_url.includes('/partes/')) {
+    form.action = url_search_parte;
   } else {
     form.action = ''
   }

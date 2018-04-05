@@ -1,3 +1,6 @@
+// event.PreventDefault()
+// event.stopPropagation()
+
 $('#table_proyeccion').on('click', '.clickable-row', function(event) {
   $(this).addClass('active').siblings().removeClass('active');
   $('#update').removeClass('disabled');
@@ -10,15 +13,24 @@ $('#table_proyeccion').on('click', '.clickable-row', function(event) {
 });
 
 function create_proyeccion (url) {
-  $('#create_proyeccion').modal('show').load(url)
+  $('#create_proyeccion').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_proyeccion (url_update) {
-  $('#update_proyeccion').modal('show').load(url_update)
+  $('#update_proyeccion').load(url_update, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function delete_proyeccion (url_delete) {
-  $('#delete_proyeccion').modal('show').load(url_delete)
+  $('#delete_proyeccion').load(url_delete, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_url_proyeccion (form) {

@@ -1,3 +1,6 @@
+// event.PreventDefault()
+// event.stopPropagation()
+
 $('#table_estacion').on('click', '.clickable-row', function(event) {
   $(this).addClass('active').siblings().removeClass('active');
   $('#update').removeClass('disabled');
@@ -10,15 +13,24 @@ $('#table_estacion').on('click', '.clickable-row', function(event) {
 });
 
 function create_estacion (url) {
-  $('#create_estacion').modal('show').load(url)
+  $('#create_estacion').load(url, function (event) {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
 }
 
 function update_estacion (url_update) {
-  $('#update_estacion').modal('show').load(url_update)
+  $('#update_estacion').load(url_update, function (event) {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
 }
 
 function delete_estacion (url_delete) {
-  $('#delete_estacion').modal('show').load(url_delete)
+  $('#delete_estacion').load(url_delete, function (event) {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
 }
 
 function update_url_estacion (form) {
