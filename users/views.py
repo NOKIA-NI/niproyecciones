@@ -41,4 +41,4 @@ class Signin(CreateView):
     form_class = SigninForm
     model = User
     template_name = 'users/includes/partials/signin.html'
-    success_url = reverse_lazy('dashboard:dashboard')
+    success_url = reverse_lazy('users:home')
