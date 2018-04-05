@@ -14,7 +14,6 @@ class ProyeccionResource(resources.ModelResource):
         'escenario',
         'banda',
         'agrupadores',
-        'rfe',
         'parte',
         'estado_proyeccion',
         'cantidad_estimada',

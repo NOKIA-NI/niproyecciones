@@ -73,8 +73,6 @@ class SearchProyeccion(ListProyeccion):
                 reduce(operator.and_,
                           (Q(agrupadores__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(rfe__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
                           (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(estado_proyeccion__icontains=q) for q in query_list)) |
