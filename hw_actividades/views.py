@@ -69,17 +69,11 @@ class SearchHwActividad(ListHwActividad):
                 reduce(operator.and_,
                           (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(bolsa__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(comunidades__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(satelital__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
                           (Q(lsm__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(calculo_hw__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(impactar_estimada__icontains=q) for q in query_list))
+                          (Q(impactar__icontains=q) for q in query_list))
             )
         return queryset
 

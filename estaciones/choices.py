@@ -88,3 +88,30 @@ ESTADO_WR_CHOICES = (
     ('Programacion_Pendiente2016', 'Programacion_Pendiente2016'),
     ('Detenido_HSEQ', 'Detenido_HSEQ'),
 )
+
+""" BOLSA_CHOICES  """
+BOLSA_CHOICES = (
+    ('', '---------'),
+    ('45 sitios LSM', '45 sitios LSM'),
+    ('120 sitios LSM', '120 sitios LSM'),
+    ('128 sitios LSM', '128 sitios LSM'),
+    ('485 sitios', '485 sitios'),
+    ('531 sitios LSM', '531 sitios LSM'),
+    ('Reemplazo 531', 'Reemplazo 531'),
+    ('Reemplazo 531', 'Reemplazo 531'),
+    ('Sitios Bulk', 'Sitios Bulk'),
+)
+
+""" SATELITAL_CHOICES  """
+SATELITAL_CHOICES = (
+    ('', '---------'),
+    ('Satelital', 'Satelital'),
+)
+
+""" COMUNIDADES_CHOICES  """
+COMUNIDADES_CHOICES = (
+    ('', '---------'),
+    ('142 Comunidades P1', '142 Comunidades P1'),
+    ('142 Comunidades P1', '142 Comunidades P2'),
+    ('142 Comunidades P1', '142 Comunidades P3'),
+)

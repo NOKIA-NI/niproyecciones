@@ -73,7 +73,13 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(total_actividades__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(estado_wr__icontains=q) for q in query_list))
+                          (Q(estado_wr__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(bolsa__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(comunidades__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(satelital__icontains=q) for q in query_list))
             )
         return queryset
 
