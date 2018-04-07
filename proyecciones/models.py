@@ -11,7 +11,8 @@ class Proyeccion(models.Model):
     escenario = models.CharField(max_length=255, blank=True, null=True)
     banda = models.CharField(max_length=255, blank=True, null=True)
     agrupadores = models.CharField(max_length=255, blank=True, null=True)
-    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='proyecciones')
+    rfe = models.DateField(blank=True, null=True)
+    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='proyecciones', blank=True, null=True)
     estado_proyeccion  = models.CharField(max_length=255, choices=choices.ESTADO_PROYECCION_CHOICES)
     cantidad_estimada = models.PositiveIntegerField(blank=True, null=True)
 

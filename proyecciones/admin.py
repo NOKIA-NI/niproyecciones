@@ -19,6 +19,7 @@ class ProyeccionAdmin(ImportExportModelAdmin):
     'banda',
     'agrupadores',
     'parte',
+    'rfe',
     'estado_proyeccion',
     'cantidad_estimada',
     'estado',

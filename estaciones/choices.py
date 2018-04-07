@@ -98,7 +98,6 @@ BOLSA_CHOICES = (
     ('485 sitios', '485 sitios'),
     ('531 sitios LSM', '531 sitios LSM'),
     ('Reemplazo 531', 'Reemplazo 531'),
-    ('Reemplazo 531', 'Reemplazo 531'),
     ('Sitios Bulk', 'Sitios Bulk'),
 )
 
