@@ -2,14 +2,14 @@
 // event.stopPropagation()
 
 function login (url) {
-  $('#login').load(url, function (event) {
+  $('#login').load(url, function() {
     $(this).modal('show');
   });
   event.stopPropagation()
 }
 
 function signin (url) {
-  $('#signin').load(url, function (event) {
+  $('#signin').load(url, function() {
     $(this).modal('show');
   });
   event.stopPropagation()

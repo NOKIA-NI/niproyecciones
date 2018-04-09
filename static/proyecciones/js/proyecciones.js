@@ -13,21 +13,21 @@ $('#table_proyeccion').on('click', '.clickable-row', function(event) {
 });
 
 function create_proyeccion (url) {
-  $('#create_proyeccion').load(url, function (event) {
+  $('#create_proyeccion').load(url, function() {
     $(this).modal('show');
   });
   event.stopPropagation()
 }
 
 function update_proyeccion (url_update) {
-  $('#update_proyeccion').load(url_update, function (event) {
+  $('#update_proyeccion').load(url_update, function() {
     $(this).modal('show');
   });
   event.stopPropagation()
 }
 
 function delete_proyeccion (url_delete) {
-  $('#delete_proyeccion').load(url_delete, function (event) {
+  $('#delete_proyeccion').load(url_delete, function() {
     $(this).modal('show');
   });
   event.stopPropagation()

@@ -13,21 +13,21 @@ $('#table_estacion').on('click', '.clickable-row', function(event) {
 });
 
 function create_estacion (url) {
-  $('#create_estacion').load(url, function (event) {
+  $('#create_estacion').load(url, function() {
     $(this).modal('show');
   });
   event.stopPropagation()
 }
 
 function update_estacion (url_update) {
-  $('#update_estacion').load(url_update, function (event) {
+  $('#update_estacion').load(url_update, function() {
     $(this).modal('show')
   });
   event.stopPropagation()
 }
 
 function delete_estacion (url_delete) {
-  $('#delete_estacion').load(url_delete, function (event) {
+  $('#delete_estacion').load(url_delete, function() {
     $(this).modal('show')
   });
   event.stopPropagation()
