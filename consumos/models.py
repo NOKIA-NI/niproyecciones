@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.urls import reverse
-from . import choices
+from partes import choices
 from partes.models import Parte
 from django.db.models.signals import post_save
 from django.dispatch import receiver

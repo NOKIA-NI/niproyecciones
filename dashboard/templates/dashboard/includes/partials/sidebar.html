@@ -34,19 +34,31 @@
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_hw_actividad' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'hw_actividades:list_hw_actividad' %}">
                   <span data-feather="layers"></span>
-                  HW Actividad
+                  HW Actividades
                 </a>
               </li>
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_consumo_nokia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_nokia' %}">
                   <span data-feather="package"></span>
-                  Consumo Nokia
+                  Consumos Nokia
                 </a>
               </li>
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_consumo_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_claro' %}">
                   <span data-feather="package"></span>
-                  Consumo Claro
+                  Consumos Claro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a {% if request.resolver_match.url_name == 'list_llegada' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'llegadas:list_llegada' %}">
+                  <span data-feather="truck"></span>
+                  Llegadas
+                </a>
+              </li>
+              <li class="nav-item">
+                <a {% if request.resolver_match.url_name == 'list_llegada' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'llegadas:list_llegada' %}">
+                  <span data-feather="archive"></span>
+                  existencias
                 </a>
               </li>
             </ul>
@@ -61,25 +73,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Reporte 1
+                  Partes
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Reporte 2
+                  Modulos
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Reporte 3
+                  Accesorios
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Reporte 4
+                  Antenas y Otros
                 </a>
               </li>
             </ul>
