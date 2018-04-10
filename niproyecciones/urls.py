@@ -27,4 +27,5 @@ urlpatterns = [
     path('hw_actividades/', include('hw_actividades.urls', namespace='hw_actividades')),
     path('consumos/', include('consumos.urls', namespace='consumos')),
     path('llegadas/', include('llegadas.urls', namespace='llegadas')),
+    path('existencias/', include('existencias.urls', namespace='existencias')),
 ]

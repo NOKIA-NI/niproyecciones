@@ -1,9 +1,9 @@
 {% extends 'base_modal.html' %}
 {% load crispy_forms_tags %}
-{% block tilte_modal %}Crear Llegada{% endblock tilte_modal %}
+{% block tilte_modal %}Crear Existencia{% endblock tilte_modal %}
 
 {% block body_modal %}
-<form method="POST" action="{% url 'llegadas:create_llegada' %}" class="">{% csrf_token %}
+<form method="POST" action="{% url 'existencias:create_existencia' %}" class="">{% csrf_token %}
   <div class="form-group">
     {{ form|crispy }}
   </div>

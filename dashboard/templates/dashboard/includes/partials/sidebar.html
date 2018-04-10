@@ -56,7 +56,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_llegada' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'llegadas:list_llegada' %}">
+                <a {% if request.resolver_match.url_name == 'list_existencia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'existencias:list_existencia' %}">
                   <span data-feather="archive"></span>
                   existencias
                 </a>
