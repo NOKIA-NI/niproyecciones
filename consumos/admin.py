@@ -18,6 +18,7 @@ class ConsumoNokiaAdmin(ImportExportModelAdmin):
     list_display = (
     'id',
     'parte',
+    'grupo_parte',
     'w14',
     'w15',
     'w16',

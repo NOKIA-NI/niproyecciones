@@ -63,7 +63,9 @@ class SearchConsumoNokia(ListConsumoNokia):
                 reduce(operator.and_,
                           (Q(id__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(parte__parte_nokia__icontains=q) for q in query_list))
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list))
             )
         return queryset
 

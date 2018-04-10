@@ -3,9 +3,12 @@ from django.db import models
 from django.urls import reverse
 from . import choices
 from partes.models import Parte
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class ConsumoNokia(models.Model):
-    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='consumos_nokia')
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
+    grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     w14 = models.PositiveIntegerField(blank=True, null=True)
     w15 = models.PositiveIntegerField(blank=True, null=True)
     w16 = models.PositiveIntegerField(blank=True, null=True)
@@ -57,13 +60,25 @@ class ConsumoNokia(models.Model):
         verbose_name_plural = 'consumos nokia'
 
     def __str__(self):
-        return self.parte
+        return self.parte.parte_nokia
 
     def get_absolute_url(self):
         return reverse('consumos:detail_consumo_nokia', kwargs={'pk': self.pk})
 
+    @receiver(post_save, sender=Parte)
+    def create_consumo_nokia(sender, instance, created, **kwargs):
+        if created:
+            consumo_nokia, new = ConsumoNokia.objects.get_or_create(parte=instance,
+                                                                   grupo_parte=instance.grupo_parte)
+
+    @receiver(post_save, sender=Parte)
+    def save_consumo_nokia(sender, instance, **kwargs):
+        instance.consumonokia.grupo_parte = instance.grupo_parte
+        instance.consumonokia.save()
+
 class ConsumoClaro(models.Model):
-    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='consumos_claro')
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
+    grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     w14 = models.PositiveIntegerField(blank=True, null=True)
     w15 = models.PositiveIntegerField(blank=True, null=True)
     w16 = models.PositiveIntegerField(blank=True, null=True)
@@ -115,7 +130,18 @@ class ConsumoClaro(models.Model):
         verbose_name_plural = 'consumos claro'
 
     def __str__(self):
-        return self.parte
+        return self.parte.parte_nokia
 
     def get_absolute_url(self):
         return reverse('consumos:detail_consumo_claro', kwargs={'pk': self.pk})
+
+    @receiver(post_save, sender=Parte)
+    def create_consumo_claro(sender, instance, created, **kwargs):
+        if created:
+            consumo_claro, new = ConsumoClaro.objects.get_or_create(parte=instance,
+                                                                   grupo_parte=instance.grupo_parte)
+
+    @receiver(post_save, sender=Parte)
+    def save_consumo_claro(sender, instance, **kwargs):
+        instance.consumoclaro.grupo_parte = instance.grupo_parte
+        instance.consumoclaro.save()

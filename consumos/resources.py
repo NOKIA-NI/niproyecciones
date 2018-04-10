@@ -1,8 +1,13 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget
 from .models import ConsumoNokia, ConsumoClaro
+from partes.models import Parte
 
 class ConsumoNokiaResource(resources.ModelResource):
+    parte = fields.Field(
+        column_name='parte',
+        attribute='parte',
+        widget=ForeignKeyWidget(Parte, 'parte_nokia'))
 
     class Meta:
         model = ConsumoNokia
@@ -10,6 +15,7 @@ class ConsumoNokiaResource(resources.ModelResource):
         export_order = (
         'id',
         'parte',
+        'grupo_parte',
         'w14',
         'w15',
         'w16',
@@ -56,6 +62,10 @@ class ConsumoNokiaResource(resources.ModelResource):
         )
 
 class ConsumoClaroResource(resources.ModelResource):
+    parte = fields.Field(
+        column_name='parte',
+        attribute='parte',
+        widget=ForeignKeyWidget(Parte, 'parte_nokia'))
 
     class Meta:
         model = ConsumoClaro
