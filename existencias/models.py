@@ -5,49 +5,51 @@ from partes import choices
 from partes.models import Parte
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from consumos.models import ConsumoNokia, ConsumoClaro
+from llegadas.models import Llegada
 
 class Existencia(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
-    w14 = models.PositiveIntegerField(blank=True, null=True)
-    w15 = models.PositiveIntegerField(blank=True, null=True)
-    w16 = models.PositiveIntegerField(blank=True, null=True)
-    w17 = models.PositiveIntegerField(blank=True, null=True)
-    w18 = models.PositiveIntegerField(blank=True, null=True)
-    w19 = models.PositiveIntegerField(blank=True, null=True)
-    w20 = models.PositiveIntegerField(blank=True, null=True)
-    w21 = models.PositiveIntegerField(blank=True, null=True)
-    w22 = models.PositiveIntegerField(blank=True, null=True)
-    w23 = models.PositiveIntegerField(blank=True, null=True)
-    w24 = models.PositiveIntegerField(blank=True, null=True)
-    w25 = models.PositiveIntegerField(blank=True, null=True)
-    w26 = models.PositiveIntegerField(blank=True, null=True)
-    w27 = models.PositiveIntegerField(blank=True, null=True)
-    w28 = models.PositiveIntegerField(blank=True, null=True)
-    w29 = models.PositiveIntegerField(blank=True, null=True)
-    w30 = models.PositiveIntegerField(blank=True, null=True)
-    w31 = models.PositiveIntegerField(blank=True, null=True)
-    w32 = models.PositiveIntegerField(blank=True, null=True)
-    w33 = models.PositiveIntegerField(blank=True, null=True)
-    w34 = models.PositiveIntegerField(blank=True, null=True)
-    w35 = models.PositiveIntegerField(blank=True, null=True)
-    w36 = models.PositiveIntegerField(blank=True, null=True)
-    w37 = models.PositiveIntegerField(blank=True, null=True)
-    w38 = models.PositiveIntegerField(blank=True, null=True)
-    w39 = models.PositiveIntegerField(blank=True, null=True)
-    w40 = models.PositiveIntegerField(blank=True, null=True)
-    w41 = models.PositiveIntegerField(blank=True, null=True)
-    w42 = models.PositiveIntegerField(blank=True, null=True)
-    w43 = models.PositiveIntegerField(blank=True, null=True)
-    w44 = models.PositiveIntegerField(blank=True, null=True)
-    w45 = models.PositiveIntegerField(blank=True, null=True)
-    w46 = models.PositiveIntegerField(blank=True, null=True)
-    w47 = models.PositiveIntegerField(blank=True, null=True)
-    w48 = models.PositiveIntegerField(blank=True, null=True)
-    w49 = models.PositiveIntegerField(blank=True, null=True)
-    w50 = models.PositiveIntegerField(blank=True, null=True)
-    w51 = models.PositiveIntegerField(blank=True, null=True)
-    w52 = models.PositiveIntegerField(blank=True, null=True)
+    w14 = models.IntegerField(default=0)
+    w15 = models.IntegerField(default=0)
+    w16 = models.IntegerField(default=0)
+    w17 = models.IntegerField(default=0)
+    w18 = models.IntegerField(default=0)
+    w19 = models.IntegerField(default=0)
+    w20 = models.IntegerField(default=0)
+    w21 = models.IntegerField(default=0)
+    w22 = models.IntegerField(default=0)
+    w23 = models.IntegerField(default=0)
+    w24 = models.IntegerField(default=0)
+    w25 = models.IntegerField(default=0)
+    w26 = models.IntegerField(default=0)
+    w27 = models.IntegerField(default=0)
+    w28 = models.IntegerField(default=0)
+    w29 = models.IntegerField(default=0)
+    w30 = models.IntegerField(default=0)
+    w31 = models.IntegerField(default=0)
+    w32 = models.IntegerField(default=0)
+    w33 = models.IntegerField(default=0)
+    w34 = models.IntegerField(default=0)
+    w35 = models.IntegerField(default=0)
+    w36 = models.IntegerField(default=0)
+    w37 = models.IntegerField(default=0)
+    w38 = models.IntegerField(default=0)
+    w39 = models.IntegerField(default=0)
+    w40 = models.IntegerField(default=0)
+    w41 = models.IntegerField(default=0)
+    w42 = models.IntegerField(default=0)
+    w43 = models.IntegerField(default=0)
+    w44 = models.IntegerField(default=0)
+    w45 = models.IntegerField(default=0)
+    w46 = models.IntegerField(default=0)
+    w47 = models.IntegerField(default=0)
+    w48 = models.IntegerField(default=0)
+    w49 = models.IntegerField(default=0)
+    w50 = models.IntegerField(default=0)
+    w51 = models.IntegerField(default=0)
+    w52 = models.IntegerField(default=0)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -75,3 +77,132 @@ class Existencia(models.Model):
     def save_existencia(sender, instance, **kwargs):
         instance.existencia.grupo_parte = instance.grupo_parte
         instance.existencia.save()
+
+    @receiver(post_save, sender=ConsumoNokia)
+    @receiver(post_save, sender=ConsumoClaro)
+    @receiver(post_save, sender=Llegada)
+    def calcular_existencia(sender, instance, **kwargs):
+        try:
+            if instance.parte and instance.parte.consumonokia and instance.parte.consumoclaro and instance.parte.llegada and instance.parte.existencia:
+                existencia_w14 = (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14) - (instance.parte.llegada.w14 + instance.parte.existencia.w14)
+                existencia_w15 = (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14) - (instance.parte.llegada.w14 + instance.parte.existencia.w14)
+                existencia_w16 = (instance.parte.consumonokia.w15 + instance.parte.consumoclaro.w15) - (instance.parte.llegada.w15 + instance.parte.existencia.w15)
+                existencia_w17 = (instance.parte.consumonokia.w16 + instance.parte.consumoclaro.w16) - (instance.parte.llegada.w16 + instance.parte.existencia.w16)
+                existencia_w18 = (instance.parte.consumonokia.w17 + instance.parte.consumoclaro.w17) - (instance.parte.llegada.w17 + instance.parte.existencia.w17)
+                existencia_w19 = (instance.parte.consumonokia.w18 + instance.parte.consumoclaro.w18) - (instance.parte.llegada.w18 + instance.parte.existencia.w18)
+                existencia_w20 = (instance.parte.consumonokia.w19 + instance.parte.consumoclaro.w19) - (instance.parte.llegada.w19 + instance.parte.existencia.w19)
+                existencia_w21 = (instance.parte.consumonokia.w20 + instance.parte.consumoclaro.w20) - (instance.parte.llegada.w20 + instance.parte.existencia.w20)
+                existencia_w22 = (instance.parte.consumonokia.w21 + instance.parte.consumoclaro.w21) - (instance.parte.llegada.w21 + instance.parte.existencia.w21)
+                existencia_w23 = (instance.parte.consumonokia.w22 + instance.parte.consumoclaro.w22) - (instance.parte.llegada.w22 + instance.parte.existencia.w22)
+                existencia_w24 = (instance.parte.consumonokia.w23 + instance.parte.consumoclaro.w23) - (instance.parte.llegada.w23 + instance.parte.existencia.w23)
+                existencia_w25 = (instance.parte.consumonokia.w24 + instance.parte.consumoclaro.w24) - (instance.parte.llegada.w24 + instance.parte.existencia.w24)
+                existencia_w26 = (instance.parte.consumonokia.w25 + instance.parte.consumoclaro.w25) - (instance.parte.llegada.w25 + instance.parte.existencia.w25)
+                existencia_w27 = (instance.parte.consumonokia.w26 + instance.parte.consumoclaro.w26) - (instance.parte.llegada.w26 + instance.parte.existencia.w26)
+                existencia_w28 = (instance.parte.consumonokia.w27 + instance.parte.consumoclaro.w27) - (instance.parte.llegada.w27 + instance.parte.existencia.w27)
+                existencia_w29 = (instance.parte.consumonokia.w28 + instance.parte.consumoclaro.w28) - (instance.parte.llegada.w28 + instance.parte.existencia.w28)
+                existencia_w30 = (instance.parte.consumonokia.w29 + instance.parte.consumoclaro.w29) - (instance.parte.llegada.w29 + instance.parte.existencia.w29)
+                existencia_w31 = (instance.parte.consumonokia.w30 + instance.parte.consumoclaro.w30) - (instance.parte.llegada.w30 + instance.parte.existencia.w30)
+                existencia_w32 = (instance.parte.consumonokia.w31 + instance.parte.consumoclaro.w31) - (instance.parte.llegada.w31 + instance.parte.existencia.w31)
+                existencia_w33 = (instance.parte.consumonokia.w32 + instance.parte.consumoclaro.w32) - (instance.parte.llegada.w32 + instance.parte.existencia.w32)
+                existencia_w34 = (instance.parte.consumonokia.w33 + instance.parte.consumoclaro.w33) - (instance.parte.llegada.w33 + instance.parte.existencia.w33)
+                existencia_w35 = (instance.parte.consumonokia.w34 + instance.parte.consumoclaro.w34) - (instance.parte.llegada.w34 + instance.parte.existencia.w34)
+                existencia_w36 = (instance.parte.consumonokia.w35 + instance.parte.consumoclaro.w35) - (instance.parte.llegada.w35 + instance.parte.existencia.w35)
+                existencia_w37 = (instance.parte.consumonokia.w36 + instance.parte.consumoclaro.w36) - (instance.parte.llegada.w36 + instance.parte.existencia.w36)
+                existencia_w38 = (instance.parte.consumonokia.w37 + instance.parte.consumoclaro.w37) - (instance.parte.llegada.w37 + instance.parte.existencia.w37)
+                existencia_w39 = (instance.parte.consumonokia.w38 + instance.parte.consumoclaro.w38) - (instance.parte.llegada.w38 + instance.parte.existencia.w38)
+                existencia_w40 = (instance.parte.consumonokia.w39 + instance.parte.consumoclaro.w39) - (instance.parte.llegada.w39 + instance.parte.existencia.w39)
+                existencia_w41 = (instance.parte.consumonokia.w40 + instance.parte.consumoclaro.w40) - (instance.parte.llegada.w40 + instance.parte.existencia.w40)
+                existencia_w42 = (instance.parte.consumonokia.w41 + instance.parte.consumoclaro.w41) - (instance.parte.llegada.w41 + instance.parte.existencia.w41)
+                existencia_w43 = (instance.parte.consumonokia.w42 + instance.parte.consumoclaro.w42) - (instance.parte.llegada.w42 + instance.parte.existencia.w42)
+                existencia_w44 = (instance.parte.consumonokia.w43 + instance.parte.consumoclaro.w43) - (instance.parte.llegada.w43 + instance.parte.existencia.w43)
+                existencia_w45 = (instance.parte.consumonokia.w44 + instance.parte.consumoclaro.w44) - (instance.parte.llegada.w44 + instance.parte.existencia.w44)
+                existencia_w46 = (instance.parte.consumonokia.w45 + instance.parte.consumoclaro.w45) - (instance.parte.llegada.w45 + instance.parte.existencia.w45)
+                existencia_w47 = (instance.parte.consumonokia.w46 + instance.parte.consumoclaro.w46) - (instance.parte.llegada.w46 + instance.parte.existencia.w46)
+                existencia_w48 = (instance.parte.consumonokia.w47 + instance.parte.consumoclaro.w47) - (instance.parte.llegada.w47 + instance.parte.existencia.w47)
+                existencia_w49 = (instance.parte.consumonokia.w48 + instance.parte.consumoclaro.w48) - (instance.parte.llegada.w48 + instance.parte.existencia.w48)
+                existencia_w50 = (instance.parte.consumonokia.w49 + instance.parte.consumoclaro.w49) - (instance.parte.llegada.w49 + instance.parte.existencia.w49)
+                existencia_w51 = (instance.parte.consumonokia.w50 + instance.parte.consumoclaro.w50) - (instance.parte.llegada.w50 + instance.parte.existencia.w50)
+                existencia_w52 = (instance.parte.consumonokia.w51 + instance.parte.consumoclaro.w51) - (instance.parte.llegada.w51 + instance.parte.existencia.w51)
+
+                if existencia_w14 is not None:
+                    instance.parte.existencia.w14 = existencia_w14
+                if existencia_w15 is not None:
+                    instance.parte.existencia.w15 = existencia_w15
+                if existencia_w16 is not None:
+                    instance.parte.existencia.w16 = existencia_w16
+                if existencia_w17 is not None:
+                    instance.parte.existencia.w17 = existencia_w17
+                if existencia_w18 is not None:
+                    instance.parte.existencia.w18 = existencia_w18
+                if existencia_w19 is not None:
+                    instance.parte.existencia.w19 = existencia_w19
+                if existencia_w20 is not None:
+                    instance.parte.existencia.w20 = existencia_w20
+                if existencia_w21 is not None:
+                    instance.parte.existencia.w21 = existencia_w21
+                if existencia_w22 is not None:
+                    instance.parte.existencia.w22 = existencia_w22
+                if existencia_w23 is not None:
+                    instance.parte.existencia.w23 = existencia_w23
+                if existencia_w24 is not None:
+                    instance.parte.existencia.w24 = existencia_w24
+                if existencia_w25 is not None:
+                    instance.parte.existencia.w25 = existencia_w25
+                if existencia_w26 is not None:
+                    instance.parte.existencia.w26 = existencia_w26
+                if existencia_w27 is not None:
+                    instance.parte.existencia.w27 = existencia_w27
+                if existencia_w28 is not None:
+                    instance.parte.existencia.w28 = existencia_w28
+                if existencia_w29 is not None:
+                    instance.parte.existencia.w29 = existencia_w29
+                if existencia_w30 is not None:
+                    instance.parte.existencia.w30 = existencia_w30
+                if existencia_w31 is not None:
+                    instance.parte.existencia.w31 = existencia_w31
+                if existencia_w32 is not None:
+                    instance.parte.existencia.w32 = existencia_w32
+                if existencia_w33 is not None:
+                    instance.parte.existencia.w33 = existencia_w33
+                if existencia_w34 is not None:
+                    instance.parte.existencia.w34 = existencia_w34
+                if existencia_w35 is not None:
+                    instance.parte.existencia.w35 = existencia_w35
+                if existencia_w36 is not None:
+                    instance.parte.existencia.w36 = existencia_w36
+                if existencia_w37 is not None:
+                    instance.parte.existencia.w37 = existencia_w37
+                if existencia_w38 is not None:
+                    instance.parte.existencia.w38 = existencia_w38
+                if existencia_w39 is not None:
+                    instance.parte.existencia.w39 = existencia_w39
+                if existencia_w40 is not None:
+                    instance.parte.existencia.w40 = existencia_w40
+                if existencia_w41 is not None:
+                    instance.parte.existencia.w41 = existencia_w41
+                if existencia_w42 is not None:
+                    instance.parte.existencia.w42 = existencia_w42
+                if existencia_w43 is not None:
+                    instance.parte.existencia.w43 = existencia_w43
+                if existencia_w44 is not None:
+                    instance.parte.existencia.w44 = existencia_w44
+                if existencia_w45 is not None:
+                    instance.parte.existencia.w45 = existencia_w45
+                if existencia_w46 is not None:
+                    instance.parte.existencia.w46 = existencia_w46
+                if existencia_w47 is not None:
+                    instance.parte.existencia.w47 = existencia_w47
+                if existencia_w48 is not None:
+                    instance.parte.existencia.w48 = existencia_w48
+                if existencia_w49 is not None:
+                    instance.parte.existencia.w49 = existencia_w49
+                if existencia_w50 is not None:
+                    instance.parte.existencia.w50 = existencia_w50
+                if existencia_w51 is not None:
+                    instance.parte.existencia.w51 = existencia_w51
+                if existencia_w52 is not None:
+                    instance.parte.existencia.w52 = existencia_w52
+
+            instance.parte.existencia.save()
+        except:
+            pass

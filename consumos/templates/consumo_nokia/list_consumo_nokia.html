@@ -29,6 +29,10 @@
           <span data-feather="trash"></span>
           Borrar
         </button>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'consumos:calcular_consumo_nokia' %}">
+          <span data-feather="refresh-cw"></span>
+          calcular
+        </a>
         <a class="btn btn-sm btn-outline-secondary" href="{% url 'consumos:export_consumo_nokia' %}">
           <span data-feather="download"></span>
           Exportar
@@ -78,7 +82,7 @@
 
 
 <div class="modal fade" id="create_consumo_nokia" tabindex="-1" role="dialog" aria-hidden="true">
-  
+
 </div>
 
 <div class="modal fade" id="update_consumo_nokia" tabindex="-1" role="dialog" aria-hidden="true">

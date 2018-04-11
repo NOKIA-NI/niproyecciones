@@ -7,6 +7,7 @@ UpdateConsumoNokia,
 DeleteConsumoNokia,
 SearchConsumoNokia,
 export_consumo_nokia,
+calcular_consumo_nokia,
 
 ListConsumoClaro,
 DetailConsumoClaro,
@@ -27,6 +28,7 @@ urlpatterns = [
     path('delete/consumo/nokia/<int:pk/', DeleteConsumoNokia.as_view(), name='delete_consumo_nokia'),
     path('search/consumo/nokia/', SearchConsumoNokia.as_view(), name='search_consumo_nokia'),
     path('export/consumo/nokia/', export_consumo_nokia, name='export_consumo_nokia'),
+    path('calcular/consumo/nokia/', calcular_consumo_nokia, name='calcular_consumo_nokia'),
 
     path('list/consumo/claro/', ListConsumoClaro.as_view(), name='list_consumo_claro'),
     path('detail/consumo/claro/<int:pk>/', DetailConsumoClaro.as_view(), name='detail_consumo_claro'),
