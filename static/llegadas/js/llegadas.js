@@ -8,8 +8,8 @@ $('#table_llegada').on('click', '.clickable-row', function(event) {
   $('#action').removeClass('disabled');
   var data = $(this);
   var id = data[0].cells[0].innerText
-  window.url_update = '/llegadas/update/llegada/nokia'+ '/' +  id + '/';
-  window.url_delete = '/llegadas/delete/llegada/nokia'+ '/' +  id + '/';
+  window.url_update = '/llegadas/update/llegada'+ '/' +  id + '/';
+  window.url_delete = '/llegadas/delete/llegada'+ '/' +  id + '/';
 });
 
 function create_llegada (url) {

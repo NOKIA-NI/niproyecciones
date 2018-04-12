@@ -7,6 +7,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from consumos.models import ConsumoNokia, ConsumoClaro
 from llegadas.models import Llegada
+from django.utils import timezone
+
+TODAY = timezone.now()
+WEEK = TODAY.isocalendar()[1]
 
 class Existencia(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
@@ -84,123 +88,123 @@ class Existencia(models.Model):
     def calcular_existencia(sender, instance, **kwargs):
         try:
             if instance.parte and instance.parte.consumonokia and instance.parte.consumoclaro and instance.parte.llegada and instance.parte.existencia:
-                existencia_w14 = (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14) - (instance.parte.llegada.w14 + instance.parte.existencia.w14)
-                existencia_w15 = (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14) - (instance.parte.llegada.w14 + instance.parte.existencia.w14)
-                existencia_w16 = (instance.parte.consumonokia.w15 + instance.parte.consumoclaro.w15) - (instance.parte.llegada.w15 + instance.parte.existencia.w15)
-                existencia_w17 = (instance.parte.consumonokia.w16 + instance.parte.consumoclaro.w16) - (instance.parte.llegada.w16 + instance.parte.existencia.w16)
-                existencia_w18 = (instance.parte.consumonokia.w17 + instance.parte.consumoclaro.w17) - (instance.parte.llegada.w17 + instance.parte.existencia.w17)
-                existencia_w19 = (instance.parte.consumonokia.w18 + instance.parte.consumoclaro.w18) - (instance.parte.llegada.w18 + instance.parte.existencia.w18)
-                existencia_w20 = (instance.parte.consumonokia.w19 + instance.parte.consumoclaro.w19) - (instance.parte.llegada.w19 + instance.parte.existencia.w19)
-                existencia_w21 = (instance.parte.consumonokia.w20 + instance.parte.consumoclaro.w20) - (instance.parte.llegada.w20 + instance.parte.existencia.w20)
-                existencia_w22 = (instance.parte.consumonokia.w21 + instance.parte.consumoclaro.w21) - (instance.parte.llegada.w21 + instance.parte.existencia.w21)
-                existencia_w23 = (instance.parte.consumonokia.w22 + instance.parte.consumoclaro.w22) - (instance.parte.llegada.w22 + instance.parte.existencia.w22)
-                existencia_w24 = (instance.parte.consumonokia.w23 + instance.parte.consumoclaro.w23) - (instance.parte.llegada.w23 + instance.parte.existencia.w23)
-                existencia_w25 = (instance.parte.consumonokia.w24 + instance.parte.consumoclaro.w24) - (instance.parte.llegada.w24 + instance.parte.existencia.w24)
-                existencia_w26 = (instance.parte.consumonokia.w25 + instance.parte.consumoclaro.w25) - (instance.parte.llegada.w25 + instance.parte.existencia.w25)
-                existencia_w27 = (instance.parte.consumonokia.w26 + instance.parte.consumoclaro.w26) - (instance.parte.llegada.w26 + instance.parte.existencia.w26)
-                existencia_w28 = (instance.parte.consumonokia.w27 + instance.parte.consumoclaro.w27) - (instance.parte.llegada.w27 + instance.parte.existencia.w27)
-                existencia_w29 = (instance.parte.consumonokia.w28 + instance.parte.consumoclaro.w28) - (instance.parte.llegada.w28 + instance.parte.existencia.w28)
-                existencia_w30 = (instance.parte.consumonokia.w29 + instance.parte.consumoclaro.w29) - (instance.parte.llegada.w29 + instance.parte.existencia.w29)
-                existencia_w31 = (instance.parte.consumonokia.w30 + instance.parte.consumoclaro.w30) - (instance.parte.llegada.w30 + instance.parte.existencia.w30)
-                existencia_w32 = (instance.parte.consumonokia.w31 + instance.parte.consumoclaro.w31) - (instance.parte.llegada.w31 + instance.parte.existencia.w31)
-                existencia_w33 = (instance.parte.consumonokia.w32 + instance.parte.consumoclaro.w32) - (instance.parte.llegada.w32 + instance.parte.existencia.w32)
-                existencia_w34 = (instance.parte.consumonokia.w33 + instance.parte.consumoclaro.w33) - (instance.parte.llegada.w33 + instance.parte.existencia.w33)
-                existencia_w35 = (instance.parte.consumonokia.w34 + instance.parte.consumoclaro.w34) - (instance.parte.llegada.w34 + instance.parte.existencia.w34)
-                existencia_w36 = (instance.parte.consumonokia.w35 + instance.parte.consumoclaro.w35) - (instance.parte.llegada.w35 + instance.parte.existencia.w35)
-                existencia_w37 = (instance.parte.consumonokia.w36 + instance.parte.consumoclaro.w36) - (instance.parte.llegada.w36 + instance.parte.existencia.w36)
-                existencia_w38 = (instance.parte.consumonokia.w37 + instance.parte.consumoclaro.w37) - (instance.parte.llegada.w37 + instance.parte.existencia.w37)
-                existencia_w39 = (instance.parte.consumonokia.w38 + instance.parte.consumoclaro.w38) - (instance.parte.llegada.w38 + instance.parte.existencia.w38)
-                existencia_w40 = (instance.parte.consumonokia.w39 + instance.parte.consumoclaro.w39) - (instance.parte.llegada.w39 + instance.parte.existencia.w39)
-                existencia_w41 = (instance.parte.consumonokia.w40 + instance.parte.consumoclaro.w40) - (instance.parte.llegada.w40 + instance.parte.existencia.w40)
-                existencia_w42 = (instance.parte.consumonokia.w41 + instance.parte.consumoclaro.w41) - (instance.parte.llegada.w41 + instance.parte.existencia.w41)
-                existencia_w43 = (instance.parte.consumonokia.w42 + instance.parte.consumoclaro.w42) - (instance.parte.llegada.w42 + instance.parte.existencia.w42)
-                existencia_w44 = (instance.parte.consumonokia.w43 + instance.parte.consumoclaro.w43) - (instance.parte.llegada.w43 + instance.parte.existencia.w43)
-                existencia_w45 = (instance.parte.consumonokia.w44 + instance.parte.consumoclaro.w44) - (instance.parte.llegada.w44 + instance.parte.existencia.w44)
-                existencia_w46 = (instance.parte.consumonokia.w45 + instance.parte.consumoclaro.w45) - (instance.parte.llegada.w45 + instance.parte.existencia.w45)
-                existencia_w47 = (instance.parte.consumonokia.w46 + instance.parte.consumoclaro.w46) - (instance.parte.llegada.w46 + instance.parte.existencia.w46)
-                existencia_w48 = (instance.parte.consumonokia.w47 + instance.parte.consumoclaro.w47) - (instance.parte.llegada.w47 + instance.parte.existencia.w47)
-                existencia_w49 = (instance.parte.consumonokia.w48 + instance.parte.consumoclaro.w48) - (instance.parte.llegada.w48 + instance.parte.existencia.w48)
-                existencia_w50 = (instance.parte.consumonokia.w49 + instance.parte.consumoclaro.w49) - (instance.parte.llegada.w49 + instance.parte.existencia.w49)
-                existencia_w51 = (instance.parte.consumonokia.w50 + instance.parte.consumoclaro.w50) - (instance.parte.llegada.w50 + instance.parte.existencia.w50)
-                existencia_w52 = (instance.parte.consumonokia.w51 + instance.parte.consumoclaro.w51) - (instance.parte.llegada.w51 + instance.parte.existencia.w51)
+                existencia_w14 = (instance.parte.resultado.w14 + instance.parte.llegada.w14) - (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14)
+                existencia_w15 = (instance.parte.resultado.w14 + instance.parte.llegada.w15) - (instance.parte.consumonokia.w15 + instance.parte.consumoclaro.w15)
+                existencia_w16 = (instance.parte.resultado.w15 + instance.parte.llegada.w16) - (instance.parte.consumonokia.w16 + instance.parte.consumoclaro.w16)
+                existencia_w17 = (instance.parte.resultado.w16 + instance.parte.llegada.w17) - (instance.parte.consumonokia.w17 + instance.parte.consumoclaro.w17)
+                existencia_w18 = (instance.parte.resultado.w17 + instance.parte.llegada.w18) - (instance.parte.consumonokia.w18 + instance.parte.consumoclaro.w18)
+                existencia_w19 = (instance.parte.resultado.w18 + instance.parte.llegada.w19) - (instance.parte.consumonokia.w19 + instance.parte.consumoclaro.w19)
+                existencia_w20 = (instance.parte.resultado.w19 + instance.parte.llegada.w20) - (instance.parte.consumonokia.w20 + instance.parte.consumoclaro.w20)
+                existencia_w21 = (instance.parte.resultado.w20 + instance.parte.llegada.w21) - (instance.parte.consumonokia.w21 + instance.parte.consumoclaro.w21)
+                existencia_w22 = (instance.parte.resultado.w21 + instance.parte.llegada.w22) - (instance.parte.consumonokia.w22 + instance.parte.consumoclaro.w22)
+                existencia_w23 = (instance.parte.resultado.w22 + instance.parte.llegada.w23) - (instance.parte.consumonokia.w23 + instance.parte.consumoclaro.w23)
+                existencia_w24 = (instance.parte.resultado.w23 + instance.parte.llegada.w24) - (instance.parte.consumonokia.w24 + instance.parte.consumoclaro.w24)
+                existencia_w25 = (instance.parte.resultado.w24 + instance.parte.llegada.w25) - (instance.parte.consumonokia.w25 + instance.parte.consumoclaro.w25)
+                existencia_w26 = (instance.parte.resultado.w25 + instance.parte.llegada.w26) - (instance.parte.consumonokia.w26 + instance.parte.consumoclaro.w26)
+                existencia_w27 = (instance.parte.resultado.w26 + instance.parte.llegada.w27) - (instance.parte.consumonokia.w27 + instance.parte.consumoclaro.w27)
+                existencia_w28 = (instance.parte.resultado.w27 + instance.parte.llegada.w28) - (instance.parte.consumonokia.w28 + instance.parte.consumoclaro.w28)
+                existencia_w29 = (instance.parte.resultado.w28 + instance.parte.llegada.w29) - (instance.parte.consumonokia.w29 + instance.parte.consumoclaro.w29)
+                existencia_w30 = (instance.parte.resultado.w29 + instance.parte.llegada.w30) - (instance.parte.consumonokia.w30 + instance.parte.consumoclaro.w30)
+                existencia_w31 = (instance.parte.resultado.w30 + instance.parte.llegada.w31) - (instance.parte.consumonokia.w31 + instance.parte.consumoclaro.w31)
+                existencia_w32 = (instance.parte.resultado.w31 + instance.parte.llegada.w32) - (instance.parte.consumonokia.w32 + instance.parte.consumoclaro.w32)
+                existencia_w33 = (instance.parte.resultado.w32 + instance.parte.llegada.w33) - (instance.parte.consumonokia.w33 + instance.parte.consumoclaro.w33)
+                existencia_w34 = (instance.parte.resultado.w33 + instance.parte.llegada.w34) - (instance.parte.consumonokia.w34 + instance.parte.consumoclaro.w34)
+                existencia_w35 = (instance.parte.resultado.w34 + instance.parte.llegada.w35) - (instance.parte.consumonokia.w35 + instance.parte.consumoclaro.w35)
+                existencia_w36 = (instance.parte.resultado.w35 + instance.parte.llegada.w36) - (instance.parte.consumonokia.w36 + instance.parte.consumoclaro.w36)
+                existencia_w37 = (instance.parte.resultado.w36 + instance.parte.llegada.w37) - (instance.parte.consumonokia.w37 + instance.parte.consumoclaro.w37)
+                existencia_w38 = (instance.parte.resultado.w37 + instance.parte.llegada.w38) - (instance.parte.consumonokia.w38 + instance.parte.consumoclaro.w38)
+                existencia_w39 = (instance.parte.resultado.w38 + instance.parte.llegada.w39) - (instance.parte.consumonokia.w39 + instance.parte.consumoclaro.w39)
+                existencia_w40 = (instance.parte.resultado.w39 + instance.parte.llegada.w40) - (instance.parte.consumonokia.w40 + instance.parte.consumoclaro.w40)
+                existencia_w41 = (instance.parte.resultado.w40 + instance.parte.llegada.w41) - (instance.parte.consumonokia.w41 + instance.parte.consumoclaro.w41)
+                existencia_w42 = (instance.parte.resultado.w41 + instance.parte.llegada.w42) - (instance.parte.consumonokia.w42 + instance.parte.consumoclaro.w42)
+                existencia_w43 = (instance.parte.resultado.w42 + instance.parte.llegada.w43) - (instance.parte.consumonokia.w43 + instance.parte.consumoclaro.w43)
+                existencia_w44 = (instance.parte.resultado.w43 + instance.parte.llegada.w44) - (instance.parte.consumonokia.w44 + instance.parte.consumoclaro.w44)
+                existencia_w45 = (instance.parte.resultado.w44 + instance.parte.llegada.w45) - (instance.parte.consumonokia.w45 + instance.parte.consumoclaro.w45)
+                existencia_w46 = (instance.parte.resultado.w45 + instance.parte.llegada.w46) - (instance.parte.consumonokia.w46 + instance.parte.consumoclaro.w46)
+                existencia_w47 = (instance.parte.resultado.w46 + instance.parte.llegada.w47) - (instance.parte.consumonokia.w47 + instance.parte.consumoclaro.w47)
+                existencia_w48 = (instance.parte.resultado.w47 + instance.parte.llegada.w48) - (instance.parte.consumonokia.w48 + instance.parte.consumoclaro.w48)
+                existencia_w49 = (instance.parte.resultado.w48 + instance.parte.llegada.w49) - (instance.parte.consumonokia.w49 + instance.parte.consumoclaro.w49)
+                existencia_w50 = (instance.parte.resultado.w49 + instance.parte.llegada.w50) - (instance.parte.consumonokia.w50 + instance.parte.consumoclaro.w50)
+                existencia_w51 = (instance.parte.resultado.w50 + instance.parte.llegada.w51) - (instance.parte.consumonokia.w51 + instance.parte.consumoclaro.w51)
+                existencia_w52 = (instance.parte.resultado.w51 + instance.parte.llegada.w52) - (instance.parte.consumonokia.w52 + instance.parte.consumoclaro.w52)
 
-                if existencia_w14 is not None:
+                if existencia_w14 is not None and WEEK < 14:
                     instance.parte.existencia.w14 = existencia_w14
-                if existencia_w15 is not None:
+                if existencia_w15 is not None and WEEK < 15:
                     instance.parte.existencia.w15 = existencia_w15
-                if existencia_w16 is not None:
+                if existencia_w16 is not None and WEEK < 16:
                     instance.parte.existencia.w16 = existencia_w16
-                if existencia_w17 is not None:
+                if existencia_w17 is not None and WEEK < 17:
                     instance.parte.existencia.w17 = existencia_w17
-                if existencia_w18 is not None:
+                if existencia_w18 is not None and WEEK < 18:
                     instance.parte.existencia.w18 = existencia_w18
-                if existencia_w19 is not None:
+                if existencia_w19 is not None and WEEK < 19:
                     instance.parte.existencia.w19 = existencia_w19
-                if existencia_w20 is not None:
+                if existencia_w20 is not None and WEEK < 20:
                     instance.parte.existencia.w20 = existencia_w20
-                if existencia_w21 is not None:
+                if existencia_w21 is not None and WEEK < 21:
                     instance.parte.existencia.w21 = existencia_w21
-                if existencia_w22 is not None:
+                if existencia_w22 is not None and WEEK < 22:
                     instance.parte.existencia.w22 = existencia_w22
-                if existencia_w23 is not None:
+                if existencia_w23 is not None and WEEK < 23:
                     instance.parte.existencia.w23 = existencia_w23
-                if existencia_w24 is not None:
+                if existencia_w24 is not None and WEEK < 24:
                     instance.parte.existencia.w24 = existencia_w24
-                if existencia_w25 is not None:
+                if existencia_w25 is not None and WEEK < 25:
                     instance.parte.existencia.w25 = existencia_w25
-                if existencia_w26 is not None:
+                if existencia_w26 is not None and WEEK < 26:
                     instance.parte.existencia.w26 = existencia_w26
-                if existencia_w27 is not None:
+                if existencia_w27 is not None and WEEK < 27:
                     instance.parte.existencia.w27 = existencia_w27
-                if existencia_w28 is not None:
+                if existencia_w28 is not None and WEEK < 28:
                     instance.parte.existencia.w28 = existencia_w28
-                if existencia_w29 is not None:
+                if existencia_w29 is not None and WEEK < 29:
                     instance.parte.existencia.w29 = existencia_w29
-                if existencia_w30 is not None:
+                if existencia_w30 is not None and WEEK < 30:
                     instance.parte.existencia.w30 = existencia_w30
-                if existencia_w31 is not None:
+                if existencia_w31 is not None and WEEK < 31:
                     instance.parte.existencia.w31 = existencia_w31
-                if existencia_w32 is not None:
+                if existencia_w32 is not None and WEEK < 32:
                     instance.parte.existencia.w32 = existencia_w32
-                if existencia_w33 is not None:
+                if existencia_w33 is not None and WEEK < 33:
                     instance.parte.existencia.w33 = existencia_w33
-                if existencia_w34 is not None:
+                if existencia_w34 is not None and WEEK < 34:
                     instance.parte.existencia.w34 = existencia_w34
-                if existencia_w35 is not None:
+                if existencia_w35 is not None and WEEK < 35:
                     instance.parte.existencia.w35 = existencia_w35
-                if existencia_w36 is not None:
+                if existencia_w36 is not None and WEEK < 36:
                     instance.parte.existencia.w36 = existencia_w36
-                if existencia_w37 is not None:
+                if existencia_w37 is not None and WEEK < 37:
                     instance.parte.existencia.w37 = existencia_w37
-                if existencia_w38 is not None:
+                if existencia_w38 is not None and WEEK < 38:
                     instance.parte.existencia.w38 = existencia_w38
-                if existencia_w39 is not None:
+                if existencia_w39 is not None and WEEK < 39:
                     instance.parte.existencia.w39 = existencia_w39
-                if existencia_w40 is not None:
+                if existencia_w40 is not None and WEEK < 40:
                     instance.parte.existencia.w40 = existencia_w40
-                if existencia_w41 is not None:
+                if existencia_w41 is not None and WEEK < 41:
                     instance.parte.existencia.w41 = existencia_w41
-                if existencia_w42 is not None:
+                if existencia_w42 is not None and WEEK < 42:
                     instance.parte.existencia.w42 = existencia_w42
-                if existencia_w43 is not None:
+                if existencia_w43 is not None and WEEK < 43:
                     instance.parte.existencia.w43 = existencia_w43
-                if existencia_w44 is not None:
+                if existencia_w44 is not None and WEEK < 44:
                     instance.parte.existencia.w44 = existencia_w44
-                if existencia_w45 is not None:
+                if existencia_w45 is not None and WEEK < 45:
                     instance.parte.existencia.w45 = existencia_w45
-                if existencia_w46 is not None:
+                if existencia_w46 is not None and WEEK < 46:
                     instance.parte.existencia.w46 = existencia_w46
-                if existencia_w47 is not None:
+                if existencia_w47 is not None and WEEK < 47:
                     instance.parte.existencia.w47 = existencia_w47
-                if existencia_w48 is not None:
+                if existencia_w48 is not None and WEEK < 48:
                     instance.parte.existencia.w48 = existencia_w48
-                if existencia_w49 is not None:
+                if existencia_w49 is not None and WEEK < 49:
                     instance.parte.existencia.w49 = existencia_w49
-                if existencia_w50 is not None:
+                if existencia_w50 is not None and WEEK < 50:
                     instance.parte.existencia.w50 = existencia_w50
-                if existencia_w51 is not None:
+                if existencia_w51 is not None and WEEK < 51:
                     instance.parte.existencia.w51 = existencia_w51
-                if existencia_w52 is not None:
+                if existencia_w52 is not None and WEEK < 52:
                     instance.parte.existencia.w52 = existencia_w52
 
             instance.parte.existencia.save()

@@ -8,8 +8,8 @@ $('#table_existencia').on('click', '.clickable-row', function(event) {
   $('#action').removeClass('disabled');
   var data = $(this);
   var id = data[0].cells[0].innerText
-  window.url_update = '/existencias/update/existencia/nokia'+ '/' +  id + '/';
-  window.url_delete = '/existencias/delete/existencia/nokia'+ '/' +  id + '/';
+  window.url_update = '/existencias/update/existencia'+ '/' +  id + '/';
+  window.url_delete = '/existencias/delete/existencia'+ '/' +  id + '/';
 });
 
 function create_existencia (url) {

@@ -73,6 +73,7 @@ class ConsumoClaroResource(resources.ModelResource):
         export_order = (
         'id',
         'parte',
+        'grupo_parte',
         'w14',
         'w15',
         'w16',

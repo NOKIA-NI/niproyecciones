@@ -33,7 +33,7 @@
           <span data-feather="refresh-cw"></span>
           calcular
         </a>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'resultados:export_resultado' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="" onclick="return export_resultado(this, location.search)">
           <span data-feather="download"></span>
           Exportar
         </a>
