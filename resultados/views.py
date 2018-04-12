@@ -21,7 +21,7 @@ class ListResultado(LoginRequiredMixin, ListView):
     login_url = 'users:home'
     model = Resultado
     template_name = 'resultado/list_resultado.html'
-    paginate_by = 15
+    paginate_by = 100
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -30,6 +30,7 @@ class ListResultado(LoginRequiredMixin, ListView):
         context = super(ListResultado, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
         return context
 
     def get_queryset(self, **kwargs):

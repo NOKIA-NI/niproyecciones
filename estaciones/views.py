@@ -29,6 +29,7 @@ class ListEstacion(LoginRequiredMixin, ListView):
         context = super(ListEstacion, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
         return context
 
 class DetailEstacion(LoginRequiredMixin, DetailView):

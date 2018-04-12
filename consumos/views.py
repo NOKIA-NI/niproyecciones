@@ -32,6 +32,7 @@ class ListConsumoNokia(LoginRequiredMixin, ListView):
         context = super(ListConsumoNokia, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
         return context
 
 class DetailConsumoNokia(LoginRequiredMixin, DetailView):
@@ -210,7 +211,7 @@ class ListConsumoClaro(LoginRequiredMixin, ListView):
     login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/list_consumo_claro.html'
-    paginate_by = 15
+    paginate_by = 100
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -219,6 +220,7 @@ class ListConsumoClaro(LoginRequiredMixin, ListView):
         context = super(ListConsumoClaro, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
         return context
 
 class DetailConsumoClaro(LoginRequiredMixin, DetailView):
