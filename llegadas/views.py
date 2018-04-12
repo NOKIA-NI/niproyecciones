@@ -20,7 +20,7 @@ class ListLlegada(LoginRequiredMixin, ListView):
     login_url = 'users:home'
     model = Llegada
     template_name = 'llegada/list_llegada.html'
-    paginate_by = 100
+    paginate_by = 15
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
