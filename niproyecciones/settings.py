@@ -89,6 +89,15 @@ WSGI_APPLICATION = 'niproyecciones.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+class NokiaGiRouter(object):
+
+    def db_for_read(model, **hints):
+        if model._meta.app_label == 'hw_proyecciones':
+            return 'nokiagi_db'
+        return None
+
+DATABASE_ROUTERS = [ NokiaGiRouter, ]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -98,6 +107,17 @@ DATABASES = {
         'PORT': '5432',
         'HOST': os.getenv('DB_HOST'),
     },
+    'nokiagi_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('NOKIAGI_DB_NAME'),
+        'USER': os.getenv('NOKIAGI_DB_USERNAME'),
+        'PASSWORD': os.getenv('NOKIAGI_DB_PASSWORD'),
+        'PORT': '3306',
+        'HOST': os.getenv('NOKIAGI_DB_HOST'),
+        'OPTIONS': {
+            'sql_mode':'STRICT_TRANS_TABLES',
+        },
+    }
 }
 
 

@@ -23,6 +23,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('estaciones/', include('estaciones.urls', namespace='estaciones')),
     path('partes/', include('partes.urls', namespace='partes')),
+    path('hw_proyecciones/', include('hw_proyecciones.urls', namespace='hw_proyecciones')),
     path('proyecciones/', include('proyecciones.urls', namespace='proyecciones')),
     path('hw_actividades/', include('hw_actividades.urls', namespace='hw_actividades')),
     path('consumos/', include('consumos.urls', namespace='consumos')),
