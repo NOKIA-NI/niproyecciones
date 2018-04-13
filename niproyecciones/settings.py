@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'estaciones.apps.EstacionesConfig',
     'partes.apps.PartesConfig',
     'proyecciones.apps.ProyeccionesConfig',
+    'hw_proyecciones.apps.HwProyeccionesConfig',
     'hw_actividades.apps.HwActividadesConfig',
     'consumos.apps.ConsumosConfig',
     'llegadas.apps.LlegadasConfig',
