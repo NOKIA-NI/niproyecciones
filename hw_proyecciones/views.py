@@ -67,12 +67,19 @@ def create_proyeccion(request):
 
 def update_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
+    hw_proyecciones = HwProyeccion.objects.all()
+    # hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
     proyecciones = Proyeccion.objects.all()
     for hw_proyeccion in hw_proyecciones:
         try:
             proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
-            if proyeccion:
+            if proyeccion.proyecto != hw_proyeccion.proyecto or \
+                proyeccion.escenario != hw_proyeccion.escenario or \
+                proyeccion.banda != hw_proyeccion.banda or \
+                proyeccion.agrupadores != hw_proyeccion.agrupadores or \
+                proyeccion.rfe != hw_proyeccion.rfe or \
+                proyeccion.estado_proyeccion != hw_proyeccion.estado or \
+                proyeccion.cantidad_estimada != hw_proyeccion.cantidad_estimada:
                 try:
                     estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
                 except Parte.DoesNotExist:
@@ -107,10 +114,8 @@ def delete_proyeccion(request):
     for proyeccion in proyecciones:
         try:
             hw_proyeccion = hw_proyecciones.get(id=proyeccion.hw_proyeccion)
-            print('found hw_proyeccion', hw_proyeccion)
         except HwProyeccion.DoesNotExist:
-            # proyeccion.delete()
-            print('delete proyeccion', proyeccion)
+            proyeccion.delete()
 
     return HttpResponse(status=204)
 
