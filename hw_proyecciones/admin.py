@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Hwproyeccion
+from .models import HwProyeccion
 from import_export.admin import ImportExportModelAdmin
-from .resources import HwActividadResource
+from .resources import HwProyeccionResource
 
-@admin.register(Hwproyeccion)
-class HwproyeccionAdmin(ImportExportModelAdmin):
-    resource_class = HwActividadResource
+@admin.register(HwProyeccion)
+class HwProyeccionAdmin(ImportExportModelAdmin):
+    resource_class = HwProyeccionResource
     list_display = (
     'id',
     'siteName',
@@ -13,11 +13,12 @@ class HwproyeccionAdmin(ImportExportModelAdmin):
     'escenario',
     'banda',
     'agrupadores',
-    'RFE',
+    'rfe',
     'parte',
     'estado',
     'cantidad_estimada',
     'lastUpdated',
+    'created',
     )
-    list_filter = ('lastUpdated',)
+    list_filter = ('lastUpdated', 'created', 'estado')
     search_fields = ['id', 'siteName', 'parte']

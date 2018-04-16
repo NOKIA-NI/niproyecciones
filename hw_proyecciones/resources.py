@@ -1,11 +1,11 @@
 from import_export import resources
 from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget
-from .models import Hwproyeccion
+from .models import HwProyeccion
 
-class HwActividadResource(resources.ModelResource):
+class HwProyeccionResource(resources.ModelResource):
 
     class Meta:
-        model = Hwproyeccion
+        model = HwProyeccion
         # exclude = ('id',)
         export_order = (
         'id',
@@ -14,9 +14,10 @@ class HwActividadResource(resources.ModelResource):
         'escenario',
         'banda',
         'agrupadores',
-        'RFE',
+        'rfe',
         'parte',
         'estado',
         'cantidad_estimada',
         'lastUpdated',
+        'created',
         )

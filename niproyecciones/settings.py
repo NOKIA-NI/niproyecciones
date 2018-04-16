@@ -97,6 +97,12 @@ class NokiaGiRouter(object):
             return 'nokiagi_db'
         return None
 
+    # def allow_relation(self, obj1, obj2, **hints):
+    #     if obj1._meta.app_label == 'hw_proyecciones' or \
+    #        obj2._meta.app_label == 'proyecciones':
+    #        return True
+    #     return None
+
 DATABASE_ROUTERS = [ NokiaGiRouter, ]
 
 DATABASES = {
