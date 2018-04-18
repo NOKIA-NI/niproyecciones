@@ -15,6 +15,9 @@ SITIOSLSM531 = '531 sitios LSM'
 SI = 'Si'
 NO = 'No'
 
+EN_TRANSITO = 'En_Transito'
+DESPACHO_SOLICITADO = 'Despacho_Solicitado'
+
 class HwActividad(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='hw_actividades')
     proyeccion = models.OneToOneField(Proyeccion, on_delete=models.CASCADE)
@@ -51,6 +54,8 @@ class HwActividad(models.Model):
             else:
                 self.impactar = SI
         if self.impactar == SI and self.estacion.mos is not None:
+            self.impactar = NO
+        if self.impactar == SI and self.estacion.estado_wr == EN_TRANSITO or self.estacion.estado_wr == DESPACHO_SOLICITADO:
             self.impactar = NO
 
         # if self.parte and self.parte.consumonokia:
