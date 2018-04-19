@@ -101,82 +101,160 @@ class HwActividad(models.Model):
         #
         #     if consumo_w14 is not None:
         #         self.parte.consumonokia.w14 = consumo_w14
+        #     else:
+        #         self.parte.consumonokia.w14 = 0
         #     if consumo_w15 is not None:
         #         self.parte.consumonokia.w15 = consumo_w15
+        #     else:
+        #         self.parte.consumonokia.w15 = 0
         #     if consumo_w16 is not None:
         #         self.parte.consumonokia.w16 = consumo_w16
+        #     else:
+        #         self.parte.consumonokia.w16 = 0
         #     if consumo_w17 is not None:
         #         self.parte.consumonokia.w17 = consumo_w17
+        #     else:
+        #         self.parte.consumonokia.w17 = 0
         #     if consumo_w18 is not None:
         #         self.parte.consumonokia.w18 = consumo_w18
+        #     else:
+        #         self.parte.consumonokia.w18 = 0
         #     if consumo_w19 is not None:
         #         self.parte.consumonokia.w19 = consumo_w19
+        #     else:
+        #         self.parte.consumonokia.w19 = 0
         #     if consumo_w20 is not None:
         #         self.parte.consumonokia.w20 = consumo_w20
+        #     else:
+        #         self.parte.consumonokia.w20 = 0
         #     if consumo_w21 is not None:
         #         self.parte.consumonokia.w21 = consumo_w21
+        #     else:
+        #         self.parte.consumonokia.w21 = 0
         #     if consumo_w22 is not None:
         #         self.parte.consumonokia.w22 = consumo_w22
+        #     else:
+        #         self.parte.consumonokia.w22 = 0
         #     if consumo_w23 is not None:
         #         self.parte.consumonokia.w23 = consumo_w23
+        #     else:
+        #         self.parte.consumonokia.w23 = 0
         #     if consumo_w24 is not None:
         #         self.parte.consumonokia.w24 = consumo_w24
+        #     else:
+        #         self.parte.consumonokia.w24 = 0
         #     if consumo_w25 is not None:
         #         self.parte.consumonokia.w25 = consumo_w25
+        #     else:
+        #         self.parte.consumonokia.w25 = 0
         #     if consumo_w26 is not None:
         #         self.parte.consumonokia.w26 = consumo_w26
+        #     else:
+        #         self.parte.consumonokia.w26 = 0
         #     if consumo_w27 is not None:
         #         self.parte.consumonokia.w27 = consumo_w27
+        #     else:
+        #         self.parte.consumonokia.w27 = 0
         #     if consumo_w28 is not None:
         #         self.parte.consumonokia.w28 = consumo_w28
+        #     else:
+        #         self.parte.consumonokia.w28 = 0
         #     if consumo_w29 is not None:
         #         self.parte.consumonokia.w29 = consumo_w29
+        #     else:
+        #         self.parte.consumonokia.w29 = 0
         #     if consumo_w30 is not None:
         #         self.parte.consumonokia.w30 = consumo_w30
+        #     else:
+        #         self.parte.consumonokia.w30 = 0
         #     if consumo_w31 is not None:
         #         self.parte.consumonokia.w31 = consumo_w31
+        #     else:
+        #         self.parte.consumonokia.w31 = 0
         #     if consumo_w32 is not None:
         #         self.parte.consumonokia.w32 = consumo_w32
+        #     else:
+        #         self.parte.consumonokia.w32 = 0
         #     if consumo_w33 is not None:
         #         self.parte.consumonokia.w33 = consumo_w33
+        #     else:
+        #         self.parte.consumonokia.w33 = 0
         #     if consumo_w34 is not None:
         #         self.parte.consumonokia.w34 = consumo_w34
+        #     else:
+        #         self.parte.consumonokia.w34 = 0
         #     if consumo_w35 is not None:
         #         self.parte.consumonokia.w35 = consumo_w35
+        #     else:
+        #         self.parte.consumonokia.w35 = 0
         #     if consumo_w36 is not None:
         #         self.parte.consumonokia.w36 = consumo_w36
+        #     else:
+        #         self.parte.consumonokia.w36 = 0
         #     if consumo_w37 is not None:
         #         self.parte.consumonokia.w37 = consumo_w37
+        #     else:
+        #         self.parte.consumonokia.w37 = 0
         #     if consumo_w38 is not None:
         #         self.parte.consumonokia.w38 = consumo_w38
+        #     else:
+        #         self.parte.consumonokia.w38 = 0
         #     if consumo_w39 is not None:
         #         self.parte.consumonokia.w39 = consumo_w39
+        #     else:
+        #         self.parte.consumonokia.w39 = 0
         #     if consumo_w40 is not None:
         #         self.parte.consumonokia.w40 = consumo_w40
+        #     else:
+        #         self.parte.consumonokia.w40 = 0
         #     if consumo_w41 is not None:
         #         self.parte.consumonokia.w41 = consumo_w41
+        #     else:
+        #         self.parte.consumonokia.w41 = 0
         #     if consumo_w42 is not None:
         #         self.parte.consumonokia.w42 = consumo_w42
+        #     else:
+        #         self.parte.consumonokia.w42 = 0
         #     if consumo_w43 is not None:
         #         self.parte.consumonokia.w43 = consumo_w43
+        #     else:
+        #         self.parte.consumonokia.w43 = 0
         #     if consumo_w44 is not None:
         #         self.parte.consumonokia.w44 = consumo_w44
+        #     else:
+        #         self.parte.consumonokia.w44 = 0
         #     if consumo_w45 is not None:
         #         self.parte.consumonokia.w45 = consumo_w45
+        #     else:
+        #         self.parte.consumonokia.w45 = 0
         #     if consumo_w46 is not None:
         #         self.parte.consumonokia.w46 = consumo_w46
+        #     else:
+        #         self.parte.consumonokia.w46 = 0
         #     if consumo_w47 is not None:
         #         self.parte.consumonokia.w47 = consumo_w47
+        #     else:
+        #         self.parte.consumonokia.w47 = 0
         #     if consumo_w48 is not None:
         #         self.parte.consumonokia.w48 = consumo_w48
+        #     else:
+        #         self.parte.consumonokia.w48 = 0
         #     if consumo_w49 is not None:
         #         self.parte.consumonokia.w49 = consumo_w49
+        #     else:
+        #         self.parte.consumonokia.w49 = 0
         #     if consumo_w50 is not None:
         #         self.parte.consumonokia.w50 = consumo_w50
+        #     else:
+        #         self.parte.consumonokia.w50 = 0
         #     if consumo_w51 is not None:
         #         self.parte.consumonokia.w51 = consumo_w51
+        #     else:
+        #         self.parte.consumonokia.w51 = 0
         #     if consumo_w52 is not None:
         #         self.parte.consumonokia.w52 = consumo_w52
+        #     else:
+        #         self.parte.consumonokia.w52 = 0
         #
         # self.parte.consumonokia.save()
 

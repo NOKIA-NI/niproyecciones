@@ -289,7 +289,7 @@ class ListConsumoClaro(LoginRequiredMixin, ListView):
     login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/list_consumo_claro.html'
-    paginate_by = 100
+    paginate_by = 15
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
