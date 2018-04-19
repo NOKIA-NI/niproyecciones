@@ -235,8 +235,8 @@ def create_proyeccion_four(request):
 
 def update_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.all()
-    # hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
+    # hw_proyecciones = HwProyeccion.objects.all()
+    hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
     proyecciones = Proyeccion.objects.all()
     for hw_proyeccion in hw_proyecciones:
         try:
@@ -259,7 +259,49 @@ def update_proyeccion(request):
                 proyeccion.save()
 
         except Proyeccion.DoesNotExist:
-            pass
+            try:
+                estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
+                try:
+                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                except Parte.DoesNotExist:
+                    parte = Parte.objects.create(
+                        parte_nokia=hw_proyeccion.parte,
+                    )
+                proyeccion = Proyeccion.objects.create(
+                    hw_proyeccion=hw_proyeccion.id,
+                    estacion=estacion,
+                    proyecto=hw_proyeccion.proyecto,
+                    escenario=hw_proyeccion.escenario,
+                    banda=hw_proyeccion.banda,
+                    agrupadores=hw_proyeccion.agrupadores,
+                    rfe=hw_proyeccion.rfe,
+                    parte=parte,
+                    estado_proyeccion=hw_proyeccion.estado,
+                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
+                )
+            except Estacion.DoesNotExist:
+                estacion = Estacion.objects.create(
+                    site_name=hw_proyeccion.siteName,
+                )
+                try:
+                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                except Parte.DoesNotExist:
+                    parte = Parte.objects.create(
+                        parte_nokia=hw_proyeccion.parte,
+                    )
+                proyeccion = Proyeccion.objects.create(
+                    hw_proyeccion=hw_proyeccion.id,
+                    estacion=estacion,
+                    proyecto=hw_proyeccion.proyecto,
+                    escenario=hw_proyeccion.escenario,
+                    banda=hw_proyeccion.banda,
+                    agrupadores=hw_proyeccion.agrupadores,
+                    rfe=hw_proyeccion.rfe,
+                    parte=parte,
+                    estado_proyeccion=hw_proyeccion.estado,
+                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
+                )
+                
     return HttpResponse(status=204)
 
 def delete_proyeccion(request):
