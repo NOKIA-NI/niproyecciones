@@ -13,6 +13,8 @@ delete_proyeccion,
 create_estacion,
 update_estacion,
 delete_estacion,
+
+calcular_consumo_nokia,
 )
 
 app_name = 'hw_proyecciones'
@@ -31,4 +33,6 @@ urlpatterns = [
     path('create/hw/estacion/', create_estacion, name='create_hw_estacion'),
     path('update/hw/estacion/', update_estacion, name='update_hw_estacion'),
     path('delete/hw/estacion/', delete_estacion, name='delete_hw_estacion'),
+
+    path('calcular/consumo/nokia/', calcular_consumo_nokia, name='calcular_consumo_nokia'),
 ]

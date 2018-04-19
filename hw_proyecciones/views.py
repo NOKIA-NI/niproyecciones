@@ -4,6 +4,8 @@ from hw_proyecciones.models import HwProyeccion, HwEstacion
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
+from hw_actividades.models import HwActividad
+from django.db.models import Sum
 from django.utils import timezone
 import datetime
 
@@ -337,5 +339,210 @@ def delete_estacion(request):
         except Estacion.DoesNotExist:
             pass
     estaciones.delete()
+
+    return HttpResponse(status=204)
+
+def calcular_consumo_nokia(request):
+    partes = Parte.objects.all()
+
+    for parte in partes:
+        consumo_w14 = HwActividad.objects.filter(estacion__w_fc_sal=14, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w15 = HwActividad.objects.filter(estacion__w_fc_sal=15, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w16 = HwActividad.objects.filter(estacion__w_fc_sal=16, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w17 = HwActividad.objects.filter(estacion__w_fc_sal=17, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w18 = HwActividad.objects.filter(estacion__w_fc_sal=18, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w19 = HwActividad.objects.filter(estacion__w_fc_sal=19, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w20 = HwActividad.objects.filter(estacion__w_fc_sal=20, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w21 = HwActividad.objects.filter(estacion__w_fc_sal=21, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w22 = HwActividad.objects.filter(estacion__w_fc_sal=22, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w23 = HwActividad.objects.filter(estacion__w_fc_sal=23, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w24 = HwActividad.objects.filter(estacion__w_fc_sal=24, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w25 = HwActividad.objects.filter(estacion__w_fc_sal=25, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w26 = HwActividad.objects.filter(estacion__w_fc_sal=26, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w27 = HwActividad.objects.filter(estacion__w_fc_sal=27, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w28 = HwActividad.objects.filter(estacion__w_fc_sal=28, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w29 = HwActividad.objects.filter(estacion__w_fc_sal=29, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w30 = HwActividad.objects.filter(estacion__w_fc_sal=30, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w31 = HwActividad.objects.filter(estacion__w_fc_sal=31, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w32 = HwActividad.objects.filter(estacion__w_fc_sal=32, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w33 = HwActividad.objects.filter(estacion__w_fc_sal=33, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w34 = HwActividad.objects.filter(estacion__w_fc_sal=34, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w35 = HwActividad.objects.filter(estacion__w_fc_sal=35, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w36 = HwActividad.objects.filter(estacion__w_fc_sal=36, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w37 = HwActividad.objects.filter(estacion__w_fc_sal=37, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w38 = HwActividad.objects.filter(estacion__w_fc_sal=38, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w39 = HwActividad.objects.filter(estacion__w_fc_sal=39, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w40 = HwActividad.objects.filter(estacion__w_fc_sal=40, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w41 = HwActividad.objects.filter(estacion__w_fc_sal=41, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w42 = HwActividad.objects.filter(estacion__w_fc_sal=42, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w43 = HwActividad.objects.filter(estacion__w_fc_sal=43, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w44 = HwActividad.objects.filter(estacion__w_fc_sal=44, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w45 = HwActividad.objects.filter(estacion__w_fc_sal=45, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w46 = HwActividad.objects.filter(estacion__w_fc_sal=46, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w47 = HwActividad.objects.filter(estacion__w_fc_sal=47, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w48 = HwActividad.objects.filter(estacion__w_fc_sal=48, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w49 = HwActividad.objects.filter(estacion__w_fc_sal=49, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w50 = HwActividad.objects.filter(estacion__w_fc_sal=50, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w51 = HwActividad.objects.filter(estacion__w_fc_sal=51, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w52 = HwActividad.objects.filter(estacion__w_fc_sal=52, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+
+        if consumo_w14 is not None:
+            parte.consumonokia.w14 = consumo_w14
+        else:
+            parte.consumonokia.w14 = 0
+        if consumo_w15 is not None:
+            parte.consumonokia.w15 = consumo_w15
+        else:
+            parte.consumonokia.w15 = 0
+        if consumo_w16 is not None:
+            parte.consumonokia.w16 = consumo_w16
+        else:
+            parte.consumonokia.w16 = 0
+        if consumo_w17 is not None:
+            parte.consumonokia.w17 = consumo_w17
+        else:
+            parte.consumonokia.w17 = 0
+        if consumo_w18 is not None:
+            parte.consumonokia.w18 = consumo_w18
+        else:
+            parte.consumonokia.w18 = 0
+        if consumo_w19 is not None:
+            parte.consumonokia.w19 = consumo_w19
+        else:
+            parte.consumonokia.w19 = 0
+        if consumo_w20 is not None:
+            parte.consumonokia.w20 = consumo_w20
+        else:
+            parte.consumonokia.w20 = 0
+        if consumo_w21 is not None:
+            parte.consumonokia.w21 = consumo_w21
+        else:
+            parte.consumonokia.w21 = 0
+        if consumo_w22 is not None:
+            parte.consumonokia.w22 = consumo_w22
+        else:
+            parte.consumonokia.w22 = 0
+        if consumo_w23 is not None:
+            parte.consumonokia.w23 = consumo_w23
+        else:
+            parte.consumonokia.w23 = 0
+        if consumo_w24 is not None:
+            parte.consumonokia.w24 = consumo_w24
+        else:
+            parte.consumonokia.w24 = 0
+        if consumo_w25 is not None:
+            parte.consumonokia.w25 = consumo_w25
+        else:
+            parte.consumonokia.w25 = 0
+        if consumo_w26 is not None:
+            parte.consumonokia.w26 = consumo_w26
+        else:
+            parte.consumonokia.w26 = 0
+        if consumo_w27 is not None:
+            parte.consumonokia.w27 = consumo_w27
+        else:
+            parte.consumonokia.w27 = 0
+        if consumo_w28 is not None:
+            parte.consumonokia.w28 = consumo_w28
+        else:
+            parte.consumonokia.w28 = 0
+        if consumo_w29 is not None:
+            parte.consumonokia.w29 = consumo_w29
+        else:
+            parte.consumonokia.w29 = 0
+        if consumo_w30 is not None:
+            parte.consumonokia.w30 = consumo_w30
+        else:
+            parte.consumonokia.w30 = 0
+        if consumo_w31 is not None:
+            parte.consumonokia.w31 = consumo_w31
+        else:
+            parte.consumonokia.w31 = 0
+        if consumo_w32 is not None:
+            parte.consumonokia.w32 = consumo_w32
+        else:
+            parte.consumonokia.w32 = 0
+        if consumo_w33 is not None:
+            parte.consumonokia.w33 = consumo_w33
+        else:
+            parte.consumonokia.w33 = 0
+        if consumo_w34 is not None:
+            parte.consumonokia.w34 = consumo_w34
+        else:
+            parte.consumonokia.w34 = 0
+        if consumo_w35 is not None:
+            parte.consumonokia.w35 = consumo_w35
+        else:
+            parte.consumonokia.w35 = 0
+        if consumo_w36 is not None:
+            parte.consumonokia.w36 = consumo_w36
+        else:
+            parte.consumonokia.w36 = 0
+        if consumo_w37 is not None:
+            parte.consumonokia.w37 = consumo_w37
+        else:
+            parte.consumonokia.w37 = 0
+        if consumo_w38 is not None:
+            parte.consumonokia.w38 = consumo_w38
+        else:
+            parte.consumonokia.w38 = 0
+        if consumo_w39 is not None:
+            parte.consumonokia.w39 = consumo_w39
+        else:
+            parte.consumonokia.w39 = 0
+        if consumo_w40 is not None:
+            parte.consumonokia.w40 = consumo_w40
+        else:
+            parte.consumonokia.w40 = 0
+        if consumo_w41 is not None:
+            parte.consumonokia.w41 = consumo_w41
+        else:
+            parte.consumonokia.w41 = 0
+        if consumo_w42 is not None:
+            parte.consumonokia.w42 = consumo_w42
+        else:
+            parte.consumonokia.w42 = 0
+        if consumo_w43 is not None:
+            parte.consumonokia.w43 = consumo_w43
+        else:
+            parte.consumonokia.w43 = 0
+        if consumo_w44 is not None:
+            parte.consumonokia.w44 = consumo_w44
+        else:
+            parte.consumonokia.w44 = 0
+        if consumo_w45 is not None:
+            parte.consumonokia.w45 = consumo_w45
+        else:
+            parte.consumonokia.w45 = 0
+        if consumo_w46 is not None:
+            parte.consumonokia.w46 = consumo_w46
+        else:
+            parte.consumonokia.w46 = 0
+        if consumo_w47 is not None:
+            parte.consumonokia.w47 = consumo_w47
+        else:
+            parte.consumonokia.w47 = 0
+        if consumo_w48 is not None:
+            parte.consumonokia.w48 = consumo_w48
+        else:
+            parte.consumonokia.w48 = 0
+        if consumo_w49 is not None:
+            parte.consumonokia.w49 = consumo_w49
+        else:
+            parte.consumonokia.w49 = 0
+        if consumo_w50 is not None:
+            parte.consumonokia.w50 = consumo_w50
+        else:
+            parte.consumonokia.w50 = 0
+        if consumo_w51 is not None:
+            parte.consumonokia.w51 = consumo_w51
+        else:
+            parte.consumonokia.w51 = 0
+        if consumo_w52 is not None:
+            parte.consumonokia.w52 = consumo_w52
+        else:
+            parte.consumonokia.w52 = 0
+
+        parte.consumonokia.save()
 
     return HttpResponse(status=204)
