@@ -54,7 +54,6 @@ class HwActividadResource(resources.ModelResource):
     cantidad_estimada = fields.Field(
         column_name='cantidad_estimada',
         attribute='proyeccion__cantidad_estimada')
-
     parte = fields.Field(
         column_name='parte',
         attribute='parte',

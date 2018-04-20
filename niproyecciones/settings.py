@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'llegadas.apps.LlegadasConfig',
     'existencias.apps.ExistenciasConfig',
     'resultados.apps.ResultadosConfig',
+    'impactos.apps.ImpactosConfig',
     # third
     'crispy_forms',
     'import_export',

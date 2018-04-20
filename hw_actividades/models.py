@@ -53,6 +53,8 @@ class HwActividad(models.Model):
                 self.impactar = NO
             else:
                 self.impactar = SI
+        if self.impactar == SI and self.estacion.w_fc_sal is None:
+            self.impactar = NO
         if self.impactar == SI and self.estacion.mos is not None:
             self.impactar = NO
         if self.impactar == SI and self.estacion.estado_wr == EN_TRANSITO or self.estacion.estado_wr == DESPACHO_SOLICITADO:

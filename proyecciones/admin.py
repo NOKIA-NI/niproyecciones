@@ -29,4 +29,4 @@ class ProyeccionAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'hw_proyeccion']
+    search_fields = ['id', 'hw_proyeccion', 'estacion__site_name']
