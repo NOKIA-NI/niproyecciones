@@ -85,7 +85,7 @@ class Disponible(models.Model):
     @receiver(post_save, sender=ConsumoNokia)
     @receiver(post_save, sender=ConsumoClaro)
     @receiver(post_save, sender=Llegada)
-    def calcular_disponible(sender, instance, **kwargs):
+    def calculate_disponible(sender, instance, **kwargs):
         try:
             if instance.parte and instance.parte.consumonokia and instance.parte.consumoclaro and instance.parte.llegada and instance.parte.disponible:
                 disponible_w14 = (instance.parte.resultado.w14 + instance.parte.llegada.w14) - (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14)

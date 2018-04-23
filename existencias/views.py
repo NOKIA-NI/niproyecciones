@@ -82,7 +82,7 @@ def export_existencia(request):
     response['Content-Disposition'] = 'attachment; filename="Existencia.xlsx"'
     return response
 
-def calcular_existencia(request):
+def calculate_existencia(request):
     partes = Parte.objects.all()
 
     for parte in partes:

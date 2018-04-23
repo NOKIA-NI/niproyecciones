@@ -83,7 +83,7 @@ class Resultado(models.Model):
     @receiver(post_save, sender=ConsumoClaro)
     @receiver(post_save, sender=Llegada)
     @receiver(post_save, sender=Existencia)
-    def calcular_resultado(sender, instance, **kwargs):
+    def calculate_resultado(sender, instance, **kwargs):
         try:
             if instance.parte and instance.parte.consumonokia and instance.parte.consumoclaro and instance.parte.llegada and instance.parte.existencia:
                 resultado_w14 = (instance.parte.existencia.w14 + instance.parte.llegada.w14) - (instance.parte.consumonokia.w14 + instance.parte.consumoclaro.w14)

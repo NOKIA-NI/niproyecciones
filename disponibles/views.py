@@ -82,7 +82,7 @@ def export_disponible(request):
     response['Content-Disposition'] = 'attachment; filename="Disponible.xlsx"'
     return response
 
-def calcular_disponible(request):
+def calculate_disponible(request):
     partes = Parte.objects.all()
 
     for parte in partes:

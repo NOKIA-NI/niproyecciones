@@ -80,7 +80,7 @@ def export_consumo_nokia(request):
     response['Content-Disposition'] = 'attachment; filename="ConsumoNokia.xlsx"'
     return response
 
-def calcular_consumo_nokia(request):
+def calculate_consumo_nokia(request):
     partes = Parte.objects.all()
 
     for parte in partes:

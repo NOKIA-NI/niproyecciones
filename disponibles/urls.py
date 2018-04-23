@@ -7,7 +7,7 @@ UpdateDisponible,
 DeleteDisponible,
 SearchDisponible,
 export_disponible,
-calcular_disponible,
+calculate_disponible,
 )
 
 app_name = 'disponibles'
@@ -20,5 +20,5 @@ urlpatterns = [
     path('delete/disponible/<int:pk/', DeleteDisponible.as_view(), name='delete_disponible'),
     path('search/disponible/', SearchDisponible.as_view(), name='search_disponible'),
     path('export/disponible/', export_disponible, name='export_disponible'),
-    path('calcular/disponible/', calcular_disponible, name='calcular_disponible'),
+    path('calculate/disponible/', calculate_disponible, name='calculate_disponible'),
 ]

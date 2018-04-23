@@ -89,7 +89,7 @@ def export_resultado(request):
     response['Content-Disposition'] = 'attachment; filename="Resultado.xlsx"'
     return response
 
-def calcular_resultado(request):
+def calculate_resultado(request):
     partes = Parte.objects.all()
 
     for parte in partes:

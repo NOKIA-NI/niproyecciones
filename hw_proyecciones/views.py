@@ -301,7 +301,7 @@ def update_proyeccion(request):
                     estado_proyeccion=hw_proyeccion.estado,
                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
                 )
-                
+
     return HttpResponse(status=204)
 
 def delete_proyeccion(request):
@@ -384,7 +384,7 @@ def delete_estacion(request):
 
     return HttpResponse(status=204)
 
-def calcular_consumo_nokia(request):
+def calculate_consumo_nokia(request):
     partes = Parte.objects.all()
 
     for parte in partes:

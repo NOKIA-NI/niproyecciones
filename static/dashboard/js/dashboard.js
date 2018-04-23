@@ -38,3 +38,45 @@ function search_url (form) {
     form.action = ''
   }
 }
+
+var defaultData = [];
+var labels = []
+$.ajax({
+  method: 'GET',
+  url: '/dashboard/get/data',
+  success: function(data){
+    labels = data.labels
+    defaultData = data.impactos
+    console.log(data)
+    var ctx = document.getElementById("impactos");
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: defaultData,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        }
+      }
+    });
+  },
+  error: function(error){
+    console.log(error)
+  }
+})
