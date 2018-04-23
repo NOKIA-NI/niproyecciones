@@ -26,7 +26,6 @@ def get_data(request):
     impactos_one = [
             Impacto.objects.filter(w_fc_sal=14, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
-            Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=16, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=17, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=18, impactado=SI, grupo_parte=ACCESORIOS).order_by('estacion_id').distinct('estacion').count(),
@@ -69,7 +68,6 @@ def get_data(request):
     impactos_two = [
             Impacto.objects.filter(w_fc_sal=14, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
-            Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=16, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=17, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=18, impactado=SI, grupo_parte=MODULOS).order_by('estacion_id').distinct('estacion').count(),
@@ -111,7 +109,6 @@ def get_data(request):
     ]
     impactos_three = [
             Impacto.objects.filter(w_fc_sal=14, impactado=SI, grupo_parte=ANTENAS_Y_OTROS).order_by('estacion_id').distinct('estacion').count(),
-            Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=ANTENAS_Y_OTROS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=15, impactado=SI, grupo_parte=ANTENAS_Y_OTROS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=16, impactado=SI, grupo_parte=ANTENAS_Y_OTROS).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=17, impactado=SI, grupo_parte=ANTENAS_Y_OTROS).order_by('estacion_id').distinct('estacion').count(),
