@@ -39,44 +39,92 @@ function search_url (form) {
   }
 }
 
-var defaultData = [];
+var dataImpactosOne = [];
+var dataImpactosTwo = [];
+var dataImpactosThree = [];
 var labels = []
+
 $.ajax({
   method: 'GET',
   url: '/dashboard/get/data',
   success: function(data){
     labels = data.labels
-    defaultData = data.impactos
-    console.log(data)
-    var ctx = document.getElementById("impactos");
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: defaultData,
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: '#007bff',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff'
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
-            }
-          }]
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
+    dataImpactosOne = data.impactos_one
+    dataImpactosTwo = data.impactos_two
+    dataImpactosThree = data.impactos_three
+    setChart()
   },
   error: function(error){
-    console.log(error)
   }
 })
+
+function setChart() {
+  var ctx = document.getElementById("impactos").getContext('2d');
+  var ImpactosChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Antenas',
+				backgroundColor: '#007bff',
+        data: dataImpactosOne,
+        lineTension: 0,
+        backgroundColor: '#007bff',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      },
+      {
+        label: 'Modulos',
+				backgroundColor: '#28a745',
+        data: dataImpactosTwo,
+        lineTension: 0,
+        backgroundColor: '#28a745',
+        borderColor: '#28a745',
+        borderWidth: 4,
+        pointBackgroundColor: '#28a745'
+      },
+      {
+        label: 'Antenas Y Otros',
+				backgroundColor: '#dc3545',
+        data: dataImpactosThree,
+        lineTension: 0,
+        backgroundColor: '#dc3545',
+        borderColor: '#dc3545',
+        borderWidth: 4,
+        pointBackgroundColor: '#dc3545'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Impactos [ Estaciones - Grupo Partes ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+					stacked: true,
+          scaleLabel: {
+								display: true,
+								labelString: 'Semanas'
+							}
+				}],
+				yAxes: [{
+					stacked: true,
+          scaleLabel: {
+								display: true,
+								labelString: 'Estaciones'
+							}
+				}]
+      },
+      legend: {
+        display: true,
+      }
+    }
+  });
+}
