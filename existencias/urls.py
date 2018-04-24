@@ -7,7 +7,7 @@ UpdateExistencia,
 DeleteExistencia,
 SearchExistencia,
 export_existencia,
-calculate_existencia,
+# calculate_existencia,
 )
 
 app_name = 'existencias'
@@ -20,5 +20,5 @@ urlpatterns = [
     path('delete/existencia/<int:pk/', DeleteExistencia.as_view(), name='delete_existencia'),
     path('search/existencia/', SearchExistencia.as_view(), name='search_existencia'),
     path('export/existencia/', export_existencia, name='export_existencia'),
-    path('calculate/existencia/', calculate_existencia, name='calculate_existencia'),
+    # path('calculate/existencia/', calculate_existencia, name='calculate_existencia'),
 ]

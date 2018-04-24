@@ -58,13 +58,13 @@
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_existencia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'existencias:list_existencia' %}">
                   <span data-feather="archive"></span>
-                  existencias
+                  Existencias
                 </a>
               </li>
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_resultado' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'resultados:list_resultado' %}">
                   <span data-feather="layout"></span>
-                  resultados
+                  Resultados
                 </a>
               </li>
 
@@ -89,6 +89,13 @@
                   resultados 3
                 </a>
               </li> -->
+
+              <li class="nav-item">
+                <a {% if request.resolver_match.url_name == 'list_impacto' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'impactos:list_impacto' %}">
+                  <span data-feather="disc"></span>
+                  Impactos
+                </a>
+              </li>
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

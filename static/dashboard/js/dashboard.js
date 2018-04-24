@@ -1,3 +1,5 @@
+// event.PreventDefault()
+// event.stopPropagation()
 $('#sidebar-toggle').on('click', function (event) {
   $('.sidebar').toggleClass('d-md-block');
   $('#dashboard').toggleClass('content_dashboard');
@@ -38,10 +40,13 @@ function search_url (form) {
     form.action = ''
   }
 }
-
+var dataImpactos = [];
 var dataImpactosOne = [];
 var dataImpactosTwo = [];
 var dataImpactosThree = [];
+var dataImpactosAccesorio = [];
+var dataImpactosModulo = [];
+var dataImpactosAntena = [];
 var labels = []
 
 $.ajax({
@@ -49,30 +54,90 @@ $.ajax({
   url: '/dashboard/get/data',
   success: function(data){
     labels = data.labels
+    dataImpactos = data.impactos
     dataImpactosOne = data.impactos_one
     dataImpactosTwo = data.impactos_two
     dataImpactosThree = data.impactos_three
-    setChart()
+    Impactos()
+    ImpactosGrupoParte()
+    ImpactosAccesorio()
+    ImpactosModulo()
+    ImpactosAntena()
   },
   error: function(error){
   }
 })
 
-function setChart() {
-  var ctx = document.getElementById("impactos").getContext('2d');
+function Impactos() {
+  var ctx = document.getElementById("impactos");
   var ImpactosChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Antenas',
-				backgroundColor: '#007bff',
+        label: 'Estaciones',
+				backgroundColor: '#17a2b8',
+        data: dataImpactos,
+        lineTension: 0,
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        borderWidth: 4,
+        pointBackgroundColor: '#17a2b8'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Impactos [ Estaciones - Impactos ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+}
+
+function ImpactosGrupoParte() {
+  var ctx = document.getElementById("impactosGrupoParte");
+  var ImpactosGrupoParteChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Accesorios',
+				backgroundColor: '#ffc107',
         data: dataImpactosOne,
         lineTension: 0,
-        backgroundColor: '#007bff',
-        borderColor: '#007bff',
+        backgroundColor: '#ffc107',
+        borderColor: '#ffc107',
         borderWidth: 4,
-        pointBackgroundColor: '#007bff'
+        pointBackgroundColor: '#ffc107'
       },
       {
         label: 'Modulos',
@@ -124,6 +189,226 @@ function setChart() {
       },
       legend: {
         display: true,
+      }
+    }
+  });
+}
+
+$("#accesorio").change(function () {
+  var parte = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/get/data',
+    data: {
+        'parte': parte
+      },
+    dataType: 'json',
+    success: function(data){
+      labels = data.labels
+      dataImpactosAccesorio = data.impactos_filter
+      ImpactosAccesorio()
+    },
+    error: function(error){
+    }
+  })
+})
+
+function ImpactosAccesorio() {
+  var ctx = document.getElementById("ImpactosAccesorio");
+  var ImpactosAccesorioChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Accesorios',
+				backgroundColor: '#17a2b8',
+        data: dataImpactosAccesorio,
+        lineTension: 0,
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        borderWidth: 4,
+        pointBackgroundColor: '#17a2b8'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Impactos [ Estaciones - Accesorios ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+}
+
+$("#modulo").change(function () {
+  var parte = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/get/data',
+    data: {
+        'parte': parte
+      },
+    dataType: 'json',
+    success: function(data){
+      dataImpactosModulo = data.impactos_filter
+      ImpactosModulo()
+    },
+    error: function(error){
+    }
+  })
+})
+
+function ImpactosModulo() {
+  var ctx = document.getElementById("ImpactosModulo");
+  var ImpactosModuloChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Modulos',
+				backgroundColor: '#17a2b8',
+        data: dataImpactosModulo,
+        lineTension: 0,
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        borderWidth: 4,
+        pointBackgroundColor: '#17a2b8'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Impactos [ Estaciones - Modulos ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+}
+
+$("#antena").change(function () {
+  var parte = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/get/data',
+    data: {
+        'parte': parte
+      },
+    dataType: 'json',
+    success: function(data){
+      dataImpactosAntena = data.impactos_filter
+      ImpactosAntena()
+    },
+    error: function(error){
+    }
+  })
+})
+
+function ImpactosAntena() {
+  var ctx = document.getElementById("ImpactosAntena");
+  var ImpactosAntenaChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Antenas',
+				backgroundColor: '#17a2b8',
+        data: dataImpactosAntena,
+        lineTension: 0,
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        borderWidth: 4,
+        pointBackgroundColor: '#17a2b8'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Impactos [ Estaciones - Antenas ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          ticks: {
+            beginAtZero: false
+          },
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: false,
       }
     }
   });

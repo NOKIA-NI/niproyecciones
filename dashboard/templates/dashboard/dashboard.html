@@ -18,8 +18,40 @@
   </div>
 
   <canvas class="my-4 w-100" id="impactos" width="900" height="380"></canvas>
+  <canvas class="my-4 w-100" id="impactosGrupoParte" width="900" height="380"></canvas>
 
-  <div class="row">
+  <canvas class="my-4 w-100" id="ImpactosAccesorio" width="900" height="380"></canvas>
+  <div class="form-group">
+    <label for="accesorio">Selecciona Accesorio</label>
+    <select class="form-control form-control-sm" name="parte" id="accesorio">
+      <option>---------</option>
+      {% for accesorio in accesorios %}
+      <option>{{ accesorio.parte_nokia }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <canvas class="my-4 w-100" id="ImpactosModulo" width="900" height="380"></canvas>
+  <div class="form-group">
+    <label for="modulo">Selecciona Modulo</label>
+    <select class="form-control form-control-sm" name="parte" id="modulo">
+      <option>---------</option>
+      {% for modulo in modulos %}
+      <option>{{ modulo.parte_nokia }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <canvas class="my-4 w-100" id="ImpactosAntena" width="900" height="380"></canvas>
+  <div class="form-group">
+    <label for="antenas">Selecciona Antena y Otros</label>
+    <select class="form-control form-control-sm" name="parte" id="antena">
+      <option>---------</option>
+      {% for antena in antenas %}
+      <option>{{ antena.parte_nokia }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- <div class="row">
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
@@ -53,6 +85,6 @@
       </div>
     </div>
   </div>
-</main>
+</main> -->
 
 {% endblock content_dashboard %}
