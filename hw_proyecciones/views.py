@@ -27,6 +27,16 @@ def create_proyeccion_one(request):
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -49,6 +59,16 @@ def create_proyeccion_one(request):
                 )
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -82,6 +102,16 @@ def create_proyeccion_two(request):
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -104,6 +134,16 @@ def create_proyeccion_two(request):
                 )
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -137,6 +177,16 @@ def create_proyeccion_three(request):
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -159,6 +209,16 @@ def create_proyeccion_three(request):
                 )
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -192,6 +252,16 @@ def create_proyeccion_four(request):
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
@@ -214,6 +284,16 @@ def create_proyeccion_four(request):
                 )
                 try:
                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+                    if parte.parte_nokia == 'AISG_4MTS':
+                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+                    if parte.parte_nokia == 'FPCC':
+                        parte = Parte.objects.get(parte_nokia='FPCA')
+                    if parte.parte_nokia == 'FPBA':
+                        parte = Parte.objects.get(parte_nokia='FPBB')
+                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+                    if parte.parte_nokia == 'FMCF':
+                        parte = Parte.objects.get(parte_nokia='FMCA')
                 except Parte.DoesNotExist:
                     parte = Parte.objects.create(
                         parte_nokia=hw_proyeccion.parte,
