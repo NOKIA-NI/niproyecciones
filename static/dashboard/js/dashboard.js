@@ -49,6 +49,10 @@ var dataImpactosModulo = [];
 var dataImpactosAntena = [];
 var labels = []
 
+var ImpactosAccesorioChart;
+var ImpactosModuloChart;
+var ImpactosAntenaChart;
+
 $.ajax({
   method: 'GET',
   url: '/dashboard/get/data',
@@ -204,6 +208,11 @@ $("#accesorio").change(function () {
       },
     dataType: 'json',
     success: function(data){
+      if (typeof ImpactosAccesorioChart !== "undefined") {
+        ImpactosAccesorioChart.data.labels.pop();
+        ImpactosAccesorioChart.data.datasets.pop();
+        ImpactosAccesorioChart.update();
+      }
       labels = data.labels
       dataImpactosAccesorio = data.impactos_filter
       ImpactosAccesorio()
@@ -215,7 +224,7 @@ $("#accesorio").change(function () {
 
 function ImpactosAccesorio() {
   var ctx = document.getElementById("ImpactosAccesorio");
-  var ImpactosAccesorioChart = new Chart(ctx, {
+  ImpactosAccesorioChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
@@ -278,6 +287,12 @@ $("#modulo").change(function () {
       },
     dataType: 'json',
     success: function(data){
+      if (typeof ImpactosModuloChart !== "undefined") {
+        ImpactosModuloChart.data.labels.pop();
+        ImpactosModuloChart.data.datasets.pop();
+        ImpactosModuloChart.update();
+      }
+      labels = data.labels
       dataImpactosModulo = data.impactos_filter
       ImpactosModulo()
     },
@@ -288,7 +303,7 @@ $("#modulo").change(function () {
 
 function ImpactosModulo() {
   var ctx = document.getElementById("ImpactosModulo");
-  var ImpactosModuloChart = new Chart(ctx, {
+  ImpactosModuloChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
@@ -351,6 +366,12 @@ $("#antena").change(function () {
       },
     dataType: 'json',
     success: function(data){
+      if (typeof ImpactosAntenaChart !== "undefined") {
+        ImpactosAntenaChart.data.labels.pop();
+        ImpactosAntenaChart.data.datasets.pop();
+        ImpactosAntenaChart.update();
+      }
+      labels = data.labels
       dataImpactosAntena = data.impactos_filter
       ImpactosAntena()
     },
@@ -361,7 +382,7 @@ $("#antena").change(function () {
 
 function ImpactosAntena() {
   var ctx = document.getElementById("ImpactosAntena");
-  var ImpactosAntenaChart = new Chart(ctx, {
+  ImpactosAntenaChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
