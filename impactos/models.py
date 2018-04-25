@@ -7,6 +7,7 @@ from . import choices
 class Impacto(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, blank=True, null=True, related_name='impactos')
     w_fc_sal = models.PositiveIntegerField(blank=True, null=True)
+    w_fc_imp = models.PositiveIntegerField(blank=True, null=True)
     parte = models.ForeignKey(Parte, on_delete=models.CASCADE, blank=True, null=True, related_name='impactos')
     grupo_parte = models.CharField(max_length=255, choices=partes_choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     cantidad_estimada = models.PositiveIntegerField(blank=True, null=True)

@@ -61,6 +61,7 @@ def create_impacto(request):
                 impacto = Impacto.objects.create(
                     estacion = hw_actividad.proyeccion.estacion,
                     w_fc_sal = hw_actividad.proyeccion.estacion.w_fc_sal,
+                    w_fc_imp = hw_actividad.proyeccion.estacion.w_fc_imp,
                     parte = parte,
                     grupo_parte = parte.grupo_parte,
                     cantidad_estimada = hw_actividad.proyeccion.cantidad_estimada,

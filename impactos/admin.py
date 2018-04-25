@@ -15,6 +15,7 @@ class ImpactoAdmin(ImportExportModelAdmin):
     'id',
     'estacion',
     'w_fc_sal',
+    'w_fc_imp',
     'parte',
     'grupo_parte',
     'cantidad_estimada',

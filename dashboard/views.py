@@ -36,12 +36,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 def get_data(request):
     parte = request.GET.get('parte', None)
-    weeks = ['14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25',
+    labels = ['14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25',
              '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37',
              '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49',
              '50', '51', '52']
 
-    labels = [x for x in weeks if int(x) >= WEEK]
+    # labels = [x for x in weeks if int(x) >= WEEK]
     impactos = [
             Impacto.objects.filter(w_fc_sal=14, impactado=SI).order_by('estacion_id').distinct('estacion').count(),
             Impacto.objects.filter(w_fc_sal=15, impactado=SI).order_by('estacion_id').distinct('estacion').count(),
