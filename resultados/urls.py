@@ -7,7 +7,7 @@ UpdateResultado,
 DeleteResultado,
 SearchResultado,
 export_resultado,
-calculate_resultado,
+# calculate_resultado,
 )
 
 app_name = 'resultados'
@@ -20,5 +20,5 @@ urlpatterns = [
     path('delete/resultado/<int:pk/', DeleteResultado.as_view(), name='delete_resultado'),
     path('search/resultado/', SearchResultado.as_view(), name='search_resultado'),
     path('export/resultado/', export_resultado, name='export_resultado'),
-    path('calculate/resultado/', calculate_resultado, name='calculate_resultado'),
+    # path('calculate/resultado/', calculate_resultado, name='calculate_resultado'),
 ]

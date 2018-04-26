@@ -396,9 +396,23 @@ def delete_proyeccion(request):
 #     hw_proyecciones = HwProyeccion.objects.all()
 #     for proyeccion in proyecciones:
 #         try:
-#             hw_proyeccion = hw_proyecciones.get(id=proyeccion.hw_proyeccion)
+#             hw_proyeccion = HwProyeccion.objects.get(id=proyeccion.hw_proyeccion)
+#             print('found', hw_proyeccion)
 #         except HwProyeccion.DoesNotExist:
+#             print('delete', proyeccion)
 #             proyeccion.delete()
+#
+#     return HttpResponse(status=204)
+
+# def delete_proyeccion(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     hw_proyecciones = HwProyeccion.objects.all()
+#     proyecciones = Proyeccion.objects.all()
+#
+#     for hw_proyeccion in hw_proyecciones:
+#             proyecciones = proyecciones.exclude(hw_proyeccion=hw_proyeccion.id)
+#             print('found', proyecciones.count())
+#     proyecciones.delete()
 #
 #     return HttpResponse(status=204)
 

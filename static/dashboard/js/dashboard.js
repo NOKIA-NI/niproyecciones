@@ -79,7 +79,7 @@ function Impactos() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones',
+        label: 'Estaciones - Impactos',
 				backgroundColor: '#17a2b8',
         data: dataImpactos,
         lineTension: 0,
@@ -134,7 +134,7 @@ function ImpactosGrupoParte() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Accesorios',
+        label: 'Estaciones - Accesorios',
 				backgroundColor: '#ffc107',
         data: dataImpactosOne,
         lineTension: 0,
@@ -144,7 +144,7 @@ function ImpactosGrupoParte() {
         pointBackgroundColor: '#ffc107'
       },
       {
-        label: 'Modulos',
+        label: 'Estaciones - Modulos',
 				backgroundColor: '#28a745',
         data: dataImpactosTwo,
         lineTension: 0,
@@ -154,7 +154,7 @@ function ImpactosGrupoParte() {
         pointBackgroundColor: '#28a745'
       },
       {
-        label: 'Antenas Y Otros',
+        label: 'Estaciones - Antenas Y Otros',
 				backgroundColor: '#dc3545',
         data: dataImpactosThree,
         lineTension: 0,
@@ -229,7 +229,7 @@ function ImpactosAccesorio() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Accesorios',
+        label: 'Estaciones - Accesorios',
 				backgroundColor: '#17a2b8',
         data: dataImpactosAccesorio,
         lineTension: 0,
@@ -308,7 +308,7 @@ function ImpactosModulo() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Modulos',
+        label: 'Estaciones - Modulos',
 				backgroundColor: '#17a2b8',
         data: dataImpactosModulo,
         lineTension: 0,
@@ -387,7 +387,7 @@ function ImpactosAntena() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Antenas',
+        label: 'Estaciones - Antenas y Otros',
 				backgroundColor: '#17a2b8',
         data: dataImpactosAntena,
         lineTension: 0,
@@ -401,7 +401,7 @@ function ImpactosAntena() {
     options: {
       title: {
 						display: true,
-						text: 'Proyeccion Impactos [ Estaciones - Antenas ]'
+						text: 'Proyeccion Impactos [ Estaciones - Antenas y Otros ]'
 					},
       tooltips: {
 						mode: 'index',

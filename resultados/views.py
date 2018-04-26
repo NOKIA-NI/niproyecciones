@@ -89,129 +89,90 @@ def export_resultado(request):
     response['Content-Disposition'] = 'attachment; filename="Resultado.xlsx"'
     return response
 
-def calculate_resultado(request):
-    partes = Parte.objects.all()
-
-    for parte in partes:
-        resultado_w14 = (parte.existencia.w14 + parte.llegada.w14) - (parte.consumonokia.w14 + parte.consumoclaro.w14)
-        resultado_w15 = (parte.existencia.w15 + parte.llegada.w15) - (parte.consumonokia.w15 + parte.consumoclaro.w15)
-        resultado_w16 = (parte.existencia.w16 + parte.llegada.w16) - (parte.consumonokia.w16 + parte.consumoclaro.w16)
-        resultado_w17 = (parte.existencia.w17 + parte.llegada.w17) - (parte.consumonokia.w17 + parte.consumoclaro.w17)
-        resultado_w18 = (parte.existencia.w18 + parte.llegada.w18) - (parte.consumonokia.w18 + parte.consumoclaro.w18)
-        resultado_w19 = (parte.existencia.w19 + parte.llegada.w19) - (parte.consumonokia.w19 + parte.consumoclaro.w19)
-        resultado_w20 = (parte.existencia.w20 + parte.llegada.w20) - (parte.consumonokia.w20 + parte.consumoclaro.w20)
-        resultado_w21 = (parte.existencia.w21 + parte.llegada.w21) - (parte.consumonokia.w21 + parte.consumoclaro.w21)
-        resultado_w22 = (parte.existencia.w22 + parte.llegada.w22) - (parte.consumonokia.w22 + parte.consumoclaro.w22)
-        resultado_w23 = (parte.existencia.w23 + parte.llegada.w23) - (parte.consumonokia.w23 + parte.consumoclaro.w23)
-        resultado_w24 = (parte.existencia.w24 + parte.llegada.w24) - (parte.consumonokia.w24 + parte.consumoclaro.w24)
-        resultado_w25 = (parte.existencia.w25 + parte.llegada.w25) - (parte.consumonokia.w25 + parte.consumoclaro.w25)
-        resultado_w26 = (parte.existencia.w26 + parte.llegada.w26) - (parte.consumonokia.w26 + parte.consumoclaro.w26)
-        resultado_w27 = (parte.existencia.w27 + parte.llegada.w27) - (parte.consumonokia.w27 + parte.consumoclaro.w27)
-        resultado_w28 = (parte.existencia.w28 + parte.llegada.w28) - (parte.consumonokia.w28 + parte.consumoclaro.w28)
-        resultado_w29 = (parte.existencia.w29 + parte.llegada.w29) - (parte.consumonokia.w29 + parte.consumoclaro.w29)
-        resultado_w30 = (parte.existencia.w30 + parte.llegada.w30) - (parte.consumonokia.w30 + parte.consumoclaro.w30)
-        resultado_w31 = (parte.existencia.w31 + parte.llegada.w31) - (parte.consumonokia.w31 + parte.consumoclaro.w31)
-        resultado_w32 = (parte.existencia.w32 + parte.llegada.w32) - (parte.consumonokia.w32 + parte.consumoclaro.w32)
-        resultado_w33 = (parte.existencia.w33 + parte.llegada.w33) - (parte.consumonokia.w33 + parte.consumoclaro.w33)
-        resultado_w34 = (parte.existencia.w34 + parte.llegada.w34) - (parte.consumonokia.w34 + parte.consumoclaro.w34)
-        resultado_w35 = (parte.existencia.w35 + parte.llegada.w35) - (parte.consumonokia.w35 + parte.consumoclaro.w35)
-        resultado_w36 = (parte.existencia.w36 + parte.llegada.w36) - (parte.consumonokia.w36 + parte.consumoclaro.w36)
-        resultado_w37 = (parte.existencia.w37 + parte.llegada.w37) - (parte.consumonokia.w37 + parte.consumoclaro.w37)
-        resultado_w38 = (parte.existencia.w38 + parte.llegada.w38) - (parte.consumonokia.w38 + parte.consumoclaro.w38)
-        resultado_w39 = (parte.existencia.w39 + parte.llegada.w39) - (parte.consumonokia.w39 + parte.consumoclaro.w39)
-        resultado_w40 = (parte.existencia.w40 + parte.llegada.w40) - (parte.consumonokia.w40 + parte.consumoclaro.w40)
-        resultado_w41 = (parte.existencia.w41 + parte.llegada.w41) - (parte.consumonokia.w41 + parte.consumoclaro.w41)
-        resultado_w42 = (parte.existencia.w42 + parte.llegada.w42) - (parte.consumonokia.w42 + parte.consumoclaro.w42)
-        resultado_w43 = (parte.existencia.w43 + parte.llegada.w43) - (parte.consumonokia.w43 + parte.consumoclaro.w43)
-        resultado_w44 = (parte.existencia.w44 + parte.llegada.w44) - (parte.consumonokia.w44 + parte.consumoclaro.w44)
-        resultado_w45 = (parte.existencia.w45 + parte.llegada.w45) - (parte.consumonokia.w45 + parte.consumoclaro.w45)
-        resultado_w46 = (parte.existencia.w46 + parte.llegada.w46) - (parte.consumonokia.w46 + parte.consumoclaro.w46)
-        resultado_w47 = (parte.existencia.w47 + parte.llegada.w47) - (parte.consumonokia.w47 + parte.consumoclaro.w47)
-        resultado_w48 = (parte.existencia.w48 + parte.llegada.w48) - (parte.consumonokia.w48 + parte.consumoclaro.w48)
-        resultado_w49 = (parte.existencia.w49 + parte.llegada.w49) - (parte.consumonokia.w49 + parte.consumoclaro.w49)
-        resultado_w50 = (parte.existencia.w50 + parte.llegada.w50) - (parte.consumonokia.w50 + parte.consumoclaro.w50)
-        resultado_w51 = (parte.existencia.w51 + parte.llegada.w51) - (parte.consumonokia.w51 + parte.consumoclaro.w51)
-        resultado_w52 = (parte.existencia.w52 + parte.llegada.w52) - (parte.consumonokia.w52 + parte.consumoclaro.w52)
-
-        if resultado_w14 is not None:
-            parte.resultado.w14 = resultado_w14
-        if resultado_w15 is not None:
-            parte.resultado.w15 = resultado_w15
-        if resultado_w16 is not None:
-            parte.resultado.w16 = resultado_w16
-        if resultado_w17 is not None:
-            parte.resultado.w17 = resultado_w17
-        if resultado_w18 is not None:
-            parte.resultado.w18 = resultado_w18
-        if resultado_w19 is not None:
-            parte.resultado.w19 = resultado_w19
-        if resultado_w20 is not None:
-            parte.resultado.w20 = resultado_w20
-        if resultado_w21 is not None:
-            parte.resultado.w21 = resultado_w21
-        if resultado_w22 is not None:
-            parte.resultado.w22 = resultado_w22
-        if resultado_w23 is not None:
-            parte.resultado.w23 = resultado_w23
-        if resultado_w24 is not None:
-            parte.resultado.w24 = resultado_w24
-        if resultado_w25 is not None:
-            parte.resultado.w25 = resultado_w25
-        if resultado_w26 is not None:
-            parte.resultado.w26 = resultado_w26
-        if resultado_w27 is not None:
-            parte.resultado.w27 = resultado_w27
-        if resultado_w28 is not None:
-            parte.resultado.w28 = resultado_w28
-        if resultado_w29 is not None:
-            parte.resultado.w29 = resultado_w29
-        if resultado_w30 is not None:
-            parte.resultado.w30 = resultado_w30
-        if resultado_w31 is not None:
-            parte.resultado.w31 = resultado_w31
-        if resultado_w32 is not None:
-            parte.resultado.w32 = resultado_w32
-        if resultado_w33 is not None:
-            parte.resultado.w33 = resultado_w33
-        if resultado_w34 is not None:
-            parte.resultado.w34 = resultado_w34
-        if resultado_w35 is not None:
-            parte.resultado.w35 = resultado_w35
-        if resultado_w36 is not None:
-            parte.resultado.w36 = resultado_w36
-        if resultado_w37 is not None:
-            parte.resultado.w37 = resultado_w37
-        if resultado_w38 is not None:
-            parte.resultado.w38 = resultado_w38
-        if resultado_w39 is not None:
-            parte.resultado.w39 = resultado_w39
-        if resultado_w40 is not None:
-            parte.resultado.w40 = resultado_w40
-        if resultado_w41 is not None:
-            parte.resultado.w41 = resultado_w41
-        if resultado_w42 is not None:
-            parte.resultado.w42 = resultado_w42
-        if resultado_w43 is not None:
-            parte.resultado.w43 = resultado_w43
-        if resultado_w44 is not None:
-            parte.resultado.w44 = resultado_w44
-        if resultado_w45 is not None:
-            parte.resultado.w45 = resultado_w45
-        if resultado_w46 is not None:
-            parte.resultado.w46 = resultado_w46
-        if resultado_w47 is not None:
-            parte.resultado.w47 = resultado_w47
-        if resultado_w48 is not None:
-            parte.resultado.w48 = resultado_w48
-        if resultado_w49 is not None:
-            parte.resultado.w49 = resultado_w49
-        if resultado_w50 is not None:
-            parte.resultado.w50 = resultado_w50
-        if resultado_w51 is not None:
-            parte.resultado.w51 = resultado_w51
-        if resultado_w52 is not None:
-            parte.resultado.w52 = resultado_w52
-
-        parte.resultado.save()
-
-    return redirect('resultados:list_resultado')
+# def calculate_resultado(request):
+#     partes = Parte.objects.all()
+#
+#     for parte in partes:
+#         resultado_w14 = (parte.existencia.w14 + parte.llegada.w14) - (parte.consumonokia.w14 + parte.consumoclaro.w14)
+#         resultado_w15 = (parte.existencia.w15 + parte.llegada.w15) - (parte.consumonokia.w15 + parte.consumoclaro.w15)
+#         resultado_w16 = (parte.existencia.w16 + parte.llegada.w16) - (parte.consumonokia.w16 + parte.consumoclaro.w16)
+#         resultado_w17 = (parte.existencia.w17 + parte.llegada.w17) - (parte.consumonokia.w17 + parte.consumoclaro.w17)
+#         resultado_w18 = (parte.existencia.w18 + parte.llegada.w18) - (parte.consumonokia.w18 + parte.consumoclaro.w18)
+#         resultado_w19 = (parte.existencia.w19 + parte.llegada.w19) - (parte.consumonokia.w19 + parte.consumoclaro.w19)
+#         resultado_w20 = (parte.existencia.w20 + parte.llegada.w20) - (parte.consumonokia.w20 + parte.consumoclaro.w20)
+#         resultado_w21 = (parte.existencia.w21 + parte.llegada.w21) - (parte.consumonokia.w21 + parte.consumoclaro.w21)
+#         resultado_w22 = (parte.existencia.w22 + parte.llegada.w22) - (parte.consumonokia.w22 + parte.consumoclaro.w22)
+#         resultado_w23 = (parte.existencia.w23 + parte.llegada.w23) - (parte.consumonokia.w23 + parte.consumoclaro.w23)
+#         resultado_w24 = (parte.existencia.w24 + parte.llegada.w24) - (parte.consumonokia.w24 + parte.consumoclaro.w24)
+#         resultado_w25 = (parte.existencia.w25 + parte.llegada.w25) - (parte.consumonokia.w25 + parte.consumoclaro.w25)
+#         resultado_w26 = (parte.existencia.w26 + parte.llegada.w26) - (parte.consumonokia.w26 + parte.consumoclaro.w26)
+#         resultado_w27 = (parte.existencia.w27 + parte.llegada.w27) - (parte.consumonokia.w27 + parte.consumoclaro.w27)
+#         resultado_w28 = (parte.existencia.w28 + parte.llegada.w28) - (parte.consumonokia.w28 + parte.consumoclaro.w28)
+#         resultado_w29 = (parte.existencia.w29 + parte.llegada.w29) - (parte.consumonokia.w29 + parte.consumoclaro.w29)
+#         resultado_w30 = (parte.existencia.w30 + parte.llegada.w30) - (parte.consumonokia.w30 + parte.consumoclaro.w30)
+#         resultado_w31 = (parte.existencia.w31 + parte.llegada.w31) - (parte.consumonokia.w31 + parte.consumoclaro.w31)
+#         resultado_w32 = (parte.existencia.w32 + parte.llegada.w32) - (parte.consumonokia.w32 + parte.consumoclaro.w32)
+#         resultado_w33 = (parte.existencia.w33 + parte.llegada.w33) - (parte.consumonokia.w33 + parte.consumoclaro.w33)
+#         resultado_w34 = (parte.existencia.w34 + parte.llegada.w34) - (parte.consumonokia.w34 + parte.consumoclaro.w34)
+#         resultado_w35 = (parte.existencia.w35 + parte.llegada.w35) - (parte.consumonokia.w35 + parte.consumoclaro.w35)
+#         resultado_w36 = (parte.existencia.w36 + parte.llegada.w36) - (parte.consumonokia.w36 + parte.consumoclaro.w36)
+#         resultado_w37 = (parte.existencia.w37 + parte.llegada.w37) - (parte.consumonokia.w37 + parte.consumoclaro.w37)
+#         resultado_w38 = (parte.existencia.w38 + parte.llegada.w38) - (parte.consumonokia.w38 + parte.consumoclaro.w38)
+#         resultado_w39 = (parte.existencia.w39 + parte.llegada.w39) - (parte.consumonokia.w39 + parte.consumoclaro.w39)
+#         resultado_w40 = (parte.existencia.w40 + parte.llegada.w40) - (parte.consumonokia.w40 + parte.consumoclaro.w40)
+#         resultado_w41 = (parte.existencia.w41 + parte.llegada.w41) - (parte.consumonokia.w41 + parte.consumoclaro.w41)
+#         resultado_w42 = (parte.existencia.w42 + parte.llegada.w42) - (parte.consumonokia.w42 + parte.consumoclaro.w42)
+#         resultado_w43 = (parte.existencia.w43 + parte.llegada.w43) - (parte.consumonokia.w43 + parte.consumoclaro.w43)
+#         resultado_w44 = (parte.existencia.w44 + parte.llegada.w44) - (parte.consumonokia.w44 + parte.consumoclaro.w44)
+#         resultado_w45 = (parte.existencia.w45 + parte.llegada.w45) - (parte.consumonokia.w45 + parte.consumoclaro.w45)
+#         resultado_w46 = (parte.existencia.w46 + parte.llegada.w46) - (parte.consumonokia.w46 + parte.consumoclaro.w46)
+#         resultado_w47 = (parte.existencia.w47 + parte.llegada.w47) - (parte.consumonokia.w47 + parte.consumoclaro.w47)
+#         resultado_w48 = (parte.existencia.w48 + parte.llegada.w48) - (parte.consumonokia.w48 + parte.consumoclaro.w48)
+#         resultado_w49 = (parte.existencia.w49 + parte.llegada.w49) - (parte.consumonokia.w49 + parte.consumoclaro.w49)
+#         resultado_w50 = (parte.existencia.w50 + parte.llegada.w50) - (parte.consumonokia.w50 + parte.consumoclaro.w50)
+#         resultado_w51 = (parte.existencia.w51 + parte.llegada.w51) - (parte.consumonokia.w51 + parte.consumoclaro.w51)
+#         resultado_w52 = (parte.existencia.w52 + parte.llegada.w52) - (parte.consumonokia.w52 + parte.consumoclaro.w52)
+#
+#         parte.resultado.w14 = resultado_w14
+#         parte.resultado.w15 = resultado_w15
+#         parte.resultado.w16 = resultado_w16
+#         parte.resultado.w17 = resultado_w17
+#         parte.resultado.w18 = resultado_w18
+#         parte.resultado.w19 = resultado_w19
+#         parte.resultado.w20 = resultado_w20
+#         parte.resultado.w21 = resultado_w21
+#         parte.resultado.w22 = resultado_w22
+#         parte.resultado.w23 = resultado_w23
+#         parte.resultado.w24 = resultado_w24
+#         parte.resultado.w25 = resultado_w25
+#         parte.resultado.w26 = resultado_w26
+#         parte.resultado.w27 = resultado_w27
+#         parte.resultado.w28 = resultado_w28
+#         parte.resultado.w29 = resultado_w29
+#         parte.resultado.w30 = resultado_w30
+#         parte.resultado.w31 = resultado_w31
+#         parte.resultado.w32 = resultado_w32
+#         parte.resultado.w33 = resultado_w33
+#         parte.resultado.w34 = resultado_w34
+#         parte.resultado.w35 = resultado_w35
+#         parte.resultado.w36 = resultado_w36
+#         parte.resultado.w37 = resultado_w37
+#         parte.resultado.w38 = resultado_w38
+#         parte.resultado.w39 = resultado_w39
+#         parte.resultado.w40 = resultado_w40
+#         parte.resultado.w41 = resultado_w41
+#         parte.resultado.w42 = resultado_w42
+#         parte.resultado.w43 = resultado_w43
+#         parte.resultado.w44 = resultado_w44
+#         parte.resultado.w45 = resultado_w45
+#         parte.resultado.w46 = resultado_w46
+#         parte.resultado.w47 = resultado_w47
+#         parte.resultado.w48 = resultado_w48
+#         parte.resultado.w49 = resultado_w49
+#         parte.resultado.w50 = resultado_w50
+#         parte.resultado.w51 = resultado_w51
+#         parte.resultado.w52 = resultado_w52
+#
+#         parte.resultado.save()
+#
+#     return redirect('resultados:list_resultado')
