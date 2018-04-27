@@ -21,7 +21,7 @@ DESPACHO_SOLICITADO = 'Despacho_Solicitado'
 
 class HwActividad(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='hw_actividades')
-    proyeccion = models.OneToOneField(Proyeccion, on_delete=models.CASCADE)
+    proyeccion = models.OneToOneField(Proyeccion, on_delete=models.CASCADE, blank=True, null=True)
     parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='hw_actividades', blank=True, null=True)
     lsm = models.CharField(max_length=255, choices=choices.LSM_CHOICES, blank=True, null=True)
     calculo_hw = models.CharField(max_length=255, choices=choices.CALCULO_HW_CHOICES, default=SI, blank=True, null=True)

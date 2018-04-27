@@ -13,6 +13,8 @@ TODAY = timezone.now().date()
 # TODAY = datetime.date.today()
 TOMORROW = timezone.now() + datetime.timedelta(1)
 
+SI = 'Si'
+
 def create_proyeccion_one(request):
     # if request.headers["X-Appengine-Cron"]:
     hw_proyecciones = HwProyeccion.objects.filter(id__gte=0, id__lt=150000)
@@ -21,7 +23,7 @@ def create_proyeccion_one(request):
 
     for hw_proyeccion in hw_proyecciones:
         try:
-            proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
+            proyeccion = Proyeccion.objects.get(hw_proyeccion=hw_proyeccion.id)
         except Proyeccion.DoesNotExist:
             try:
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
@@ -171,6 +173,7 @@ def create_proyeccion_three(request):
 
     for hw_proyeccion in hw_proyecciones:
         try:
+            print(hw_proyeccion.id)
             proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
         except Proyeccion.DoesNotExist:
             try:
@@ -384,9 +387,30 @@ def update_proyeccion(request):
 
     return HttpResponse(status=204)
 
+# def delete_proyeccion(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     Proyeccion.objects.all().delete()
+#
+#     return HttpResponse(status=204)
+
 def delete_proyeccion(request):
-    # if request.headers["X-Appengine-Cron"]:
-    Proyeccion.objects.all().delete()
+    proyecciones = Proyeccion.objects.all()
+    hw_proyecciones = HwProyeccion.objects.all()
+
+    list_proyecciones = []
+    list_hw_proyecciones = []
+
+    for proyeccion in proyecciones:
+        list_proyecciones.append(proyeccion.hw_proyeccion)
+
+    for hw_proyeccion in hw_proyecciones:
+        list_hw_proyecciones.append(hw_proyeccion.id)
+
+    for id in list_proyecciones:
+        if id in list_hw_proyecciones:
+            pass
+        else:
+            Proyeccion.objects.filter(id=id).delete()
 
     return HttpResponse(status=204)
 
@@ -482,45 +506,45 @@ def calculate_consumo_nokia(request):
     partes = Parte.objects.all()
 
     for parte in partes:
-        consumo_w14 = HwActividad.objects.filter(estacion__w_fc_sal=14, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w15 = HwActividad.objects.filter(estacion__w_fc_sal=15, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w16 = HwActividad.objects.filter(estacion__w_fc_sal=16, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w17 = HwActividad.objects.filter(estacion__w_fc_sal=17, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w18 = HwActividad.objects.filter(estacion__w_fc_sal=18, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w19 = HwActividad.objects.filter(estacion__w_fc_sal=19, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w20 = HwActividad.objects.filter(estacion__w_fc_sal=20, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w21 = HwActividad.objects.filter(estacion__w_fc_sal=21, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w22 = HwActividad.objects.filter(estacion__w_fc_sal=22, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w23 = HwActividad.objects.filter(estacion__w_fc_sal=23, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w24 = HwActividad.objects.filter(estacion__w_fc_sal=24, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w25 = HwActividad.objects.filter(estacion__w_fc_sal=25, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w26 = HwActividad.objects.filter(estacion__w_fc_sal=26, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w27 = HwActividad.objects.filter(estacion__w_fc_sal=27, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w28 = HwActividad.objects.filter(estacion__w_fc_sal=28, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w29 = HwActividad.objects.filter(estacion__w_fc_sal=29, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w30 = HwActividad.objects.filter(estacion__w_fc_sal=30, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w31 = HwActividad.objects.filter(estacion__w_fc_sal=31, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w32 = HwActividad.objects.filter(estacion__w_fc_sal=32, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w33 = HwActividad.objects.filter(estacion__w_fc_sal=33, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w34 = HwActividad.objects.filter(estacion__w_fc_sal=34, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w35 = HwActividad.objects.filter(estacion__w_fc_sal=35, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w36 = HwActividad.objects.filter(estacion__w_fc_sal=36, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w37 = HwActividad.objects.filter(estacion__w_fc_sal=37, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w38 = HwActividad.objects.filter(estacion__w_fc_sal=38, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w39 = HwActividad.objects.filter(estacion__w_fc_sal=39, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w40 = HwActividad.objects.filter(estacion__w_fc_sal=40, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w41 = HwActividad.objects.filter(estacion__w_fc_sal=41, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w42 = HwActividad.objects.filter(estacion__w_fc_sal=42, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w43 = HwActividad.objects.filter(estacion__w_fc_sal=43, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w44 = HwActividad.objects.filter(estacion__w_fc_sal=44, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w45 = HwActividad.objects.filter(estacion__w_fc_sal=45, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w46 = HwActividad.objects.filter(estacion__w_fc_sal=46, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w47 = HwActividad.objects.filter(estacion__w_fc_sal=47, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w48 = HwActividad.objects.filter(estacion__w_fc_sal=48, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w49 = HwActividad.objects.filter(estacion__w_fc_sal=49, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w50 = HwActividad.objects.filter(estacion__w_fc_sal=50, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w51 = HwActividad.objects.filter(estacion__w_fc_sal=51, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
-        consumo_w52 = HwActividad.objects.filter(estacion__w_fc_sal=52, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w14 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=14, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w15 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=15, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w16 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=16, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w17 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=17, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w18 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=18, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w19 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=19, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w20 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=20, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w21 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=21, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w22 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=22, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w23 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=23, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w24 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=24, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w25 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=25, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w26 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=26, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w27 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=27, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w28 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=28, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w29 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=29, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w30 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=30, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w31 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=31, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w32 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=32, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w33 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=33, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w34 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=34, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w35 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=35, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w36 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=36, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w37 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=37, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w38 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=38, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w39 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=39, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w40 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=40, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w41 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=41, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w42 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=42, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w43 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=43, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w44 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=44, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w45 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=45, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w46 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=46, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w47 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=47, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w48 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=48, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w49 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=49, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w50 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=50, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w51 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=51, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
+        consumo_w52 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=52, parte=parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
 
         if consumo_w14 is not None:
             parte.consumonokia.w14 = consumo_w14
