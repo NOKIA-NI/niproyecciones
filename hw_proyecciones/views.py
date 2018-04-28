@@ -15,15 +15,15 @@ TOMORROW = timezone.now() + datetime.timedelta(1)
 
 SI = 'Si'
 
-def create_proyeccion_one(request):
+def create_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.filter(id__gte=0, id__lt=150000)
+    hw_proyecciones = HwProyeccion.objects.all()
     # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
     proyecciones = Proyeccion.objects.all()
 
     for hw_proyeccion in hw_proyecciones:
         try:
-            proyeccion = Proyeccion.objects.get(hw_proyeccion=hw_proyeccion.id)
+            proyeccion = Proyeccion.objects.get(id=hw_proyeccion.id)
         except Proyeccion.DoesNotExist:
             try:
                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
@@ -44,7 +44,7 @@ def create_proyeccion_one(request):
                         parte_nokia=hw_proyeccion.parte,
                     )
                 proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
+                    id=hw_proyeccion.id,
                     estacion=estacion,
                     proyecto=hw_proyeccion.proyecto,
                     escenario=hw_proyeccion.escenario,
@@ -76,7 +76,7 @@ def create_proyeccion_one(request):
                         parte_nokia=hw_proyeccion.parte,
                     )
                 proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
+                    id=hw_proyeccion.id,
                     estacion=estacion,
                     proyecto=hw_proyeccion.proyecto,
                     escenario=hw_proyeccion.escenario,
@@ -90,231 +90,305 @@ def create_proyeccion_one(request):
 
     return HttpResponse(status=204)
 
-def create_proyeccion_two(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.filter(id__gte=150000, id__lt=300000)
-    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
-    proyecciones = Proyeccion.objects.all()
+# def create_proyeccion_one(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     hw_proyecciones = HwProyeccion.objects.filter(id__gte=0, id__lt=150000)
+#     # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+#     proyecciones = Proyeccion.objects.all()
+#
+#     for hw_proyeccion in hw_proyecciones:
+#         try:
+#             proyeccion = Proyeccion.objects.get(id=hw_proyeccion.id)
+#         except Proyeccion.DoesNotExist:
+#             try:
+#                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#             except Estacion.DoesNotExist:
+#                 estacion = Estacion.objects.create(
+#                     site_name=hw_proyeccion.siteName,
+#                 )
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#
+#     return HttpResponse(status=204)
 
-    for hw_proyeccion in hw_proyecciones:
-        try:
-            proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
-        except Proyeccion.DoesNotExist:
-            try:
-                estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
-            except Estacion.DoesNotExist:
-                estacion = Estacion.objects.create(
-                    site_name=hw_proyeccion.siteName,
-                )
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
+# def create_proyeccion_two(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     hw_proyecciones = HwProyeccion.objects.filter(id__gte=150000, id__lt=300000)
+#     # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+#     proyecciones = Proyeccion.objects.all()
+#
+#     for hw_proyeccion in hw_proyecciones:
+#         try:
+#             proyeccion = proyecciones.get(id=hw_proyeccion.id)
+#         except Proyeccion.DoesNotExist:
+#             try:
+#                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#             except Estacion.DoesNotExist:
+#                 estacion = Estacion.objects.create(
+#                     site_name=hw_proyeccion.siteName,
+#                 )
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#
+#     return HttpResponse(status=204)
 
-    return HttpResponse(status=204)
+# def create_proyeccion_three(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     hw_proyecciones = HwProyeccion.objects.filter(id__gte=300000, id__lt=400000)
+#     # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+#     proyecciones = Proyeccion.objects.all()
+#
+#     for hw_proyeccion in hw_proyecciones:
+#         try:
+#             proyeccion = proyecciones.get(id=hw_proyeccion.id)
+#         except Proyeccion.DoesNotExist:
+#             try:
+#                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#             except Estacion.DoesNotExist:
+#                 estacion = Estacion.objects.create(
+#                     site_name=hw_proyeccion.siteName,
+#                 )
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#
+#     return HttpResponse(status=204)
 
-def create_proyeccion_three(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.filter(id__gte=300000, id__lt=400000)
-    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
-    proyecciones = Proyeccion.objects.all()
-
-    for hw_proyeccion in hw_proyecciones:
-        try:
-            print(hw_proyeccion.id)
-            proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
-        except Proyeccion.DoesNotExist:
-            try:
-                estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
-            except Estacion.DoesNotExist:
-                estacion = Estacion.objects.create(
-                    site_name=hw_proyeccion.siteName,
-                )
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
-
-    return HttpResponse(status=204)
-
-def create_proyeccion_four(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_proyecciones = HwProyeccion.objects.filter(id__gte=400000, id__lt=800000)
-    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
-    proyecciones = Proyeccion.objects.all()
-
-    for hw_proyeccion in hw_proyecciones:
-        try:
-            proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
-        except Proyeccion.DoesNotExist:
-            try:
-                estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
-            except Estacion.DoesNotExist:
-                estacion = Estacion.objects.create(
-                    site_name=hw_proyeccion.siteName,
-                )
-                try:
-                    parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
-                    if parte.parte_nokia == 'AISG_4MTS':
-                        parte = Parte.objects.get(parte_nokia='AISG_5MTS')
-                    if parte.parte_nokia == 'FPCC':
-                        parte = Parte.objects.get(parte_nokia='FPCA')
-                    if parte.parte_nokia == 'FPBA':
-                        parte = Parte.objects.get(parte_nokia='FPBB')
-                    if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
-                        parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
-                    if parte.parte_nokia == 'FMCF':
-                        parte = Parte.objects.get(parte_nokia='FMCA')
-                except Parte.DoesNotExist:
-                    parte = Parte.objects.create(
-                        parte_nokia=hw_proyeccion.parte,
-                    )
-                proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
-                    estacion=estacion,
-                    proyecto=hw_proyeccion.proyecto,
-                    escenario=hw_proyeccion.escenario,
-                    banda=hw_proyeccion.banda,
-                    agrupadores=hw_proyeccion.agrupadores,
-                    rfe=hw_proyeccion.rfe,
-                    parte=parte,
-                    estado_proyeccion=hw_proyeccion.estado,
-                    cantidad_estimada=hw_proyeccion.cantidad_estimada,
-                )
-
-    return HttpResponse(status=204)
+# def create_proyeccion_four(request):
+#     # if request.headers["X-Appengine-Cron"]:
+#     hw_proyecciones = HwProyeccion.objects.filter(id__gte=400000, id__lt=800000)
+#     # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+#     proyecciones = Proyeccion.objects.all()
+#
+#     for hw_proyeccion in hw_proyecciones:
+#         try:
+#             proyeccion = proyecciones.get(id=hw_proyeccion.id)
+#         except Proyeccion.DoesNotExist:
+#             try:
+#                 estacion = Estacion.objects.get(site_name__iexact=hw_proyeccion.siteName)
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#             except Estacion.DoesNotExist:
+#                 estacion = Estacion.objects.create(
+#                     site_name=hw_proyeccion.siteName,
+#                 )
+#                 try:
+#                     parte = Parte.objects.get(parte_nokia__iexact=hw_proyeccion.parte)
+#                     if parte.parte_nokia == 'AISG_4MTS':
+#                         parte = Parte.objects.get(parte_nokia='AISG_5MTS')
+#                     if parte.parte_nokia == 'FPCC':
+#                         parte = Parte.objects.get(parte_nokia='FPCA')
+#                     if parte.parte_nokia == 'FPBA':
+#                         parte = Parte.objects.get(parte_nokia='FPBB')
+#                     if parte.parte_nokia == 'J_MR_MA_8MTS_SUPERCLASS':
+#                         parte = Parte.objects.get(parte_nokia='J_MR_MA_8MTS_DCLASS')
+#                     if parte.parte_nokia == 'FMCF':
+#                         parte = Parte.objects.get(parte_nokia='FMCA')
+#                 except Parte.DoesNotExist:
+#                     parte = Parte.objects.create(
+#                         parte_nokia=hw_proyeccion.parte,
+#                     )
+#                 proyeccion = Proyeccion.objects.create(
+#                     id=hw_proyeccion.id,
+#                     estacion=estacion,
+#                     proyecto=hw_proyeccion.proyecto,
+#                     escenario=hw_proyeccion.escenario,
+#                     banda=hw_proyeccion.banda,
+#                     agrupadores=hw_proyeccion.agrupadores,
+#                     rfe=hw_proyeccion.rfe,
+#                     parte=parte,
+#                     estado_proyeccion=hw_proyeccion.estado,
+#                     cantidad_estimada=hw_proyeccion.cantidad_estimada,
+#                 )
+#
+#     return HttpResponse(status=204)
 
 def update_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
@@ -323,7 +397,7 @@ def update_proyeccion(request):
     proyecciones = Proyeccion.objects.all()
     for hw_proyeccion in hw_proyecciones:
         try:
-            proyeccion = proyecciones.get(hw_proyeccion=hw_proyeccion.id)
+            proyeccion = proyecciones.get(id=hw_proyeccion.id)
             if proyeccion.proyecto != hw_proyeccion.proyecto or \
                 proyeccion.escenario != hw_proyeccion.escenario or \
                 proyeccion.banda != hw_proyeccion.banda or \
@@ -351,7 +425,7 @@ def update_proyeccion(request):
                         parte_nokia=hw_proyeccion.parte,
                     )
                 proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
+                    id=hw_proyeccion.id,
                     estacion=estacion,
                     proyecto=hw_proyeccion.proyecto,
                     escenario=hw_proyeccion.escenario,
@@ -373,7 +447,7 @@ def update_proyeccion(request):
                         parte_nokia=hw_proyeccion.parte,
                     )
                 proyeccion = Proyeccion.objects.create(
-                    hw_proyeccion=hw_proyeccion.id,
+                    id=hw_proyeccion.id,
                     estacion=estacion,
                     proyecto=hw_proyeccion.proyecto,
                     escenario=hw_proyeccion.escenario,
@@ -401,7 +475,7 @@ def delete_proyeccion(request):
     list_hw_proyecciones = []
 
     for proyeccion in proyecciones:
-        list_proyecciones.append(proyeccion.hw_proyeccion)
+        list_proyecciones.append(proyeccion.id)
 
     for hw_proyeccion in hw_proyecciones:
         list_hw_proyecciones.append(hw_proyeccion.id)
@@ -410,7 +484,10 @@ def delete_proyeccion(request):
         if id in list_hw_proyecciones:
             pass
         else:
-            Proyeccion.objects.filter(id=id).delete()
+            try:
+                Proyeccion.objects.get(id=id).delete()
+            except Proyeccion.DoesNotExist:
+                pass
 
     return HttpResponse(status=204)
 
@@ -434,7 +511,7 @@ def delete_proyeccion(request):
 #     proyecciones = Proyeccion.objects.all()
 #
 #     for hw_proyeccion in hw_proyecciones:
-#             proyecciones = proyecciones.exclude(hw_proyeccion=hw_proyeccion.id)
+#             proyecciones = proyecciones.exclude(id=hw_proyeccion.id)
 #             print('found', proyecciones.count())
 #     proyecciones.delete()
 #

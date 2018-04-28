@@ -7,7 +7,7 @@ from partes.models import Parte
 from hw_proyecciones.models import HwProyeccion
 
 class Proyeccion(models.Model):
-    hw_proyeccion = models.IntegerField(blank=True, null=True)
+    id = models.IntegerField(primary_key=True)
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='proyecciones')
     proyecto = models.CharField(max_length=255, blank=True, null=True)
     escenario = models.CharField(max_length=255, blank=True, null=True)
@@ -27,7 +27,6 @@ class Proyeccion(models.Model):
         ordering = ('creado',)
         verbose_name = 'proyeccion'
         verbose_name_plural = 'proyecciones'
-        unique_together = ('id', 'hw_proyeccion')
 
     def __str__(self):
         return str(self.id)

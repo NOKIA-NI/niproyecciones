@@ -13,7 +13,6 @@ class ProyeccionAdmin(ImportExportModelAdmin):
     resource_class = ProyeccionResource
     list_display = (
     'id',
-    'hw_proyeccion',
     'estacion',
     'proyecto',
     'escenario',
@@ -29,4 +28,4 @@ class ProyeccionAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'hw_proyeccion', 'estacion__site_name']
+    search_fields = ['id', 'estacion__site_name']
