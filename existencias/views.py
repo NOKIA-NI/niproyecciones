@@ -20,6 +20,9 @@ from django.utils import timezone
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
+WEEKDAY = TODAY.weekday()
+# if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
+#     WEEK = WEEK + 1
 
 class ListExistencia(LoginRequiredMixin, ListView):
     login_url = 'users:home'
@@ -32,6 +35,11 @@ class ListExistencia(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListExistencia, self).get_context_data(**kwargs)
+        weeks = list(range(14, 53))
+        week = WEEK
+        fields = [week for week in weeks if week >= WEEK]
+        context['fields'] = fields
+        context['week'] = week
         context['items'] = self.get_queryset
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')

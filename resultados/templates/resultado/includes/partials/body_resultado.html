@@ -2,43 +2,121 @@
   <td>{{ object.id }}</td>
   <td>{{ object.parte }}</td>
   <td>{{ object.grupo_parte }}</td>
-  <td{%if object.w14 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w14 }}</td>
-  <td{%if object.w15 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w15 }}</td>
-  <td{%if object.w16 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w16 }}</td>
-  <td{%if object.w17 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w17 }}</td>
-  <td{%if object.w18 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w18 }}</td>
-  <td{%if object.w19 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w19 }}</td>
-  <td{%if object.w20 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w20 }}</td>
-  <td{%if object.w21 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w21 }}</td>
-  <td{%if object.w22 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w22 }}</td>
-  <td{%if object.w23 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w23 }}</td>
-  <td{%if object.w24 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w24 }}</td>
-  <td{%if object.w25 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w25 }}</td>
-  <td{%if object.w26 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w26 }}</td>
-  <td{%if object.w27 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w27 }}</td>
-  <td{%if object.w28 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w28 }}</td>
-  <td{%if object.w29 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w29 }}</td>
-  <td{%if object.w30 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w30 }}</td>
-  <td{%if object.w31 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w31 }}</td>
-  <td{%if object.w32 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w32 }}</td>
-  <td{%if object.w33 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w33 }}</td>
-  <td{%if object.w34 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w34 }}</td>
-  <td{%if object.w35 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w35 }}</td>
-  <td{%if object.w36 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w36 }}</td>
-  <td{%if object.w37 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w37 }}</td>
-  <td{%if object.w38 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w38 }}</td>
-  <td{%if object.w39 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w39 }}</td>
-  <td{%if object.w40 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w40 }}</td>
-  <td{%if object.w41 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w41 }}</td>
-  <td{%if object.w42 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w42 }}</td>
-  <td{%if object.w43 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w43 }}</td>
-  <td{%if object.w44 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w44 }}</td>
-  <td{%if object.w45 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w45 }}</td>
-  <td{%if object.w46 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w46 }}</td>
-  <td{%if object.w47 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w47 }}</td>
-  <td{%if object.w48 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w48 }}</td>
-  <td{%if object.w49 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w49 }}</td>
-  <td{%if object.w50 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w50 }}</td>
-  <td{%if object.w51 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w51 }}</td>
-  <td{%if object.w52 < 0 %} class="bg-danger" {% else %} {% endif %}>{{ object.w52 }}</td>
+  {% if 14 >= week %}
+  <td{%if object.w14 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w14 }}</td>
+  {% endif %}
+  {% if 15 >= week %}
+  <td{%if object.w15 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w15 }}</td>
+  {% endif %}
+  {% if 16 >= week %}
+  <td{%if object.w16 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w16 }}</td>
+  {% endif %}
+  {% if 17 >= week %}
+  <td{%if object.w17 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w17 }}</td>
+  {% endif %}
+  {% if 18 >= week %}
+  <td{%if object.w18 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w18 }}</td>
+  {% endif %}
+  {% if 19 >= week %}
+  <td{%if object.w19 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w19 }}</td>
+  {% endif %}
+  {% if 20 >= week %}
+  <td{%if object.w20 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w20 }}</td>
+  {% endif %}
+  {% if 21 >= week %}
+  <td{%if object.w21 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w21 }}</td>
+  {% endif %}
+  {% if 22 >= week %}
+  <td{%if object.w22 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w22 }}</td>
+  {% endif %}
+  {% if 23 >= week %}
+  <td{%if object.w23 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w23 }}</td>
+  {% endif %}
+  {% if 24 >= week %}
+  <td{%if object.w24 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w24 }}</td>
+  {% endif %}
+  {% if 25 >= week %}
+  <td{%if object.w25 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w25 }}</td>
+  {% endif %}
+  {% if 26 >= week %}
+  <td{%if object.w26 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w26 }}</td>
+  {% endif %}
+  {% if 27 >= week %}
+  <td{%if object.w27 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w27 }}</td>
+  {% endif %}
+  {% if 28 >= week %}
+  <td{%if object.w28 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w28 }}</td>
+  {% endif %}
+  {% if 29 >= week %}
+  <td{%if object.w29 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w29 }}</td>
+  {% endif %}
+  {% if 30 >= week %}
+  <td{%if object.w30 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w30 }}</td>
+  {% endif %}
+  {% if 31 >= week %}
+  <td{%if object.w31 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w31 }}</td>
+  {% endif %}
+  {% if 32 >= week %}
+  <td{%if object.w32 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w32 }}</td>
+  {% endif %}
+  {% if 33 >= week %}
+  <td{%if object.w33 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w33 }}</td>
+  {% endif %}
+  {% if 34 >= week %}
+  <td{%if object.w34 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w34 }}</td>
+  {% endif %}
+  {% if 35 >= week %}
+  <td{%if object.w35 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w35 }}</td>
+  {% endif %}
+  {% if 36 >= week %}
+  <td{%if object.w36 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w36 }}</td>
+  {% endif %}
+  {% if 37 >= week %}
+  <td{%if object.w37 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w37 }}</td>
+  {% endif %}
+  {% if 38 >= week %}
+  <td{%if object.w38 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w38 }}</td>
+  {% endif %}
+  {% if 39 >= week %}
+  <td{%if object.w39 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w39 }}</td>
+  {% endif %}
+  {% if 40 >= week %}
+  <td{%if object.w40 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w40 }}</td>
+  {% endif %}
+  {% if 41 >= week %}
+  <td{%if object.w41 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w41 }}</td>
+  {% endif %}
+  {% if 42 >= week %}
+  <td{%if object.w42 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w42 }}</td>
+  {% endif %}
+  {% if 43 >= week %}
+  <td{%if object.w43 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w43 }}</td>
+  {% endif %}
+  {% if 44 >= week %}
+  <td{%if object.w44 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w44 }}</td>
+  {% endif %}
+  {% if 45 >= week %}
+  <td{%if object.w45 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w45 }}</td>
+  {% endif %}
+  {% if 46 >= week %}
+  <td{%if object.w46 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w46 }}</td>
+  {% endif %}
+  {% if 47 >= week %}
+  <td{%if object.w47 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w47 }}</td>
+  {% endif %}
+  {% if 48 >= week %}
+  <td{%if object.w48 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w48 }}</td>
+  {% endif %}
+  {% if 49 >= week %}
+  <td{%if object.w49 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w49 }}</td>
+  {% endif %}
+  {% if 50 >= week %}
+  <td{%if object.w50 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w50 }}</td>
+  {% endif %}
+  {% if 51 >= week %}
+  <td{%if object.w51 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w51 }}</td>
+  {% endif %}
+  {% if 52 >= week %}
+  <td{%if object.w52 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w52 }}</td>
+  {% endif %}
 </tr>

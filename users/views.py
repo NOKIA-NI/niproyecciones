@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import (
@@ -13,6 +13,11 @@ from django.contrib.auth.models import User
 
 class HomeView(TemplateView):
     template_name = 'users/home.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('dashboard/dashboard')
+        return super(HomeView, self).get(request, *args, **kwargs)
 
 class Login(FormView):
     form_class = LoginForm

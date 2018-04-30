@@ -40,53 +40,69 @@ function search_url (form) {
     form.action = ''
   }
 }
-var dataImpactos = [];
-var dataImpactosOne = [];
-var dataImpactosTwo = [];
-var dataImpactosThree = [];
-var dataImpactosAccesorio = [];
-var dataImpactosModulo = [];
-var dataImpactosAntena = [];
-var labels = []
 
-var ImpactosAccesorioChart;
-var ImpactosModuloChart;
-var ImpactosAntenaChart;
+var labels = []
+var dataImpactos = [];
+var dataImpactosAccesorios = [];
+var dataImpactosModulos = [];
+var dataImpactosAntenas = [];
+var dataImpactosParteFcImp = [];
+var dataImpactosParteFcSal = [];
+
+var ImpactosChart;
+var ImpactosGrupoParteChart;
+var ImpactosParteChart;
 
 $.ajax({
   method: 'GET',
-  url: '/dashboard/get/data',
+  url: '/dashboard/impactos',
   success: function(data){
     labels = data.labels
     dataImpactos = data.impactos
-    dataImpactosOne = data.impactos_one
-    dataImpactosTwo = data.impactos_two
-    dataImpactosThree = data.impactos_three
     Impactos()
-    ImpactosGrupoParte()
-    ImpactosAccesorio()
-    ImpactosModulo()
-    ImpactosAntena()
+    ImpactosParte()
   },
   error: function(error){
   }
 })
 
+$("#w_fc_impacto").change(function () {
+  var w_fc = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/impactos',
+    data: {
+        'w_fc': w_fc
+      },
+    dataType: 'json',
+    success: function(data){
+      if (typeof ImpactosChart !== "undefined") {
+        ImpactosChart.destroy();
+      }
+      labels = data.labels
+      dataImpactos = data.impactos
+      Impactos()
+    },
+    error: function(error){
+    }
+  })
+})
+
 function Impactos() {
   var ctx = document.getElementById("impactos");
-  var ImpactosChart = new Chart(ctx, {
+  ImpactosChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
         label: 'Estaciones - Impactos',
-				backgroundColor: '#17a2b8',
+				backgroundColor: '#2196F3',
         data: dataImpactos,
         lineTension: 0,
-        backgroundColor: '#17a2b8',
-        borderColor: '#17a2b8',
+        backgroundColor: '#2196F3',
+        borderColor: '#2196F3',
         borderWidth: 4,
-        pointBackgroundColor: '#17a2b8'
+        pointBackgroundColor: '#2196F3'
       }
     ]
     },
@@ -127,41 +143,79 @@ function Impactos() {
   });
 }
 
+$.ajax({
+  method: 'GET',
+  url: '/dashboard/impactos/grupo/parte',
+  success: function(data){
+    labels = data.labels
+    dataImpactosAccesorios = data.impactos_accesorios
+    dataImpactosModulos = data.impactos_modulos
+    dataImpactosAntenas = data.impactos_antenas
+    ImpactosGrupoParte()
+  },
+  error: function(error){
+  }
+})
+
+$("#w_fc_grupo_parte").change(function () {
+  var w_fc = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/impactos/grupo/parte',
+    data: {
+        'w_fc': w_fc
+      },
+    dataType: 'json',
+    success: function(data){
+      if (typeof ImpactosGrupoParteChart !== "undefined") {
+        ImpactosGrupoParteChart.destroy();
+      }
+      labels = data.labels
+      dataImpactosAccesorios = data.impactos_accesorios
+      dataImpactosModulos = data.impactos_modulos
+      dataImpactosAntenas = data.impactos_antenas
+      ImpactosGrupoParte()
+    },
+    error: function(error){
+    }
+  })
+})
+
 function ImpactosGrupoParte() {
   var ctx = document.getElementById("impactosGrupoParte");
-  var ImpactosGrupoParteChart = new Chart(ctx, {
+  ImpactosGrupoParteChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
         label: 'Estaciones - Accesorios',
-				backgroundColor: '#ffc107',
-        data: dataImpactosOne,
+				backgroundColor: '#4CAF50',
+        data: dataImpactosAccesorios,
         lineTension: 0,
-        backgroundColor: '#ffc107',
-        borderColor: '#ffc107',
+        backgroundColor: '#4CAF50',
+        borderColor: '#4CAF50',
         borderWidth: 4,
-        pointBackgroundColor: '#ffc107'
+        pointBackgroundColor: '#4CAF50'
       },
       {
         label: 'Estaciones - Modulos',
-				backgroundColor: '#28a745',
-        data: dataImpactosTwo,
+				backgroundColor: '#FF9800',
+        data: dataImpactosModulos,
         lineTension: 0,
-        backgroundColor: '#28a745',
-        borderColor: '#28a745',
+        backgroundColor: '#FF9800',
+        borderColor: '#FF9800',
         borderWidth: 4,
-        pointBackgroundColor: '#28a745'
+        pointBackgroundColor: '#FF9800'
       },
       {
         label: 'Estaciones - Antenas Y Otros',
-				backgroundColor: '#dc3545',
-        data: dataImpactosThree,
+				backgroundColor: '#F44336',
+        data: dataImpactosAntenas,
         lineTension: 0,
-        backgroundColor: '#dc3545',
-        borderColor: '#dc3545',
+        backgroundColor: '#F44336',
+        borderColor: '#F44336',
         borderWidth: 4,
-        pointBackgroundColor: '#dc3545'
+        pointBackgroundColor: '#F44336'
       }
     ]
     },
@@ -202,206 +256,103 @@ $("#accesorio").change(function () {
   var parte = $(this).val()
   $.ajax({
     method: 'GET',
-    url: '/dashboard/get/data',
+    url: '/dashboard/impactos/parte',
     data: {
         'parte': parte
       },
     dataType: 'json',
     success: function(data){
-      if (typeof ImpactosAccesorioChart !== "undefined") {
-        ImpactosAccesorioChart.data.labels.pop();
-        ImpactosAccesorioChart.data.datasets.pop();
-        ImpactosAccesorioChart.update();
+      if (typeof ImpactosParteChart !== "undefined") {
+        ImpactosParteChart.destroy();
       }
       labels = data.labels
-      dataImpactosAccesorio = data.impactos_filter
-      ImpactosAccesorio()
+      dataImpactosParteFcImp = data.impactos_parte_fc_imp
+      dataImpactosParteFcSal = data.impactos_parte_fc_sal
+      ImpactosParte()
     },
     error: function(error){
     }
   })
 })
-
-function ImpactosAccesorio() {
-  var ctx = document.getElementById("ImpactosAccesorio");
-  ImpactosAccesorioChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Estaciones - Accesorios',
-				backgroundColor: '#17a2b8',
-        data: dataImpactosAccesorio,
-        lineTension: 0,
-        backgroundColor: '#17a2b8',
-        borderColor: '#17a2b8',
-        borderWidth: 4,
-        pointBackgroundColor: '#17a2b8'
-      }
-    ]
-    },
-    options: {
-      title: {
-						display: true,
-						text: 'Proyeccion Impactos [ Estaciones - Accesorios ]'
-					},
-      tooltips: {
-						mode: 'index',
-						intersect: false
-					},
-      responsive: true,
-      scales: {
-        xAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
-          scaleLabel: {
-						display: true,
-						labelString: 'Semanas'
-					}
-				}],
-				yAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
-          scaleLabel: {
-						display: true,
-						labelString: 'Estaciones'
-					}
-				}]
-      },
-      legend: {
-        display: false,
-      }
-    }
-  });
-}
 
 $("#modulo").change(function () {
   var parte = $(this).val()
   $.ajax({
     method: 'GET',
-    url: '/dashboard/get/data',
+    url: '/dashboard/impactos/parte',
     data: {
         'parte': parte
       },
     dataType: 'json',
     success: function(data){
-      if (typeof ImpactosModuloChart !== "undefined") {
-        ImpactosModuloChart.data.labels.pop();
-        ImpactosModuloChart.data.datasets.pop();
-        ImpactosModuloChart.update();
+      if (typeof ImpactosParteChart !== "undefined") {
+        ImpactosParteChart.destroy();
       }
       labels = data.labels
-      dataImpactosModulo = data.impactos_filter
-      ImpactosModulo()
+      dataImpactosParteFcImp = data.impactos_parte_fc_imp
+      dataImpactosParteFcSal = data.impactos_parte_fc_sal
+      ImpactosParte()
     },
     error: function(error){
     }
   })
 })
-
-function ImpactosModulo() {
-  var ctx = document.getElementById("ImpactosModulo");
-  ImpactosModuloChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Estaciones - Modulos',
-				backgroundColor: '#17a2b8',
-        data: dataImpactosModulo,
-        lineTension: 0,
-        backgroundColor: '#17a2b8',
-        borderColor: '#17a2b8',
-        borderWidth: 4,
-        pointBackgroundColor: '#17a2b8'
-      }
-    ]
-    },
-    options: {
-      title: {
-						display: true,
-						text: 'Proyeccion Impactos [ Estaciones - Modulos ]'
-					},
-      tooltips: {
-						mode: 'index',
-						intersect: false
-					},
-      responsive: true,
-      scales: {
-        xAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
-          scaleLabel: {
-						display: true,
-						labelString: 'Semanas'
-					}
-				}],
-				yAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
-          scaleLabel: {
-						display: true,
-						labelString: 'Estaciones'
-					}
-				}]
-      },
-      legend: {
-        display: false,
-      }
-    }
-  });
-}
 
 $("#antena").change(function () {
   var parte = $(this).val()
   $.ajax({
     method: 'GET',
-    url: '/dashboard/get/data',
+    url: '/dashboard/impactos/parte',
     data: {
         'parte': parte
       },
     dataType: 'json',
     success: function(data){
-      if (typeof ImpactosAntenaChart !== "undefined") {
-        ImpactosAntenaChart.data.labels.pop();
-        ImpactosAntenaChart.data.datasets.pop();
-        ImpactosAntenaChart.update();
+      if (typeof ImpactosParteChart !== "undefined") {
+        ImpactosParteChart.destroy();
       }
       labels = data.labels
-      dataImpactosAntena = data.impactos_filter
-      ImpactosAntena()
+      dataImpactosParteFcImp = data.impactos_parte_fc_imp
+      dataImpactosParteFcSal = data.impactos_parte_fc_sal
+      ImpactosParte()
     },
     error: function(error){
     }
   })
 })
 
-function ImpactosAntena() {
-  var ctx = document.getElementById("ImpactosAntena");
-  ImpactosAntenaChart = new Chart(ctx, {
+function ImpactosParte() {
+  var ctx = document.getElementById("ImpactosParte");
+  ImpactosParteChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones - Antenas y Otros',
-				backgroundColor: '#17a2b8',
-        data: dataImpactosAntena,
+        label: 'Estaciones - Impactos - Parte - fc imp',
+				backgroundColor: '#2196F3',
+        data: dataImpactosParteFcImp,
         lineTension: 0,
-        backgroundColor: '#17a2b8',
-        borderColor: '#17a2b8',
+        backgroundColor: '#2196F3',
+        borderColor: '#2196F3',
         borderWidth: 4,
-        pointBackgroundColor: '#17a2b8'
+        pointBackgroundColor: '#2196F3'
+      },
+      {
+        label: 'Estaciones - Impactos - Parte - fc sal',
+				backgroundColor: '#4CAF50',
+        data: dataImpactosParteFcSal,
+        lineTension: 0,
+        backgroundColor: '#4CAF50',
+        borderColor: '#4CAF50',
+        borderWidth: 4,
+        pointBackgroundColor: '#4CAF50'
       }
     ]
     },
     options: {
       title: {
 						display: true,
-						text: 'Proyeccion Impactos [ Estaciones - Antenas y Otros ]'
+						text: 'Proyeccion Impactos [ Estaciones - Impactos - Parte ]'
 					},
       tooltips: {
 						mode: 'index',
@@ -429,7 +380,7 @@ function ImpactosAntena() {
 				}]
       },
       legend: {
-        display: false,
+        display: true,
       }
     }
   });
