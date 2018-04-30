@@ -6,6 +6,15 @@ $('#sidebar-toggle').on('click', function (event) {
   $('#nav_dasboard').toggleClass('content_nav');
 });
 
+$('#controlPartesClose').hide()
+$('#controlPartes').on('shown.bs.collapse', function() {
+  $('#controlPartesOpen').hide()
+  $('#controlPartesClose').show()
+   }).on('hidden.bs.collapse', function() {
+     $('#controlPartesOpen').show()
+     $('#controlPartesClose').hide()
+   });
+
 function search_url (form) {
   var current_url = window.location.href
   var url_search_estacion = '/estaciones/search/estacion/'
@@ -91,6 +100,37 @@ $("#w_fc_impacto").change(function () {
 function Impactos() {
   var ctx = document.getElementById("impactos");
   ImpactosChart = new Chart(ctx, {
+    plugins: [{
+      afterDatasetsDraw: function(chart) {
+				var ctx = chart.ctx;
+
+				chart.data.datasets.forEach(function(dataset, i) {
+					var meta = chart.getDatasetMeta(i);
+					if (!meta.hidden) {
+						meta.data.forEach(function(element, index) {
+							// Draw the text in black, with the specified font
+							ctx.fillStyle = 'rgb(0, 0, 0)';
+
+							var fontSize = 10;
+							var fontStyle = 'normal';
+							var fontFamily = 'Helvetica Neue';
+							ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+							// Just naively convert to string for now
+							var dataString = dataset.data[index].toString();
+
+							// Make sure alignment settings are correct
+							ctx.textAlign = 'center';
+							ctx.textBaseline = 'middle';
+
+							var padding = 5;
+							var position = element.tooltipPosition();
+							ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+						});
+					}
+				});
+			}
+    }],
     type: 'bar',
     data: {
       labels: labels,
@@ -324,6 +364,37 @@ $("#antena").change(function () {
 function ImpactosParte() {
   var ctx = document.getElementById("ImpactosParte");
   ImpactosParteChart = new Chart(ctx, {
+    plugins: [{
+      afterDatasetsDraw: function(chart) {
+				var ctx = chart.ctx;
+
+				chart.data.datasets.forEach(function(dataset, i) {
+					var meta = chart.getDatasetMeta(i);
+					if (!meta.hidden) {
+						meta.data.forEach(function(element, index) {
+							// Draw the text in black, with the specified font
+							ctx.fillStyle = 'rgb(0, 0, 0)';
+
+							var fontSize = 10;
+							var fontStyle = 'normal';
+							var fontFamily = 'Helvetica Neue';
+							ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+							// Just naively convert to string for now
+							var dataString = dataset.data[index].toString();
+
+							// Make sure alignment settings are correct
+							ctx.textAlign = 'center';
+							ctx.textBaseline = 'middle';
+
+							var padding = 5;
+							var position = element.tooltipPosition();
+							ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+						});
+					}
+				});
+			}
+    }],
     type: 'bar',
     data: {
       labels: labels,

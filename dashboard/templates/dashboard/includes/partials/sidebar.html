@@ -13,92 +13,68 @@
                   Dashboard <span class="sr-only">(current)</span>
                 </a>
               </li>
+
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_estacion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:list_estacion' %}">
                   <span data-feather="bar-chart-2"></span>
                   Estaciones
                 </a>
               </li>
+
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_parte' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'partes:list_parte' %}">
                   <span data-feather="grid"></span>
                   Partes
                 </a>
               </li>
+
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_proyeccion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'proyecciones:list_proyeccion' %}">
                   <span data-feather="settings"></span>
                   Proyecciones
                 </a>
               </li>
+
               <li class="nav-item">
                 <a {% if request.resolver_match.url_name == 'list_hw_actividad' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'hw_actividades:list_hw_actividad' %}">
                   <span data-feather="layers"></span>
                   HW Actividades
                 </a>
               </li>
-              <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_consumo_nokia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_nokia' %}">
-                  <span data-feather="package"></span>
-                  Consumos Nokia
-                </a>
-              </li>
-              <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_consumo_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_claro' %}">
-                  <span data-feather="package"></span>
-                  Consumos Claro
-                </a>
-              </li>
-              <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_llegada' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'llegadas:list_llegada' %}">
-                  <span data-feather="truck"></span>
-                  Llegadas
-                </a>
-              </li>
-              <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_existencia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'existencias:list_existencia' %}">
-                  <span data-feather="archive"></span>
-                  Existencias
-                </a>
-              </li>
-              <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_resultado' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'resultados:list_resultado' %}">
-                  <span data-feather="layout"></span>
-                  Resultados
-                </a>
-              </li>
-
-              <!-- <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#resultados">
-                  <span data-feather="layout"></span>
-                  resultados
-                </a>
-              </li>
-
-              <li class="nav-item collapse multi-collapse ml-3" id="resultados">
-                <a {% if request.resolver_match.url_name == 'list_resultado' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'resultados:list_resultado' %}">
-                  <span data-feather="layout"></span>
-                  resultados
-                </a>
-                <a class="nav-link" href="{% url 'resultados:list_resultado' %}">
-                  <span data-feather="layout"></span>
-                  resultados 2
-                </a>
-                <a class="nav-link" href="{% url 'resultados:list_resultado' %}">
-                  <span data-feather="layout"></span>
-                  resultados 3
-                </a>
-              </li> -->
 
               <li class="nav-item">
-                <a {% if request.resolver_match.url_name == 'list_impacto' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'impactos:list_impacto' %}">
-                  <span data-feather="disc"></span>
-                  Impactos
+                <a class="nav-link" data-toggle="collapse" href="#controlPartes">
+                  <span data-feather="clipboard"></span>
+                  Control Partes
+                  <span data-feather="chevron-right" id="controlPartesOpen"></span>
+                  <span data-feather="chevron-up" id="controlPartesClose"></span>
                 </a>
+              </li>
+              <li class="nav-item collapse multi-collapse ml-3" id="controlPartes">
+                  <a {% if request.resolver_match.url_name == 'list_consumo_nokia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_nokia' %}">
+                    <span data-feather="package"></span>
+                    Consumos Nokia
+                  </a>
+                  <a {% if request.resolver_match.url_name == 'list_consumo_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'consumos:list_consumo_claro' %}">
+                    <span data-feather="package"></span>
+                    Consumos Claro
+                  </a>
+                  <a {% if request.resolver_match.url_name == 'list_llegada' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'llegadas:list_llegada' %}">
+                    <span data-feather="truck"></span>
+                    Llegadas
+                  </a>
+                  <a {% if request.resolver_match.url_name == 'list_existencia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'existencias:list_existencia' %}">
+                    <span data-feather="archive"></span>
+                    Existencias
+                  </a>
+                  <a {% if request.resolver_match.url_name == 'list_resultado' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'resultados:list_resultado' %}">
+                    <span data-feather="layout"></span>
+                    Resultados
+                  </a>
               </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <!-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Crear reportes</span>
               <a class="d-flex align-items-center text-muted" href="#">
                 <span data-feather="plus-circle"></span>
@@ -123,6 +99,6 @@
                   Antenas y Otros
                 </a>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </nav>
