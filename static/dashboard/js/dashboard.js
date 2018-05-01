@@ -6,6 +6,12 @@ $('#sidebar-toggle').on('click', function (event) {
   $('#nav_dasboard').toggleClass('content_nav');
 });
 
+$('#filter-toggle').on('click', function (event) {
+  $('.filter').toggleClass('d-md-block');
+  $('#dashboard').toggleClass('content_dashboard_filter');
+  $('#nav_dasboard').toggleClass('content_nav_filter');
+});
+
 $('#controlPartesClose').hide()
 $('#controlPartes').on('shown.bs.collapse', function() {
   $('#controlPartesOpen').hide()
@@ -111,7 +117,7 @@ function Impactos() {
 							// Draw the text in black, with the specified font
 							ctx.fillStyle = 'rgb(0, 0, 0)';
 
-							var fontSize = 10;
+							var fontSize = 14;
 							var fontStyle = 'normal';
 							var fontFamily = 'Helvetica Neue';
 							ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -375,7 +381,7 @@ function ImpactosParte() {
 							// Draw the text in black, with the specified font
 							ctx.fillStyle = 'rgb(0, 0, 0)';
 
-							var fontSize = 10;
+							var fontSize = 14;
 							var fontStyle = 'normal';
 							var fontFamily = 'Helvetica Neue';
 							ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
