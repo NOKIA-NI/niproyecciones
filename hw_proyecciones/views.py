@@ -392,8 +392,8 @@ def create_proyeccion(request):
 
 def update_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
-    # hw_proyecciones = HwProyeccion.objects.all()
-    hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
+    hw_proyecciones = HwProyeccion.objects.all()
+    # hw_proyecciones = HwProyeccion.objects.filter(lastUpdated__gte=TODAY, lastUpdated__lt=TOMORROW)
     proyecciones = Proyeccion.objects.all()
     for hw_proyeccion in hw_proyecciones:
         try:
