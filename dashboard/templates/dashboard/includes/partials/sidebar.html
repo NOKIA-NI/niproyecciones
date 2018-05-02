@@ -15,7 +15,8 @@
       </li>
 
       <li class="nav-item">
-        <a {% if request.resolver_match.url_name == 'list_estacion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:list_estacion' %}">
+        <a {% if request.resolver_match.url_name == 'list_estacion' or request.resolver_match.url_name == 'cronograma_estacion' %}
+          class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:list_estacion' %}">
           <span data-feather="bar-chart-2"></span>
           Estaciones
         </a>

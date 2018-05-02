@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Impactos{% endblock title %}
+{% block title %}Cronograma{% endblock title %}
 
 {% block navbar %}
 {% include 'dashboard/includes/partials/navbar.html' %}
@@ -13,23 +13,23 @@
 {% block content_dashboard %}
 
 <main role="main" class="">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom">
-    <h2 class="text-dark">Impactos</h2>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mb-2">
+    <h1 class="h2">Cronograma</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary" onclick="return create_impacto('{% url 'impactos:create_impacto' %}')">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_estacion('{% url 'estaciones:create_estacion' %}')">
           <span data-feather="plus"></span>
           Crear
         </button>
-        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_impacto(url_update)">
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_estacion(url_update)">
           <span data-feather="edit"></span>
           Actualizar
         </button>
-        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_impacto(url_delete)">
+        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_estacion(url_delete)">
           <span data-feather="trash"></span>
           Borrar
         </button>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'impactos:export_impacto' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'estaciones:export_estacion' %}">
           <span data-feather="download"></span>
           Exportar
         </a>
@@ -44,6 +44,7 @@
           <a class="dropdown-item" href="#">link</a>
         </div>
       </div>
+
       <div class="btn-group" role="group">
         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span data-feather="calendar"></span>
@@ -56,33 +57,35 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center border-bottom">
-    <a class="nav-link btn btn-light btn-sm" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+  <div class="row mb-2">
+    <div class="col-10">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'estaciones:list_estacion' %}">Estaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'estaciones:cronograma_estacion' %}">Cronograma</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-2">
+      <a class="nav-link btn btn-light btn-sm" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+    </div>
   </div>
   <div class="table-responsive">
-    <table class="table table-striped table-sm" id="table_impacto">
+    <table class="table table-striped table-sm" id="table_estacion">
       <thead>
-        {% include 'impacto/includes/partials/head_impacto.html' %}
+        {% include 'estacion/includes/partials/head_cronograma_estacion.html' %}
       </thead>
       <tbody>
-        {% for object in object_list %}
-          {% include 'impacto/includes/partials/body_impacto.html' %}
-        {% endfor %}
+        {% include 'estacion/includes/partials/body_cronograma_estacion.html' %}
       </tbody>
     </table>
   </div>
 </main>
-<div class="row border-bottom d-flex justify-content-end align-items-center mr-2">
-    {% include 'dashboard/includes/partials/nav_paginate.html' %}
+<div class="modal fade" id="create_estacion" tabindex="-1" role="dialog" aria-hidden="true">
 </div>
-
-
-<div class="modal fade" id="create_impacto" tabindex="-1" role="dialog" aria-hidden="true">
-
-</div>
-
-<div class="modal fade" id="update_impacto" tabindex="-1" role="dialog" aria-hidden="true">
-
+<div class="modal fade" id="update_estacion" tabindex="-1" role="dialog" aria-hidden="true">
 </div>
 {% endblock content_dashboard %}
 

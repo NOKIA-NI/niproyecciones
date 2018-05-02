@@ -41,6 +41,7 @@ class ListExistencia(LoginRequiredMixin, ListView):
         context['fields'] = fields
         context['week'] = week
         context['items'] = self.get_queryset
+        context['all_items'] = Existencia.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context

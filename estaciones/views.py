@@ -15,6 +15,20 @@ from django.db.models import Q
 from functools import reduce
 from .resources import EstacionResource
 from django.http import HttpResponse
+from django.utils import timezone
+
+TODAY = timezone.now()
+WEEK = TODAY.isocalendar()[1]
+WEEKDAY = TODAY.weekday()
+# if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
+#     WEEK = WEEK + 1
+
+CENTRO = 'Centro'
+COSTA = 'Costa'
+ORIENTE = 'Oriente'
+NOR_ORIENTE = 'Nor Oriente'
+NOR_OCCIDENTE = 'Nor Occidente'
+SUR_OCCIDENTE = 'Sur Occidente'
 
 class ListEstacion(LoginRequiredMixin, ListView):
     login_url = 'users:home'
@@ -28,6 +42,7 @@ class ListEstacion(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ListEstacion, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
+        context['all_items'] = Estacion.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -90,3 +105,22 @@ def export_estacion(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Estacion.xlsx"'
     return response
+
+class CronogramaEstacion(LoginRequiredMixin, TemplateView):
+    login_url = 'users:home'
+    template_name = 'estacion/cronograma_estacion.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CronogramaEstacion, self).get_context_data(**kwargs)
+        weeks = list(range(14, 53))
+        fields = [week for week in weeks if week >= WEEK]
+        context['fields'] = fields
+        context['week'] = WEEK
+        context['centro'] = [Estacion.objects.filter(region=CENTRO, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['costa'] = [Estacion.objects.filter(region=COSTA, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['oriente'] = [Estacion.objects.filter(region=ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['nor_oriente'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['nor_occidente'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['sur_occidente'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['total'] = [Estacion.objects.filter(w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        return context

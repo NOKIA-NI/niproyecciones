@@ -36,6 +36,7 @@ class ListImpacto(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ListImpacto, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
+        context['all_items'] = Impacto.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context

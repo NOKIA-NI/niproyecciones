@@ -157,3 +157,8 @@ body {
 .active {
   color: #007bff;
 }
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+}

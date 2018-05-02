@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from impactos.models import Impacto
+from estaciones.models import Estacion
 from partes.models import Parte
+from impactos.models import Impacto
 from django.utils import timezone
 
 TODAY = timezone.now()
@@ -26,6 +27,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         accesorios = Parte.objects.filter(grupo_parte=ACCESORIOS)
         modulos = Parte.objects.filter(grupo_parte=MODULOS)
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
+        context['semana'] = WEEK
+        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=WEEK).count()
+        context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=WEEK).count()
+        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=WEEK, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=WEEK, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['accesorios'] = accesorios
         context['modulos'] = modulos
         context['antenas'] = antenas

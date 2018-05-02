@@ -6,7 +6,8 @@ CreateEstacion,
 UpdateEstacion,
 DeleteEstacion,
 SearchEstacion,
-export_estacion
+export_estacion,
+CronogramaEstacion,
 )
 
 app_name = 'estaciones'
@@ -19,4 +20,5 @@ urlpatterns = [
     path('delete/estacion/<int:pk/', DeleteEstacion.as_view(), name='delete_estacion'),
     path('search/estacion/', SearchEstacion.as_view(), name='search_estacion'),
     path('export/estacion/', export_estacion, name='export_estacion'),
+    path('cronograma/estacion/', CronogramaEstacion.as_view(), name='cronograma_estacion'),
 ]

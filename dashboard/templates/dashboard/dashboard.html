@@ -13,8 +13,60 @@
 {% block content_dashboard %}
 
 <main role="main" class="">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
-    <h1 class="h2">Dashboard</h1>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 mt-2 border-bottom">
+    <h2 class="text-dark">Dashboard</h2>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-muted"><span data-feather="calendar"></span>Calendar</h6>
+          <h3 class="text-muted">Semana {{ semana }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-success"><span data-feather="clipboard"></span>Cronograma Fc Imp</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ estaciones_fc_imp }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-info"><span data-feather="clipboard"></span>Cronograma Fc Sal</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ estaciones_fc_sal }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-warning"><span data-feather="disc"></span>Impactos Fc Imp</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ impactos_fc_imp }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-danger"><span data-feather="disc"></span>Impactos Fc Sal</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ impactos_fc_sal }}</h2>
+        </div>
+      </div>
+    </div>
   </div>
 
   <canvas class="my-4 w-100" id="impactos" width="900" height="380"></canvas>
@@ -48,15 +100,11 @@
       </div>
     </div>
     <div class="col">
-
     </div>
     <div class="col">
-
     </div>
   </div>
-
   <canvas class="my-4 w-100" id="ImpactosParte" width="900" height="380"></canvas>
-
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -92,6 +140,7 @@
       </div>
     </div>
   </div>
+</main>
 
   <!-- <div class="row">
     <div class="col-md-4">

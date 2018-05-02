@@ -45,6 +45,7 @@ class ListConsumoNokia(LoginRequiredMixin, ListView):
         context['fields'] = fields
         context['week'] = week
         context['items'] = self.get_queryset
+        context['all_items'] = ConsumoNokia.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -317,6 +318,7 @@ class ListConsumoClaro(LoginRequiredMixin, ListView):
         context['fields'] = fields
         context['week'] = week
         context['items'] = self.get_queryset
+        context['all_items'] = ConsumoClaro.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
