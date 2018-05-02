@@ -106,12 +106,31 @@ def export_estacion(request):
     response['Content-Disposition'] = 'attachment; filename="Estacion.xlsx"'
     return response
 
-class CronogramaEstacion(LoginRequiredMixin, TemplateView):
+class CronogramaFcImpEstacion(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
     template_name = 'estacion/cronograma_estacion.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CronogramaEstacion, self).get_context_data(**kwargs)
+        context = super(CronogramaFcImpEstacion, self).get_context_data(**kwargs)
+        weeks = list(range(14, 53))
+        fields = [week for week in weeks if week >= WEEK]
+        context['fields'] = fields
+        context['week'] = WEEK
+        context['centro'] = [Estacion.objects.filter(region=CENTRO, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['costa'] = [Estacion.objects.filter(region=COSTA, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['oriente'] = [Estacion.objects.filter(region=ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['nor_oriente'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['nor_occidente'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['sur_occidente'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['total'] = [Estacion.objects.filter(w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        return context
+
+class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
+    login_url = 'users:home'
+    template_name = 'estacion/cronograma_estacion.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CronogramaFcSalEstacion, self).get_context_data(**kwargs)
         weeks = list(range(14, 53))
         fields = [week for week in weeks if week >= WEEK]
         context['fields'] = fields
