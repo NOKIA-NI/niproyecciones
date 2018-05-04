@@ -6,3 +6,10 @@ class ProyeccionForm(ModelForm):
     class Meta:
         model = Proyeccion
         fields = '__all__'
+
+class FilterProyeccionForm(ModelForm):
+    id = forms.IntegerField(required=False)
+    
+    class Meta:
+        model = Proyeccion
+        fields = '__all__'

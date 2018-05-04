@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ProyeccionForm
+from .forms import ProyeccionForm, FilterProyeccionForm
 from .models import Proyeccion
 import operator
 from django.db.models import Q
@@ -16,11 +17,12 @@ from functools import reduce
 from .resources import ProyeccionResource
 from django.http import HttpResponse
 
-class ListProyeccion(LoginRequiredMixin, ListView):
+class ListProyeccion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Proyeccion
     template_name = 'proyeccion/list_proyeccion.html'
     paginate_by = 15
+    form_class = FilterProyeccionForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -82,8 +84,30 @@ class SearchProyeccion(ListProyeccion):
             )
         return queryset
 
+class FilterProyeccion(ListProyeccion):
+
+    def get_queryset(self):
+        queryset = super(FilterProyeccion, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterProyeccion, self).get_context_data(**kwargs)
+        queryset = Proyeccion.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_proyeccion(request):
     proyeccion_resource = ProyeccionResource()
+    query_dict = request.GET.dict()
+    queryset = Proyeccion.objects.filter(**query_dict)
     dataset = proyeccion_resource.export()
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Proyeccion.xlsx"'

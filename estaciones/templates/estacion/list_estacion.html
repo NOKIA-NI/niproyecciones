@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filter_tags %}
 {% block title %}Estaciones{% endblock title %}
 
 {% block navbar %}
@@ -29,7 +30,7 @@
           <span data-feather="trash"></span>
           Borrar
         </button>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'estaciones:export_estacion' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'estaciones:export_estacion' %}?{{query_dict|get_encoded_dict}}">
           <span data-feather="download"></span>
           Exportar
         </a>
@@ -57,23 +58,23 @@
       </div>
     </div>
   </div>
-  <div class="row mb-2">
-    <div class="col-10">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'estaciones:list_estacion' %}">Estaciones</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'estaciones:cronograma_fc_imp_estacion' %}">Cronograma Fc Imp</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'estaciones:cronograma_fc_sal_estacion' %}">Cronograma Fc Sal</a>
-        </li>
-      </ul>
-    </div>
-    <div class="col-2">
-      <a class="nav-link btn btn-light btn-sm" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
-    </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'estaciones:list_estacion' %}">Estaciones</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'estaciones:cronograma_fc_imp_estacion' %}">Cronograma Fc Imp</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'estaciones:cronograma_fc_sal_estacion' %}">Cronograma Fc Sal</a>
+    </li>
+  </ul>
+  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
+    {% if result %}
+    Se encontraron {{ result }} de  {{ all_items }} items
+    {% else %}
+    {% endif %}
+    <a class="nav-link btn btn-light btn-sm ml-3" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm" id="table_estacion">
@@ -91,14 +92,9 @@
 <div class="row border-bottom d-flex justify-content-end align-items-center mr-2">
     {% include 'dashboard/includes/partials/nav_paginate.html' %}
 </div>
-
-
 <div class="modal fade" id="create_estacion" tabindex="-1" role="dialog" aria-hidden="true">
-
 </div>
-
 <div class="modal fade" id="update_estacion" tabindex="-1" role="dialog" aria-hidden="true">
-
 </div>
 {% endblock content_dashboard %}
 

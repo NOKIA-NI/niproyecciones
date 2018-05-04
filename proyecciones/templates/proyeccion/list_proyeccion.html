@@ -13,8 +13,8 @@
 {% block content_dashboard %}
 
 <main role="main" class="">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
-    <h1 class="h2">Proyecciones</h1>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom">
+    <h2 class="text-dark">Proyecciones</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
         <button class="btn btn-sm btn-outline-secondary" onclick="return create_proyeccion('{% url 'proyecciones:create_proyeccion' %}')">
@@ -56,8 +56,12 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center border-bottom">
-    <a class="nav-link btn btn-light btn-sm" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
+    {% if result %}
+    Se encontraron {{ result }} de  {{ all_items }} items
+    {% else %}
+    {% endif %}
+    <a class="nav-link btn btn-light btn-sm ml-3" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm" id="table_proyeccion">
@@ -75,13 +79,9 @@
 <div class="row border-bottom d-flex justify-content-end align-items-center mr-2">
     {% include 'dashboard/includes/partials/nav_paginate.html' %}
 </div>
-
 <div class="modal fade" id="create_proyeccion" tabindex="-1" role="dialog" aria-hidden="true">
-
 </div>
-
 <div class="modal fade" id="update_proyeccion" tabindex="-1" role="dialog" aria-hidden="true">
-
 </div>
 {% endblock content_dashboard %}
 

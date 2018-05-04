@@ -6,6 +6,7 @@ CreateProyeccion,
 UpdateProyeccion,
 DeleteProyeccion,
 SearchProyeccion,
+FilterProyeccion,
 export_proyeccion
 )
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path('update/proyeccion/<int:pk>/', UpdateProyeccion.as_view(), name='update_proyeccion'),
     path('delete/proyeccion/<int:pk/', DeleteProyeccion.as_view(), name='delete_proyeccion'),
     path('search/proyeccion/', SearchProyeccion.as_view(), name='search_proyeccion'),
+    path('filter/proyeccion/', FilterProyeccion.as_view(), name='filter_proyeccion'),
     path('export/proyeccion/', export_proyeccion, name='export_proyeccion'),
 ]

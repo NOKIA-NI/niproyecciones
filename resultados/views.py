@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ResultadoForm
+from .forms import ResultadoForm, FilterResultadoForm
 from .models import Resultado
 import operator
 from django.db.models import Q
@@ -24,11 +25,12 @@ WEEKDAY = TODAY.weekday()
 # if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
 #     WEEK = WEEK + 1
 
-class ListResultado(LoginRequiredMixin, ListView):
+class ListResultado(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Resultado
     template_name = 'resultado/list_resultado.html'
     paginate_by = 15
+    form_class = FilterResultadoForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -91,12 +93,30 @@ class SearchResultado(ListResultado):
             )
         return queryset
 
+class FilterResultado(ListResultado):
+
+    def get_queryset(self):
+        queryset = super(FilterResultado, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterResultado, self).get_context_data(**kwargs)
+        queryset = Resultado.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_resultado(request):
     resultado_resource = ResultadoResource()
-    queryset = Resultado.objects.all()
-    query = request.GET.get('qs')
-    if query:
-        queryset = Resultado.objects.filter(grupo_parte=query)
+    query_dict = request.GET.dict()
+    queryset = Resultado.objects.filter(**query_dict)
     dataset = resultado_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Resultado.xlsx"'

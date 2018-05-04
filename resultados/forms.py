@@ -6,3 +6,8 @@ class ResultadoForm(ModelForm):
     class Meta:
         model = Resultado
         fields = '__all__'
+
+class FilterResultadoForm(ModelForm):
+    class Meta:
+        model = Resultado
+        fields = ('parte', 'grupo_parte')

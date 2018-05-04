@@ -7,9 +7,15 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Impacto
+from .forms import FilterImpactoForm
+import operator
+from django.db.models import Q
+from functools import reduce
+from .resources import ImpactoResource
 from partes.models import Parte
 from estaciones.models import Estacion
 from hw_actividades.models import HwActividad
@@ -24,11 +30,12 @@ WEEK = TODAY.isocalendar()[1]
 SI = 'Si'
 NO = 'No'
 
-class ListImpacto(LoginRequiredMixin, ListView):
+class ListImpacto(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Impacto
     template_name = 'impacto/list_impacto.html'
     paginate_by = 15
+    form_class = FilterImpactoForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -41,9 +48,59 @@ class ListImpacto(LoginRequiredMixin, ListView):
         context['query'] = self.request.GET.get('qs')
         return context
 
+class SearchImpacto(ListImpacto):
+
+    def get_queryset(self):
+        queryset = super(SearchImpacto, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_sal__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_imp__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cantidad_estimada__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactado__icontains=q) for q in query_list))
+
+            )
+        return queryset
+
+class FilterImpacto(ListImpacto):
+
+    def get_queryset(self):
+        queryset = super(FilterImpacto, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterImpacto, self).get_context_data(**kwargs)
+        queryset = Impacto.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_impacto(request):
     impacto_resource = ImpactoResource()
-    dataset = impacto_resource.export()
+    query_dict = request.GET.dict()
+    queryset = Impacto.objects.filter(**query_dict)
+    dataset = impacto_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Impacto.xlsx"'
     return response

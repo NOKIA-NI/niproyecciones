@@ -6,6 +6,7 @@ CreateLlegada,
 UpdateLlegada,
 DeleteLlegada,
 SearchLlegada,
+FilterLlegada,
 export_llegada,
 )
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path('update/llegada/<int:pk>/', UpdateLlegada.as_view(), name='update_llegada'),
     path('delete/llegada/<int:pk/', DeleteLlegada.as_view(), name='delete_llegada'),
     path('search/llegada/', SearchLlegada.as_view(), name='search_llegada'),
+    path('filter/llegada/', FilterLlegada.as_view(), name='filter_llegada'),
     path('export/llegada/', export_llegada, name='export_llegada'),
 ]

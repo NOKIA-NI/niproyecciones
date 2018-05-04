@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import HwActividadForm
+from .forms import HwActividadForm, FilterHwActividadForm
 from .models import HwActividad
 import operator
 from django.db.models import Q
@@ -16,11 +17,12 @@ from functools import reduce
 from .resources import HwActividadResource
 from django.http import HttpResponse
 
-class ListHwActividad(LoginRequiredMixin, ListView):
+class ListHwActividad(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = HwActividad
     template_name = 'hw_actividad/list_hw_actividad.html'
     paginate_by = 15
+    form_class = FilterHwActividadForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -79,9 +81,31 @@ class SearchHwActividad(ListHwActividad):
             )
         return queryset
 
+class FilterHwActividad(ListHwActividad):
+
+    def get_queryset(self):
+        queryset = super(FilterHwActividad, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterHwActividad, self).get_context_data(**kwargs)
+        queryset = HwActividad.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_hw_actividad(request):
     hw_actividad_resource = HwActividadResource()
-    dataset = hw_actividad_resource.export()
+    query_dict = request.GET.dict()
+    queryset = HwActividad.objects.filter(**query_dict)
+    dataset = hw_actividad_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="HwActividad.xlsx"'
     return response

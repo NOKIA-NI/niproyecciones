@@ -8,8 +8,8 @@ TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 
 class Estacion(models.Model):
-    site_name = models.CharField(max_length=255, unique=True)
-    region = models.CharField(max_length=255, choices=choices.REGION_CHOICES)
+    site_name = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    region = models.CharField(max_length=255, choices=choices.REGION_CHOICES, blank=True, null=True)
     scope_claro = models.CharField(max_length=255, choices=choices.SCOPE_CHOICES, blank=True, null=True)
     w_fc_imp = models.PositiveIntegerField(blank=True, null=True)
     w_fc_sal = models.PositiveIntegerField(blank=True, null=True)

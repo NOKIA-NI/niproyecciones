@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filter_tags %}
 {% block title %}Consumos Nokia{% endblock title %}
 
 {% block navbar %}
@@ -33,7 +34,7 @@
           <span data-feather="refresh-cw"></span>
           calculate
         </a>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'consumos:export_consumo_nokia' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'consumos:export_consumo_nokia' %}?{{query_dict|get_encoded_dict}}">
           <span data-feather="download"></span>
           Exportar
         </a>
@@ -62,8 +63,12 @@
 
     </div>
   </div>
-  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center border-bottom">
-    <a class="nav-link btn btn-light btn-sm" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
+    {% if result %}
+    Se encontraron {{ result }} de  {{ all_items }} items
+    {% else %}
+    {% endif %}
+    <a class="nav-link btn btn-light btn-sm ml-3" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm" id="table_consumo_nokia">

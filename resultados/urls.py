@@ -6,6 +6,7 @@ CreateResultado,
 UpdateResultado,
 DeleteResultado,
 SearchResultado,
+FilterResultado,
 export_resultado,
 # calculate_resultado,
 )
@@ -19,6 +20,7 @@ urlpatterns = [
     path('update/resultado/<int:pk>/', UpdateResultado.as_view(), name='update_resultado'),
     path('delete/resultado/<int:pk/', DeleteResultado.as_view(), name='delete_resultado'),
     path('search/resultado/', SearchResultado.as_view(), name='search_resultado'),
+    path('filter/resultado/', FilterResultado.as_view(), name='filter_resultado'),
     path('export/resultado/', export_resultado, name='export_resultado'),
     # path('calculate/resultado/', calculate_resultado, name='calculate_resultado'),
 ]

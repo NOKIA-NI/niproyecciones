@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import EstacionForm
+from .forms import EstacionForm, FilterEstacionForm
 from .models import Estacion
 import operator
 from django.db.models import Q
@@ -30,11 +31,12 @@ NOR_ORIENTE = 'Nor Oriente'
 NOR_OCCIDENTE = 'Nor Occidente'
 SUR_OCCIDENTE = 'Sur Occidente'
 
-class ListEstacion(LoginRequiredMixin, ListView):
+class ListEstacion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Estacion
     template_name = 'estacion/list_estacion.html'
     paginate_by = 15
+    form_class = FilterEstacionForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -45,6 +47,7 @@ class ListEstacion(LoginRequiredMixin, ListView):
         context['all_items'] = Estacion.objects.all().count()
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
+        # context['estacion_form'] = self.estacion_form
         return context
 
 class DetailEstacion(LoginRequiredMixin, DetailView):
@@ -99,9 +102,31 @@ class SearchEstacion(ListEstacion):
             )
         return queryset
 
+class FilterEstacion(ListEstacion):
+
+    def get_queryset(self):
+        queryset = super(FilterEstacion, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterEstacion, self).get_context_data(**kwargs)
+        queryset = Estacion.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_estacion(request):
     estacion_resource = EstacionResource()
-    dataset = estacion_resource.export()
+    query_dict = request.GET.dict()
+    queryset = Estacion.objects.filter(**query_dict)
+    dataset = estacion_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Estacion.xlsx"'
     return response

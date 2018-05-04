@@ -6,3 +6,9 @@ class HwActividadForm(ModelForm):
     class Meta:
         model = HwActividad
         fields = '__all__'
+
+class FilterHwActividadForm(ModelForm):
+    class Meta:
+        model = HwActividad
+        fields = '__all__'
+        exclude = ('proyeccion',)

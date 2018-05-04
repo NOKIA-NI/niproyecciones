@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class ConsumoNokia(models.Model):
-    parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     w14 = models.PositiveIntegerField(default=0)
     w15 = models.PositiveIntegerField(default=0)
@@ -77,7 +77,7 @@ class ConsumoNokia(models.Model):
         instance.consumonokia.save()
 
 class ConsumoClaro(models.Model):
-    parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     w14 = models.PositiveIntegerField(default=0)
     w15 = models.PositiveIntegerField(default=0)

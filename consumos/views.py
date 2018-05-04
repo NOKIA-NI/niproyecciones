@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ConsumoNokiaForm, ConsumoClaroForm
+from .forms import ConsumoNokiaForm, ConsumoClaroForm, FilterConsumoNokiaForm, FilterConsumoClaroForm
 from .models import ConsumoNokia, ConsumoClaro
 import operator
 from django.db.models import Q
@@ -28,11 +29,12 @@ WEEKDAY = TODAY.weekday()
 
 SI = 'Si'
 
-class ListConsumoNokia(LoginRequiredMixin, ListView):
+class ListConsumoNokia(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = ConsumoNokia
     template_name = 'consumo_nokia/list_consumo_nokia.html'
     paginate_by = 15
+    form_class = FilterConsumoNokiaForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -88,9 +90,31 @@ class SearchConsumoNokia(ListConsumoNokia):
             )
         return queryset
 
+class FilterConsumoNokia(ListConsumoNokia):
+
+    def get_queryset(self):
+        queryset = super(FilterConsumoNokia, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterConsumoNokia, self).get_context_data(**kwargs)
+        queryset = ConsumoNokia.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_consumo_nokia(request):
     consumo_nokia_resource = ConsumoNokiaResource()
-    dataset = consumo_nokia_resource.export()
+    query_dict = request.GET.dict()
+    queryset = ConsumoNokia.objects.filter(**query_dict)
+    dataset = consumo_nokia_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="ConsumoNokia.xlsx"'
     return response
@@ -300,11 +324,12 @@ def calculate_consumo_nokia(request):
 
     return redirect('consumos:list_consumo_nokia')
 
-class ListConsumoClaro(LoginRequiredMixin, ListView):
+class ListConsumoClaro(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = ConsumoClaro
     template_name = 'consumo_claro/list_consumo_claro.html'
     paginate_by = 15
+    form_class = FilterConsumoClaroForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -359,9 +384,31 @@ class SearchConsumoClaro(ListConsumoClaro):
             )
         return queryset
 
+class FilterConsumoClaro(ListConsumoClaro):
+
+    def get_queryset(self):
+        queryset = super(FilterConsumoClaro, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterConsumoClaro, self).get_context_data(**kwargs)
+        queryset = ConsumoClaro.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_consumo_claro(request):
     consumo_claro_resource = ConsumoClaroResource()
-    dataset = consumo_claro_resource.export()
+    query_dict = request.GET.dict()
+    queryset = ConsumoClaro.objects.filter(**query_dict)
+    dataset = consumo_claro_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="ConsumoClaro.xlsx"'
     return response

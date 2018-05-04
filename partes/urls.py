@@ -6,6 +6,7 @@ CreateParte,
 UpdateParte,
 DeleteParte,
 SearchParte,
+FilterParte,
 export_parte
 )
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path('update/parte/<int:pk>/', UpdateParte.as_view(), name='update_parte'),
     path('delete/parte/<int:pk/', DeleteParte.as_view(), name='delete_parte'),
     path('search/parte/', SearchParte.as_view(), name='search_parte'),
+    path('filter/parte/', FilterParte.as_view(), name='filter_parte'),
     path('export/parte/', export_parte, name='export_parte'),
 ]

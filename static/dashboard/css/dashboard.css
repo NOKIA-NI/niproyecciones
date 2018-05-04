@@ -162,3 +162,7 @@ body {
     right: 0;
     left: auto;
 }
+
+.head_menu ul {
+  right: 0;
+}

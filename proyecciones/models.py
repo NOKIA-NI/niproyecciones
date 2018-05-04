@@ -8,14 +8,14 @@ from hw_proyecciones.models import HwProyeccion
 
 class Proyeccion(models.Model):
     id = models.IntegerField(primary_key=True)
-    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='proyecciones')
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='proyecciones', blank=True, null=True)
     proyecto = models.CharField(max_length=255, blank=True, null=True)
     escenario = models.CharField(max_length=255, blank=True, null=True)
     banda = models.CharField(max_length=255, blank=True, null=True)
     agrupadores = models.CharField(max_length=255, blank=True, null=True)
     rfe = models.DateField(blank=True, null=True)
     parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='proyecciones', blank=True, null=True)
-    estado_proyeccion  = models.CharField(max_length=255, choices=choices.ESTADO_PROYECCION_CHOICES)
+    estado_proyeccion  = models.CharField(max_length=255, choices=choices.ESTADO_PROYECCION_CHOICES, blank=True, null=True)
     cantidad_estimada = models.PositiveIntegerField(blank=True, null=True)
 
     estado = models.BooleanField(default=True, editable=False)

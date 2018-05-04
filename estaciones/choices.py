@@ -20,15 +20,11 @@ REGION_CHOICES = (
 
 """ SCOPE_CHOICES  """
 SCOPE_CHOICES = (
-    ('Scope 2018', 'Scope 2018'),
-    ('Scope 2017', 'Scope 2017'),
-    ('Scope 2018 Integrado 2017', 'Scope 2018 Integrado 2017'),
-    ('Scope 300LTE', 'Scope 300LTE'),
-    ('Fuera Alcance', 'Fuera Alcance'),
-    ('x Sale x', 'x Sale x'),
+    ('[MP2018]', '[MP2018]'),
+    ('[MP2018][Integrado_2017]', '[MP2018][Integrado_2017]'),
 )
 
-""" SCOPE_CHOICES  """
+""" ESTADO_WR_CHOICES  """
 ESTADO_WR_CHOICES = (
     ('Integrado', 'Integrado'),
     ('On_Air', 'On_Air'),
@@ -99,6 +95,7 @@ BOLSA_CHOICES = (
     ('531 sitios LSM', '531 sitios LSM'),
     ('Reemplazo 531', 'Reemplazo 531'),
     ('Sitios Bulk', 'Sitios Bulk'),
+    ('AIRSCALE', 'AIRSCALE'),
 )
 
 """ SATELITAL_CHOICES  """

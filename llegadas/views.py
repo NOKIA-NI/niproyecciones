@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import LlegadaForm
+from .forms import LlegadaForm, FilterLlegadaForm
 from .models import Llegada
 import operator
 from django.db.models import Q
@@ -23,11 +24,12 @@ WEEKDAY = TODAY.weekday()
 # if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
 #     WEEK = WEEK + 1
 
-class ListLlegada(LoginRequiredMixin, ListView):
+class ListLlegada(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Llegada
     template_name = 'llegada/list_llegada.html'
     paginate_by = 15
+    form_class = FilterLlegadaForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -83,9 +85,31 @@ class SearchLlegada(ListLlegada):
             )
         return queryset
 
+class FilterLlegada(ListLlegada):
+
+    def get_queryset(self):
+        queryset = super(FilterLlegada, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterLlegada, self).get_context_data(**kwargs)
+        queryset = Llegada.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_llegada(request):
     llegada_resource = LlegadaResource()
-    dataset = llegada_resource.export()
+    query_dict = request.GET.dict()
+    queryset = Llegada.objects.filter(**query_dict)
+    dataset = llegada_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Llegada.xlsx"'
     return response

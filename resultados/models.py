@@ -10,7 +10,7 @@ from llegadas.models import Llegada
 # from existencias.models import Existencia
 
 class Resultado(models.Model):
-    parte = models.OneToOneField(Parte, on_delete=models.CASCADE)
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
     w14 = models.IntegerField(default=0)
     w15 = models.IntegerField(default=0)

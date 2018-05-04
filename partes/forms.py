@@ -6,3 +6,8 @@ class ParteForm(ModelForm):
     class Meta:
         model = Parte
         fields = '__all__'
+
+class FilterParteForm(ModelForm):
+    class Meta:
+        model = Parte
+        fields = '__all__'

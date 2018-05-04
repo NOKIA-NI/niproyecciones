@@ -6,9 +6,10 @@ DetailView,
 UpdateView,
 CreateView,
 DeleteView,
+FormView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ParteForm
+from .forms import ParteForm, FilterParteForm
 from .models import Parte
 import operator
 from django.db.models import Q
@@ -16,11 +17,12 @@ from functools import reduce
 from .resources import ParteResource
 from django.http import HttpResponse
 
-class ListParte(LoginRequiredMixin, ListView):
+class ListParte(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Parte
     template_name = 'parte/list_parte.html'
     paginate_by = 15
+    form_class = FilterParteForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -75,9 +77,31 @@ class SearchParte(ListParte):
             )
         return queryset
 
+class FilterParte(ListParte):
+
+    def get_queryset(self):
+        queryset = super(FilterParte, self).get_queryset()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterParte, self).get_context_data(**kwargs)
+        queryset = Parte.objects.all()
+        dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        queryset = queryset.filter(**query_dict)
+        result = queryset.count()
+        context['query_dict'] = query_dict
+        context['result'] = result
+        return context
+
 def export_parte(request):
     parte_resource = ParteResource()
-    dataset = parte_resource.export()
+    query_dict = request.GET.dict()
+    queryset = Parte.objects.filter(**query_dict)
+    dataset = parte_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Parte.xlsx"'
     return response

@@ -6,6 +6,7 @@ CreateExistencia,
 UpdateExistencia,
 DeleteExistencia,
 SearchExistencia,
+FilterExistencia,
 export_existencia,
 # calculate_existencia,
 )
@@ -19,6 +20,7 @@ urlpatterns = [
     path('update/existencia/<int:pk>/', UpdateExistencia.as_view(), name='update_existencia'),
     path('delete/existencia/<int:pk/', DeleteExistencia.as_view(), name='delete_existencia'),
     path('search/existencia/', SearchExistencia.as_view(), name='search_existencia'),
+    path('filter/existencia/', FilterExistencia.as_view(), name='filter_existencia'),
     path('export/existencia/', export_existencia, name='export_existencia'),
     # path('calculate/existencia/', calculate_existencia, name='calculate_existencia'),
 ]

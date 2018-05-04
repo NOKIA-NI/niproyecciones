@@ -32,6 +32,7 @@ function search_url (form) {
   var url_search_llegada= '/llegadas/search/llegada/'
   var url_search_existencia= '/existencias/search/existencia/'
   var url_search_resultado= '/resultados/search/resultado/'
+  var url_search_impacto= '/impactos/search/impacto/'
 
   if (current_url.includes('/estaciones/')) {
     form.action = url_search_estacion;
@@ -51,6 +52,46 @@ function search_url (form) {
     form.action = url_search_existencia;
   } else if (current_url.includes('/resultado/')) {
     form.action = url_search_resultado;
+  } else if (current_url.includes('/impacto/')) {
+    form.action = url_search_impacto;
+  } else {
+    form.action = ''
+  }
+}
+
+function filter_url (form) {
+  var current_url = window.location.href
+  var url_filter_estacion = '/estaciones/filter/estacion/'
+  var url_filter_parte = '/partes/filter/parte/'
+  var url_filter_proyeccion = '/proyecciones/filter/proyeccion/'
+  var url_filter_hw_actividad = '/hw_actividades/filter/hw/actividad/'
+  var url_filter_consumo_nokia = '/consumos/filter/consumo/nokia/'
+  var url_filter_consumo_claro= '/consumos/filter/consumo/claro/'
+  var url_filter_llegada= '/llegadas/filter/llegada/'
+  var url_filter_existencia= '/existencias/filter/existencia/'
+  var url_filter_resultado= '/resultados/filter/resultado/'
+  var url_filter_impacto= '/impactos/filter/impacto/'
+
+  if (current_url.includes('/estaciones/')) {
+    form.action = url_filter_estacion;
+  } else if (current_url.includes('/partes/')) {
+    form.action = url_filter_parte;
+  } else if (current_url.includes('/proyecciones/')) {
+    form.action = url_filter_proyeccion;
+  } else if (current_url.includes('/hw/actividad/')) {
+    form.action = url_filter_hw_actividad;
+  } else if (current_url.includes('/consumo/nokia/')) {
+    form.action = url_filter_consumo_nokia;
+  } else if (current_url.includes('/consumo/claro/')) {
+    form.action = url_filter_consumo_claro;
+  } else if (current_url.includes('/llegada/')) {
+    form.action = url_filter_llegada;
+  } else if (current_url.includes('/existencia/')) {
+    form.action = url_filter_existencia;
+  } else if (current_url.includes('/resultado/')) {
+    form.action = url_filter_resultado;
+  } else if (current_url.includes('/impacto/')) {
+    form.action = url_filter_impacto;
   } else {
     form.action = ''
   }
