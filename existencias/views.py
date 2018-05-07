@@ -22,8 +22,8 @@ from django.utils import timezone
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
-# if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
-#     WEEK = WEEK + 1
+if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
+    WEEK = WEEK + 1
 
 class ListExistencia(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
