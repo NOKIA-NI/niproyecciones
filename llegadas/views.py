@@ -85,6 +85,24 @@ class SearchLlegada(ListLlegada):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchLlegada, self).get_context_data(**kwargs)
+        queryset = Llegada.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterLlegada(ListLlegada):
 
     def get_queryset(self):

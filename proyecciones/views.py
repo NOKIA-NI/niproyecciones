@@ -85,6 +85,36 @@ class SearchProyeccion(ListProyeccion):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchProyeccion, self).get_context_data(**kwargs)
+        queryset = Proyeccion.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(proyecto__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(escenario__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(banda__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(agrupadores__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estado_proyeccion__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cantidad_estimada__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterProyeccion(ListProyeccion):
 
     def get_queryset(self):

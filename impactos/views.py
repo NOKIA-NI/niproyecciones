@@ -76,6 +76,35 @@ class SearchImpacto(ListImpacto):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchImpacto, self).get_context_data(**kwargs)
+        queryset = Impacto.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_sal__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_imp__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cantidad_estimada__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactado__icontains=q) for q in query_list))
+
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterImpacto(ListImpacto):
 
     def get_queryset(self):

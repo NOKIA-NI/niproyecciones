@@ -90,6 +90,24 @@ class SearchConsumoNokia(ListConsumoNokia):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchConsumoNokia, self).get_context_data(**kwargs)
+        queryset = ConsumoNokia.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterConsumoNokia(ListConsumoNokia):
 
     def get_queryset(self):
@@ -382,6 +400,24 @@ class SearchConsumoClaro(ListConsumoClaro):
                           (Q(parte__parte_nokia__icontains=q) for q in query_list))
             )
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchConsumoClaro, self).get_context_data(**kwargs)
+        queryset = ConsumoClaro.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
 
 class FilterConsumoClaro(ListConsumoClaro):
 

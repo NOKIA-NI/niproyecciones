@@ -81,6 +81,32 @@ class SearchHwActividad(ListHwActividad):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchHwActividad, self).get_context_data(**kwargs)
+        queryset = HwActividad.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(proyeccion__id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(lsm__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(calculo_hw__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactar__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterHwActividad(ListHwActividad):
 
     def get_queryset(self):

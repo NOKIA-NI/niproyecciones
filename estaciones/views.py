@@ -102,6 +102,38 @@ class SearchEstacion(ListEstacion):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SearchEstacion, self).get_context_data(**kwargs)
+        queryset = Estacion.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(region__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(scope_claro__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_imp__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(total_actividades__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estado_wr__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(bolsa__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(comunidades__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(satelital__icontains=q) for q in query_list))
+            )
+        result = queryset.count()
+        context['result'] = result
+        return context
+
 class FilterEstacion(ListEstacion):
 
     def get_queryset(self):
