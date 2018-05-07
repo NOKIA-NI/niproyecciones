@@ -30,6 +30,7 @@ class ListProyeccion(LoginRequiredMixin, ListView, FormView):
     def get_context_data(self, **kwargs):
         context = super(ListProyeccion, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
+        context['all_items'] = str(Proyeccion.objects.all().count())
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -89,7 +90,7 @@ class FilterProyeccion(ListProyeccion):
     def get_queryset(self):
         queryset = super(FilterProyeccion, self).get_queryset()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         return queryset
 
@@ -97,7 +98,7 @@ class FilterProyeccion(ListProyeccion):
         context = super(FilterProyeccion, self).get_context_data(**kwargs)
         queryset = Proyeccion.objects.all()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         result = queryset.count()
         context['query_dict'] = query_dict

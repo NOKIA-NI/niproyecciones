@@ -97,6 +97,10 @@ function filter_url (form) {
   }
 }
 
+$("#paginate_by").on('change', function () {
+  $(this).submit()
+})
+
 var labels = []
 var dataImpactos = [];
 var dataImpactosAccesorios = [];

@@ -30,7 +30,7 @@ class ListHwActividad(LoginRequiredMixin, ListView, FormView):
     def get_context_data(self, **kwargs):
         context = super(ListHwActividad, self).get_context_data(**kwargs)
         context['items'] = self.get_queryset
-        context['all_items'] = HwActividad.objects.all().count()
+        context['all_items'] = str(HwActividad.objects.all().count())
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -86,7 +86,7 @@ class FilterHwActividad(ListHwActividad):
     def get_queryset(self):
         queryset = super(FilterHwActividad, self).get_queryset()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         return queryset
 
@@ -94,7 +94,7 @@ class FilterHwActividad(ListHwActividad):
         context = super(FilterHwActividad, self).get_context_data(**kwargs)
         queryset = HwActividad.objects.all()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         result = queryset.count()
         context['query_dict'] = query_dict

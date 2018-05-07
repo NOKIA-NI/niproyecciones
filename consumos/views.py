@@ -47,7 +47,7 @@ class ListConsumoNokia(LoginRequiredMixin, ListView, FormView):
         context['fields'] = fields
         context['week'] = week
         context['items'] = self.get_queryset
-        context['all_items'] = ConsumoNokia.objects.all().count()
+        context['all_items'] = str(ConsumoNokia.objects.all().count())
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -95,7 +95,7 @@ class FilterConsumoNokia(ListConsumoNokia):
     def get_queryset(self):
         queryset = super(FilterConsumoNokia, self).get_queryset()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         return queryset
 
@@ -103,7 +103,7 @@ class FilterConsumoNokia(ListConsumoNokia):
         context = super(FilterConsumoNokia, self).get_context_data(**kwargs)
         queryset = ConsumoNokia.objects.all()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         result = queryset.count()
         context['query_dict'] = query_dict
@@ -338,12 +338,11 @@ class ListConsumoClaro(LoginRequiredMixin, ListView, FormView):
         context = super(ListConsumoClaro, self).get_context_data(**kwargs)
         weeks = list(range(14, 53))
         week = WEEK
-        print(week)
         fields = [week for week in weeks if week >= WEEK]
         context['fields'] = fields
         context['week'] = week
         context['items'] = self.get_queryset
-        context['all_items'] = ConsumoClaro.objects.all().count()
+        context['all_items'] = str(ConsumoClaro.objects.all().count())
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
         return context
@@ -389,7 +388,7 @@ class FilterConsumoClaro(ListConsumoClaro):
     def get_queryset(self):
         queryset = super(FilterConsumoClaro, self).get_queryset()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         return queryset
 
@@ -397,7 +396,7 @@ class FilterConsumoClaro(ListConsumoClaro):
         context = super(FilterConsumoClaro, self).get_context_data(**kwargs)
         queryset = ConsumoClaro.objects.all()
         dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page'}
+        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         result = queryset.count()
         context['query_dict'] = query_dict

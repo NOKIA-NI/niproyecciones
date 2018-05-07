@@ -498,9 +498,7 @@ def delete_proyeccion(request):
 #     for proyeccion in proyecciones:
 #         try:
 #             hw_proyeccion = HwProyeccion.objects.get(id=proyeccion.hw_proyeccion)
-#             print('found', hw_proyeccion)
 #         except HwProyeccion.DoesNotExist:
-#             print('delete', proyeccion)
 #             proyeccion.delete()
 #
 #     return HttpResponse(status=204)
@@ -512,7 +510,6 @@ def delete_proyeccion(request):
 #
 #     for hw_proyeccion in hw_proyecciones:
 #             proyecciones = proyecciones.exclude(id=hw_proyeccion.id)
-#             print('found', proyecciones.count())
 #     proyecciones.delete()
 #
 #     return HttpResponse(status=204)
