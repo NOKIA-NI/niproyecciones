@@ -102,7 +102,8 @@ $("#paginate_by").on('change', function () {
 })
 
 var labels = []
-var dataImpactos = [];
+var dataImpactosSi = [];
+var dataImpactosNo = [];
 var dataImpactosAccesorios = [];
 var dataImpactosModulos = [];
 var dataImpactosAntenas = [];
@@ -118,7 +119,8 @@ $.ajax({
   url: '/dashboard/impactos',
   success: function(data){
     labels = data.labels
-    dataImpactos = data.impactos
+    dataImpactosSi = data.impactos_si
+    dataImpactosNo = data.impactos_no
     Impactos()
     ImpactosParte()
   },
@@ -140,7 +142,8 @@ $("#w_fc_impacto").change(function () {
         ImpactosChart.destroy();
       }
       labels = data.labels
-      dataImpactos = data.impactos
+      dataImpactosSi = data.impactos_si
+      dataImpactosNo = data.impactos_no
       Impactos()
     },
     error: function(error){
@@ -151,49 +154,59 @@ $("#w_fc_impacto").change(function () {
 function Impactos() {
   var ctx = document.getElementById("impactos");
   ImpactosChart = new Chart(ctx, {
-    plugins: [{
-      afterDatasetsDraw: function(chart) {
-				var ctx = chart.ctx;
+    // plugins: [{
+    //   afterDatasetsDraw: function(chart) {
+		// 		var ctx = chart.ctx;
 
-				chart.data.datasets.forEach(function(dataset, i) {
-					var meta = chart.getDatasetMeta(i);
-					if (!meta.hidden) {
-						meta.data.forEach(function(element, index) {
-							// Draw the text in black, with the specified font
-							ctx.fillStyle = 'rgb(0, 0, 0)';
+		// 		chart.data.datasets.forEach(function(dataset, i) {
+		// 			var meta = chart.getDatasetMeta(i);
+		// 			if (!meta.hidden) {
+		// 				meta.data.forEach(function(element, index) {
+		// 					// Draw the text in black, with the specified font
+		// 					ctx.fillStyle = 'rgb(0, 0, 0)';
 
-							var fontSize = 14;
-							var fontStyle = 'normal';
-							var fontFamily = 'Helvetica Neue';
-							ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+		// 					var fontSize = 14;
+		// 					var fontStyle = 'normal';
+		// 					var fontFamily = 'Helvetica Neue';
+		// 					ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
-							// Just naively convert to string for now
-							var dataString = dataset.data[index].toString();
+		// 					// Just naively convert to string for now
+		// 					var dataString = dataset.data[index].toString();
 
-							// Make sure alignment settings are correct
-							ctx.textAlign = 'center';
-							ctx.textBaseline = 'middle';
+		// 					// Make sure alignment settings are correct
+		// 					ctx.textAlign = 'center';
+		// 					ctx.textBaseline = 'middle';
 
-							var padding = 5;
-							var position = element.tooltipPosition();
-							ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-						});
-					}
-				});
-			}
-    }],
+		// 					var padding = 5;
+		// 					var position = element.tooltipPosition();
+		// 					ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+		// 				});
+		// 			}
+		// 		});
+		// 	}
+    // }],
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones - Impactos',
-				backgroundColor: '#2196F3',
-        data: dataImpactos,
+        label: 'Estaciones - Impactos Si',
+				backgroundColor: '#F44336',
+        data: dataImpactosSi,
         lineTension: 0,
-        backgroundColor: '#2196F3',
-        borderColor: '#2196F3',
+        backgroundColor: '#F44336',
+        borderColor: '#F44336',
         borderWidth: 4,
-        pointBackgroundColor: '#2196F3'
+        pointBackgroundColor: '#F44336'
+      },
+      {
+        label: 'Estaciones - Impactos No',
+				backgroundColor: '#4CAF50',
+        data: dataImpactosNo,
+        lineTension: 0,
+        backgroundColor: '#4CAF50',
+        borderColor: '#4CAF50',
+        borderWidth: 4,
+        pointBackgroundColor: '#4CAF50'
       }
     ]
     },
@@ -209,18 +222,14 @@ function Impactos() {
       responsive: true,
       scales: {
         xAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
+          stacked: true,
           scaleLabel: {
 						display: true,
 						labelString: 'Semanas'
 					}
 				}],
 				yAxes: [{
-          ticks: {
-            beginAtZero: false
-          },
+          stacked: true,
           scaleLabel: {
 						display: true,
 						labelString: 'Estaciones'
@@ -228,7 +237,7 @@ function Impactos() {
 				}]
       },
       legend: {
-        display: false,
+        display: true,
       }
     }
   });
@@ -290,23 +299,23 @@ function ImpactosGrupoParte() {
       },
       {
         label: 'Estaciones - Modulos',
-				backgroundColor: '#FF9800',
+				backgroundColor: '#FFD600',
         data: dataImpactosModulos,
         lineTension: 0,
-        backgroundColor: '#FF9800',
-        borderColor: '#FF9800',
+        backgroundColor: '#FFD600',
+        borderColor: '#FFD600',
         borderWidth: 4,
-        pointBackgroundColor: '#FF9800'
+        pointBackgroundColor: '#FFD600'
       },
       {
         label: 'Estaciones - Antenas Y Otros',
-				backgroundColor: '#F44336',
+				backgroundColor: '#2196F3',
         data: dataImpactosAntenas,
         lineTension: 0,
-        backgroundColor: '#F44336',
-        borderColor: '#F44336',
+        backgroundColor: '#2196F3',
+        borderColor: '#2196F3',
         borderWidth: 4,
-        pointBackgroundColor: '#F44336'
+        pointBackgroundColor: '#2196F3'
       }
     ]
     },

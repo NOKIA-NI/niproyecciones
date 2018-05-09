@@ -14,6 +14,7 @@ WEEKDAY = TODAY.weekday()
 if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
     WEEK = WEEK + 1
 SI = 'Si'
+NO = 'No'
 ACCESORIOS = 'Accesorios'
 MODULOS = 'Modulos'
 ANTENAS_Y_OTROS = 'Antenas y Otros'
@@ -46,10 +47,12 @@ def impactos(request):
     w_fc = request.GET.get('w_fc', 'w_fc_imp')
     weeks = list(range(14, 53))
     labels = [week for week in weeks if week >= WEEK]
-    impactos = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_si = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
-        'impactos': impactos,
+        'impactos_si': impactos_si,
+        'impactos_no': impactos_no,
     }
     return JsonResponse(data)
 
