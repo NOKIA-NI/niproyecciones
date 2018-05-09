@@ -17,6 +17,7 @@ class ParteAdmin(ImportExportModelAdmin):
     'parte_nokia',
     'capex',
     'grupo_parte',
+    'impactar',
     'estado',
     'subestado',
     'creado',

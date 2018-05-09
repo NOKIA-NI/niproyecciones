@@ -93,7 +93,9 @@ class SearchParte(ListParte):
                 reduce(operator.and_,
                           (Q(capex__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(grupo_parte__icontains=q) for q in query_list))
+                          (Q(grupo_parte__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactar__icontains=q) for q in query_list))
             )
         result = queryset.count()
         context['result'] = result

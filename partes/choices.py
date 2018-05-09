@@ -4,3 +4,9 @@ GRUPO_PARTE_CHOICES = (
     ('Modulos', 'Modulos'),
     ('Antenas y Otros', 'Antenas y Otros'),
 )
+
+""" IMPACTAR_CHOICES  """
+IMPACTAR_CHOICES = (
+    ('Si', 'Si'),
+    ('No', 'No'),
+)
