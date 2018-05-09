@@ -8,6 +8,8 @@ class Parte(models.Model):
     parte_nokia = models.CharField(max_length=255, blank=True, null=True, unique=True)
     capex = models.CharField(max_length=255, blank=True, null=True)
     grupo_parte = models.CharField(max_length=255, choices=choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
+    grupo_familia = models.CharField(max_length=255, choices=choices.GRUPO_FAMILIA_CHOICES, blank=True, null=True)
+    grupo_numero = models.PositiveIntegerField(choices=choices.GRUPO_NUMERO_CHOICES, blank=True, null=True)
     impactar = models.CharField(max_length=255, choices=choices.IMPACTAR_CHOICES, default='Si')
 
     estado = models.BooleanField(default=True, editable=False)

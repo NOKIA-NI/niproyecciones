@@ -73,7 +73,11 @@ class SearchParte(ListParte):
                 reduce(operator.and_,
                           (Q(capex__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(grupo_parte__icontains=q) for q in query_list))
+                          (Q(grupo_parte__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_familia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_numero__icontains=q) for q in query_list))
             )
         return queryset
 

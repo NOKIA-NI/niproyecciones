@@ -13,6 +13,8 @@ class ParteResource(resources.ModelResource):
         'parte_nokia',
         'capex',
         'grupo_parte',
+        'grupo_familia',
+        'grupo_numero',
         'impactar',
         # 'estado',
         'subestado',
