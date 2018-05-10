@@ -189,16 +189,6 @@ function Impactos() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones - Impactos Si',
-				backgroundColor: '#F44336',
-        data: dataImpactosSi,
-        lineTension: 0,
-        backgroundColor: '#F44336',
-        borderColor: '#F44336',
-        borderWidth: 4,
-        pointBackgroundColor: '#F44336'
-      },
-      {
         label: 'Estaciones - Impactos No',
 				backgroundColor: '#4CAF50',
         data: dataImpactosNo,
@@ -207,6 +197,16 @@ function Impactos() {
         borderColor: '#4CAF50',
         borderWidth: 4,
         pointBackgroundColor: '#4CAF50'
+      },
+      {
+        label: 'Estaciones - Impactos Si',
+				backgroundColor: '#F44336',
+        data: dataImpactosSi,
+        lineTension: 0,
+        backgroundColor: '#F44336',
+        borderColor: '#F44336',
+        borderWidth: 4,
+        pointBackgroundColor: '#F44336'
       }
     ]
     },
