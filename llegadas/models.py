@@ -67,19 +67,11 @@ class Llegada(models.Model):
 
     @receiver(post_save, sender=Parte)
     def create_llegada(sender, instance, created, **kwargs):
-        llegada_grupo_familia = Llegada.objects.filter(parte__grupo_familia=instance.grupo_familia)
         if created:
-            if instance.grupo_familia is None:
-                llegada, new = Llegada.objects.get_or_create(parte=instance,
-                                                             grupo_parte=instance.grupo_parte)
-            if instance.grupo_familia is not None and llegada_grupo_familia.count() == 0:
-                llegada, new = Llegada.objects.get_or_create(parte=instance,
-                                                             grupo_parte=instance.grupo_parte)
+            llegada, new = Llegada.objects.get_or_create(parte=instance,
+                                                         grupo_parte=instance.grupo_parte)
 
     @receiver(post_save, sender=Parte)
     def save_llegada(sender, instance, **kwargs):
-        try:
-            instance.llegada.grupo_parte = instance.grupo_parte
-            instance.llegada.save()
-        except:
-            pass
+        instance.llegada.grupo_parte = instance.grupo_parte
+        instance.llegada.save()

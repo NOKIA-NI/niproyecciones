@@ -1,10 +1,6 @@
 <tr class="clickable-row">
   <td>{{ object.id }}</td>
-  {% if object.parte.grupo_familia is not None %}
-  <td>{{ object.parte.grupo_familia }}</td>
-  {% else%}
   <td>{{ object.parte }}</td>
-  {% endif %}
   <td>{{ object.grupo_parte }}</td>
   {% if 14 >= week %}
   <td{%if object.w14 < 0 %} style="background: #EF9A9A;" {% else %} {% endif %}>{{ object.w14 }}</td>

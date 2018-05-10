@@ -74,22 +74,14 @@ class Existencia(models.Model):
 
     @receiver(post_save, sender=Parte)
     def create_existencia(sender, instance, created, **kwargs):
-        existencia_grupo_familia = Existencia.objects.filter(parte__grupo_familia=instance.grupo_familia)
         if created:
-            if instance.grupo_familia is None:
-                existencia, new = Existencia.objects.get_or_create(parte=instance,
-                                                                        grupo_parte=instance.grupo_parte)
-            if instance.grupo_familia is not None and existencia_grupo_familia.count() == 0:
-                existencia, new = Existencia.objects.get_or_create(parte=instance,
-                                                                        grupo_parte=instance.grupo_parte)
+            existencia, new = Existencia.objects.get_or_create(parte=instance,
+                                                               grupo_parte=instance.grupo_parte)
 
     @receiver(post_save, sender=Parte)
     def save_existencia(sender, instance, **kwargs):
-        try:
-            instance.existencia.grupo_parte = instance.grupo_parte
-            instance.existencia.save()
-        except:
-            pass
+        instance.existencia.grupo_parte = instance.grupo_parte
+        instance.existencia.save()
 
     # @receiver(post_save, sender=ConsumoNokia)
     # @receiver(post_save, sender=ConsumoClaro)

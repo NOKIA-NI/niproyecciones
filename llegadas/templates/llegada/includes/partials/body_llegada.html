@@ -1,9 +1,5 @@
 <tr class="clickable-row">
-  {% if object.parte.grupo_familia is not None %}
-  <td>{{ object.parte.grupo_familia }}</td>
-  {% else%}
-  <td>{{ object.parte }}</td>
-  {% endif %}
+  <td>{{ object.id }}</td>
   <td>{{ object.parte }}</td>
   <td>{{ object.grupo_parte }}</td>
   {% if 14 >= week %}
