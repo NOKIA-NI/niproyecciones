@@ -67,14 +67,23 @@ class ConsumoNokia(models.Model):
 
     @receiver(post_save, sender=Parte)
     def create_consumo_nokia(sender, instance, created, **kwargs):
+        consumo_nokia_grupo_familia = ConsumoNokia.objects.filter(parte__grupo_familia=instance.grupo_familia)
         if created:
-            consumo_nokia, new = ConsumoNokia.objects.get_or_create(parte=instance,
-                                                                   grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is None:
+                consumo_nokia, new = ConsumoNokia.objects.get_or_create(parte=instance,
+                                                                        grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is not None and consumo_nokia_grupo_familia.count() == 0:
+                consumo_nokia, new = ConsumoNokia.objects.get_or_create(parte=instance,
+                                                                        grupo_parte=instance.grupo_parte)
 
     @receiver(post_save, sender=Parte)
     def save_consumo_nokia(sender, instance, **kwargs):
-        instance.consumonokia.grupo_parte = instance.grupo_parte
-        instance.consumonokia.save()
+        try:
+            instance.consumonokia.grupo_parte = instance.grupo_parte
+            instance.consumonokia.save()
+        except:
+            pass
+        
 
 class ConsumoClaro(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
@@ -137,11 +146,19 @@ class ConsumoClaro(models.Model):
 
     @receiver(post_save, sender=Parte)
     def create_consumo_claro(sender, instance, created, **kwargs):
+        consumo_claro_grupo_familia = ConsumoClaro.objects.filter(parte__grupo_familia=instance.grupo_familia)
         if created:
-            consumo_claro, new = ConsumoClaro.objects.get_or_create(parte=instance,
-                                                                   grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is None:
+                consumo_claro, new = ConsumoClaro.objects.get_or_create(parte=instance,
+                                                                        grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is not None and consumo_claro_grupo_familia.count() == 0:
+                consumo_claro, new = ConsumoClaro.objects.get_or_create(parte=instance,
+                                                                        grupo_parte=instance.grupo_parte)
 
     @receiver(post_save, sender=Parte)
     def save_consumo_claro(sender, instance, **kwargs):
-        instance.consumoclaro.grupo_parte = instance.grupo_parte
-        instance.consumoclaro.save()
+        try:
+            instance.consumoclaro.grupo_parte = instance.grupo_parte
+            instance.consumoclaro.save()
+        except:
+            pass

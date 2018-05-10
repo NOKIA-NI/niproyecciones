@@ -70,14 +70,23 @@ class Resultado(models.Model):
 
     @receiver(post_save, sender=Parte)
     def create_resultado(sender, instance, created, **kwargs):
+        resultado_grupo_familia = Resultado.objects.filter(parte__grupo_familia=instance.grupo_familia)
         if created:
-            resultado, new = Resultado.objects.get_or_create(parte=instance,
-                                                         grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is None:
+                resultado, new = Resultado.objects.get_or_create(parte=instance,
+                                                                 grupo_parte=instance.grupo_parte)
+            if instance.grupo_familia is not None and resultado_grupo_familia.count() == 0:
+                resultado, new = Resultado.objects.get_or_create(parte=instance,
+                                                                 grupo_parte=instance.grupo_parte)
 
     @receiver(post_save, sender=Parte)
     def save_resultado(sender, instance, **kwargs):
-        instance.resultado.grupo_parte = instance.grupo_parte
-        instance.resultado.save()
+        try:
+            instance.resultado.grupo_parte = instance.grupo_parte
+            instance.resultado.save()
+        except:
+            pass
+
 
     @receiver(post_save, sender=ConsumoNokia)
     @receiver(post_save, sender=ConsumoClaro)

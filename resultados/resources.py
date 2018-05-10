@@ -3,11 +3,20 @@ from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, 
 from .models import Resultado
 from partes.models import Parte
 
+class CustomForeignKeyWidget(ForeignKeyWidget):
+
+    def render(self, value, obj):
+        if obj.parte.grupo_familia is not None:
+            value = obj.parte.grupo_familia
+        else:
+            value = obj.parte.parte_nokia
+        return value
+
 class ResultadoResource(resources.ModelResource):
     parte = fields.Field(
         column_name='parte',
         attribute='parte',
-        widget=ForeignKeyWidget(Parte, 'parte_nokia'))
+        widget=CustomForeignKeyWidget(Parte))
 
     class Meta:
         model = Resultado
