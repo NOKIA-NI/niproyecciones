@@ -12,7 +12,9 @@ from django.db.models import Sum
 SITIOSLSM45 = '45 sitios LSM'
 SITIOSLSM120 = '120 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
+SITIOSLSM55 = '55 sitios LSM'
 AIRSCALE = 'AIRSCALE'
+
 SI = 'Si'
 NO = 'No'
 
@@ -45,7 +47,9 @@ class HwActividad(models.Model):
 
     def save(self, *args, **kwargs):
         if self.estacion.bolsa is not None:
-            if self.estacion.bolsa == SITIOSLSM45 or self.estacion.bolsa == SITIOSLSM120 or self.estacion.bolsa == SITIOSLSM531 or self.estacion.bolsa == AIRSCALE:
+            if self.estacion.bolsa == SITIOSLSM45 or self.estacion.bolsa == SITIOSLSM120 or \
+                self.estacion.bolsa == SITIOSLSM531 or self.estacion.bolsa == AIRSCALE or \
+                self.estacion.bolsa == SITIOSLSM55:
                 self.lsm = SI
             else:
                 self.lsm = NO

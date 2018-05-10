@@ -89,6 +89,7 @@ ESTADO_WR_CHOICES = (
 BOLSA_CHOICES = (
     ('', '---------'),
     ('45 sitios LSM', '45 sitios LSM'),
+    ('55 sitios LSM', '55 sitios LSM'),
     ('120 sitios LSM', '120 sitios LSM'),
     ('128 sitios LSM', '128 sitios LSM'),
     ('485 sitios', '485 sitios'),
