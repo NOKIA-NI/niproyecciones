@@ -157,12 +157,16 @@ def create_impacto(request):
 def calculate_impacto(request):
     partes = Parte.objects.all()
     weeks = list(range(14, 53))
+
     for week in weeks:
         if week >= WEEK:
             for parte in partes:
                 impactos = Impacto.objects.filter(parte=parte, w_fc_sal=week).order_by('-creado')
                 total_partes = impactos.aggregate(total=Coalesce(Sum('cantidad_estimada'), V(0))).get('total')
                 total_resultado = Resultado.objects.values_list('w' + str(week), flat=True).get(parte=parte)
+                if parte.grupo_familia is not None:
+                    resultados = Resultado.objects.filter(parte__grupo_familia=parte.grupo_familia)
+                    total_resultado = resultados.aggregate(total=Coalesce(Sum('w'+str(week)), V(0))).get('total')
                 if total_resultado < 0:
                     for impacto in impactos:
                         if total_resultado < 0 and total_resultado < total_partes:
