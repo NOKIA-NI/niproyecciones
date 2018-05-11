@@ -7,7 +7,7 @@ from django.utils import timezone
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
-if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
+if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
     WEEK = WEEK + 1
 
 class Estacion(models.Model):
@@ -19,8 +19,8 @@ class Estacion(models.Model):
     total_actividades = models.PositiveIntegerField(blank=True, null=True)
     estado_wr = models.CharField(max_length=255, choices=choices.ESTADO_WR_CHOICES, blank=True, null=True)
     mos = models.DateField(blank=True, null=True)
-    bolsa  = models.CharField(max_length=255, choices=choices.BOLSA_CHOICES, blank=True, null=True)
-    comunidades  = models.CharField(max_length=255, choices=choices.COMUNIDADES_CHOICES, blank=True, null=True)
+    bolsa = models.CharField(max_length=255, choices=choices.BOLSA_CHOICES, blank=True, null=True)
+    comunidades = models.CharField(max_length=255, choices=choices.COMUNIDADES_CHOICES, blank=True, null=True)
     satelital  = models.CharField(max_length=255, choices=choices.SATELITAL_CHOICES, blank=True, null=True)
 
     estado = models.BooleanField(default=True, editable=False)

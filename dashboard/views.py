@@ -11,7 +11,7 @@ from django.utils import timezone
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
-if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
+if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
     WEEK = WEEK + 1
 SI = 'Si'
 NO = 'No'
@@ -25,22 +25,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-
         week = self.request.GET.get('week', WEEK)
         weeks = list(range(14, 53))
         weeks = [week for week in weeks if week >= WEEK]
-
         accesorios = Parte.objects.filter(grupo_parte=ACCESORIOS)
         modulos = Parte.objects.filter(grupo_parte=MODULOS)
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
-
         context['week'] = week
         context['weeks'] = weeks
         context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
         context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
         context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-
         context['accesorios'] = accesorios
         context['modulos'] = modulos
         context['antenas'] = antenas
