@@ -6,6 +6,9 @@ from django.utils import timezone
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
+WEEKDAY = TODAY.weekday()
+if WEEKDAY == 5 or WEEKDAY == 6 or WEEKDAY == 7:
+    WEEK = WEEK + 1
 
 class Estacion(models.Model):
     site_name = models.CharField(max_length=255, unique=True, blank=True, null=True)
