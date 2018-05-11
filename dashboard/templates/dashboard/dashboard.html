@@ -21,7 +21,20 @@
       <div class="card bg-light">
         <div class="card-body">
           <h6 class="align-items-center d-flex justify-content-between text-muted"><span data-feather="calendar"></span>Calendar</h6>
-          <h3 class="text-muted">Semana {{ semana }}</h3>
+          <h3 class="text-muted">Semana {{ week }}</h3>
+          <form class="form-inline" action="{% url 'dashboard:dashboard' %}" method="get" id="week">
+            <div class="form-group mb-3">
+              <label for="week">Selecciona Semana</label>
+              <div class="col-sm-1">
+                <select class="form-control form-control-sm" name="week">
+                  <option>{{week}}</option>
+                  {% for week in weeks %}
+                  <option>{{ week }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

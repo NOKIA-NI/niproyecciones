@@ -25,14 +25,22 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
+
+        week = self.request.GET.get('week', WEEK)
+        weeks = list(range(14, 53))
+        weeks = [week for week in weeks if week >= WEEK]
+
         accesorios = Parte.objects.filter(grupo_parte=ACCESORIOS)
         modulos = Parte.objects.filter(grupo_parte=MODULOS)
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
-        context['semana'] = WEEK
-        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=WEEK).count()
-        context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=WEEK).count()
-        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=WEEK, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=WEEK, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+
+        context['week'] = week
+        context['weeks'] = weeks
+        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
+        context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
+        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+
         context['accesorios'] = accesorios
         context['modulos'] = modulos
         context['antenas'] = antenas

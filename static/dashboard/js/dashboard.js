@@ -101,6 +101,10 @@ $("#paginate_by").on('change', function () {
   $(this).submit()
 })
 
+$("#week").on('change', function () {
+  $(this).submit()
+})
+
 var labels = []
 var dataImpactosSi = [];
 var dataImpactosNo = [];
