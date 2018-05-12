@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget
 from .models import HwActividad
-from .models import Proyeccion
+from .models import Proyeccion, ProyeccionExtra
 from estaciones.models import Estacion
 from partes.models import Parte
 
@@ -33,6 +33,10 @@ class HwActividadResource(resources.ModelResource):
         column_name='proyeccion',
         attribute='proyeccion',
         widget=ForeignKeyWidget(Proyeccion, 'pk'))
+    proyeccion_extra = fields.Field(
+        column_name='proyeccion',
+        attribute='proyeccion',
+        widget=ForeignKeyWidget(ProyeccionExtra, 'pk'))
     proyecto = fields.Field(
         column_name='proyecto',
         attribute='proyeccion__proyecto')
@@ -75,6 +79,7 @@ class HwActividadResource(resources.ModelResource):
         'w_fc_imp',
         'w_fc_sal',
         'proyeccion',
+        'proyeccion_extra',
         'proyecto',
         'escenario',
         'banda',

@@ -531,6 +531,7 @@ def create_estacion(request):
                 scope_claro=hw_estacion.scope_claro,
                 w_fc_imp=hw_estacion.w_proyeccion_instalacion,
                 total_actividades=hw_estacion.actividades,
+                bolsa=hw_estacion.bolsa,
             )
 
     return HttpResponse(status=204)
@@ -548,13 +549,15 @@ def update_estacion(request):
                 estacion.region != hw_estacion.region or \
                 estacion.scope_claro != hw_estacion.scope_claro or \
                 estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
-                estacion.total_actividades != hw_estacion.actividades:
+                estacion.total_actividades != hw_estacion.actividades or \
+                estacion.bolsa != hw_estacion.bolsa:
 
                 estacion.site_name = hw_estacion.siteName
                 estacion.region = hw_estacion.region
                 estacion.scope_claro = hw_estacion.scope_claro
                 estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion
                 estacion.total_actividades = hw_estacion.actividades
+                estacion.bolsa = hw_estacion.bolsa
                 estacion.save()
 
         except Estacion.DoesNotExist:
