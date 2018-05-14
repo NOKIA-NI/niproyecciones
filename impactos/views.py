@@ -95,11 +95,15 @@ class SearchImpacto(ListImpacto):
                 reduce(operator.and_,
                           (Q(w_fc_imp__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
+                          (Q(bolsa__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
                           (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(grupo_parte__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(cantidad_estimada__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(tipo_impacto__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(impactado__icontains=q) for q in query_list))
 
@@ -149,6 +153,7 @@ def create_impacto(request):
                 estacion = hw_actividad.proyeccion.estacion,
                 w_fc_sal = hw_actividad.proyeccion.estacion.w_fc_sal,
                 w_fc_imp = hw_actividad.proyeccion.estacion.w_fc_imp,
+                bolsa = hw_actividad.proyeccion.estacion.bolsa,
                 parte = parte,
                 grupo_parte = parte.grupo_parte,
                 cantidad_estimada = hw_actividad.proyeccion.cantidad_estimada,
