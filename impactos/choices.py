@@ -1,8 +1,8 @@
 """ TIPO_IMPACTO_CHOICES """
 TIPO_IMPACTO_CHOICES = (
-    ('MODULO-ACCESORIO', 'MODULO-ACCESORIO'),
-    ('ANTENA', 'ANTENA'),
-    ('MODULO-ACCESORIO-ANTENA', 'MODULO-ACCESORIO-ANTENA'),
+    ('Modulo-Accesorio', 'Modulo-Accesorio'),
+    ('Antena', 'Antena'),
+    ('Modulo-Accesorio-Antena', 'Modulo-Accesorio-Antena'),
 )
 
 """ IMPACTADO_CHOICES  """

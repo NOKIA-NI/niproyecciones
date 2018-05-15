@@ -37,9 +37,9 @@ ACCESORIOS = 'Accesorios'
 MODULOS = 'Modulos'
 ANTENAS_Y_OTROS = 'Antenas y Otros'
 
-MODULO_ACCESORIO = 'MODULO-ACCESORIO'
-ANTENA = 'ANTENA'
-MODULO_ACCESORIO_ANTENA = 'MODULO-ACCESORIO-ANTENA'
+MODULO_ACCESORIO = 'Modulo-Accesorio'
+ANTENA = 'Antena'
+MODULO_ACCESORIO_ANTENA = 'Modulo-Accesorio-Antena'
 
 class ListImpacto(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
