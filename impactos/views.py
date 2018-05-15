@@ -33,6 +33,14 @@ if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
 SI = 'Si'
 NO = 'No'
 
+ACCESORIOS = 'Accesorios'
+MODULOS = 'Modulos'
+ANTENAS_Y_OTROS = 'Antenas y Otros'
+
+MODULO_ACCESORIO = 'MODULO-ACCESORIO'
+ANTENA = 'ANTENA'
+MODULO_ACCESORIO_ANTENA = 'MODULO-ACCESORIO-ANTENA'
+
 class ListImpacto(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = Impacto
@@ -188,6 +196,32 @@ def calculate_impacto(request):
                         else:
                             impacto.impactado = NO
                             impacto.save()
+
+    return HttpResponse(status=204)
+
+def calculate_tipo_impacto(request):
+
+    impactos = Impacto.objects.filter(impactado=SI)
+    impactos_modulos = impactos.filter(grupo_parte=MODULOS)
+    impactos_accesorios = impactos.filter(grupo_parte=ACCESORIOS)
+    impactos_antenas = impactos.filter(grupo_parte=ANTENAS_Y_OTROS)
+    
+    for impacto in impactos:
+        if impacto in impactos_modulos or impacto in impactos_accesorios:
+            impacto.tipo_impacto = MODULO_ACCESORIO
+            impacto.save()
+        if impacto in impactos_antenas:
+            impacto.tipo_impacto = ANTENA
+            impacto.save()
+        if impacto in impactos_antenas and impacto in impactos_modulos:
+            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+            impacto.save()
+        if impacto in impactos_antenas and impacto in impactos_accesorios:
+            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+            impacto.save()
+        if impacto in impactos_antenas and impacto in impactos_accesorios and impacto in impactos_modulos:
+            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+            impacto.save() 
 
     return HttpResponse(status=204)
 

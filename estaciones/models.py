@@ -40,7 +40,9 @@ class Estacion(models.Model):
         return reverse('estaciones:detail_estacion', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
-        if self.w_fc_imp is not None:
+        if self.w_fc_imp is not None and self.mos is not None:
+            self.w_fc_sal = mos.isocalendar()[1]
+        if self.w_fc_imp is not None and self.mos is None:
             self.w_fc_sal = self.w_fc_imp - 3
             if self.w_fc_sal < WEEK:
                 self.w_fc_sal = WEEK
