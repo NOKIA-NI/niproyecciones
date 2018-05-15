@@ -28,7 +28,6 @@ class HwActividadResource(resources.ModelResource):
     w_fc_sal = fields.Field(
         column_name='w_fc_sal',
         attribute='estacion__w_fc_sal')
-
     proyeccion = fields.Field(
         column_name='proyeccion',
         attribute='proyeccion',

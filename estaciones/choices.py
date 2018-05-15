@@ -8,6 +8,7 @@ NOR_OCCIDENTE = 'Nor Occidente'
 SUR_ORIENTE = 'Sur Oriente'
 SUR_OCCIDENTE = 'Sur Occidente'
 REGION_CHOICES = (
+    ('', '---------'),
     (CENTRO, 'Centro'),
     (COSTA, 'Costa'),
     (ORIENTE, 'Oriente'),
