@@ -41,7 +41,7 @@ class Estacion(models.Model):
 
     def save(self, *args, **kwargs):
         if self.w_fc_imp is not None and self.mos is not None:
-            self.w_fc_sal = mos.isocalendar()[1]
+            self.w_fc_sal = self.mos.isocalendar()[1]
         if self.w_fc_imp is not None and self.mos is None:
             self.w_fc_sal = self.w_fc_imp - 3
             if self.w_fc_sal < WEEK:
