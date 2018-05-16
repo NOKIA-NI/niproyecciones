@@ -108,16 +108,16 @@ class FilterExistencia(ListExistencia):
 
     def get_queryset(self):
         queryset = super(FilterExistencia, self).get_queryset()
-        dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(FilterExistencia, self).get_context_data(**kwargs)
         queryset = Existencia.objects.all()
-        dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
         queryset = queryset.filter(**query_dict)
         result = queryset.count()
         context['query_dict'] = query_dict
