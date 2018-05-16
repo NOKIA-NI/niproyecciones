@@ -24,6 +24,7 @@ class EstacionAdmin(ImportExportModelAdmin):
     'bolsa',
     'comunidades',
     'satelital',
+    'impactar',
     'estado',
     'subestado',
     'creado',

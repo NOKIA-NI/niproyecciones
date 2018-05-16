@@ -22,6 +22,7 @@ class Estacion(models.Model):
     bolsa = models.CharField(max_length=255, choices=choices.BOLSA_CHOICES, blank=True, null=True)
     comunidades = models.CharField(max_length=255, choices=choices.COMUNIDADES_CHOICES, blank=True, null=True)
     satelital  = models.CharField(max_length=255, choices=choices.SATELITAL_CHOICES, blank=True, null=True)
+    impactar = models.CharField(max_length=255, choices=choices.IMPACTAR_CHOICES, default='Si')
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)

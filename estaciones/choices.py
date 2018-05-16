@@ -113,3 +113,9 @@ COMUNIDADES_CHOICES = (
     ('142 Comunidades P1', '142 Comunidades P2'),
     ('142 Comunidades P1', '142 Comunidades P3'),
 )
+
+""" IMPACTAR_CHOICES  """
+IMPACTAR_CHOICES = (
+    ('Si', 'Si'),
+    ('No', 'No'),
+)

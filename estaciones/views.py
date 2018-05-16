@@ -98,7 +98,9 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(comunidades__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(satelital__icontains=q) for q in query_list))
+                          (Q(satelital__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactar__icontains=q) for q in query_list))
             )
         return queryset
 
@@ -128,7 +130,9 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(comunidades__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(satelital__icontains=q) for q in query_list))
+                          (Q(satelital__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impactar__icontains=q) for q in query_list))
             )
         result = queryset.count()
         context['result'] = result

@@ -20,6 +20,7 @@ class EstacionResource(resources.ModelResource):
         'bolsa',
         'comunidades',
         'satelital',
+        'impactar',
         # 'estado',
         'subestado',
         # 'creado',
