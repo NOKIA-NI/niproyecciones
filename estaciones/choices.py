@@ -97,6 +97,7 @@ BOLSA_CHOICES = (
     ('Reemplazo 531', 'Reemplazo 531'),
     ('Sitios Bulk', 'Sitios Bulk'),
     ('AIRSCALE', 'AIRSCALE'),
+    ('AIRSCALE 2', 'AIRSCALE 2'),
 )
 
 """ SATELITAL_CHOICES  """
