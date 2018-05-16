@@ -18,6 +18,9 @@ NO = 'No'
 ACCESORIOS = 'Accesorios'
 MODULOS = 'Modulos'
 ANTENAS_Y_OTROS = 'Antenas y Otros'
+MODULO_ACCESORIO = 'Modulo-Accesorio'
+ANTENA = 'Antena'
+MODULO_ACCESORIO_ANTENA = 'Modulo-Accesorio-Antena'
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
@@ -37,6 +40,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
         context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA).order_by('estacion_id').distinct('estacion').count()
         context['accesorios'] = accesorios
         context['modulos'] = modulos
         context['antenas'] = antenas
