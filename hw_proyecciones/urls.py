@@ -15,6 +15,7 @@ create_estacion,
 update_estacion,
 delete_estacion,
 
+update_hw_actividad,
 calculate_consumo_nokia,
 )
 
@@ -36,5 +37,6 @@ urlpatterns = [
     path('update/hw/estacion/', update_estacion, name='update_hw_estacion'),
     path('delete/hw/estacion/', delete_estacion, name='delete_hw_estacion'),
 
+    path('update/hw/actividad/', update_hw_actividad, name='update_hw_actividad'),
     path('calculate/consumo/nokia/', calculate_consumo_nokia, name='calculate_consumo_nokia'),
 ]

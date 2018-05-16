@@ -579,6 +579,14 @@ def delete_estacion(request):
 
     return HttpResponse(status=204)
 
+def update_hw_actividad(request):
+    hw_actividades = HwActividad.objects.all()
+
+    for hw_actividad in hw_actividades:
+        hw_actividad.save()
+
+    return HttpResponse(status=204)
+
 def calculate_consumo_nokia(request):
     partes = Parte.objects.all()
 
