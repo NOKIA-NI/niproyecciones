@@ -83,46 +83,24 @@ class SearchParte(ListParte):
 
     def get_context_data(self, **kwargs):
         context = super(SearchParte, self).get_context_data(**kwargs)
-        queryset = Parte.objects.all()
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            queryset = queryset.filter(
-                reduce(operator.and_,
-                          (Q(id__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(cod_sap__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(parte_nokia__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(capex__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(grupo_parte__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(impactar__icontains=q) for q in query_list))
-            )
-        result = queryset.count()
-        context['result'] = result
+        context['result'] = self.get_queryset().count()
         return context
 
 class FilterParte(ListParte):
+    query_dict = {}
 
     def get_queryset(self):
         queryset = super(FilterParte, self).get_queryset()
         request_dict = self.request.GET.dict()
         query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
         queryset = queryset.filter(**query_dict)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(FilterParte, self).get_context_data(**kwargs)
-        queryset = Parte.objects.all()
-        request_dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
-        queryset = queryset.filter(**query_dict)
-        result = queryset.count()
-        context['query_dict'] = query_dict
-        context['result'] = result
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
         return context
 
 def export_parte(request):

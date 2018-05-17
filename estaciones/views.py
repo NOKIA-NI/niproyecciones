@@ -106,56 +106,24 @@ class SearchEstacion(ListEstacion):
 
     def get_context_data(self, **kwargs):
         context = super(SearchEstacion, self).get_context_data(**kwargs)
-        queryset = Estacion.objects.all()
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            queryset = queryset.filter(
-                reduce(operator.and_,
-                          (Q(id__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(site_name__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(region__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(scope_claro__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(w_fc_imp__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(total_actividades__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(estado_wr__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(bolsa__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(comunidades__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(satelital__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(impactar__icontains=q) for q in query_list))
-            )
-        result = queryset.count()
-        context['result'] = result
+        context['result'] = self.get_queryset().count()
         return context
 
 class FilterEstacion(ListEstacion):
+    query_dict = {}
 
     def get_queryset(self):
         queryset = super(FilterEstacion, self).get_queryset()
         request_dict = self.request.GET.dict()
         query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
         queryset = queryset.filter(**query_dict)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(FilterEstacion, self).get_context_data(**kwargs)
-        queryset = Estacion.objects.all()
-        request_dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
-        queryset = queryset.filter(**query_dict)
-        result = queryset.count()
-        context['query_dict'] = query_dict
-        context['result'] = result
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
         return context
 
 def export_estacion(request):

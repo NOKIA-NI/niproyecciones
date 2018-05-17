@@ -17,6 +17,8 @@ from functools import reduce
 from .resources import HwActividadResource
 from django.http import HttpResponse
 
+QUERY_DICT = {}
+
 class ListHwActividad(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
     model = HwActividad
@@ -83,31 +85,11 @@ class SearchHwActividad(ListHwActividad):
 
     def get_context_data(self, **kwargs):
         context = super(SearchHwActividad, self).get_context_data(**kwargs)
-        queryset = HwActividad.objects.all()
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            queryset = queryset.filter(
-                reduce(operator.and_,
-                          (Q(id__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(proyeccion__id__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(lsm__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(calculo_hw__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(impactar__icontains=q) for q in query_list))
-            )
-        result = queryset.count()
-        context['result'] = result
+        context['result'] = self.get_queryset().count()
         return context
 
 class FilterHwActividad(ListHwActividad):
+    query_dict = {}
 
     def get_queryset(self):
         queryset = super(FilterHwActividad, self).get_queryset()
@@ -141,46 +123,14 @@ class FilterHwActividad(ListHwActividad):
                         **w_fc_sal_dict,
                         **grupo_parte_dict,
                         )
+        self.query_dict = query_dict
         queryset = queryset.filter(**query_dict)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(FilterHwActividad, self).get_context_data(**kwargs)
-        queryset = HwActividad.objects.all()
-        request_dict = self.request.GET.dict()
-        region_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k == 'region' }
-        bolsa_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k == 'bolsa' }
-        comunidades_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'comunidades' }
-        satelital_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'satelital' }
-        w_fc_imp_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_imp' }
-        w_fc_sal_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_sal' }
-        grupo_parte_dict = { 'parte__'+k: v for  k, v  in request_dict.items() if v if k == 'grupo_parte' }
-        query_dict = { k: v for k, v in request_dict.items()
-                     if v
-                     if k != 'page'
-                     if k != 'paginate_by'
-                     if k != 'region'
-                     if k != 'bolsa'
-                     if k != 'comunidades'
-                     if k != 'satelital'
-                     if k != 'w_fc_imp'
-                     if k != 'w_fc_sal'
-                     if k != 'grupo_parte'
-                     }
-        query_dict = dict(
-                        query_dict,
-                        **region_dict,
-                        **bolsa_dict,
-                        **comunidades_dict,
-                        **satelital_dict,
-                        **w_fc_imp_dict,
-                        **w_fc_sal_dict,
-                        **grupo_parte_dict,
-                        )
-        queryset = queryset.filter(**query_dict)
-        result = queryset.count()
-        context['query_dict'] = query_dict
-        context['result'] = result
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
         return context
 
 def export_hw_actividad(request):
