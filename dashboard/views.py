@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from estaciones.models import Estacion
 from partes.models import Parte
 from impactos.models import Impacto
+from hw_actividades.models import HwActividad
 from django.utils import timezone
 
 TODAY = timezone.now()
@@ -36,13 +37,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
         context['week'] = week
         context['weeks'] = weeks
-        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
-        context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
-        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO).order_by('estacion_id').distinct('estacion').count()
         context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA).order_by('estacion_id').distinct('estacion').count()
         context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA).order_by('estacion_id').distinct('estacion').count()
+        # context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
+        context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        # context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
+        context['estaciones_next_week_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=int(week)+1).order_by('estacion_id').distinct('estacion').count()
+        # context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['accesorios'] = accesorios
         context['modulos'] = modulos
         context['antenas'] = antenas
@@ -57,10 +61,13 @@ def impactos(request):
     w_fc = request.GET.get('w_fc', 'w_fc_imp')
     weeks = list(range(14, 53))
     labels = [week for week in weeks if week >= WEEK]
+    cronograma = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     impactos_si = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_no = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
+        'cronograma': cronograma,
         'impactos_si': impactos_si,
         'impactos_no': impactos_no,
     }

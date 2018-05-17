@@ -106,6 +106,7 @@ $("#week").on('change', function () {
 })
 
 var labels = []
+var dataCronograma = [];
 var dataImpactosSi = [];
 var dataImpactosNo = [];
 var dataImpactosAccesorios = [];
@@ -123,6 +124,7 @@ $.ajax({
   url: '/dashboard/impactos',
   success: function(data){
     labels = data.labels
+    dataCronograma = data.cronograma
     dataImpactosSi = data.impactos_si
     dataImpactosNo = data.impactos_no
     Impactos()
@@ -146,6 +148,7 @@ $("#w_fc_impacto").change(function () {
         ImpactosChart.destroy();
       }
       labels = data.labels
+      dataCronograma = data.cronograma
       dataImpactosSi = data.impactos_si
       dataImpactosNo = data.impactos_no
       Impactos()
@@ -193,6 +196,19 @@ function Impactos() {
     data: {
       labels: labels,
       datasets: [{
+          type: 'line',
+          label: 'Estaciones - Cronogrma',
+          // backgroundColor: '#2196F3',
+          data: dataCronograma,
+          lineTension: 0,
+          // backgroundColor: '#2196F3',
+          // borderColor: '#2196F3',
+          borderWidth: 0,
+          // pointBackgroundColor: '#2196F3',
+          fill: false,
+          showLine: false
+        },
+        {
         label: 'Estaciones - Impactos No',
 				backgroundColor: '#4CAF50',
         data: dataImpactosNo,

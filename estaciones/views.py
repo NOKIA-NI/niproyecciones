@@ -17,6 +17,7 @@ from functools import reduce
 from .resources import EstacionResource
 from django.http import HttpResponse
 from django.utils import timezone
+from hw_actividades.models import HwActividad
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
@@ -145,13 +146,23 @@ class CronogramaFcImpEstacion(LoginRequiredMixin, TemplateView):
         fields = [week for week in weeks if week >= WEEK]
         context['fields'] = fields
         context['week'] = WEEK
-        context['centro'] = [Estacion.objects.filter(region=CENTRO, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['costa'] = [Estacion.objects.filter(region=COSTA, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['oriente'] = [Estacion.objects.filter(region=ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['nor_oriente'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['nor_occidente'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['sur_occidente'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
-        context['total'] = [Estacion.objects.filter(w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['centro_web'] = [Estacion.objects.filter(region=CENTRO, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['costa_web'] = [Estacion.objects.filter(region=COSTA, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['oriente_web'] = [Estacion.objects.filter(region=ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['nor_oriente_web'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['nor_occidente_web'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['sur_occidente_web'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['total_web'] = [Estacion.objects.filter(w_fc_imp=week).count() for week in weeks if week >= WEEK]
+        context['suma_total_web'] = sum([Estacion.objects.filter(w_fc_imp=week).count() for week in weeks if week >= WEEK])
+
+        context['centro_calculo_hw'] = [HwActividad.objects.filter(estacion__region=CENTRO, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['costa_calculo_hw'] = [HwActividad.objects.filter(estacion__region=COSTA, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['oriente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=ORIENTE, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['nor_oriente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=NOR_ORIENTE, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['nor_occidente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=NOR_OCCIDENTE, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['sur_occidente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=SUR_OCCIDENTE, estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['total_calculo_hw'] = [HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['suma_total_calculo_hw'] = sum([HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK])
         return context
 
 class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
@@ -164,11 +175,21 @@ class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
         fields = [week for week in weeks if week >= WEEK]
         context['fields'] = fields
         context['week'] = WEEK
-        context['centro'] = [Estacion.objects.filter(region=CENTRO, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['costa'] = [Estacion.objects.filter(region=COSTA, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['oriente'] = [Estacion.objects.filter(region=ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['nor_oriente'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['nor_occidente'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['sur_occidente'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
-        context['total'] = [Estacion.objects.filter(w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['centro_web'] = [Estacion.objects.filter(region=CENTRO, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['costa_web'] = [Estacion.objects.filter(region=COSTA, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['oriente_web'] = [Estacion.objects.filter(region=ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['nor_oriente_web'] = [Estacion.objects.filter(region=NOR_ORIENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['nor_occidente_web'] = [Estacion.objects.filter(region=NOR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['sur_occidente_web'] = [Estacion.objects.filter(region=SUR_OCCIDENTE, w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['total_web'] = [Estacion.objects.filter(w_fc_sal=week).count() for week in weeks if week >= WEEK]
+        context['suma_total_web'] = sum([Estacion.objects.filter(w_fc_sal=week).count() for week in weeks if week >= WEEK])
+
+        context['centro_calculo_hw'] = [HwActividad.objects.filter(estacion__region=CENTRO, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['costa_calculo_hw'] = [HwActividad.objects.filter(estacion__region=COSTA, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['oriente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=ORIENTE, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['nor_oriente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=NOR_ORIENTE, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['nor_occidente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=NOR_OCCIDENTE, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['sur_occidente_calculo_hw'] = [HwActividad.objects.filter(estacion__region=SUR_OCCIDENTE, estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['total_calculo_hw'] = [HwActividad.objects.filter(estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
+        context['suma_total_calculo_hw'] = sum([HwActividad.objects.filter(estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK])
         return context

@@ -44,7 +44,6 @@
           <a class="dropdown-item" href="#">link</a>
         </div>
       </div>
-
       <div class="btn-group" role="group">
         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span data-feather="calendar"></span>
@@ -68,13 +67,29 @@
       <a {% if request.resolver_match.url_name == 'cronograma_fc_sal_estacion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:cronograma_fc_sal_estacion' %}">Cronograma Fc Sal</a>
     </li>
   </ul>
+  <div class="container-fluid bg-secondary">
+    <h4 class="text-light">Cronograma Web {{suma_total_web}} Estaciones</h4>
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm" id="table_estacion">
       <thead>
-        {% include 'estacion/includes/partials/head_cronograma_estacion.html' %}
+        {% include 'estacion/includes/partials/head_cronograma_web.html' %}
       </thead>
       <tbody>
-        {% include 'estacion/includes/partials/body_cronograma_estacion.html' %}
+        {% include 'estacion/includes/partials/body_cronograma_web.html' %}
+      </tbody>
+    </table>
+  </div>
+  <div class="container-fluid bg-secondary">
+      <h4 class="text-light">Cronograma Calculo Hw {{suma_total_calculo_hw}} Estaciones</h4>
+    </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm" id="table_estacion">
+      <thead>
+        {% include 'estacion/includes/partials/head_cronograma_calculo_hw.html' %}
+      </thead>
+      <tbody>
+        {% include 'estacion/includes/partials/body_cronograma_calculo_hw.html' %}
       </tbody>
     </table>
   </div>
