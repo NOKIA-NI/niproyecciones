@@ -216,13 +216,13 @@ function Impactos() {
         },
         {
         label: 'Estaciones - Impactos No',
-				backgroundColor: '#4CAF50',
+				backgroundColor: '#2196F3',
         data: dataImpactosNo,
         lineTension: 0,
-        backgroundColor: '#4CAF50',
-        borderColor: '#4CAF50',
+        backgroundColor: '#2196F3',
+        borderColor: '#2196F3',
         borderWidth: 4,
-        pointBackgroundColor: '#4CAF50'
+        pointBackgroundColor: '#2196F3'
       },
       {
         label: 'Estaciones - Impactos Si',

@@ -13,7 +13,7 @@ SITIOSLSM165 = '165 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
 SITIOSLSM55 = '55 sitios LSM'
 AIRSCALE = 'AIRSCALE'
-AIRSCALE2 = 'AIRSCALE 2'
+AIRSCALE240 = 'AIRSCALE 240'
 
 SI = 'Si'
 NO = 'No'
@@ -51,7 +51,7 @@ class HwActividad(models.Model):
             if self.estacion.bolsa == SITIOSLSM165 or \
                 self.estacion.bolsa == SITIOSLSM531 or \
                 self.estacion.bolsa == AIRSCALE or \
-                self.estacion.bolsa == AIRSCALE2 or \
+                self.estacion.bolsa == AIRSCALE240 or \
                 self.estacion.bolsa == SITIOSLSM55:
                 self.lsm = SI
             else:
