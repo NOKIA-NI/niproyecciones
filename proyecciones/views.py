@@ -14,7 +14,7 @@ from .models import Proyeccion, ProyeccionExtra
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import ProyeccionResource
+from .resources import ProyeccionResource, ProyeccionExtraResource
 from django.http import HttpResponse
 
 class ListProyeccion(LoginRequiredMixin, ListView, FormView):
@@ -87,59 +87,31 @@ class SearchProyeccion(ListProyeccion):
 
     def get_context_data(self, **kwargs):
         context = super(SearchProyeccion, self).get_context_data(**kwargs)
-        queryset = Proyeccion.objects.all()
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            queryset = queryset.filter(
-                reduce(operator.and_,
-                          (Q(id__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(proyecto__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(escenario__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(banda__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(agrupadores__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(estado_proyeccion__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                          (Q(cantidad_estimada__icontains=q) for q in query_list))
-            )
-        result = queryset.count()
-        context['result'] = result
+        context['result'] = self.get_queryset().count()
         return context
 
 class FilterProyeccion(ListProyeccion):
+    query_dict = {}
 
     def get_queryset(self):
         queryset = super(FilterProyeccion, self).get_queryset()
         dict = self.request.GET.dict()
         query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
         queryset = queryset.filter(**query_dict)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(FilterProyeccion, self).get_context_data(**kwargs)
-        queryset = Proyeccion.objects.all()
-        dict = self.request.GET.dict()
-        query_dict = { k: v for k, v in dict.items() if v if k != 'page' if k != 'paginate_by' }
-        queryset = queryset.filter(**query_dict)
-        result = queryset.count()
-        context['query_dict'] = query_dict
-        context['result'] = result
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
         return context
 
 def export_proyeccion(request):
     proyeccion_resource = ProyeccionResource()
     query_dict = request.GET.dict()
     queryset = Proyeccion.objects.filter(**query_dict)
-    dataset = proyeccion_resource.export()
+    dataset = proyeccion_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Proyeccion.xlsx"'
     return response
@@ -238,7 +210,7 @@ def export_proyeccion_extra(request):
     proyeccion_extra_resource = ProyeccionExtraResource()
     query_dict = request.GET.dict()
     queryset = ProyeccionExtra.objects.filter(**query_dict)
-    dataset = proyeccion_extra_resource.export()
+    dataset = proyeccion_extra_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="ProyeccionExtra.xlsx"'
     return response

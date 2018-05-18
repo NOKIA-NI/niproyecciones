@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filter_tags %}
 {% block title %}Proyecciones Extra{% endblock title %}
 
 {% block navbar %}
@@ -29,7 +30,7 @@
           <span data-feather="trash"></span>
           Borrar
         </button>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'proyecciones:export_proyeccion_extra' %}">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'proyecciones:export_proyeccion_extra' %}?{{query_dict|get_encoded_dict}}">
           <span data-feather="download"></span>
           Exportar
         </a>
