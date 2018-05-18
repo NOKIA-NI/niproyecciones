@@ -7,6 +7,7 @@
   <td>{{ object.estacion.satelital }}</td>
   <td>{{ object.estacion.w_fc_imp }}</td>
   <td>{{ object.estacion.w_fc_sal }}</td>
+  {% if object.proyeccion %}
   <td>{{ object.proyeccion.proyecto}}</td>
   <td>{{ object.proyeccion.escenario}}</td>
   <td>{{ object.proyeccion.banda }}</td>
@@ -14,6 +15,15 @@
   <td>{{ object.proyeccion.rfe }}</td>
   <td>{{ object.proyeccion.estado_proyeccion }}</td>
   <td>{{ object.proyeccion.cantidad_estimada }}</td>
+  {% else %}
+  <td>{{ object.proyeccion_extra.proyecto}}</td>
+  <td>{{ object.proyeccion_extra.escenario}}</td>
+  <td>{{ object.proyeccion_extra.banda }}</td>
+  <td>{{ object.proyeccion_extra.agrupadores }}</td>
+  <td>{{ object.proyeccion_extra.rfe }}</td>
+  <td>{{ object.proyeccion_extra.estado_proyeccion }}</td>
+  <td>{{ object.proyeccion_extra.cantidad_estimada }}</td>
+  {% endif%}
   <td>{{ object.parte }}</td>
   <td>{{ object.parte.grupo_parte}}</td>
   <td>{{ object.lsm }}</td>

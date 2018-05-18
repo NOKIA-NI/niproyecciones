@@ -5,6 +5,7 @@ from .models import Proyeccion, ProyeccionExtra
 from estaciones.models import Estacion
 from partes.models import Parte
 
+
 class HwActividadResource(resources.ModelResource):
     estacion = fields.Field(
         column_name='estacion',
@@ -37,26 +38,19 @@ class HwActividadResource(resources.ModelResource):
     #     attribute='proyeccion',
     #     widget=ForeignKeyWidget(ProyeccionExtra, 'pk'))
     proyecto = fields.Field(
-        column_name='proyecto',
-        attribute='proyeccion__proyecto')
+        column_name='proyecto')
     escenario = fields.Field(
-        column_name='escenario',
-        attribute='proyeccion__escenario')
+        column_name='escenario')
     banda = fields.Field(
-        column_name='banda',
-        attribute='proyeccion__banda')
+        column_name='banda')
     agrupadores = fields.Field(
-        column_name='agrupadores',
-        attribute='proyeccion__agrupadores')
+        column_name='agrupadores')
     rfe = fields.Field(
-        column_name='rfe',
-        attribute='proyeccion__rfe')
+        column_name='rfe')
     estado_proyeccion = fields.Field(
-        column_name='estado_proyeccion',
-        attribute='proyeccion__estado_proyeccion')
+        column_name='estado_proyeccion')
     cantidad_estimada = fields.Field(
-        column_name='cantidad_estimada',
-        attribute='proyeccion__cantidad_estimada')
+        column_name='cantidad_estimada')
     parte = fields.Field(
         column_name='parte',
         attribute='parte',
@@ -96,3 +90,52 @@ class HwActividadResource(resources.ModelResource):
         # 'creado',
         # 'actualizado',
         )
+
+    def dehydrate_proyecto(self, obj):
+        try:
+            if obj.proyeccion_extra.proyecto is not None:
+                return obj.proyeccion_extra.proyecto
+        except:
+            return obj.proyeccion.proyecto
+
+    def dehydrate_escenario(self, obj):
+        try:
+            if obj.proyeccion_extra.escenario is not None:
+                return obj.proyeccion_extra.escenario
+        except:
+            return obj.proyeccion.escenario
+
+    def dehydrate_banda(self, obj):
+        try:
+            if obj.proyeccion_extra.banda is not None:
+                return obj.proyeccion_extra.banda
+        except:
+            return obj.proyeccion.banda
+
+    def dehydrate_agrupadores(self, obj):
+        try:
+            if obj.proyeccion_extra.agrupadores is not None:
+                return obj.proyeccion_extra.agrupadores
+        except:
+            return obj.proyeccion.agrupadores
+
+    def dehydrate_rfe(self, obj):
+        try:
+            if obj.proyeccion_extra.rfe is not None:
+                return obj.proyeccion_extra.rfe
+        except:
+            return obj.proyeccion.rfe
+
+    def dehydrate_estado_proyeccion(self, obj):
+        try:
+            if obj.proyeccion_extra.estado_proyeccion is not None:
+                return obj.proyeccion_extra.estado_proyeccion
+        except:
+            return obj.proyeccion.estado_proyeccion
+
+    def dehydrate_cantidad_estimada(self, obj):
+        try:
+            if obj.proyeccion_extra.cantidad_estimada is not None:
+                return obj.proyeccion_extra.cantidad_estimada
+        except:
+            return obj.proyeccion.cantidad_estimada

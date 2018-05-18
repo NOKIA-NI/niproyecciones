@@ -16,8 +16,9 @@ from django.db.models import Q
 from functools import reduce
 from .resources import HwActividadResource
 from django.http import HttpResponse
+from estaciones.models import Estacion
+from partes.models import Parte
 
-QUERY_DICT = {}
 
 class ListHwActividad(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -94,35 +95,45 @@ class FilterHwActividad(ListHwActividad):
     def get_queryset(self):
         queryset = super(FilterHwActividad, self).get_queryset()
         request_dict = self.request.GET.dict()
-        region_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k == 'region' }
-        bolsa_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'bolsa' }
-        comunidades_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'comunidades' }
-        satelital_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'satelital' }
-        w_fc_imp_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_imp' }
-        w_fc_sal_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_sal' }
-        grupo_parte_dict = { 'parte__'+k: v for  k, v  in request_dict.items() if v if k == 'grupo_parte' }
-        query_dict = { k: v for k, v in request_dict.items()
-                     if v
-                     if k != 'page'
-                     if k != 'paginate_by'
-                     if k != 'region'
-                     if k != 'bolsa'
-                     if k != 'comunidades'
-                     if k != 'satelital'
-                     if k != 'w_fc_imp'
-                     if k != 'w_fc_sal'
-                     if k != 'grupo_parte'
-                     }
-        query_dict = dict(
-                        query_dict,
-                        **region_dict,
-                        **bolsa_dict,
-                        **comunidades_dict,
-                        **satelital_dict,
-                        **w_fc_imp_dict,
-                        **w_fc_sal_dict,
-                        **grupo_parte_dict,
-                        )
+        hw_actividad_fileds = [field.name for field in HwActividad._meta.fields]
+        estacion_fileds = [field.name for field in Estacion._meta.fields]
+        parte_fileds = [field.name for field in Parte._meta.fields]
+        estacion_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k in estacion_fileds }
+        parte_dict = { 'parte__'+k: v for k, v in request_dict.items() if v if k in parte_fileds }
+        # region_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k == 'region' }
+        # bolsa_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'bolsa' }
+        # comunidades_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'comunidades' }
+        # satelital_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'satelital' }
+        # w_fc_imp_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_imp' }
+        # w_fc_sal_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_sal' }
+        # grupo_parte_dict = { 'parte__'+k: v for  k, v  in request_dict.items() if v if k == 'grupo_parte' }
+        query_dict = { k: v for k, v in request_dict.items()if v if k in hw_actividad_fileds }
+        # query_dict = { k: v for k, v in request_dict.items()
+                    #  if v
+                    #  if k in hw_actividad_fileds
+                    #  if k != 'page'
+                    #  if k != 'paginate_by'
+                    #  if k != 'region'
+                    #  if k != 'bolsa'
+                    #  if k != 'comunidades'
+                    #  if k != 'satelital'
+                    #  if k != 'w_fc_imp'
+                    #  if k != 'w_fc_sal'
+                    #  if k != 'grupo_parte'
+                    #  }
+        query_dict = dict(query_dict, **estacion_dict, **parte_dict)
+        # query_dict = dict(
+        #                 query_dict,
+        #                 **estacion_dict,
+        #                 **parte_dict,
+        #                 **region_dict,
+        #                 **bolsa_dict,
+        #                 **comunidades_dict,
+        #                 **satelital_dict,
+        #                 **w_fc_imp_dict,
+        #                 **w_fc_sal_dict,
+        #                 **grupo_parte_dict,
+        #                 )
         self.query_dict = query_dict
         queryset = queryset.filter(**query_dict)
         return queryset
