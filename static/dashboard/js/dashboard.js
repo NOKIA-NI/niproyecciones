@@ -120,8 +120,17 @@ var dataImpactosModulos = [];
 var dataImpactosAntenas = [];
 var dataImpactosParteFcImp = [];
 var dataImpactosParteFcSal = [];
+var dataSitioslsm55 = [];
+var dataSitioslsm165 = [];
+var dataSitioslsm170 = [];
+var dataSitioslsm531 = [];
+var dataSitios165 = [];
+var dataSitiosbulk = [];
+var dataAirscale = [];
+var dataAirscale240 = [];
 
 var ImpactosChart;
+var CronogramaBolsasChart;
 var ImpactosGrupoParteChart;
 var ImpactosParteChart;
 
@@ -240,6 +249,175 @@ function Impactos() {
       title: {
 						display: true,
 						text: 'Proyeccion Impactos [ Estaciones - Impactos ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          stacked: true,
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          stacked: true,
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: true,
+      }
+    }
+  });
+}
+
+$.ajax({
+  method: 'GET',
+  url: '/dashboard/cronograma/bolsas',
+  success: function(data){
+    labels = data.labels
+    dataSitioslsm55 = data.sitioslsm55
+    dataSitioslsm165 = data.sitioslsm165
+    dataSitioslsm170 = data.sitioslsm170
+    dataSitioslsm531 = data.sitioslsm531
+    dataSitios165 = data.sitios165
+    dataSitiosbulk = data.sitiosbulk
+    dataAirscale = data.airscale
+    dataAirscale240 = data.airscale240
+    CronogrmaBolsas()
+  },
+  error: function(error){
+  }
+})
+
+$("#w_fc_cronograma_bolsa").change(function () {
+  var w_fc = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/cronograma/bolsas',
+    data: {
+        'w_fc': w_fc
+      },
+    dataType: 'json',
+    success: function(data){
+      if (typeof CronogramaBolsasChart !== "undefined") {
+        CronogramaBolsasChart.destroy();
+      }
+      labels = data.labels
+      ddataSitioslsm55 = data.sitioslsm55
+      dataSitioslsm165 = data.sitioslsm165
+      dataSitioslsm170 = data.sitioslsm170
+      dataSitioslsm531 = data.sitioslsm531
+      dataSitios165 = data.sitios165
+      dataSitiosbulk = data.sitiosbulk
+      dataAirscale = data.airscale
+      dataAirscale240 = data.airscale240
+      CronogrmaBolsas()
+    },
+    error: function(error){
+    }
+  })
+})
+
+function CronogrmaBolsas() {
+  var ctx = document.getElementById("cronogrmaBolsas");
+  CronogramaBolsasChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Estaciones -  Sitioslsm55',
+				backgroundColor: '#2196F3',
+        data: dataSitioslsm55,
+        lineTension: 0,
+        backgroundColor: '#2196F3',
+        borderColor: '#2196F3',
+        borderWidth: 4,
+        pointBackgroundColor: '#2196F3'
+      },
+      {
+        label: 'Estaciones -  Sitioslsm165',
+				backgroundColor: '#fd7e14',
+        data: dataSitioslsm165,
+        lineTension: 0,
+        backgroundColor: '#fd7e14',
+        borderColor: '#fd7e14',
+        borderWidth: 4,
+        pointBackgroundColor: '#fd7e14'
+      },
+      {
+        label: 'Estaciones -  Sitioslsm170',
+				backgroundColor: '#28a745',
+        data: dataSitioslsm170,
+        lineTension: 0,
+        backgroundColor: '#28a745',
+        borderColor: '#28a745',
+        borderWidth: 4,
+        pointBackgroundColor: '#28a745'
+      },
+      {
+        label: 'Estaciones - Sitioslsm531',
+				backgroundColor: '#dc3545',
+        data: dataSitioslsm531,
+        lineTension: 0,
+        backgroundColor: '#dc3545',
+        borderColor: '#dc3545',
+        borderWidth: 4,
+        pointBackgroundColor: '#dc3545'
+      },
+      {
+        label: 'Estaciones - Sitios165',
+				backgroundColor: '#ffc107',
+        data: dataSitios165,
+        lineTension: 0,
+        backgroundColor: '#ffc107',
+        borderColor: '#ffc107',
+        borderWidth: 4,
+        pointBackgroundColor: '#ffc107'
+      },
+      {
+        label: 'Estaciones - Sitiosbulk',
+				backgroundColor: '#17a2b8',
+        data: dataSitiosbulk,
+        lineTension: 0,
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        borderWidth: 4,
+        pointBackgroundColor: '#17a2b8'
+      },
+      {
+        label: 'Estaciones - Airscale',
+				backgroundColor: '#20c997',
+        data: dataAirscale,
+        lineTension: 0,
+        backgroundColor: '#20c997',
+        borderColor: '#20c997',
+        borderWidth: 4,
+        pointBackgroundColor: '#20c997'
+      },
+      {
+        label: 'Estaciones - Airscale240',
+				backgroundColor: '#6f42c1',
+        data: dataAirscale240,
+        lineTension: 0,
+        backgroundColor: '#6f42c1',
+        borderColor: '#6f42c1',
+        borderWidth: 4,
+        pointBackgroundColor: '#6f42c1'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Cronograma [ Estaciones - Bolsas ]'
 					},
       tooltips: {
 						mode: 'index',
