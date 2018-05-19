@@ -333,7 +333,7 @@ function CronogrmaBolsas() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones -  Sitioslsm55',
+        label: 'Estaciones - Sitioslsm55',
 				backgroundColor: '#2196F3',
         data: dataSitioslsm55,
         lineTension: 0,
@@ -343,7 +343,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#2196F3'
       },
       {
-        label: 'Estaciones -  Sitioslsm165',
+        label: 'Estaciones - Sitioslsm165',
 				backgroundColor: '#fd7e14',
         data: dataSitioslsm165,
         lineTension: 0,
@@ -353,7 +353,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#fd7e14'
       },
       {
-        label: 'Estaciones -  Sitioslsm170',
+        label: 'Estaciones - Sitioslsm170',
 				backgroundColor: '#28a745',
         data: dataSitioslsm170,
         lineTension: 0,

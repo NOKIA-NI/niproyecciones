@@ -123,18 +123,23 @@ def create_impacto(request):
 
     for parte in partes:
 
-        hw_actividades = HwActividad.objects.filter(impactar=SI, proyeccion__parte=parte)
+        hw_actividades = HwActividad.objects.filter(impactar=SI, parte=parte)
 
         for hw_actividad in hw_actividades:
             impacto = Impacto.objects.create(
-                estacion = hw_actividad.proyeccion.estacion,
-                w_fc_sal = hw_actividad.proyeccion.estacion.w_fc_sal,
-                w_fc_imp = hw_actividad.proyeccion.estacion.w_fc_imp,
-                bolsa = hw_actividad.proyeccion.estacion.bolsa,
+                estacion = hw_actividad.estacion,
+                w_fc_sal = hw_actividad.estacion.w_fc_sal,
+                w_fc_imp = hw_actividad.estacion.w_fc_imp,
+                bolsa = hw_actividad.estacion.bolsa,
                 parte = parte,
                 grupo_parte = parte.grupo_parte,
-                cantidad_estimada = hw_actividad.proyeccion.cantidad_estimada,
             )
+            try:
+                impacto.cantidad_estimada = hw_actividad.proyeccion.cantidad_estimada
+                impacto.save()
+            except:
+                impacto.cantidad_estimada = hw_actividad.proyeccion_extra.cantidad_estimada
+                impacto.save()
 
     return HttpResponse(status=204)
 
