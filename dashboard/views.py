@@ -26,10 +26,13 @@ SITIOSLSM55 = '55 sitios LSM'
 SITIOSLSM165 = '165 sitios LSM'
 SITIOSLSM170 = '170 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
-SITIOS165 = '485 sitios'
+SITIOS485 = '485 sitios'
 SITIOSBULK = 'Sitios Bulk'
 AIRSCALE = 'AIRSCALE'
 AIRSCALE240 = 'AIRSCALE 240'
+REEMPLAZOSITIOSLSM170 = 'Reemplazo 170 sitios LSM'
+SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
+REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
@@ -89,20 +92,26 @@ def cronograma_bolsas(request):
     sitioslsm165 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM165}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     sitioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     sitioslsm531 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM531}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitios165 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOS165}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    sitios485 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOS485}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     sitiosbulk = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSBULK}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     airscale = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     airscale240 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE240}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    reemplazositioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    sitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    reemplazossitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'sitioslsm55': sitioslsm55,
         'sitioslsm165': sitioslsm165,
         'sitioslsm170': sitioslsm170,
         'sitioslsm531': sitioslsm531,
-        'sitios165': sitios165,
+        'sitios485': sitios485,
         'sitiosbulk': sitiosbulk,
         'airscale': airscale,
         'airscale240': airscale240,
+        'reemplazositioslsm170': reemplazositioslsm170,
+        'sitiossatelitaleslsm36': sitiossatelitaleslsm36,
+        'reemplazossitiossatelitaleslsm36': reemplazossitiossatelitaleslsm36,
     }
     return JsonResponse(data)
 

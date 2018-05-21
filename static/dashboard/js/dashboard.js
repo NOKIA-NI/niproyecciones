@@ -124,10 +124,13 @@ var dataSitioslsm55 = [];
 var dataSitioslsm165 = [];
 var dataSitioslsm170 = [];
 var dataSitioslsm531 = [];
-var dataSitios165 = [];
+var dataSitios485 = [];
 var dataSitiosbulk = [];
 var dataAirscale = [];
 var dataAirscale240 = [];
+var dataReemplazositioslsm170 = [];
+var dataSitiossatelitaleslsm36 = [];
+var dataReemplazossitiossatelitaleslsm36 = [];
 
 var ImpactosChart;
 var CronogramaBolsasChart;
@@ -287,10 +290,13 @@ $.ajax({
     dataSitioslsm165 = data.sitioslsm165
     dataSitioslsm170 = data.sitioslsm170
     dataSitioslsm531 = data.sitioslsm531
-    dataSitios165 = data.sitios165
+    dataSitios485 = data.sitios485
     dataSitiosbulk = data.sitiosbulk
     dataAirscale = data.airscale
     dataAirscale240 = data.airscale240
+    dataReemplazositioslsm170 = data.reemplazositioslsm170
+    dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
+    dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
     CronogrmaBolsas()
   },
   error: function(error){
@@ -315,10 +321,13 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitioslsm165 = data.sitioslsm165
       dataSitioslsm170 = data.sitioslsm170
       dataSitioslsm531 = data.sitioslsm531
-      dataSitios165 = data.sitios165
+      dataSitios485 = data.sitios485
       dataSitiosbulk = data.sitiosbulk
       dataAirscale = data.airscale
       dataAirscale240 = data.airscale240
+      dataReemplazositioslsm170 = data.reemplazositioslsm170
+      dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
+      dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
       CronogrmaBolsas()
     },
     error: function(error){
@@ -333,7 +342,7 @@ function CronogrmaBolsas() {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Estaciones - Sitioslsm55',
+        label: 'LSM 55',
 				backgroundColor: '#2196F3',
         data: dataSitioslsm55,
         lineTension: 0,
@@ -343,7 +352,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#2196F3'
       },
       {
-        label: 'Estaciones - Sitioslsm165',
+        label: 'LSM 165',
 				backgroundColor: '#fd7e14',
         data: dataSitioslsm165,
         lineTension: 0,
@@ -353,7 +362,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#fd7e14'
       },
       {
-        label: 'Estaciones - Sitioslsm170',
+        label: 'LSM 170',
 				backgroundColor: '#28a745',
         data: dataSitioslsm170,
         lineTension: 0,
@@ -363,7 +372,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#28a745'
       },
       {
-        label: 'Estaciones - Sitioslsm531',
+        label: 'LSM 531',
 				backgroundColor: '#dc3545',
         data: dataSitioslsm531,
         lineTension: 0,
@@ -373,9 +382,9 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#dc3545'
       },
       {
-        label: 'Estaciones - Sitios165',
+        label: '485',
 				backgroundColor: '#ffc107',
-        data: dataSitios165,
+        data: dataSitios485,
         lineTension: 0,
         backgroundColor: '#ffc107',
         borderColor: '#ffc107',
@@ -383,7 +392,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#ffc107'
       },
       {
-        label: 'Estaciones - Sitiosbulk',
+        label: 'Bulk',
 				backgroundColor: '#17a2b8',
         data: dataSitiosbulk,
         lineTension: 0,
@@ -393,7 +402,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#17a2b8'
       },
       {
-        label: 'Estaciones - Airscale',
+        label: 'Airscale',
 				backgroundColor: '#20c997',
         data: dataAirscale,
         lineTension: 0,
@@ -403,7 +412,7 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#20c997'
       },
       {
-        label: 'Estaciones - Airscale240',
+        label: 'Airscale 240',
 				backgroundColor: '#6f42c1',
         data: dataAirscale240,
         lineTension: 0,
@@ -411,6 +420,37 @@ function CronogrmaBolsas() {
         borderColor: '#6f42c1',
         borderWidth: 4,
         pointBackgroundColor: '#6f42c1'
+      }
+      ,
+      {
+        label: 'Reemplazos LSM 170',
+				backgroundColor: '#e83e8c',
+        data: dataReemplazositioslsm170,
+        lineTension: 0,
+        backgroundColor: '#e83e8c',
+        borderColor: '#e83e8c',
+        borderWidth: 4,
+        pointBackgroundColor: '#e83e8c'
+      },
+      {
+        label: 'Satelitales LSM 36',
+				backgroundColor: '#6c757d',
+        data: dataSitiossatelitaleslsm36,
+        lineTension: 0,
+        backgroundColor: '#6c757d',
+        borderColor: '#6c757d',
+        borderWidth: 4,
+        pointBackgroundColor: '#6c757d'
+      },
+      {
+        label: 'Reemplazos Satelitales LSM 36',
+				backgroundColor: '#343a40',
+        data: dataReemplazossitiossatelitaleslsm36,
+        lineTension: 0,
+        backgroundColor: '#343a40',
+        borderColor: '#343a40',
+        borderWidth: 4,
+        pointBackgroundColor: '#343a40'
       }
     ]
     },

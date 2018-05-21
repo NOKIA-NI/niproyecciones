@@ -9,17 +9,19 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models import Sum
 
+SITIOSLSM55 = '55 sitios LSM'
 SITIOSLSM165 = '165 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
-SITIOSLSM55 = '55 sitios LSM'
 AIRSCALE = 'AIRSCALE'
 AIRSCALE240 = 'AIRSCALE 240'
-
-SI = 'Si'
-NO = 'No'
+SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
+REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 
 EN_TRANSITO = 'En_Transito'
 DESPACHO_SOLICITADO = 'Despacho_Solicitado'
+
+SI = 'Si'
+NO = 'No'
 
 class HwActividad(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='hw_actividades', blank=True, null=True)
@@ -52,6 +54,8 @@ class HwActividad(models.Model):
                 self.estacion.bolsa == SITIOSLSM531 or \
                 self.estacion.bolsa == AIRSCALE or \
                 self.estacion.bolsa == AIRSCALE240 or \
+                self.estacion.bolsa == SITIOSSATELITALESLSM36 or \
+                self.estacion.bolsa == REEMPLAZOSITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == SITIOSLSM55:
                 self.lsm = SI
             else:
