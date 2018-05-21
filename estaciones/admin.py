@@ -25,6 +25,7 @@ class EstacionAdmin(ImportExportModelAdmin):
     'comunidades',
     'satelital',
     'impactar',
+    'list_partes',
     'estado',
     'subestado',
     'creado',
@@ -32,3 +33,6 @@ class EstacionAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'site_name']
+
+    def list_partes(self, obj):
+        return "\n".join([p.parte_nokia for p in obj.partes.all()])

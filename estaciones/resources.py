@@ -1,8 +1,13 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget
+from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget, ManyToManyWidget
 from .models import Estacion
+from partes.models import Parte
 
 class EstacionResource(resources.ModelResource):
+    partes = fields.Field(
+        column_name='partes',
+        attribute='partes',
+        widget=ManyToManyWidget(Parte, separator=',', field='parte_nokia'))
 
     class Meta:
         model = Estacion
@@ -21,6 +26,7 @@ class EstacionResource(resources.ModelResource):
         'comunidades',
         'satelital',
         'impactar',
+        'partes',
         # 'estado',
         'subestado',
         # 'creado',

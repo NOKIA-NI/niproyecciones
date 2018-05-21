@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from . import choices
 from django.utils import timezone
+from partes.models import Parte
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
@@ -23,6 +24,7 @@ class Estacion(models.Model):
     comunidades = models.CharField(max_length=255, choices=choices.COMUNIDADES_CHOICES, blank=True, null=True)
     satelital  = models.CharField(max_length=255, choices=choices.SATELITAL_CHOICES, blank=True, null=True)
     impactar = models.CharField(max_length=255, choices=choices.IMPACTAR_CHOICES, default='Si')
+    partes = models.ManyToManyField(Parte, blank=True)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)

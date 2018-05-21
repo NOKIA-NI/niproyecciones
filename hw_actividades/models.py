@@ -73,6 +73,8 @@ class HwActividad(models.Model):
             self.impactar = NO
         if self.impactar == SI and self.estacion.impactar == NO:
             self.impactar = NO
+        if self.impactar == SI and self.parte in self.estacion.partes.all():
+            self.impactar = NO
 
         # if self.parte and self.parte.consumonokia:
         #     consumo_w14 = HwActividad.objects.filter(impactar=SI, estacion__w_fc_sal=14, parte=self.parte).aggregate(Sum('proyeccion__cantidad_estimada')).get('proyeccion__cantidad_estimada__sum')
