@@ -124,7 +124,6 @@ var dataSitioslsm55 = [];
 var dataSitioslsm165 = [];
 var dataSitioslsm170 = [];
 var dataSitioslsm531 = [];
-var dataSitios485 = [];
 var dataSitiosbulk = [];
 var dataAirscale = [];
 var dataAirscale240 = [];
@@ -290,7 +289,6 @@ $.ajax({
     dataSitioslsm165 = data.sitioslsm165
     dataSitioslsm170 = data.sitioslsm170
     dataSitioslsm531 = data.sitioslsm531
-    dataSitios485 = data.sitios485
     dataSitiosbulk = data.sitiosbulk
     dataAirscale = data.airscale
     dataAirscale240 = data.airscale240
@@ -321,7 +319,6 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitioslsm165 = data.sitioslsm165
       dataSitioslsm170 = data.sitioslsm170
       dataSitioslsm531 = data.sitioslsm531
-      dataSitios485 = data.sitios485
       dataSitiosbulk = data.sitiosbulk
       dataAirscale = data.airscale
       dataAirscale240 = data.airscale240
@@ -382,16 +379,6 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#dc3545'
       },
       {
-        label: '485',
-				backgroundColor: '#ffc107',
-        data: dataSitios485,
-        lineTension: 0,
-        backgroundColor: '#ffc107',
-        borderColor: '#ffc107',
-        borderWidth: 4,
-        pointBackgroundColor: '#ffc107'
-      },
-      {
         label: 'Bulk',
 				backgroundColor: '#17a2b8',
         data: dataSitiosbulk,
@@ -420,8 +407,7 @@ function CronogrmaBolsas() {
         borderColor: '#6f42c1',
         borderWidth: 4,
         pointBackgroundColor: '#6f42c1'
-      }
-      ,
+      },
       {
         label: 'Reemplazos LSM 170',
 				backgroundColor: '#e83e8c',
