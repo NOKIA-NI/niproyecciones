@@ -12,4 +12,13 @@
   <td>{{ object.comunidades }}</td>
   <td>{{ object.satelital }}</td>
   <td>{{ object.impactar }}</td>
+  {% if object.partes.all %}
+  <td>
+  {% for parte in object.partes.all %}
+  {{ parte }}
+  {% endfor %}
+  </td>
+  {% else %}
+  <td>None</td>
+  {% endif %}
 </tr>
