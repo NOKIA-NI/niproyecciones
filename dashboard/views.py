@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from estaciones.models import Estacion
 from partes.models import Parte
 from impactos.models import Impacto
@@ -61,6 +61,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['modulos'] = modulos
         context['antenas'] = antenas
         return context
+
+class TaskView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    login_url = 'users:home'
+    template_name = 'dashboard/task.html'
+    permission_required = 'is_superuser'
 
 
 # def get_data(request):
