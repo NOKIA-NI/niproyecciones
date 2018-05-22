@@ -340,13 +340,13 @@ function CronogrmaBolsas() {
       labels: labels,
       datasets: [{
         label: 'LSM 55',
-				backgroundColor: '#2196F3',
+				backgroundColor: '#ffc107',
         data: dataSitioslsm55,
         lineTension: 0,
-        backgroundColor: '#2196F3',
-        borderColor: '#2196F3',
+        backgroundColor: '#ffc107',
+        borderColor: '#ffc107',
         borderWidth: 4,
-        pointBackgroundColor: '#2196F3'
+        pointBackgroundColor: '#ffc107'
       },
       {
         label: 'LSM 165',
