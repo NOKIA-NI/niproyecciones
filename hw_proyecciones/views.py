@@ -560,17 +560,17 @@ def update_estacion(request):
             if estacion.site_name != hw_estacion.siteName or \
                 estacion.region != hw_estacion.region or \
                 estacion.scope_claro != hw_estacion.scope_claro or \
-                estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
                 estacion.total_actividades != hw_estacion.actividades or \
                 estacion.bolsa != hw_estacion.bolsa:
 
                 estacion.site_name = hw_estacion.siteName
                 estacion.region = hw_estacion.region
                 estacion.scope_claro = hw_estacion.scope_claro
-                estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion
                 estacion.total_actividades = hw_estacion.actividades
                 estacion.bolsa = hw_estacion.bolsa
                 estacion.save()
+                # estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
+                # estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion
 
         except Estacion.DoesNotExist:
             pass
