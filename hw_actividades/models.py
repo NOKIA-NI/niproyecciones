@@ -65,7 +65,11 @@ class HwActividad(models.Model):
                 self.impactar = NO
             else:
                 self.impactar = SI
-        if self.impactar == NO and self.parte.grupo_parte == 'Antenas y Otros':
+        if self.impactar == NO and \
+            self.estacion.bolsa != SITIOSLSM55 and \
+            self.estacion.bolsa != AIRSCALE and \
+            self.estacion.bolsa != AIRSCALE240 and \
+            self.parte.grupo_parte == 'Antenas y Otros':
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_sal is None:
             self.impactar = NO

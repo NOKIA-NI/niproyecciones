@@ -174,6 +174,8 @@ def calculate_impacto(request):
     return HttpResponse(status=204)
 
 def calculate_tipo_impacto(request):
+    # estaciones = Estacion.objects.filter(impactos__impactado=NO)
+    # print(estaciones.count())
 
     impactos = Impacto.objects.filter(impactado=SI)
     impactos_modulos = impactos.filter(grupo_parte=MODULOS)
