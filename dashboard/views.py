@@ -32,6 +32,7 @@ AIRSCALE240 = 'AIRSCALE 240'
 REEMPLAZOSITIOSLSM170 = 'Reemplazo 170 sitios LSM'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
+PARTESSITIOSLSM302 = 'Partes 302 sitios LSM'
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
@@ -102,6 +103,7 @@ def cronograma_bolsas(request):
     reemplazositioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     sitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     reemplazossitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    partessitioslsm302 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':PARTESSITIOSLSM302}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'sitioslsm55': sitioslsm55,
@@ -114,6 +116,7 @@ def cronograma_bolsas(request):
         'reemplazositioslsm170': reemplazositioslsm170,
         'sitiossatelitaleslsm36': sitiossatelitaleslsm36,
         'reemplazossitiossatelitaleslsm36': reemplazossitiossatelitaleslsm36,
+        'partessitioslsm302': partessitioslsm302,
     }
     return JsonResponse(data)
 

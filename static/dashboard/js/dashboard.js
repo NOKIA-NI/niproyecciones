@@ -130,6 +130,7 @@ var dataAirscale240 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
+var dataPartessitioslsm302 = [];
 
 var ImpactosChart;
 var CronogramaBolsasChart;
@@ -295,6 +296,7 @@ $.ajax({
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
+    dataPartessitioslsm302 = data.datapartessitioslsm302
     CronogrmaBolsas()
   },
   error: function(error){
@@ -325,6 +327,7 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
+      dataPartessitioslsm302 = data.datapartessitioslsm302
       CronogrmaBolsas()
     },
     error: function(error){
@@ -437,6 +440,16 @@ function CronogrmaBolsas() {
         borderColor: '#343a40',
         borderWidth: 4,
         pointBackgroundColor: '#343a40'
+      },
+      {
+        label: 'Partes LSM 302',
+				backgroundColor: '#007bff',
+        data: dataPartessitioslsm302,
+        lineTension: 0,
+        backgroundColor: '#007bff',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
       }
     ]
     },

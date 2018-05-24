@@ -99,6 +99,7 @@ BOLSA_CHOICES = (
     ('Reemplazo 170 sitios LSM', 'Reemplazo 170 sitios LSM'),
     ('36 sitios Satelitales LSM', '36 sitios Satelitales LSM'),
     ('Reemplazo 36 sitios Satelitales LSM', 'Reemplazo 36 sitios Satelitales LSM'),
+    ('Partes 302 sitios LSM', 'Partes 302 sitios LSM'),
 )
 
 """ SATELITAL_CHOICES  """
