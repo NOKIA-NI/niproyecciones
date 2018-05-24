@@ -296,7 +296,7 @@ $.ajax({
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
-    dataPartessitioslsm302 = data.datapartessitioslsm302
+    dataPartessitioslsm302 = data.partessitioslsm302
     CronogrmaBolsas()
   },
   error: function(error){
@@ -327,7 +327,7 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
-      dataPartessitioslsm302 = data.datapartessitioslsm302
+      dataPartessitioslsm302 = data.partessitioslsm302
       CronogrmaBolsas()
     },
     error: function(error){

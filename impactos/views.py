@@ -174,30 +174,57 @@ def calculate_impacto(request):
     return HttpResponse(status=204)
 
 def calculate_tipo_impacto(request):
-    # estaciones = Estacion.objects.filter(impactos__impactado=NO)
-    # print(estaciones.count())
+    estaciones = Estacion.objects.filter(impactos__impactado=SI).order_by('id').distinct('id')
 
-    impactos = Impacto.objects.filter(impactado=SI)
-    impactos_modulos = impactos.filter(grupo_parte=MODULOS)
-    impactos_accesorios = impactos.filter(grupo_parte=ACCESORIOS)
-    impactos_antenas = impactos.filter(grupo_parte=ANTENAS_Y_OTROS)
+    # impactos = Impacto.objects.filter(impactado=SI)
+    # impactos_modulos = impactos.filter(grupo_parte=MODULOS)
+    # impactos_accesorios = impactos.filter(grupo_parte=ACCESORIOS)
+    # impactos_antenas = impactos.filter(grupo_parte=ANTENAS_Y_OTROS)
+
+    for estacion in estaciones:
+        # impacto_estaciones = impactos.filter(estacion=estacion)
+        impactos_estacion = estacion.impactos.filter(impactado=SI)
+
+        impactos_antena = impactos_estacion.filter(grupo_parte=ANTENAS_Y_OTROS)
+        if impactos_antena.count() >= 1:
+            for i in impactos_estacion:
+                i.tipo_impacto = ANTENA
+                i.save()
+
+        impactos_modulo = impactos_estacion.filter(grupo_parte=MODULOS)
+        if impactos_modulo.count() >= 1:
+            for i in impactos_estacion:
+                i.tipo_impacto = MODULO_ACCESORIO
+                i.save()
+
+        impactos_accesorio = impactos_estacion.filter(grupo_parte=ACCESORIOS)
+        if impactos_accesorio.count() >= 1:
+            for i in impactos_estacion:
+                i.tipo_impacto = MODULO_ACCESORIO
+                i.save()
+        
+
+        if impactos_antena.count() >= 1 and (impactos_modulo.count() >= 1 or impactos_accesorio.count() >= 1):
+            for i in impactos_estacion:
+                i.tipo_impacto = MODULO_ACCESORIO_ANTENA
+                i.save()
     
-    for impacto in impactos:
-        if impacto in impactos_modulos or impacto in impactos_accesorios:
-            impacto.tipo_impacto = MODULO_ACCESORIO
-            impacto.save()
-        if impacto in impactos_antenas:
-            impacto.tipo_impacto = ANTENA
-            impacto.save()
-        if impacto in impactos_antenas and impacto in impactos_modulos:
-            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
-            impacto.save()
-        if impacto in impactos_antenas and impacto in impactos_accesorios:
-            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
-            impacto.save()
-        if impacto in impactos_antenas and impacto in impactos_accesorios and impacto in impactos_modulos:
-            impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
-            impacto.save() 
+    # for impacto in impactos:
+    #     if impacto in impactos_modulos or impacto in impactos_accesorios:
+    #         impacto.tipo_impacto = MODULO_ACCESORIO
+    #         impacto.save()
+    #     if impacto in impactos_antenas:
+    #         impacto.tipo_impacto = ANTENA
+    #         impacto.save()
+    #     if impacto in impactos_antenas and impacto in impactos_modulos:
+    #         impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+    #         impacto.save()
+    #     if impacto in impactos_antenas and impacto in impactos_accesorios:
+    #         impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+    #         impacto.save()
+    #     if impacto in impactos_antenas and impacto in impactos_accesorios and impacto in impactos_modulos:
+    #         impacto.tipo_impacto = MODULO_ACCESORIO_ANTENA
+    #         impacto.save() 
 
     return HttpResponse(status=204)
 

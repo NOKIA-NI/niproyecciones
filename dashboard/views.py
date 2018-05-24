@@ -48,9 +48,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
         context['week'] = week
         context['weeks'] = weeks
-        context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO).order_by('estacion_id').distinct('estacion').count()
-        context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA).order_by('estacion_id').distinct('estacion').count()
-        context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         # context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
         context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
         context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
