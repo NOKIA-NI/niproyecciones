@@ -29,6 +29,9 @@ class HwActividadResource(resources.ModelResource):
     w_fc_sal = fields.Field(
         column_name='w_fc_sal',
         attribute='estacion__w_fc_sal')
+    mos = fields.Field(
+        column_name='mos',
+        attribute='estacion__mos')
     # proyeccion = fields.Field(
     #     column_name='proyeccion',
     #     attribute='proyeccion',
@@ -61,7 +64,7 @@ class HwActividadResource(resources.ModelResource):
 
     class Meta:
         model = HwActividad
-        exclude = ('estado', 'creado', 'actualizado',)
+        exclude = ('proyeccion', 'proyeccion_extra', 'estado', 'creado', 'actualizado',)
         export_order = (
         'id',
         'estacion',
@@ -71,6 +74,7 @@ class HwActividadResource(resources.ModelResource):
         'satelital',
         'w_fc_imp',
         'w_fc_sal',
+        'mos',
         # 'proyeccion',
         # 'proyeccion_extra',
         'proyecto',
