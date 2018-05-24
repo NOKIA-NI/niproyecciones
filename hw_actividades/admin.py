@@ -20,6 +20,7 @@ class HwActividadAdmin(ImportExportModelAdmin):
     'lsm',
     'calculo_hw',
     'impactar',
+    'cambiar_impactar',
     'estado',
     'subestado',
     'creado',

@@ -80,7 +80,9 @@ class SearchHwActividad(ListHwActividad):
                 reduce(operator.and_,
                           (Q(calculo_hw__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(impactar__icontains=q) for q in query_list))
+                          (Q(impactar__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cambiar_impactar__icontains=q) for q in query_list))
             )
         return queryset
 

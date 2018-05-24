@@ -15,3 +15,9 @@ IMPACTAR_CHOICES = (
     ('Si', 'Si'),
     ('No', 'No'),
 )
+
+""" CAMBIAR_IMPACTAR_CHOICES  """
+CAMBIAR_IMPACTAR_CHOICES = (
+    ('Si', 'Si'),
+    ('No', 'No'),
+)

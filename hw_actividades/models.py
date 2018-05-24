@@ -31,6 +31,7 @@ class HwActividad(models.Model):
     lsm = models.CharField(max_length=255, choices=choices.LSM_CHOICES, blank=True, null=True)
     calculo_hw = models.CharField(max_length=255, choices=choices.CALCULO_HW_CHOICES, default=SI, blank=True, null=True)
     impactar = models.CharField(max_length=255, choices=choices.IMPACTAR_CHOICES, blank=True, null=True)
+    cambiar_impactar = models.CharField(max_length=255, choices=choices.CAMBIAR_IMPACTAR_CHOICES, blank=True, null=True)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -82,6 +83,10 @@ class HwActividad(models.Model):
         if self.impactar == SI and self.estacion.impactar == NO:
             self.impactar = NO
         if self.impactar == SI and self.parte in self.estacion.partes.all():
+            self.impactar = NO
+        if self.cambiar_impactar is not None and self.cambiar_impactar == SI:
+            self.impactar = SI
+        if self.cambiar_impactar is not None and self.cambiar_impactar == NO:
             self.impactar = NO
 
         # if self.parte and self.parte.consumonokia:
