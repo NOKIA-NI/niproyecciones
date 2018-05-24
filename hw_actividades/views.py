@@ -100,8 +100,8 @@ class FilterHwActividad(ListHwActividad):
         hw_actividad_fileds = [field.name for field in HwActividad._meta.fields]
         estacion_fileds = [field.name for field in Estacion._meta.fields]
         parte_fileds = [field.name for field in Parte._meta.fields]
-        estacion_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k in estacion_fileds }
-        parte_dict = { 'parte__'+k: v for k, v in request_dict.items() if v if k in parte_fileds }
+        estacion_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k != 'impactar' if k in estacion_fileds }
+        parte_dict = { 'parte__'+k: v for k, v in request_dict.items() if v if k != 'impactar' if k in parte_fileds }
         # region_dict = { 'estacion__'+k: v for k, v in request_dict.items() if v if k == 'region' }
         # bolsa_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'bolsa' }
         # comunidades_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'comunidades' }
@@ -109,7 +109,7 @@ class FilterHwActividad(ListHwActividad):
         # w_fc_imp_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_imp' }
         # w_fc_sal_dict = { 'estacion__'+k: v for  k, v  in request_dict.items() if v if k == 'w_fc_sal' }
         # grupo_parte_dict = { 'parte__'+k: v for  k, v  in request_dict.items() if v if k == 'grupo_parte' }
-        query_dict = { k: v for k, v in request_dict.items()if v if k in hw_actividad_fileds }
+        query_dict = { k: v for k, v in request_dict.items() if v if k in hw_actividad_fileds }
         # query_dict = { k: v for k, v in request_dict.items()
                     #  if v
                     #  if k in hw_actividad_fileds
