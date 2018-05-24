@@ -18,13 +18,13 @@
   </div>
   <div class="row mb-4">
     <div class="col-md-3">
-      <div class="card bg-light">
+      <div class="card bg-dark">
         <div class="card-body">
           <h6 class="align-items-center d-flex justify-content-between text-success"><span data-feather="calendar"></span>Calendar</h6>
-          <h3 class="text-muted">Semana {{ week }}</h3>
+          <h3 class="text-light">Semana {{ week }}</h3>
           <form class="form-inline" action="{% url 'dashboard:dashboard' %}" method="get" id="week">
             <div class="form-group mb-3">
-              <label for="week">Selecciona Semana</label>
+              <label for="week" class='text-light'>Selecciona Semana</label>
               <div class="col-sm-1">
                 <select class="form-control form-control-sm" name="week">
                   <option>{{week}}</option>
@@ -38,6 +38,35 @@
         </div>
       </div>
     </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-success"><span data-feather="clipboard"></span>Cronograma Fc Imp</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ estaciones_fc_imp }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-warning"><span data-feather="clipboard"></span>Impactos Fc Imp</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ impactos_fc_imp }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <h6 class="align-items-center d-flex justify-content-between text-info"><span data-feather="clipboard"></span>Estaciones Completas</h6>
+          <h2 class="text-light">Estaciones</h2>
+          <h2 class="text-light">{{ estaciones_impactos_fc_imp }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-3">
       <div class="card bg-light">
         <div class="card-body">
@@ -65,41 +94,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col-md-3">
-      <div class="card bg-dark">
-        <div class="card-body">
-          <h6 class="align-items-center d-flex justify-content-between text-success"><span data-feather="clipboard"></span>Cronograma Fc Imp</h6>
-          <h2 class="text-light">Estaciones</h2>
-          <h2 class="text-light">{{ estaciones_fc_imp }}</h2>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-dark">
-          <div class="card-body">
-            <h6 class="align-items-center d-flex justify-content-between text-warning"><span data-feather="clipboard"></span>Impactos Fc Imp</h6>
-            <h2 class="text-light">Estaciones</h2>
-            <h2 class="text-light">{{ impactos_fc_imp }}</h2>
-          </div>
-        </div>
-      </div>
-    <div class="col-md-3">
-      <div class="card bg-dark">
-        <div class="card-body">
-          <h6 class="align-items-center d-flex justify-content-between text-info"><span data-feather="clipboard"></span>Estaciones Completas</h6>
-          <h2 class="text-light">Estaciones</h2>
-          <h2 class="text-light">{{ estaciones_impactos_fc_imp }}</h2>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card bg-dark">
+      <div class="card bg-light">
         <div class="card-body">
           <h6 class="align-items-center d-flex justify-content-between text-danger"><span data-feather="clipboard"></span>Proxima Semana</h6>
-          <h2 class="text-light">Estaciones</h2>
-          <h2 class="text-light">{{ estaciones_next_week_fc_imp }}</h2>
+          <h2 class="text-muted">Estaciones</h2>
+          <h2 class="text-muted">{{ estaciones_next_week_fc_imp }}</h2>
         </div>
       </div>
     </div>
