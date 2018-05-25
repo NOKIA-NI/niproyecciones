@@ -18,6 +18,8 @@ from .resources import HwActividadResource
 from django.http import HttpResponse
 from estaciones.models import Estacion
 from partes.models import Parte
+# from django.http import JsonResponse
+# from django.core import serializers
 
 
 class ListHwActividad(LoginRequiredMixin, ListView, FormView):
@@ -154,3 +156,8 @@ def export_hw_actividad(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="HwActividad.xlsx"'
     return response
+
+# def data_hw_actividad(request):
+#     raw = ''
+#     queryset = HwActividad.objects.raw('SELECT * FROM hw_actividades_hwactividad')
+#     return JsonResponse(serializers.serialize('json', queryset), safe=False)
