@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls', namespace='users')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('consultas/', include('consultas.urls', namespace='consultas')),
     path('estaciones/', include('estaciones.urls', namespace='estaciones')),
     path('partes/', include('partes.urls', namespace='partes')),
     path('hw_proyecciones/', include('hw_proyecciones.urls', namespace='hw_proyecciones')),

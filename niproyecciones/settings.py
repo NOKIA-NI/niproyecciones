@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # ni proyecciones
     'users.apps.UsersConfig',
     'dashboard.apps.DashboardConfig',
+    'consultas.apps.ConsultasConfig',
     'estaciones.apps.EstacionesConfig',
     'partes.apps.PartesConfig',
     'proyecciones.apps.ProyeccionesConfig',
