@@ -111,7 +111,7 @@ $("#week").on('change', function () {
   $(this).submit()
 })
 
-var labels = []
+var labels = [];
 var dataCronograma = [];
 var dataImpactosSi = [];
 var dataImpactosNo = [];
@@ -126,7 +126,7 @@ var dataSitioslsm170 = [];
 var dataSitioslsm531 = [];
 var dataSitiosbulk = [];
 var dataAirscale = [];
-var dataAirscale240 = [];
+var dataAirscale228 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
@@ -292,7 +292,7 @@ $.ajax({
     dataSitioslsm531 = data.sitioslsm531
     dataSitiosbulk = data.sitiosbulk
     dataAirscale = data.airscale
-    dataAirscale240 = data.airscale240
+    dataAirscale228 = data.airscale228
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -323,7 +323,7 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitioslsm531 = data.sitioslsm531
       dataSitiosbulk = data.sitiosbulk
       dataAirscale = data.airscale
-      dataAirscale240 = data.airscale240
+      dataAirscale228 = data.airscale228
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -402,9 +402,9 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#20c997'
       },
       {
-        label: 'Airscale 240',
+        label: 'Airscale 228',
 				backgroundColor: '#6f42c1',
-        data: dataAirscale240,
+        data: dataAirscale228,
         lineTension: 0,
         backgroundColor: '#6f42c1',
         borderColor: '#6f42c1',
