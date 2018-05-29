@@ -12,8 +12,9 @@ from django.db.models import Sum
 SITIOSLSM55 = '55 sitios LSM'
 SITIOSLSM165 = '165 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
-AIRSCALE = 'AIRSCALE'
-AIRSCALE240 = 'AIRSCALE 240'
+AIRSCALE167 = 'Airscale 167'
+AIRSCALE116 = 'Airscale 116'
+AIRSCALE112 = 'Airscale 112'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 
@@ -53,8 +54,9 @@ class HwActividad(models.Model):
         if self.estacion.bolsa is not None:
             if self.estacion.bolsa == SITIOSLSM165 or \
                 self.estacion.bolsa == SITIOSLSM531 or \
-                self.estacion.bolsa == AIRSCALE or \
-                self.estacion.bolsa == AIRSCALE240 or \
+                self.estacion.bolsa == AIRSCALE167 or \
+                self.estacion.bolsa == AIRSCALE116 or \
+                self.estacion.bolsa == AIRSCALE112 or \
                 self.estacion.bolsa == SITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == REEMPLAZOSITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == SITIOSLSM55:
@@ -68,8 +70,9 @@ class HwActividad(models.Model):
                 self.impactar = SI
         if self.impactar == NO and \
             self.estacion.bolsa != SITIOSLSM55 and \
-            self.estacion.bolsa != AIRSCALE and \
-            self.estacion.bolsa != AIRSCALE240 and \
+            self.estacion.bolsa != AIRSCALE167 and \
+            self.estacion.bolsa != AIRSCALE116 and \
+            self.estacion.bolsa != AIRSCALE112 and \
             self.parte.grupo_parte == 'Antenas y Otros':
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_sal is None:
