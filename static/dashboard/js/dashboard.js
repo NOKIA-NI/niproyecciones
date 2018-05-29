@@ -125,8 +125,9 @@ var dataSitioslsm165 = [];
 var dataSitioslsm170 = [];
 var dataSitioslsm531 = [];
 var dataSitiosbulk = [];
-var dataAirscale = [];
-var dataAirscale228 = [];
+var dataAirscale167 = [];
+var dataAirscale116 = [];
+var dataAirscale112 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
@@ -291,8 +292,9 @@ $.ajax({
     dataSitioslsm170 = data.sitioslsm170
     dataSitioslsm531 = data.sitioslsm531
     dataSitiosbulk = data.sitiosbulk
-    dataAirscale = data.airscale
-    dataAirscale228 = data.airscale228
+    dataAirscale167 = data.airscale167
+    dataAirscale116 = data.airscale116
+    dataAirscale112 = data.airscale112
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -322,8 +324,9 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitioslsm170 = data.sitioslsm170
       dataSitioslsm531 = data.sitioslsm531
       dataSitiosbulk = data.sitiosbulk
-      dataAirscale = data.airscale
-      dataAirscale228 = data.airscale228
+      dataAirscale167 = data.airscale167
+      dataAirscale116 = data.airscale116
+      dataAirscale112 = data.airscale112
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -392,9 +395,9 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#17a2b8'
       },
       {
-        label: 'Airscale',
+        label: 'Airscale 167',
 				backgroundColor: '#20c997',
-        data: dataAirscale,
+        data: dataAirscale167,
         lineTension: 0,
         backgroundColor: '#20c997',
         borderColor: '#20c997',
@@ -402,14 +405,24 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#20c997'
       },
       {
-        label: 'Airscale 228',
+        label: 'Airscale 116',
 				backgroundColor: '#6f42c1',
-        data: dataAirscale228,
+        data: dataAirscale116,
         lineTension: 0,
         backgroundColor: '#6f42c1',
         borderColor: '#6f42c1',
         borderWidth: 4,
         pointBackgroundColor: '#6f42c1'
+      },
+      {
+        label: 'Airscale 112',
+				backgroundColor: '#FFFF00',
+        data: dataAirscale112,
+        lineTension: 0,
+        backgroundColor: '#FFFF00',
+        borderColor: '#FFFF00',
+        borderWidth: 4,
+        pointBackgroundColor: '#FFFF00'
       },
       {
         label: 'Reemplazos LSM 170',
