@@ -34,6 +34,7 @@ class HwEstacionAdmin(ImportExportModelAdmin):
     'proyeccion_instalacion',
     'w_proyeccion_instalacion',
     'actividades',
+    'bolsa',
     )
     # list_filter = ()
     search_fields = ['id', 'siteName']
