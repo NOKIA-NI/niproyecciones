@@ -10,6 +10,7 @@ FilterEstacion,
 export_estacion,
 CronogramaFcImpEstacion,
 CronogramaFcSalEstacion,
+export_cronograma_estacion,
 )
 
 app_name = 'estaciones'
@@ -25,4 +26,5 @@ urlpatterns = [
     path('export/estacion/', export_estacion, name='export_estacion'),
     path('cronograma/fc/imp/estacion/', CronogramaFcImpEstacion.as_view(), name='cronograma_fc_imp_estacion'),
     path('cronograma/fc/sal/estacion/', CronogramaFcSalEstacion.as_view(), name='cronograma_fc_sal_estacion'),
+    path('export/cronograma/estacion/', export_cronograma_estacion, name='export_cronograma_estacion'),
 ]
