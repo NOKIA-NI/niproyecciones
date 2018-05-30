@@ -165,6 +165,15 @@ class CronogramaFcImpEstacion(LoginRequiredMixin, TemplateView):
         context['suma_total_calculo_hw'] = sum([HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK])
         return context
 
+def export_cronograma_estacion(request):
+    estacion_resource = EstacionResource()
+    estaciones = [hw.estacion.id for hw in HwActividad.objects.filter(estacion__w_fc_imp__gte=WEEK).order_by('estacion_id').distinct('estacion')]
+    queryset = Estacion.objects.filter(pk__in=estaciones)
+    dataset = estacion_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Estacion.xlsx"'
+    return response
+
 class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
     template_name = 'estacion/cronograma_estacion.html'
