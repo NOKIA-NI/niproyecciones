@@ -171,7 +171,7 @@ def export_cronograma_estacion(request):
     queryset = Estacion.objects.filter(pk__in=estaciones)
     dataset = estacion_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="Estacion.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="Cronograma.xlsx"'
     return response
 
 class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
