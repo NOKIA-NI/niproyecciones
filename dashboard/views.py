@@ -8,11 +8,12 @@ from partes.models import Parte
 from impactos.models import Impacto
 from hw_actividades.models import HwActividad
 from django.utils import timezone
+from django.conf import settings
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
-if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
+if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == settings.DOMINGO:
     WEEK = WEEK + 1
 SI = 'Si'
 NO = 'No'

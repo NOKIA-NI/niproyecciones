@@ -4,11 +4,12 @@ from django.urls import reverse
 from . import choices
 from django.utils import timezone
 from partes.models import Parte
+from django.conf import settings
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
-if WEEKDAY == 4 or WEEKDAY == 5 or WEEKDAY == 6:
+if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == settings.DOMINGO:
     WEEK = WEEK + 1
 
 class Estacion(models.Model):

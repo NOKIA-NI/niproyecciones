@@ -180,6 +180,12 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
+VIERNES = 0
+
+SABADO = 5
+
+DOMINGO = 6
+
 try:
     from local_settings import *
 except ImportError:
