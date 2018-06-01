@@ -3,7 +3,11 @@
   <td>{{ object.estacion }}</td>
   <td>{{ object.w_fc_sal }}</td>
   <td>{{ object.w_fc_imp }}</td>
+  {% if object.bolsa %}
   <td>{{ object.bolsa }}</td>
+  {% else %}
+  <td>None</td>
+  {% endif %}
   <td>{{ object.parte }}</td>
   <td>{{ object.grupo_parte }}</td>
   <td>{{ object.cantidad_estimada }}</td>

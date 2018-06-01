@@ -8,7 +8,11 @@
   <td>{{ object.total_actividades }}</td>
   <td>{{ object.estado_wr }}</td>
   <td>{{ object.mos }}</td>
+  {% if object.bolsa %}
   <td>{{ object.bolsa }}</td>
+  {% else %}
+  <td>None</td>
+  {% endif %}
   <td>{{ object.comunidades }}</td>
   <td>{{ object.satelital }}</td>
   <td>{{ object.impactar }}</td>

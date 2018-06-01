@@ -157,11 +157,12 @@ def calculate_impacto(request):
                 total_resultado_actual = Resultado.objects.values_list('w' + str(week), flat=True).get(parte=parte)
                 if parte.grupo_familia is not None:
                     resultados = Resultado.objects.filter(parte__grupo_familia=parte.grupo_familia)
+                    total_resultado_anterior = resultados.aggregate(total=Coalesce(Sum('w'+str(week - 1)), V(0))).get('total')
                     total_resultado_actual = resultados.aggregate(total=Coalesce(Sum('w'+str(week)), V(0))).get('total')
                 if total_resultado_actual < 0:
                     total_resultado = total_resultado_actual
                     if total_resultado_anterior < 0 and total_resultado_anterior > total_resultado_actual:
-                        total_resultado = total_resultado_anterior - total_resultado_actual
+                        total_resultado = total_resultado_actual - total_resultado_anterior
                     for impacto in impactos:
                         if total_resultado < 0 and total_resultado < total_partes:
                             total_resultado = total_resultado + impacto.cantidad_estimada

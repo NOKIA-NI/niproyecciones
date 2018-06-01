@@ -77,11 +77,11 @@ class HwActividad(models.Model):
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_imp is None:
             self.impactar = NO
-        if self.impactar == SI and self.estacion.bolsa is None:
+        if self.impactar == SI and (not self.estacion.bolsa or self.estacion.bolsa is None):
             self.impactar = NO
         if self.impactar == SI and self.estacion.mos is not None:
             self.impactar = NO
-        if self.impactar == SI and self.estacion.estado_wr == EN_TRANSITO or self.estacion.estado_wr == DESPACHO_SOLICITADO:
+        if self.impactar == SI and (self.estacion.estado_wr == EN_TRANSITO or self.estacion.estado_wr == DESPACHO_SOLICITADO):
             self.impactar = NO
         if self.impactar == SI and self.parte.impactar == NO:
             self.impactar = NO

@@ -2,7 +2,11 @@
   <td>{{ object.id }}</td>
   <td>{{ object.estacion }}</td>
   <td>{{ object.estacion.region}}</td>
+  {% if object.estacion.bolsa %}
   <td>{{ object.estacion.bolsa }}</td>
+  {% else %}
+  <td>None</td>
+  {% endif %}
   <td>{{ object.estacion.comunidades }}</td>
   <td>{{ object.estacion.satelital }}</td>
   <td>{{ object.estacion.w_fc_imp }}</td>

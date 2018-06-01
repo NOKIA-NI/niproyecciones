@@ -4,6 +4,8 @@ from .models import HwActividad
 from estaciones import choices as estaciones_choices
 from partes import choices as partes_choices
 
+BOLSA_CHOICES_EMPTY = (('', '---------'),) + estaciones_choices.BOLSA_CHOICES
+
 class HwActividadForm(ModelForm):
     
     class Meta:
@@ -12,7 +14,7 @@ class HwActividadForm(ModelForm):
 
 class FilterHwActividadForm(ModelForm):
     region = forms.ChoiceField(choices=estaciones_choices.REGION_CHOICES, required=False)
-    bolsa = forms.ChoiceField(choices=estaciones_choices.BOLSA_CHOICES, required=False)
+    bolsa = forms.ChoiceField(choices=BOLSA_CHOICES_EMPTY, required=False)
     comunidades = forms.ChoiceField(choices=estaciones_choices.COMUNIDADES_CHOICES, required=False)
     satelital = forms.ChoiceField(choices=estaciones_choices.SATELITAL_CHOICES, required=False)
     w_fc_imp = forms.IntegerField(required=False)
