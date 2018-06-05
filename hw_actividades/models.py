@@ -21,6 +21,8 @@ REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 EN_TRANSITO = 'En_Transito'
 DESPACHO_SOLICITADO = 'Despacho_Solicitado'
 
+ANTENAS_Y_OTROS = 'Antenas y Otros'
+
 SI = 'Si'
 NO = 'No'
 
@@ -73,7 +75,7 @@ class HwActividad(models.Model):
             self.estacion.bolsa != AIRSCALE167 and \
             self.estacion.bolsa != AIRSCALE116 and \
             self.estacion.bolsa != AIRSCALE112 and \
-            self.parte.grupo_parte == 'Antenas y Otros':
+            self.parte.grupo_parte == ANTENAS_Y_OTROS:
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_imp is None:
             self.impactar = NO
