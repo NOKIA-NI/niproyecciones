@@ -35,6 +35,7 @@ REEMPLAZOSITIOSLSM170 = 'Reemplazo 170 sitios LSM'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 PARTESSITIOSLSM302 = 'Partes 302 sitios LSM'
+SITIOSLSMMIXTO164 = '164 Sitios LSM Mixto (Airscale + FSMF)'
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
@@ -107,6 +108,7 @@ def cronograma_bolsas(request):
     sitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     reemplazossitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     partessitioslsm302 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':PARTESSITIOSLSM302}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    sitioslsmmixto164 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSMMIXTO164}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'sitioslsm55': sitioslsm55,
@@ -121,6 +123,7 @@ def cronograma_bolsas(request):
         'sitiossatelitaleslsm36': sitiossatelitaleslsm36,
         'reemplazossitiossatelitaleslsm36': reemplazossitiossatelitaleslsm36,
         'partessitioslsm302': partessitioslsm302,
+        'sitioslsmmixto164': sitioslsmmixto164,
     }
     return JsonResponse(data)
 
