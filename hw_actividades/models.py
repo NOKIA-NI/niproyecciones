@@ -17,6 +17,7 @@ AIRSCALE116 = 'Airscale 116'
 AIRSCALE112 = 'Airscale 112'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
+SITIOSLSMMIXTO164 = '164 Sitios LSM Mixto (Airscale + FSMF)'
 
 EN_TRANSITO = 'En_Transito'
 DESPACHO_SOLICITADO = 'Despacho_Solicitado'
@@ -59,6 +60,7 @@ class HwActividad(models.Model):
                 self.estacion.bolsa == AIRSCALE167 or \
                 self.estacion.bolsa == AIRSCALE116 or \
                 self.estacion.bolsa == AIRSCALE112 or \
+                self.estacion.bolsa == SITIOSLSMMIXTO164 or \
                 self.estacion.bolsa == SITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == REEMPLAZOSITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == SITIOSLSM55:
@@ -75,6 +77,7 @@ class HwActividad(models.Model):
             self.estacion.bolsa != AIRSCALE167 and \
             self.estacion.bolsa != AIRSCALE116 and \
             self.estacion.bolsa != AIRSCALE112 and \
+            self.estacion.bolsa != SITIOSLSMMIXTO164 and \
             self.parte.grupo_parte == ANTENAS_Y_OTROS:
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_imp is None:
