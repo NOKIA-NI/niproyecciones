@@ -21,6 +21,7 @@ SITIOSLSMMIXTO164 = '164 Sitios LSM Mixto (Airscale + FSMF)'
 
 EN_TRANSITO = 'En_Transito'
 DESPACHO_SOLICITADO = 'Despacho_Solicitado'
+HW_RECIBIDO = 'HW_Recibido'
 
 ANTENAS_Y_OTROS = 'Antenas y Otros'
 
@@ -86,7 +87,9 @@ class HwActividad(models.Model):
             self.impactar = NO
         if self.impactar == SI and self.estacion.mos is not None:
             self.impactar = NO
-        if self.impactar == SI and (self.estacion.estado_wr == EN_TRANSITO or self.estacion.estado_wr == DESPACHO_SOLICITADO):
+        if self.impactar == SI and (self.estacion.estado_wr == EN_TRANSITO or \
+                                    self.estacion.estado_wr == DESPACHO_SOLICITADO or \
+                                    self.estacion.estado_wr == HW_RECIBIDO):
             self.impactar = NO
         if self.impactar == SI and self.parte.impactar == NO:
             self.impactar = NO
