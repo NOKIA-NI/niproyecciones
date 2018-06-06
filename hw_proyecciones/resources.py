@@ -36,6 +36,7 @@ class HwEstacionResource(resources.ModelResource):
         'w_proyeccion_instalacion',
         'actividades',
         'bolsa',
+        'scope_c',
         )
 
 class HwParteResource(resources.ModelResource):
