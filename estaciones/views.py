@@ -90,7 +90,11 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(scope_claro__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
+                          (Q(w_fc_sal__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
                           (Q(w_fc_imp__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(w_fc_c__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(total_actividades__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
@@ -168,8 +172,9 @@ class CronogramaFcImpEstacion(LoginRequiredMixin, TemplateView):
 
 def export_cronograma_estacion(request):
     estacion_resource = EstacionResource()
-    estaciones = [hw.estacion.id for hw in HwActividad.objects.filter(estacion__w_fc_imp__gte=WEEK).order_by('estacion_id').distinct('estacion')]
-    queryset = Estacion.objects.filter(pk__in=estaciones)
+    # estaciones = [hw.estacion.id for hw in HwActividad.objects.filter(estacion__w_fc_imp__gte=WEEK).order_by('estacion_id').distinct('estacion')]
+    # queryset = Estacion.objects.filter(pk__in=estaciones)
+    queryset = Estacion.objects.filter(w_fc_imp__gte=WEEK)
     dataset = estacion_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Cronograma.xlsx"'

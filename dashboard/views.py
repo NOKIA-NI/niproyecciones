@@ -80,7 +80,8 @@ def impactos(request):
     w_fc = request.GET.get('w_fc', 'w_fc_imp')
     weeks = list(range(14, 53))
     labels = [week for week in weeks if week >= WEEK]
-    cronograma = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # cronograma = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    cronograma = [Estacion.objects.filter(**{w_fc:week}).count() for week in weeks if int(week) >= WEEK]
     impactos_si = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     # impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     impactos_no = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]

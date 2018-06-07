@@ -32,7 +32,7 @@ class HwEstacion(models.Model):
     w_proyeccion_instalacion = models.IntegerField(blank=True, null=True)
     actividades = models.BigIntegerField(default=0, blank=True, null=True)
     bolsa = models.CharField(max_length=255, blank=True, null=True)
-    scope_c = models.CharField(max_length=45, blank=True, null=True)
+    w_fc_c = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
