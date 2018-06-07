@@ -55,10 +55,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         # context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
-        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
-        context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        # context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        context['estaciones_impactos_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+
+        if week != WEEK:
+            context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
+            context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+            # context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+            context['estaciones_impactos_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        else:
+            context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp__gte=0).count()
+            context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp__gte=0, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+            # context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+            context['estaciones_impactos_fc_imp'] = Estacion.objects.filter(w_fc_imp__gte=0).count() - Impacto.objects.filter(w_fc_imp__gte=0, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        
         # context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
         # context['estaciones_next_week_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=int(week)+1).order_by('estacion_id').distinct('estacion').count()
         context['estaciones_next_week_fc_imp'] = Estacion.objects.filter(w_fc_imp=int(week)+1).count()
