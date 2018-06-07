@@ -13,11 +13,10 @@ SITIOSLSM55 = '55 sitios LSM'
 SITIOSLSM165 = '165 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
 AIRSCALE167 = 'Airscale 167'
-AIRSCALE116 = 'Airscale 116'
-AIRSCALE112 = 'Airscale 112'
+SITIOSLSMMIXTO381 = '381 Sitios LSM Mixto (Airscale + FSMF)'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
-SITIOSLSMMIXTO164 = '164 Sitios LSM Mixto (Airscale + FSMF)'
+PENDIENTEPEDIDO = 'Pendiente Pedido'
 
 EN_TRANSITO = 'En_Transito'
 DESPACHO_SOLICITADO = 'Despacho_Solicitado'
@@ -60,12 +59,11 @@ class HwActividad(models.Model):
             if self.estacion.bolsa == SITIOSLSM165 or \
                 self.estacion.bolsa == SITIOSLSM531 or \
                 self.estacion.bolsa == AIRSCALE167 or \
-                self.estacion.bolsa == AIRSCALE116 or \
-                self.estacion.bolsa == AIRSCALE112 or \
-                self.estacion.bolsa == SITIOSLSMMIXTO164 or \
+                self.estacion.bolsa == SITIOSLSMMIXTO381 or \
                 self.estacion.bolsa == SITIOSSATELITALESLSM36 or \
                 self.estacion.bolsa == REEMPLAZOSITIOSSATELITALESLSM36 or \
-                self.estacion.bolsa == SITIOSLSM55:
+                self.estacion.bolsa == SITIOSLSM55 or \
+                self.estacion.bolsa == PENDIENTEPEDIDO:
                 self.lsm = SI
             else:
                 self.lsm = NO
@@ -77,9 +75,7 @@ class HwActividad(models.Model):
         if self.impactar == NO and \
             self.estacion.bolsa != SITIOSLSM55 and \
             self.estacion.bolsa != AIRSCALE167 and \
-            self.estacion.bolsa != AIRSCALE116 and \
-            self.estacion.bolsa != AIRSCALE112 and \
-            self.estacion.bolsa != SITIOSLSMMIXTO164 and \
+            self.estacion.bolsa != SITIOSLSMMIXTO381 and \
             self.parte.grupo_parte == ANTENAS_Y_OTROS:
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_imp is None:

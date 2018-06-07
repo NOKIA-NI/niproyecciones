@@ -126,13 +126,12 @@ var dataSitioslsm170 = [];
 var dataSitioslsm531 = [];
 var dataSitiosbulk = [];
 var dataAirscale167 = [];
-var dataAirscale116 = [];
-var dataAirscale112 = [];
+var dataSitioslsmmixto381 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
 var dataPartessitioslsm302 = [];
-var dataSitioslsmmixto164 = [];
+var dataPendientepedido = [];
 
 var ImpactosChart;
 var CronogramaBolsasChart;
@@ -294,13 +293,12 @@ $.ajax({
     dataSitioslsm531 = data.sitioslsm531
     dataSitiosbulk = data.sitiosbulk
     dataAirscale167 = data.airscale167
-    dataAirscale116 = data.airscale116
-    dataAirscale112 = data.airscale112
+    dataSitioslsmmixto381 = data.sitioslsmmixto381
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
     dataPartessitioslsm302 = data.partessitioslsm302
-    dataSitioslsmmixto164 = data.sitioslsmmixto164
+    dataPendientepedido = data.pendientepedido
     CronogrmaBolsas()
   },
   error: function(error){
@@ -327,13 +325,12 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitioslsm531 = data.sitioslsm531
       dataSitiosbulk = data.sitiosbulk
       dataAirscale167 = data.airscale167
-      dataAirscale116 = data.airscale116
-      dataAirscale112 = data.airscale112
+      dataSitioslsmmixto381 = data.sitioslsmmixto381
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
       dataPartessitioslsm302 = data.partessitioslsm302
-      dataSitioslsmmixto164 = data.sitioslsmmixto164
+      dataPendientepedido = data.pendientepedido
       CronogrmaBolsas()
     },
     error: function(error){
@@ -408,24 +405,14 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#20c997'
       },
       {
-        label: 'Airscale 116',
+        label: 'LSM 381 Mixto (Airscale + FSMF)',
 				backgroundColor: '#6f42c1',
-        data: dataAirscale116,
+        data: dataSitioslsmmixto381,
         lineTension: 0,
         backgroundColor: '#6f42c1',
         borderColor: '#6f42c1',
         borderWidth: 4,
         pointBackgroundColor: '#6f42c1'
-      },
-      {
-        label: 'Airscale 112',
-				backgroundColor: '#FFFF00',
-        data: dataAirscale112,
-        lineTension: 0,
-        backgroundColor: '#FFFF00',
-        borderColor: '#FFFF00',
-        borderWidth: 4,
-        pointBackgroundColor: '#FFFF00'
       },
       {
         label: 'Reemplazos LSM 170',
@@ -468,14 +455,14 @@ function CronogrmaBolsas() {
         pointBackgroundColor: '#007bff'
       },
       {
-        label: 'LSM 164 Mixto (Airscale + FSMF)',
-				backgroundColor: '#3E2723',
-        data: dataSitioslsmmixto164,
+        label: 'Pendiente Pedido',
+				backgroundColor: '#FFFF00',
+        data: dataPendientepedido,
         lineTension: 0,
-        backgroundColor: '#3E2723',
-        borderColor: '#3E2723',
+        backgroundColor: '#FFFF00',
+        borderColor: '#FFFF00',
         borderWidth: 4,
-        pointBackgroundColor: '#3E2723'
+        pointBackgroundColor: '#FFFF00'
       }
     ]
     },
