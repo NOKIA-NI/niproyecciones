@@ -18,7 +18,7 @@ class Estacion(models.Model):
     scope_claro = models.CharField(max_length=255, choices=choices.SCOPE_CHOICES, blank=True, null=True)
     w_fc_sal = models.PositiveIntegerField(blank=True, null=True)
     w_fc_imp = models.PositiveIntegerField(blank=True, null=True)
-    w_fc_c = models.CharField(max_length=255, blank=True, null=True)
+    w_fc_c = models.PositiveIntegerField(blank=True, null=True)
     total_actividades = models.PositiveIntegerField(blank=True, null=True)
     estado_wr = models.CharField(max_length=255, choices=choices.ESTADO_WR_CHOICES, blank=True, null=True)
     mos = models.DateField(blank=True, null=True)
@@ -45,6 +45,10 @@ class Estacion(models.Model):
         return reverse('estaciones:detail_estacion', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
+        if self.w_fc_c is not None:
+            self.w_fc_imp = self.w_fc_c
+        if self.w_fc_imp is None:
+            self.w_fc_sal = self.w_fc_imp
         if self.w_fc_imp is not None and self.mos is not None:
             self.w_fc_sal = self.mos.isocalendar()[1]
         if (self.w_fc_imp is not None and self.w_fc_imp >= WEEK) and self.mos is None:

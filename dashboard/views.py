@@ -54,12 +54,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        # context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
-        context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
+        # context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
+        context['estaciones_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count()
         context['impactos_fc_imp'] = Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
-        context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        # context['estaciones_impactos_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['estaciones_impactos_fc_imp'] = Estacion.objects.filter(w_fc_imp=week).count() - Impacto.objects.filter(w_fc_imp=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         # context['estaciones_fc_sal'] = Estacion.objects.filter(w_fc_sal=week).count()
-        context['estaciones_next_week_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=int(week)+1).order_by('estacion_id').distinct('estacion').count()
+        # context['estaciones_next_week_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=int(week)+1).order_by('estacion_id').distinct('estacion').count()
+        context['estaciones_next_week_fc_imp'] = Estacion.objects.filter(w_fc_imp=int(week)+1).count()
         # context['impactos_fc_sal'] = Impacto.objects.filter(w_fc_sal=week, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['accesorios'] = accesorios
         context['modulos'] = modulos
@@ -83,8 +85,8 @@ def impactos(request):
     # cronograma = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     cronograma = [Estacion.objects.filter(**{w_fc:week}).count() for week in weeks if int(week) >= WEEK]
     impactos_si = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    # impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    impactos_no = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # impactos_no = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'cronograma': cronograma,
@@ -97,19 +99,34 @@ def cronograma_bolsas(request):
     w_fc = request.GET.get('w_fc', 'w_fc_imp')
     weeks = list(range(14, 53))
     labels = [week for week in weeks if week >= WEEK]
-    sitioslsm55 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM55}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitioslsm165 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM165}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitioslsm531 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM531}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitiosbulk = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSBULK}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    airscale167 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE167}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    airscale116 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE116}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    airscale112 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE112}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    reemplazositioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    reemplazossitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    partessitioslsm302 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':PARTESSITIOSLSM302}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    sitioslsmmixto164 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSMMIXTO164}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitioslsm55 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM55}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitioslsm165 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM165}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitioslsm531 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSM531}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitiosbulk = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSBULK}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # airscale167 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE167}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # airscale116 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE116}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # airscale112 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':AIRSCALE112}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # reemplazositioslsm170 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSLSM170}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # reemplazossitiossatelitaleslsm36 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # partessitioslsm302 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':PARTESSITIOSLSM302}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    # sitioslsmmixto164 = [HwActividad.objects.filter(**{'estacion__'+w_fc:week, 'estacion__bolsa':SITIOSLSMMIXTO164}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+
+    sitioslsm55 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSM55}).count() for week in weeks if int(week) >= WEEK]
+    sitioslsm165 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSM165}).count() for week in weeks if int(week) >= WEEK]
+    sitioslsm170 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSM170}).count() for week in weeks if int(week) >= WEEK]
+    sitioslsm531 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSM531}).count() for week in weeks if int(week) >= WEEK]
+    sitiosbulk = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSBULK}).count() for week in weeks if int(week) >= WEEK]
+    airscale167 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':AIRSCALE167}).count() for week in weeks if int(week) >= WEEK]
+    airscale116 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':AIRSCALE116}).count() for week in weeks if int(week) >= WEEK]
+    airscale112 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':AIRSCALE112}).count() for week in weeks if int(week) >= WEEK]
+    reemplazositioslsm170 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':REEMPLAZOSITIOSLSM170}).count() for week in weeks if int(week) >= WEEK]
+    sitiossatelitaleslsm36 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSSATELITALESLSM36}).count() for week in weeks if int(week) >= WEEK]
+    reemplazossitiossatelitaleslsm36 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).count() for week in weeks if int(week) >= WEEK]
+    partessitioslsm302 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':PARTESSITIOSLSM302}).count() for week in weeks if int(week) >= WEEK]
+    sitioslsmmixto164 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSMMIXTO164}).count() for week in weeks if int(week) >= WEEK]
+
     data = {
         'labels': labels,
         'sitioslsm55': sitioslsm55,

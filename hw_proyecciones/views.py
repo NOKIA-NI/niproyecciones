@@ -542,6 +542,7 @@ def create_estacion(request):
                 region=hw_estacion.region,
                 scope_claro=hw_estacion.scope_claro,
                 w_fc_imp=hw_estacion.w_fc_c,
+                w_fc_c=hw_estacion.w_fc_c,
                 total_actividades=hw_estacion.actividades,
                 bolsa=hw_estacion.bolsa,
             )
@@ -561,6 +562,7 @@ def update_estacion(request):
                 estacion.region != hw_estacion.region or \
                 estacion.scope_claro != hw_estacion.scope_claro or \
                 estacion.w_fc_imp != hw_estacion.w_fc_c or \
+                estacion.w_fc_c != hw_estacion.w_fc_c or \
                 estacion.total_actividades != hw_estacion.actividades or \
                 estacion.bolsa != hw_estacion.bolsa:
 
@@ -568,6 +570,7 @@ def update_estacion(request):
                 estacion.region = hw_estacion.region
                 estacion.scope_claro = hw_estacion.scope_claro
                 estacion.w_fc_imp = hw_estacion.w_fc_c
+                estacion.w_fc_c = hw_estacion.w_fc_c
                 estacion.total_actividades = hw_estacion.actividades
                 estacion.bolsa = hw_estacion.bolsa
                 estacion.save()
