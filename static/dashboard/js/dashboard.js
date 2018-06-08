@@ -246,19 +246,19 @@ function Impactos() {
         borderWidth: 4,
         pointBackgroundColor: '#2196F3'
       },
-      {
-        type: 'line',
-        label: 'Impactos Si',
-				// backgroundColor: '#FFFF00',
-        data: dataImpactosSi,
-        lineTension: 0,
-        // backgroundColor: '#FFFF00',
-        // borderColor: '#FFFF00',
-        borderWidth: 0,
-        // pointBackgroundColor: '#FFFF00'
-        fill: false,
-        showLine: false
-      },
+      // {
+      //   type: 'line',
+      //   label: 'Impactos Si',
+			// 	// backgroundColor: '#FFFF00',
+      //   data: dataImpactosSi,
+      //   lineTension: 0,
+      //   // backgroundColor: '#FFFF00',
+      //   // borderColor: '#FFFF00',
+      //   borderWidth: 0,
+      //   // pointBackgroundColor: '#FFFF00'
+      //   fill: false,
+      //   showLine: false
+      // },
       {
         label: 'Impactos Antena',
 				backgroundColor: '#F44336',
