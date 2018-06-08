@@ -50,8 +50,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
         context['week'] = week
         context['weeks'] = weeks
-        context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
+        context['impactos_modulo_accesorio'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         context['impactos_modulo_accesorio_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=MODULO_ACCESORIO_ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
         # context['estaciones_fc_imp'] = HwActividad.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion').count()
 
@@ -92,12 +92,18 @@ def impactos(request):
     # cronograma = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     cronograma = [Estacion.objects.filter(**{w_fc:week}).count() for week in weeks if int(week) >= WEEK]
     impactos_si = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_antena = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'tipo_impacto':ANTENA}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_modulo_accesorio = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'tipo_impacto':MODULO_ACCESORIO}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_modulo_accesorio_antena = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'tipo_impacto':MODULO_ACCESORIO_ANTENA}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     # impactos_no = [HwActividad.objects.filter(**{'estacion__'+w_fc:week}).order_by('estacion_id').distinct('estacion').count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     impactos_no = [Estacion.objects.filter(**{w_fc:week}).count() - Impacto.objects.filter(**{w_fc:week, 'impactado':SI}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'cronograma': cronograma,
         'impactos_si': impactos_si,
+        'impactos_antena': impactos_antena,
+        'impactos_modulo_accesorio': impactos_modulo_accesorio,
+        'impactos_modulo_accesorio_antena': impactos_modulo_accesorio_antena,
         'impactos_no': impactos_no,
     }
     return JsonResponse(data)

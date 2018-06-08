@@ -114,6 +114,9 @@ $("#week").on('change', function () {
 var labels = [];
 var dataCronograma = [];
 var dataImpactosSi = [];
+var dataImpactosAntena = [];
+var dataImpactosModuloAccesorio = [];
+var dataImpactosModuloAccesorioAntena = [];
 var dataImpactosNo = [];
 var dataImpactosAccesorios = [];
 var dataImpactosModulos = [];
@@ -145,6 +148,9 @@ $.ajax({
     labels = data.labels
     dataCronograma = data.cronograma
     dataImpactosSi = data.impactos_si
+    dataImpactosAntena = data.impactos_antena
+    dataImpactosModuloAccesorio = data.impactos_modulo_accesorio
+    dataImpactosModuloAccesorioAntena = data.impactos_modulo_accesorio_antena
     dataImpactosNo = data.impactos_no
     Impactos()
     ImpactosParte()
@@ -169,6 +175,9 @@ $("#w_fc_impacto").change(function () {
       labels = data.labels
       dataCronograma = data.cronograma
       dataImpactosSi = data.impactos_si
+      dataImpactosAntena = data.impactos_antena
+      dataImpactosModuloAccesorio = data.impactos_modulo_accesorio
+      dataImpactosModuloAccesorioAntena = data.impactos_modulo_accesorio_antena
       dataImpactosNo = data.impactos_no
       Impactos()
     },
@@ -215,20 +224,20 @@ function Impactos() {
     data: {
       labels: labels,
       datasets: [{
-          type: 'line',
-          label: 'Estaciones - Cronogrma',
-          // backgroundColor: '#2196F3',
-          data: dataCronograma,
-          lineTension: 0,
-          // backgroundColor: '#2196F3',
-          // borderColor: '#2196F3',
-          borderWidth: 0,
-          // pointBackgroundColor: '#2196F3',
-          fill: false,
-          showLine: false
-        },
-        {
-        label: 'Estaciones - Impactos No',
+        type: 'line',
+        label: 'Cronogrma',
+        // backgroundColor: '#2196F3',
+        data: dataCronograma,
+        lineTension: 0,
+        // backgroundColor: '#2196F3',
+        // borderColor: '#2196F3',
+        borderWidth: 0,
+        // pointBackgroundColor: '#2196F3',
+        fill: false,
+        showLine: false
+      },
+      {
+        label: 'Impactos No',
 				backgroundColor: '#2196F3',
         data: dataImpactosNo,
         lineTension: 0,
@@ -238,14 +247,47 @@ function Impactos() {
         pointBackgroundColor: '#2196F3'
       },
       {
-        label: 'Estaciones - Impactos Si',
-				backgroundColor: '#F44336',
+        type: 'line',
+        label: 'Impactos Si',
+				// backgroundColor: '#FFFF00',
         data: dataImpactosSi,
+        lineTension: 0,
+        // backgroundColor: '#FFFF00',
+        // borderColor: '#FFFF00',
+        borderWidth: 0,
+        // pointBackgroundColor: '#FFFF00'
+        fill: false,
+        showLine: false
+      },
+      {
+        label: 'Impactos Antena',
+				backgroundColor: '#F44336',
+        data: dataImpactosAntena,
         lineTension: 0,
         backgroundColor: '#F44336',
         borderColor: '#F44336',
         borderWidth: 4,
         pointBackgroundColor: '#F44336'
+      },
+      {
+        label: 'Modulo-Accesorio',
+				backgroundColor: '#28a745',
+        data: dataImpactosModuloAccesorio,
+        lineTension: 0,
+        backgroundColor: '#28a745',
+        borderColor: '#28a745',
+        borderWidth: 4,
+        pointBackgroundColor: '#28a745'
+      },
+      {
+        label: 'Impactos Modulo-Accesorio-Antena',
+				backgroundColor: '#6f42c1',
+        data: dataImpactosModuloAccesorioAntena,
+        lineTension: 0,
+        backgroundColor: '#6f42c1',
+        borderColor: '#6f42c1',
+        borderWidth: 4,
+        pointBackgroundColor: '#6f42c1'
       }
     ]
     },
