@@ -29,7 +29,8 @@ SITIOSLSM170 = '170 sitios LSM'
 SITIOSLSM531 = '531 sitios LSM'
 SITIOSBULK = 'Sitios Bulk'
 AIRSCALE167 = 'Airscale 167'
-SITIOSLSMMIXTO381 = '381 Sitios LSM Mixto (Airscale + FSMF)'
+SITIOSLSMMIXTO381 = '381 sitios LSM Mixto (Airscale + FSMF)'
+SITIOSLSMMIXTO114 = '114 sitios LSM Mixto (Airscale + FSMF)'
 REEMPLAZOSITIOSLSM170 = 'Reemplazo 170 sitios LSM'
 SITIOSSATELITALESLSM36 = '36 sitios Satelitales LSM'
 REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
@@ -131,6 +132,7 @@ def cronograma_bolsas(request):
     sitiosbulk = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSBULK}).count() for week in weeks if int(week) >= WEEK]
     airscale167 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':AIRSCALE167}).count() for week in weeks if int(week) >= WEEK]
     sitioslsmmixto381 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSMMIXTO381}).count() for week in weeks if int(week) >= WEEK]
+    sitioslsmmixto114 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSLSMMIXTO114}).count() for week in weeks if int(week) >= WEEK]
     reemplazositioslsm170 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':REEMPLAZOSITIOSLSM170}).count() for week in weeks if int(week) >= WEEK]
     sitiossatelitaleslsm36 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':SITIOSSATELITALESLSM36}).count() for week in weeks if int(week) >= WEEK]
     reemplazossitiossatelitaleslsm36 = [Estacion.objects.filter(**{w_fc:week, 'bolsa':REEMPLAZOSITIOSSATELITALESLSM36}).count() for week in weeks if int(week) >= WEEK]
@@ -146,6 +148,7 @@ def cronograma_bolsas(request):
         'sitiosbulk': sitiosbulk,
         'airscale167': airscale167,
         'sitioslsmmixto381': sitioslsmmixto381,
+        'sitioslsmmixto114': sitioslsmmixto114,
         'reemplazositioslsm170': reemplazositioslsm170,
         'sitiossatelitaleslsm36': sitiossatelitaleslsm36,
         'reemplazossitiossatelitaleslsm36': reemplazossitiossatelitaleslsm36,

@@ -130,6 +130,7 @@ var dataSitioslsm531 = [];
 var dataSitiosbulk = [];
 var dataAirscale167 = [];
 var dataSitioslsmmixto381 = [];
+var dataSitioslsmmixto114 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
@@ -336,6 +337,7 @@ $.ajax({
     dataSitiosbulk = data.sitiosbulk
     dataAirscale167 = data.airscale167
     dataSitioslsmmixto381 = data.sitioslsmmixto381
+    dataSitioslsmmixto114 = data.sitioslsmmixto114
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -368,6 +370,7 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitiosbulk = data.sitiosbulk
       dataAirscale167 = data.airscale167
       dataSitioslsmmixto381 = data.sitioslsmmixto381
+      dataSitioslsmmixto114 = data.sitioslsmmixto114
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -455,6 +458,16 @@ function CronogrmaBolsas() {
         borderColor: '#6f42c1',
         borderWidth: 4,
         pointBackgroundColor: '#6f42c1'
+      },
+      {
+        label: 'LSM 114 Mixto (Airscale + FSMF)',
+				backgroundColor: '#3E2723',
+        data: dataSitioslsmmixto114,
+        lineTension: 0,
+        backgroundColor: '#3E2723',
+        borderColor: '#3E2723',
+        borderWidth: 4,
+        pointBackgroundColor: '#3E2723'
       },
       {
         label: 'Reemplazos LSM 170',
