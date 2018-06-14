@@ -37,6 +37,13 @@ REEMPLAZOSITIOSSATELITALESLSM36 = 'Reemplazo 36 sitios Satelitales LSM'
 PARTESSITIOSLSM302 = 'Partes 302 sitios LSM'
 PENDIENTEPEDIDO = 'Pendiente Pedido'
 
+CUSTOM_CLEARANCE = 'Custom Clearance'
+COMPLETE_SITES = 'Complete Sites (Installed)'
+WAITING_CSP_CONFIGURATION = 'Waiting CSP Configuration'
+PENDING_PROJECT_HW_REQUEST = 'Pending Project HW Request'
+TO_DISPATCH = 'To Dispatch'
+WAITING_FACTORY_FEEDBACK = 'Waiting Factory Feedback'
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = 'users:home'
     template_name = 'dashboard/dashboard.html'
@@ -154,6 +161,29 @@ def cronograma_bolsas(request):
         'reemplazossitiossatelitaleslsm36': reemplazossitiossatelitaleslsm36,
         'partessitioslsm302': partessitioslsm302,
         'pendientepedido': pendientepedido,
+    }
+    return JsonResponse(data)
+
+def cronograma_status_nokia(request):
+    w_fc = request.GET.get('w_fc', 'w_fc_imp')
+    weeks = list(range(14, 53))
+    labels = [week for week in weeks if week >= WEEK]
+
+    custom_clearance = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':CUSTOM_CLEARANCE}).count() for week in weeks if int(week) >= WEEK]
+    complete_sites = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':COMPLETE_SITES}).count() for week in weeks if int(week) >= WEEK]
+    waiting_csp_configuration = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':WAITING_CSP_CONFIGURATION}).count() for week in weeks if int(week) >= WEEK]
+    pending_project_hw_request = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':PENDING_PROJECT_HW_REQUEST}).count() for week in weeks if int(week) >= WEEK]
+    to_dispatch = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':TO_DISPATCH}).count() for week in weeks if int(week) >= WEEK]
+    waiting_factory_feedback = [Estacion.objects.filter(**{w_fc:week, 'status_nokia':WAITING_FACTORY_FEEDBACK}).count() for week in weeks if int(week) >= WEEK]
+
+    data = {
+        'labels': labels,
+        'custom_clearance': custom_clearance,
+        'complete_sites': complete_sites,
+        'waiting_csp_configuration': waiting_csp_configuration,
+        'pending_project_hw_request': pending_project_hw_request,
+        'to_dispatch': to_dispatch,
+        'waiting_factory_feedback': waiting_factory_feedback,
     }
     return JsonResponse(data)
 

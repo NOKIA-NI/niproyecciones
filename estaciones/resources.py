@@ -24,6 +24,7 @@ class EstacionResource(resources.ModelResource):
         'estado_wr',
         'mos',
         'bolsa',
+        'status_nokia',
         'comunidades',
         'satelital',
         'impactar',

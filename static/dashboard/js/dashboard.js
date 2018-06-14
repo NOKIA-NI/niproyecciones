@@ -136,9 +136,16 @@ var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
 var dataPartessitioslsm302 = [];
 var dataPendientepedido = [];
+var dataCustomClearance = [];
+var dataCompleteSites = [];
+var dataWaitingCspConfiguration = [];
+var dataPendingProjectHwRequest = [];
+var dataToDispatch = [];
+var dataWaitingFactoryFeedback = [];
 
 var ImpactosChart;
 var CronogramaBolsasChart;
+var CronogramaStatusNokiaChart;
 var ImpactosGrupoParteChart;
 var ImpactosParteChart;
 
@@ -190,37 +197,6 @@ $("#w_fc_impacto").change(function () {
 function Impactos() {
   var ctx = document.getElementById("impactos");
   ImpactosChart = new Chart(ctx, {
-    // plugins: [{
-    //   afterDatasetsDraw: function(chart) {
-		// 		var ctx = chart.ctx;
-
-		// 		chart.data.datasets.forEach(function(dataset, i) {
-		// 			var meta = chart.getDatasetMeta(i);
-		// 			if (!meta.hidden) {
-		// 				meta.data.forEach(function(element, index) {
-		// 					// Draw the text in black, with the specified font
-		// 					ctx.fillStyle = 'rgb(0, 0, 0)';
-
-		// 					var fontSize = 14;
-		// 					var fontStyle = 'normal';
-		// 					var fontFamily = 'Helvetica Neue';
-		// 					ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-
-		// 					// Just naively convert to string for now
-		// 					var dataString = dataset.data[index].toString();
-
-		// 					// Make sure alignment settings are correct
-		// 					ctx.textAlign = 'center';
-		// 					ctx.textBaseline = 'middle';
-
-		// 					var padding = 5;
-		// 					var position = element.tooltipPosition();
-		// 					ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-		// 				});
-		// 			}
-		// 		});
-		// 	}
-    // }],
     type: 'bar',
     data: {
       labels: labels,
@@ -343,7 +319,7 @@ $.ajax({
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
     dataPartessitioslsm302 = data.partessitioslsm302
     dataPendientepedido = data.pendientepedido
-    CronogrmaBolsas()
+    CronogramaBolsas()
   },
   error: function(error){
   }
@@ -363,7 +339,7 @@ $("#w_fc_cronograma_bolsa").change(function () {
         CronogramaBolsasChart.destroy();
       }
       labels = data.labels
-      ddataSitioslsm55 = data.sitioslsm55
+      dataSitioslsm55 = data.sitioslsm55
       dataSitioslsm165 = data.sitioslsm165
       dataSitioslsm170 = data.sitioslsm170
       dataSitioslsm531 = data.sitioslsm531
@@ -376,15 +352,15 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
       dataPartessitioslsm302 = data.partessitioslsm302
       dataPendientepedido = data.pendientepedido
-      CronogrmaBolsas()
+      CronogramaBolsas()
     },
     error: function(error){
     }
   })
 })
 
-function CronogrmaBolsas() {
-  var ctx = document.getElementById("cronogrmaBolsas");
+function CronogramaBolsas() {
+  var ctx = document.getElementById("cronogramaBolsas");
   CronogramaBolsasChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -525,6 +501,151 @@ function CronogrmaBolsas() {
       title: {
 						display: true,
 						text: 'Proyeccion Cronograma [ Estaciones - Bolsas ]'
+					},
+      tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+      responsive: true,
+      scales: {
+        xAxes: [{
+          stacked: true,
+          scaleLabel: {
+						display: true,
+						labelString: 'Semanas'
+					}
+				}],
+				yAxes: [{
+          stacked: true,
+          scaleLabel: {
+						display: true,
+						labelString: 'Estaciones'
+					}
+				}]
+      },
+      legend: {
+        display: true,
+      }
+    }
+  });
+}
+
+$.ajax({
+  method: 'GET',
+  url: '/dashboard/cronograma/status/nokia',
+  success: function(data){
+    labels = data.labels
+    dataCustomClearance = data.custom_clearance
+    dataCompleteSites = data.complete_sites
+    dataWaitingCspConfiguration = data.waiting_csp_configuration
+    dataPendingProjectHwRequest = data.pending_project_hw_request
+    dataToDispatch = data.to_dispatch
+    dataWaitingFactoryFeedback = data.waiting_factory_feedback
+    CronogramaStatusNokia()
+  },
+  error: function(error){
+  }
+})
+
+$("#w_fc_cronograma_status_nokia").change(function () {
+  var w_fc = $(this).val()
+  $.ajax({
+    method: 'GET',
+    url: '/dashboard/cronograma/status/nokia',
+    data: {
+        'w_fc': w_fc
+      },
+    dataType: 'json',
+    success: function(data){
+      if (typeof CronogramaStatusNokiaChart !== "undefined") {
+        CronogramaStatusNokiaChart.destroy();
+      }
+      labels = data.labels
+      dataCustomClearance = data.custom_clearance
+      dataCompleteSites = data.complete_sites
+      dataWaitingCspConfiguration = data.waiting_csp_configuration
+      dataPendingProjectHwRequest = data.pending_project_hw_request
+      dataToDispatch = data.to_dispatch
+      dataWaitingFactoryFeedback = data.waiting_factory_feedback
+      CronogramaStatusNokia()
+    },
+    error: function(error){
+    }
+  })
+})
+
+function CronogramaStatusNokia() {
+  var ctx = document.getElementById("cronogramaStatusNokia");
+  CronogramaStatusNokiaChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+          label: 'Complete Sites',
+          backgroundColor: '#007bff',
+          data: dataCompleteSites,
+          lineTension: 0,
+          backgroundColor: '#007bff',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        },
+        {
+        label: 'Custom Clearance',
+				backgroundColor: '#FFCDD2',
+        data: dataCustomClearance,
+        lineTension: 0,
+        backgroundColor: '#FFCDD2',
+        borderColor: '#FFCDD2',
+        borderWidth: 4,
+        pointBackgroundColor: '#FFCDD2'
+      },
+      {
+        label: 'Waiting CSP Configuration',
+				backgroundColor: '#dc3545',
+        data: dataWaitingCspConfiguration,
+        lineTension: 0,
+        backgroundColor: '#dc3545',
+        borderColor: '#dc3545',
+        borderWidth: 4,
+        pointBackgroundColor: '#dc3545'
+      },
+      {
+        label: 'Pending Project HW Request',
+				backgroundColor: '#28a745',
+        data: dataPendingProjectHwRequest,
+        lineTension: 0,
+        backgroundColor: '#28a745',
+        borderColor: '#28a745',
+        borderWidth: 4,
+        pointBackgroundColor: '#28a745'
+      },
+      {
+        label: 'To Dispatch',
+				backgroundColor: '#6f42c1',
+        data: dataToDispatch,
+        lineTension: 0,
+        backgroundColor: '#6f42c1',
+        borderColor: '#6f42c1',
+        borderWidth: 4,
+        pointBackgroundColor: '#6f42c1'
+      },
+      {
+        label: 'Waiting Factory Feedback',
+				backgroundColor: '#FFFF00',
+        data: dataWaitingFactoryFeedback,
+        lineTension: 0,
+        backgroundColor: '#FFFF00',
+        borderColor: '#FFFF00',
+        borderWidth: 4,
+        pointBackgroundColor: '#FFFF00'
+      }
+    ]
+    },
+    options: {
+      title: {
+						display: true,
+						text: 'Proyeccion Cronograma [ Estaciones - Status Nokia ]'
 					},
       tooltips: {
 						mode: 'index',

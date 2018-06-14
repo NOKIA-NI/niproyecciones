@@ -104,6 +104,17 @@ BOLSA_CHOICES = (
     ('Pendiente Pedido', 'Pendiente Pedido'),
 )
 
+""" STATUS_NOKIA_CHOICES  """
+STATUS_NOKIA_CHOICES = (
+    # ('', '---------'),
+    ('Custom Clearance', 'Custom Clearance'),
+    ('Complete Sites (Installed)', 'Complete Sites (Installed)'),
+    ('Waiting CSP Configuration', 'Waiting CSP Configuration'),
+    ('Pending Project HW Request', 'Pending Project HW Request'),
+    ('To Dispatch', 'To Dispatch'),
+    ('Waiting Factory Feedback', 'Waiting Factory Feedback'),
+)
+
 """ SATELITAL_CHOICES  """
 SATELITAL_CHOICES = (
     ('', '---------'),

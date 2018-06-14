@@ -545,6 +545,7 @@ def create_estacion(request):
                 w_fc_c=hw_estacion.w_fc_c,
                 total_actividades=hw_estacion.actividades,
                 bolsa=hw_estacion.bolsa,
+                status_nokia=hw_estacion.status_nokia,
             )
 
     return HttpResponse(status=204)
@@ -564,7 +565,8 @@ def update_estacion(request):
                 estacion.w_fc_imp != hw_estacion.w_fc_c or \
                 estacion.w_fc_c != hw_estacion.w_fc_c or \
                 estacion.total_actividades != hw_estacion.actividades or \
-                estacion.bolsa != hw_estacion.bolsa:
+                estacion.bolsa != hw_estacion.bolsa or \
+                estacion.status_nokia != hw_estacion.status_nokia:
 
                 estacion.site_name = hw_estacion.siteName
                 estacion.region = hw_estacion.region
@@ -573,6 +575,7 @@ def update_estacion(request):
                 estacion.w_fc_c = hw_estacion.w_fc_c
                 estacion.total_actividades = hw_estacion.actividades
                 estacion.bolsa = hw_estacion.bolsa
+                estacion.status_nokia = hw_estacion.status_nokia
                 estacion.save()
                 # estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
                 # estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion

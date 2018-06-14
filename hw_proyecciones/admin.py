@@ -36,6 +36,7 @@ class HwEstacionAdmin(ImportExportModelAdmin):
     'actividades',
     'bolsa',
     'w_fc_c',
+    'status_nokia',
     )
     # list_filter = ()
     search_fields = ['id', 'siteName']

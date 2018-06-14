@@ -33,6 +33,7 @@ class HwEstacion(models.Model):
     actividades = models.BigIntegerField(default=0, blank=True, null=True)
     bolsa = models.CharField(max_length=255, blank=True, null=True)
     w_fc_c = models.CharField(max_length=45, blank=True, null=True)
+    status_nokia = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

@@ -23,6 +23,7 @@ class EstacionAdmin(ImportExportModelAdmin):
     'estado_wr',
     'mos',
     'bolsa',
+    'status_nokia',
     'comunidades',
     'satelital',
     'impactar',

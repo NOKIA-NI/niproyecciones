@@ -37,6 +37,7 @@ class HwEstacionResource(resources.ModelResource):
         'actividades',
         'bolsa',
         'w_fc_c',
+        'status_nokia',
         )
 
 class HwParteResource(resources.ModelResource):

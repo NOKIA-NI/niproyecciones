@@ -102,6 +102,8 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(bolsa__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
+                          (Q(status_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
                           (Q(comunidades__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(satelital__icontains=q) for q in query_list)) |

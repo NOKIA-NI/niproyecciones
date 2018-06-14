@@ -23,6 +23,7 @@ class Estacion(models.Model):
     estado_wr = models.CharField(max_length=255, choices=choices.ESTADO_WR_CHOICES, blank=True, null=True)
     mos = models.DateField(blank=True, null=True)
     bolsa = models.CharField(max_length=255, choices=choices.BOLSA_CHOICES, blank=True, null=True)
+    status_nokia = models.CharField(max_length=255, choices=choices.STATUS_NOKIA_CHOICES, blank=True, null=True)
     comunidades = models.CharField(max_length=255, choices=choices.COMUNIDADES_CHOICES, blank=True, null=True)
     satelital  = models.CharField(max_length=255, choices=choices.SATELITAL_CHOICES, blank=True, null=True)
     impactar = models.CharField(max_length=255, choices=choices.IMPACTAR_CHOICES, default='Si')
