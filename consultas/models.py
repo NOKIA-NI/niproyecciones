@@ -11,7 +11,7 @@ class Consulta(models.Model):
     descripcion = models.TextField()
     contenido = models.TextField()
     tipo_consulta = models.CharField(max_length=255, choices=choices.TIPO_CONSULTA_CHOICES, blank=True, null=True)
-    data = JSONField(blank=True, null=True)
+    data = JSONField(blank=True, null=True, editable=False)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -26,8 +26,8 @@ class Consulta(models.Model):
     def __str__(self):
         return self.nombre
 
-    #  def get_absolute_url(self):
-    #     return reverse('consultas:detail_consulta', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('consultas:detail_consulta', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if self.contenido is not None:

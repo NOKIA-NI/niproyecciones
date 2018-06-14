@@ -2,6 +2,9 @@
 {% load static %}
 {% load filter_tags %}
 {% block title %}Consultas{% endblock title %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'consultas/css/consultas.css' %}"/>
+{% endblock extra_css %}
 
 {% block navbar %}
 {% include 'dashboard/includes/partials/navbar.html' %}
@@ -41,7 +44,7 @@
           Accion
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">link</a>
+          <a class="dropdown-item" href="#" id="detail" onclick="return detail_consulta(url_detail)">Detalle</a>
           <a class="dropdown-item" href="#">link</a>
         </div>
       </div>
@@ -84,8 +87,14 @@
 </div>
 <div class="modal fade" id="update_consulta" tabindex="-1" role="dialog" aria-hidden="true">
 </div>
+<div class="modal fade" id="delete_consulta" tabindex="-1" role="dialog" aria-hidden="true">
+</div>
 {% endblock content_dashboard %}
 
 {% block filter %}
 {% include 'dashboard/includes/partials/filter.html' %}
 {% endblock filter %}
+
+{% block extra_js %}
+<script src="{% static 'consultas/js/consultas.js' %}"></script>
+{% endblock extra_js %}

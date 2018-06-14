@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.core import serializers
 from django.views.generic import (
@@ -54,6 +55,28 @@ class CreateConsulta(LoginRequiredMixin,
     permission_required = 'is_superuser'
     success_message = "%(nombre)s fue creada exitosamente"
     form_class = ConsultaForm
-    template_name = 'estacion/includes/partials/create_estacion.html'
-    # model = Consulta
+    template_name = 'consulta/includes/partials/create_consulta.html'
     # success_url = '/detail/consulta/'
+
+class UpdateConsulta(LoginRequiredMixin,
+                     PermissionRequiredMixin,
+                     SuccessMessageMixin,
+                     UpdateView):
+    login_url = 'users:home'
+    permission_required = 'is_superuser'
+    success_message = "%(nombre)s fue actualizada exitosamente"
+    model = Consulta
+    form_class = ConsultaForm
+    template_name = 'consulta/includes/partials/update_consulta.html'
+    # success_url = '/detail/consulta/'
+
+class DeleteConsulta(LoginRequiredMixin,
+                     PermissionRequiredMixin,
+                     SuccessMessageMixin,
+                     DeleteView):
+    login_url = 'users:home'
+    permission_required = 'is_superuser'
+    success_message = "%(nombre)s fue borrada exitosamente"
+    model = Consulta
+    template_name = 'consulta/includes/partials/delete_consulta.html'
+    success_url = reverse_lazy('consultas:list_consulta')
