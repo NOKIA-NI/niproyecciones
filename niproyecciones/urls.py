@@ -32,4 +32,5 @@ urlpatterns = [
     path('existencias/', include('existencias.urls', namespace='existencias')),
     path('resultados/', include('resultados.urls', namespace='resultados')),
     path('impactos/', include('impactos.urls', namespace='impactos')),
+    path('formatos/', include('formatos.urls', namespace='formatos')),
 ]

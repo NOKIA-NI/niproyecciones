@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'existencias.apps.ExistenciasConfig',
     'resultados.apps.ResultadosConfig',
     'impactos.apps.ImpactosConfig',
+    'formatos.apps.FormatosConfig',
     # third
     'crispy_forms',
     'import_export',
@@ -179,6 +180,8 @@ BUCKET_NAME = os.getenv('BUCKET_NAME')
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 VIERNES = 4
 

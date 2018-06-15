@@ -29,11 +29,14 @@ function search_url (form) {
   var url_search_proyeccion_extra = '/proyecciones/search/proyeccion/extra/'
   var url_search_hw_actividad = '/hw_actividades/search/hw/actividad/'
   var url_search_consumo_nokia = '/consumos/search/consumo/nokia/'
-  var url_search_consumo_claro= '/consumos/search/consumo/claro/'
-  var url_search_llegada= '/llegadas/search/llegada/'
-  var url_search_existencia= '/existencias/search/existencia/'
-  var url_search_resultado= '/resultados/search/resultado/'
-  var url_search_impacto= '/impactos/search/impacto/'
+  var url_search_consumo_claro = '/consumos/search/consumo/claro/'
+  var url_search_llegada = '/llegadas/search/llegada/'
+  var url_search_existencia = '/existencias/search/existencia/'
+  var url_search_resultado = '/resultados/search/resultado/'
+  var url_search_impacto = '/impactos/search/impacto/'
+  var url_search_consulta = '/consultas/search/consulta/'
+  var url_search_formato_estacion = '/formatos/search/formato/estacion/'
+  var url_search_formato_parte = '/formatos/search/formato/parte/'
 
   if (current_url.includes('/estaciones/')) {
     form.action = url_search_estacion;
@@ -57,6 +60,12 @@ function search_url (form) {
     form.action = url_search_resultado;
   } else if (current_url.includes('/impacto/')) {
     form.action = url_search_impacto;
+  } else if (current_url.includes('/consulta/')) {
+    form.action = url_search_consulta;
+  } else if (current_url.includes('/formato/estacion/')) {
+    form.action = url_search_formato_estacion;
+  } else if (current_url.includes('/formato/parte/')) {
+    form.action = url_search_formato_parte;
   } else {
     form.action = ''
   }
@@ -75,6 +84,9 @@ function filter_url (form) {
   var url_filter_existencia= '/existencias/filter/existencia/'
   var url_filter_resultado= '/resultados/filter/resultado/'
   var url_filter_impacto= '/impactos/filter/impacto/'
+  var url_filter_consulta = '/consultas/filter/consulta/'
+  var url_filter_formato_estacion = '/formatos/filter/formato/estacion/'
+  var url_filter_formato_parte = '/formatos/filter/formato/parte/'
 
   if (current_url.includes('/estaciones/')) {
     form.action = url_filter_estacion;
@@ -98,6 +110,12 @@ function filter_url (form) {
     form.action = url_filter_resultado;
   } else if (current_url.includes('/impacto/')) {
     form.action = url_filter_impacto;
+  } else if (current_url.includes('/consulta/')) {
+    form.action = url_filter_consulta;
+  } else if (current_url.includes('/formato/estacion/')) {
+    form.action = url_filter_formato_estacion;
+  } else if (current_url.includes('/formato/parte/')) {
+    form.action = url_filter_formato_parte;
   } else {
     form.action = ''
   }
