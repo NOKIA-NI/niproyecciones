@@ -9,8 +9,8 @@ import json
 class Consulta(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
-    contenido = models.TextField()
     tipo_consulta = models.CharField(max_length=255, choices=choices.TIPO_CONSULTA_CHOICES, blank=True, null=True)
+    contenido = models.TextField()
     data = JSONField(blank=True, null=True, editable=False)
 
     estado = models.BooleanField(default=True, editable=False)
