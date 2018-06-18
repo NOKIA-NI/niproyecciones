@@ -28,7 +28,6 @@
           Dashboard <span class="sr-only">(current)</span>
         </a>
       </li>
-
       <li class="nav-item">
         <a {% if request.resolver_match.url_name == 'list_estacion' or request.resolver_match.url_name == 'cronograma_fc_imp_estacion' or request.resolver_match.url_name == 'cronograma_fc_sal_estacion'%}
           class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:list_estacion' %}">
@@ -36,28 +35,24 @@
           Estaciones
         </a>
       </li>
-
       <li class="nav-item">
         <a {% if request.resolver_match.url_name == 'list_parte' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'partes:list_parte' %}">
           <span data-feather="grid"></span>
           Partes
         </a>
       </li>
-
       <li class="nav-item">
         <a {% if request.resolver_match.url_name == 'list_proyeccion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'proyecciones:list_proyeccion' %}">
           <span data-feather="settings"></span>
           Proyecciones
         </a>
       </li>
-
       <li class="nav-item">
         <a {% if request.resolver_match.url_name == 'list_hw_actividad' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'hw_actividades:list_hw_actividad' %}">
           <span data-feather="layers"></span>
           HW Actividades
         </a>
       </li>
-
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#controlPartes">
           <span data-feather="clipboard"></span>
@@ -93,6 +88,26 @@
           <span data-feather="disc"></span>
           Impactos
         </a>
+      </li>
+
+
+      <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#formatos">
+            <span data-feather="file-text"></span>
+            Formatos
+            <span data-feather="chevron-down" id="formatosOpen"></span>
+            <span data-feather="chevron-up" id="formatosClose"></span>
+          </a>
+        </li>
+      <li class="nav-item collapse multi-collapse ml-3" id="formatos">
+          <a {% if request.resolver_match.url_name == 'list_formato_nokia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_estacion' %}">
+            <span data-feather="file-text"></span>
+            Formato Estacion
+          </a>
+          <a {% if request.resolver_match.url_name == 'list_formato_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_parte' %}">
+            <span data-feather="file-text"></span>
+            Formato Parte
+          </a>
       </li>
     </ul>
 

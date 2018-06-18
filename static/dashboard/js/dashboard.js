@@ -21,6 +21,16 @@ $('#controlPartes').on('shown.bs.collapse', function() {
      $('#controlPartesClose').hide()
    });
 
+$('#formatosClose').hide()
+$('#formatos').on('shown.bs.collapse', function() {
+  $('#formatosOpen').hide()
+  $('#formatosClose').show()
+   }).on('hidden.bs.collapse', function() {
+     $('#formatosOpen').show()
+     $('#formatosClose').hide()
+   });
+
+
 function search_url (form) {
   var current_url = window.location.href
   var url_search_estacion = '/estaciones/search/estacion/'
