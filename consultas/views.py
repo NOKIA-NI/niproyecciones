@@ -72,11 +72,9 @@ class UpdateConsulta(LoginRequiredMixin,
 
 class DeleteConsulta(LoginRequiredMixin,
                      PermissionRequiredMixin,
-                     SuccessMessageMixin,
                      DeleteView):
     login_url = 'users:home'
     permission_required = 'is_superuser'
-    success_message = "%(nombre)s fue borrada exitosamente"
     model = Consulta
     template_name = 'consulta/includes/partials/delete_consulta.html'
     success_url = reverse_lazy('consultas:list_consulta')

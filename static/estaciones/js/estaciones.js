@@ -40,3 +40,43 @@ function update_url_estacion (form) {
 function delete_url_estacion (form) {
   form.action = url_delete;
 }
+
+$('#table_bitacora_estacion').on('click', '.clickable-row', function(event) {
+  $(this).addClass('active').siblings().removeClass('active');
+  $('#update').removeClass('disabled');
+  $('#delete').removeClass('disabled');
+  $('#action').removeClass('disabled');
+  var data = $(this);
+  var id = data[0].cells[0].innerText
+  window.url_update = '/estaciones/update/bitacora/estacion'+ '/' +  id + '/';
+  window.url_delete = '/estaciones/delete/bitacora/estacion'+ '/' +  id + '/';
+});
+
+function create_bitacora_estacion (url) {
+  $('#create_bitacora_estacion').load(url, function() {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
+}
+
+function update_bitacora_estacion (url_update) {
+  $('#update_bitacora_estacion').load(url_update, function() {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
+}
+
+function delete_bitacora_estacion (url_delete) {
+  $('#delete_bitacora_estacion').load(url_delete, function() {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
+}
+
+function update_url_bitacora_estacion (form) {
+  form.action = url_update;
+}
+
+function delete_url_bitacora_estacion (form) {
+  form.action = url_delete;
+}

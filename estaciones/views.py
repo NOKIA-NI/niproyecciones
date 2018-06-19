@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import (
 TemplateView,
 ListView,
@@ -9,12 +10,13 @@ DeleteView,
 FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import EstacionForm, FilterEstacionForm
-from .models import Estacion
+from django.contrib.messages.views import SuccessMessageMixin
+from .forms import EstacionForm, FilterEstacionForm, BitacoraEstacionForm, FilterBitacoraEstacionForm
+from .models import Estacion, BitacoraEstacion
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import EstacionResource
+from .resources import EstacionResource, BitacoraEstacionResource
 from django.http import HttpResponse
 from django.utils import timezone
 from hw_actividades.models import HwActividad
@@ -210,3 +212,96 @@ class CronogramaFcSalEstacion(LoginRequiredMixin, TemplateView):
         context['total_calculo_hw'] = [HwActividad.objects.filter(estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK]
         context['suma_total_calculo_hw'] = sum([HwActividad.objects.filter(estacion__w_fc_sal=week).order_by('estacion_id').distinct('estacion').count() for week in weeks if week >= WEEK])
         return context
+
+class ListBitacoraEstacion(LoginRequiredMixin, ListView, FormView):
+    login_url = 'users:home'
+    model = BitacoraEstacion
+    template_name = 'bitacora_estacion/list_bitacora_estacion.html'
+    paginate_by = 15
+    form_class = FilterBitacoraEstacionForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListBitacoraEstacion, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(BitacoraEstacion.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class DetailBitacoraEstacion(LoginRequiredMixin, DetailView):
+    login_url = 'users:home'
+    model = BitacoraEstacion
+    template_name = 'bitacora_estacion/detail_bitacora_estacion.html'
+
+class CreateBitacoraEstacion(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            CreateView):
+    login_url = 'users:home'
+    success_message = "%(estacion)s fue creada exitosamente"
+    form_class = BitacoraEstacionForm
+    template_name = 'bitacora_estacion/includes/partials/create_bitacora_estacion.html'
+
+class UpdateBitacoraEstacion(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            UpdateView):
+    login_url = 'users:home'
+    success_message = "%(estacion)s fue actualizada exitosamente"
+    model = BitacoraEstacion
+    form_class = BitacoraEstacionForm
+    template_name = 'bitacora_estacion/includes/partials/update_bitacora_estacion.html'
+
+class DeleteBitacoraEstacion(LoginRequiredMixin,
+                            DeleteView):
+    login_url = 'users:home'
+    model = BitacoraEstacion
+    template_name = 'bitacora_estacion/includes/partials/delete_bitacora_estacion.html'
+    success_url = reverse_lazy('estaciones:list_bitacora_estacion')
+
+class SearchBitacoraEstacion(ListBitacoraEstacion):
+
+    def get_queryset(self):
+        queryset = super(SearchBitacoraEstacion, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchBitacoraEstacion, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterBitacoraEstacion(ListBitacoraEstacion):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterBitacoraEstacion, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterBitacoraEstacion, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_bitacora_estacion(request):
+    bitacora_estacion_resource = BitacoraEstacionResource()
+    query_dict = request.GET.dict()
+    queryset = BitacoraEstacion.objects.filter(**query_dict)
+    dataset = bitacora_estacion_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="BitacoraEstacion.xlsx"'
+    return response

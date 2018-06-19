@@ -59,3 +59,24 @@ class Estacion(models.Model):
         if (self.w_fc_imp is not None and self.w_fc_imp < WEEK) and self.mos is None:
             self.w_fc_sal = self.w_fc_imp
         super(Estacion, self).save(*args, **kwargs)
+
+class BitacoraEstacion(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='bitacoras_estacion', blank=True, null=True)
+    fecha_bitacora = models.DateField(blank=True, null=True)
+    observaciones = models.TextField(blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'bitacora estacion'
+        verbose_name_plural = 'bitacoras estacion'
+
+    def __str__(self):
+        return self.estacion.site_name
+
+    def get_absolute_url(self):
+        return reverse('estaciones:detail_bitacora_estacion', kwargs={'pk': self.pk})

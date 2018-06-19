@@ -30,6 +30,15 @@ $('#formatos').on('shown.bs.collapse', function() {
      $('#formatosClose').hide()
    });
 
+$('#estacionesClose').hide()
+$('#estaciones').on('shown.bs.collapse', function() {
+  $('#estacionesOpen').hide()
+  $('#estacionesClose').show()
+   }).on('hidden.bs.collapse', function() {
+     $('#estacionesOpen').show()
+     $('#estacionesClose').hide()
+   });
+
 
 function search_url (form) {
   var current_url = window.location.href
@@ -47,9 +56,10 @@ function search_url (form) {
   var url_search_consulta = '/consultas/search/consulta/'
   var url_search_formato_estacion = '/formatos/search/formato/estacion/'
   var url_search_formato_parte = '/formatos/search/formato/parte/'
+  var url_search_bitacora_estacion = '/estaciones/search/bitacora/estacion/'
 
-  if (current_url.includes('/estaciones/')) {
-    form.action = url_search_estacion;
+  if (current_url.includes('/bitacora/estacion/')) {
+    form.action = url_search_bitacora_estacion;
   } else if (current_url.includes('/partes/')) {
     form.action = url_search_parte;
   } else if (current_url.includes('/proyeccion/web/')) {
@@ -76,6 +86,8 @@ function search_url (form) {
     form.action = url_search_formato_estacion;
   } else if (current_url.includes('/formato/parte/')) {
     form.action = url_search_formato_parte;
+  } else if (current_url.includes('/estacion/')) {
+    form.action = url_search_estacion;
   } else {
     form.action = ''
   }
@@ -97,9 +109,10 @@ function filter_url (form) {
   var url_filter_consulta = '/consultas/filter/consulta/'
   var url_filter_formato_estacion = '/formatos/filter/formato/estacion/'
   var url_filter_formato_parte = '/formatos/filter/formato/parte/'
+  var url_filter_bitacora_estacion = '/estaciones/filter/bitacora/estacion/'
 
-  if (current_url.includes('/estaciones/')) {
-    form.action = url_filter_estacion;
+  if (current_url.includes('/bitacora/estacion/')) {
+    form.action = url_filter_bitacora_estacion;
   } else if (current_url.includes('/partes/')) {
     form.action = url_filter_parte;
   } else if (current_url.includes('/proyeccion/web/')) {
@@ -126,6 +139,8 @@ function filter_url (form) {
     form.action = url_filter_formato_estacion;
   } else if (current_url.includes('/formato/parte/')) {
     form.action = url_filter_formato_parte;
+  } else if (current_url.includes('/estacion/')) {
+    form.action = url_filter_estacion;
   } else {
     form.action = ''
   }
