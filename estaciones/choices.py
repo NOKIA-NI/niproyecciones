@@ -96,7 +96,7 @@ BOLSA_CHOICES = (
     ('Sitios Bulk', 'Sitios Bulk'),
     ('Airscale 167', 'Airscale 167'),
     ('381 sitios LSM Mixto (Airscale + FSMF)', '381 sitios LSM Mixto (Airscale + FSMF)'),
-    ('114 sitios LSM Mixto (Airscale + FSMF)', '114 sitios LSM Mixto (Airscale + FSMF)'),
+    ('192 sitios LSM Mixto (Airscale + FSMF)', '192 sitios LSM Mixto (Airscale + FSMF)'),
     ('Reemplazo 170 sitios LSM', 'Reemplazo 170 sitios LSM'),
     ('36 sitios Satelitales LSM', '36 sitios Satelitales LSM'),
     ('Reemplazo 36 sitios Satelitales LSM', 'Reemplazo 36 sitios Satelitales LSM'),
