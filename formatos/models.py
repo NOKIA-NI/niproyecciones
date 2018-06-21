@@ -65,6 +65,7 @@ class FormatoParte(models.Model):
 class FormatoClaro(models.Model):
     # formato_parte = models.ForeignKey(FormatoParte, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
     formato_parte = models.OneToOneField(FormatoParte, on_delete=models.CASCADE, blank=True, null=True)
+    id_sitio = models.CharField(max_length=255, blank=True, null=True)
     sitio = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
     proyecto = models.CharField(max_length=255, blank=True, null=True)
     sap = models.PositiveIntegerField(blank=True, null=True)

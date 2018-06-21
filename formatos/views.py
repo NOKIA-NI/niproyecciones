@@ -230,8 +230,6 @@ class SearchFormatoClaro(ListFormatoClaro):
                 reduce(operator.and_,
                           (Q(sitio__site_name__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(proyecto__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
                           (Q(sap__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(descripcion__icontains=q) for q in query_list)) |

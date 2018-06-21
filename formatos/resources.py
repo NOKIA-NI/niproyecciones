@@ -61,6 +61,7 @@ class FormatoClaroResource(resources.ModelResource):
         exclude = ('estado', 'subestado', 'creado', 'actualizado',)
         export_order = (
         'id', 
+        'id_sitio',
         'sitio',
         'proyecto',
         'formato_parte',

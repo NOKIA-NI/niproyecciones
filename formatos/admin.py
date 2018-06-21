@@ -39,6 +39,7 @@ class FormatoClaroAdmin(ImportExportModelAdmin):
     resource_class = FormatoClaroResource
     list_display = (
     'id',
+    'id_sitio',
     'sitio',
     'proyecto',
     'sap',
