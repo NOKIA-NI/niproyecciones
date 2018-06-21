@@ -15,7 +15,6 @@ class HwActividadAdmin(ImportExportModelAdmin):
     'id',
     'estacion',
     'proyeccion',
-    'proyeccion_extra',
     'parte',
     'lsm',
     'calculo_hw',
@@ -27,4 +26,4 @@ class HwActividadAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'estacion__site_name','proyeccion__id', 'proyeccion_extra__id', 'parte__parte_nokia' ]
+    search_fields = ['id', 'estacion__site_name','proyeccion__id', 'parte__parte_nokia' ]

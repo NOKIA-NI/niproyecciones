@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from . import choices
 from estaciones.models import Estacion
-from proyecciones.models import Proyeccion, ProyeccionExtra
+from proyecciones.models import Proyeccion
 from partes.models import Parte
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -32,7 +32,6 @@ NO = 'No'
 class HwActividad(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='hw_actividades', blank=True, null=True)
     proyeccion = models.OneToOneField(Proyeccion, on_delete=models.CASCADE, blank=True, null=True)
-    proyeccion_extra = models.OneToOneField(ProyeccionExtra, on_delete=models.CASCADE, blank=True, null=True)
     parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='hw_actividades', blank=True, null=True)
     lsm = models.CharField(max_length=255, choices=choices.LSM_CHOICES, blank=True, null=True)
     calculo_hw = models.CharField(max_length=255, choices=choices.CALCULO_HW_CHOICES, default=SI, blank=True, null=True)
@@ -312,21 +311,8 @@ class HwActividad(models.Model):
                                                                   proyeccion=instance,
                                                                   parte=instance.parte)
 
-    @receiver(post_save, sender=ProyeccionExtra)
-    def create_hw_actividad_extra(sender, instance, created, **kwargs):
-        if created:
-            hw_actividad, new = HwActividad.objects.get_or_create(estacion=instance.estacion,
-                                                                  proyeccion_extra=instance,
-                                                                  parte=instance.parte)
-
     @receiver(post_save, sender=Proyeccion)
     def save_hw_actividad(sender, instance, **kwargs):
-        instance.hwactividad.estacion = instance.estacion
-        instance.hwactividad.parte = instance.parte
-        instance.hwactividad.save()
-
-    @receiver(post_save, sender=ProyeccionExtra)
-    def save_hw_actividad_extra(sender, instance, **kwargs):
         instance.hwactividad.estacion = instance.estacion
         instance.hwactividad.parte = instance.parte
         instance.hwactividad.save()

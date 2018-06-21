@@ -4,7 +4,6 @@ from django.urls import reverse
 from . import choices
 from estaciones.models import Estacion
 from partes.models import Parte
-from hw_proyecciones.models import HwProyeccion
 
 class Proyeccion(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -33,30 +32,3 @@ class Proyeccion(models.Model):
 
     def get_absolute_url(self):
         return reverse('proyecciones:detail_proyeccion', kwargs={'pk': self.pk})
-
-class ProyeccionExtra(models.Model):
-    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='proyecciones_extra', blank=True, null=True)
-    proyecto = models.CharField(max_length=255, blank=True, null=True)
-    escenario = models.CharField(max_length=255, blank=True, null=True)
-    banda = models.CharField(max_length=255, blank=True, null=True)
-    agrupadores = models.CharField(max_length=255, blank=True, null=True)
-    rfe = models.DateField(blank=True, null=True)
-    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='proyecciones_extra', blank=True, null=True)
-    estado_proyeccion  = models.CharField(max_length=255, choices=choices.ESTADO_PROYECCION_CHOICES, blank=True, null=True)
-    cantidad_estimada = models.PositiveIntegerField(blank=True, null=True)
-
-    estado = models.BooleanField(default=True, editable=False)
-    subestado = models.BooleanField(default=False, editable=False)
-    creado = models.DateTimeField(auto_now_add=True)
-    actualizado = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('creado',)
-        verbose_name = 'proyeccion extra'
-        verbose_name_plural = 'proyecciones extra'
-
-    def __str__(self):
-        return str(self.id)
-
-    def get_absolute_url(self):
-        return reverse('proyecciones:detail_proyeccion_extra', kwargs={'pk': self.pk})

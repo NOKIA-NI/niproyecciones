@@ -24,4 +24,4 @@ class FilterHwActividadForm(ModelForm):
     class Meta:
         model = HwActividad
         fields = '__all__'
-        exclude = ('proyeccion', 'proyeccion_extra',)
+        exclude = ('proyeccion',)

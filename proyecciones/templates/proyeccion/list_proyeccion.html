@@ -14,7 +14,7 @@
 {% block content_dashboard %}
 
 <main role="main" class="">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom mb-2">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom">
     <h2 class="text-dark">Proyecciones</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
@@ -57,14 +57,6 @@
       </div>
     </div>
   </div>
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a {% if request.resolver_match.url_name == 'list_proyeccion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'proyecciones:list_proyeccion' %}">Proyecciones</a>
-    </li>
-    <li class="nav-item">
-        <a {% if request.resolver_match.url_name == 'list_proyeccion_extra' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'proyecciones:list_proyeccion_extra' %}">Proyecciones Extra</a>
-    </li>
-  </ul>
   <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
     {% if result %}
     Se encontraron {{ result }} de  {{ all_items }} items
