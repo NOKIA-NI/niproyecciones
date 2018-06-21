@@ -51,14 +51,19 @@ class FormatoClaroResource(resources.ModelResource):
         column_name='sitio',
         attribute='sitio',
         widget=ForeignKeyWidget(Estacion, 'site_name'))
+    formato_parte = fields.Field(
+        column_name='formato_parte',
+        attribute='formato_parte',
+        widget=ForeignKeyWidget(FormatoParte, 'parte'))
 
     class Meta:
         model = FormatoClaro
-        exclude = ('formato_parte', 'estado', 'actualizado',)
+        exclude = ('estado', 'subestado', 'creado', 'actualizado',)
         export_order = (
-        'id',
+        'id', 
         'sitio',
         'proyecto',
+        'formato_parte',
         'sap',
         'descripcion',
         'qty',
@@ -66,8 +71,9 @@ class FormatoClaroResource(resources.ModelResource):
         'regional',
         'semana',
         'mes',
+        'generado',
         # 'estado',
-        'subestado',
-        'creado',
+        # 'subestado',
+        # 'creado',
         # 'actualizado',
         )

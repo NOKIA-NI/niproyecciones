@@ -281,8 +281,11 @@ def create_formato_claro(request):
     formatos_parte = FormatoParte.objects.all()
 
     for formato_parte in formatos_parte:
-        formato_claro = FormatoClaro.objects.create(
-            formato_parte = formato_eparte,
-            )
+        try:
+            formatos_claro = FormatoClaro.objects.get(formato_parte__id=formato_parte.id)
+        except FormatoClaro.DoesNotExist:
+            formato_claro = FormatoClaro.objects.create(
+                formato_parte = formato_parte,
+                )
 
     return HttpResponse(status=204)

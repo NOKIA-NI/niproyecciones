@@ -3,31 +3,22 @@ from estaciones.models import Estacion
 from partes.models import Parte
 from . import choices
 from estaciones import choices as estaciones_choices
-import datetime
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-MONTH = datetime.datetime.now().strftime("%B")
-if MONTH == 'January':
-    MONTH = 'Enero'
-if MONTH == 'February':
-    MONTH = 'Febrero'
-if MONTH == 'March':
-    MONTH = 'Marzo'
-if MONTH == 'April':
-    MONTH = 'Abril'
-if MONTH == 'May':
-    MONTH = 'Mayo'
-if MONTH == 'June':
-    MONTH = 'Junio'
-if MONTH == 'July':
-    MONTH = 'Julio'
-if MONTH == 'August':
-    MONTH = 'Agosto'
-if MONTH == 'September':
-    MONTH = 'Septiembre'
-if MONTH == 'November':
-    MONTH = 'Noviembre'
-if MONTH == 'December':
-    MONTH = 'Diciembre'
+ENERO = [1, 2, 3, 4, 5]
+FEBRERO = [6, 7, 8, 9]
+MARZO = [10, 11, 12, 13]
+ABRIL = [14, 15, 16, 17]
+MAYO = [18, 19, 20, 21, 22]
+JUNIO = [23, 24, 25, 26]
+JULIO = [27, 28, 29, 30]
+AGOSTO = [31, 32, 33, 34, 35]
+SEPTIEMBRE = [36, 37, 38, 39]
+OCTUBRE = [40, 41, 42, 43, 44]
+NOVIEMBRE = [45, 46, 47, 48]
+DICIEMBRE = [49, 50, 51, 52]
+
 
 class FormatoEstacion(models.Model):
     estacion = models.OneToOneField(Estacion, on_delete=models.CASCADE, blank=True, null=True)
@@ -72,7 +63,8 @@ class FormatoParte(models.Model):
 
 
 class FormatoClaro(models.Model):
-    formato_parte = models.ForeignKey(FormatoParte, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
+    # formato_parte = models.ForeignKey(FormatoParte, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
+    formato_parte = models.OneToOneField(FormatoParte, on_delete=models.CASCADE, blank=True, null=True)
     sitio = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
     proyecto = models.CharField(max_length=255, blank=True, null=True)
     sap = models.PositiveIntegerField(blank=True, null=True)
@@ -82,6 +74,7 @@ class FormatoClaro(models.Model):
     regional = models.CharField(max_length=255, choices=estaciones_choices.REGION_CHOICES, blank=True, null=True)
     semana = models.PositiveIntegerField(blank=True, null=True)
     mes = models.CharField(max_length=255, choices=choices.MES_CHOICES, blank=True, null=True)
+    generado = models.DateField(auto_now_add=True)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -108,8 +101,42 @@ class FormatoClaro(models.Model):
         self.ciudad = self.formato_parte.formato_estacion.estacion.ciudad
         self.regional = self.formato_parte.formato_estacion.estacion.region
         self.semana = self.formato_parte.formato_estacion.estacion.w_fc_sal
+
+        if self.semana in ENERO:
+            MONTH = 'Enero'
+        if self.semana in FEBRERO:
+            MONTH = 'Febrero'
+        if self.semana in MARZO:
+            MONTH = 'Marzo'
+        if self.semana in ABRIL:
+            MONTH = 'Abril'
+        if self.semana in MAYO:
+            MONTH = 'Mayo'
+        if self.semana in JUNIO:
+            MONTH = 'Junio'
+        if self.semana in JULIO:
+            MONTH = 'Julio'
+        if self.semana in AGOSTO:
+            MONTH = 'Agosto'
+        if self.semana in SEPTIEMBRE:
+            MONTH = 'Septiembre'
+        if self.semana in OCTUBRE:
+            MONTH = 'Octubre'
+        if self.semana in NOVIEMBRE:
+            MONTH = 'Noviembre'
+        if self.semana in DICIEMBRE:
+            MONTH = 'Diciembre'
         self.mes = MONTH
         
         super(FormatoClaro, self).save(*args, **kwargs)
+
+    @receiver(post_save, sender=FormatoParte)
+    def create_formato_claro(sender, instance, created, **kwargs):
+        if created:
+            formato_claro, new = FormatoClaro.objects.get_or_create(formato_parte=instance,)
+
+    @receiver(post_save, sender=FormatoParte)
+    def save_formato_claro(sender, instance, **kwargs):
+        instance.formatoclaro.save()
 
 

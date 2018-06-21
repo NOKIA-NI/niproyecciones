@@ -48,6 +48,7 @@ class FormatoClaroAdmin(ImportExportModelAdmin):
     'regional',
     'semana',
     'mes',
+    'generado',
     'estado',
     'subestado',
     'creado',
