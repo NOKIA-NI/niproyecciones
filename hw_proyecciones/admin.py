@@ -30,6 +30,7 @@ class HwEstacionAdmin(ImportExportModelAdmin):
     'id',
     'siteName',
     'region',
+    'ciudad',
     'scope_claro',
     'proyeccion_instalacion',
     'w_proyeccion_instalacion',

@@ -540,6 +540,7 @@ def create_estacion(request):
             estacion = Estacion.objects.create(
                 site_name=hw_estacion.siteName,
                 region=hw_estacion.region,
+                ciudad=hw_estacion.ciudad,
                 scope_claro=hw_estacion.scope_claro,
                 w_fc_imp=hw_estacion.w_fc_c,
                 w_fc_c=hw_estacion.w_fc_c,
@@ -561,6 +562,7 @@ def update_estacion(request):
             estacion = estaciones.get(site_name__iexact=hw_estacion.siteName)
             if estacion.site_name != hw_estacion.siteName or \
                 estacion.region != hw_estacion.region or \
+                estacion.ciudad != hw_estacion.ciudad or \
                 estacion.scope_claro != hw_estacion.scope_claro or \
                 estacion.w_fc_imp != hw_estacion.w_fc_c or \
                 estacion.w_fc_c != hw_estacion.w_fc_c or \
@@ -570,6 +572,7 @@ def update_estacion(request):
 
                 estacion.site_name = hw_estacion.siteName
                 estacion.region = hw_estacion.region
+                estacion.ciudad = hw_estacion.ciudad
                 estacion.scope_claro = hw_estacion.scope_claro
                 estacion.w_fc_imp = hw_estacion.w_fc_c
                 estacion.w_fc_c = hw_estacion.w_fc_c

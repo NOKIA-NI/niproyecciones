@@ -90,6 +90,8 @@ class SearchEstacion(ListEstacion):
                 reduce(operator.and_,
                           (Q(region__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
+                          (Q(ciudad__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
                           (Q(scope_claro__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(w_fc_sal__icontains=q) for q in query_list)) |

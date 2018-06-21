@@ -27,6 +27,7 @@ class HwEstacion(models.Model):
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     siteName = models.CharField(max_length=100, blank=True, null=True)
     region = models.CharField(max_length=20, blank=True, null=True)
+    ciudad = models.CharField(max_length=40, blank=True, null=True)
     scope_claro = models.CharField(max_length=150, blank=True, null=True)
     proyeccion_instalacion = models.DateField(blank=True, null=True)
     w_proyeccion_instalacion = models.IntegerField(blank=True, null=True)

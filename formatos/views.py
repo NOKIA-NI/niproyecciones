@@ -10,8 +10,8 @@ DeleteView,
 FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import FormatoEstacionForm, FormatoParteForm
-from .models import FormatoEstacion, FormatoParte
+from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm
+from .models import FormatoEstacion, FormatoParte, FormatoClaro
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -20,7 +20,7 @@ from django.db.models.functions import Coalesce
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import FormatoEstacionResource, FormatoParteResource
+from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource
 from django.http import HttpResponse
 from django.utils import timezone
 from django.conf import settings
@@ -30,6 +30,8 @@ WEEK = TODAY.isocalendar()[1]
 WEEKDAY = TODAY.weekday()
 if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == settings.DOMINGO:
     WEEK = WEEK + 1
+
+PENDIENTEPEDIDO = 'Pendiente Pedido'
 
 class ListFormatoEstacion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -100,7 +102,7 @@ def create_formato_estacion(request):
 
     for week in weeks:
         if week >= WEEK:
-            proyecciones = Proyeccion.objects.filter(estacion__w_fc_imp=week).order_by('estacion_id').distinct('estacion')
+            proyecciones = Proyeccion.objects.filter(estacion__w_fc_imp=week, estacion__bolsa=PENDIENTEPEDIDO).order_by('estacion_id').distinct('estacion')
             for proyeccion in proyecciones:
                 try:
                     formato_estacion = FormatoEstacion.objects.get(estacion=proyeccion.estacion)
@@ -194,5 +196,93 @@ def create_formato_parte(request):
                         parte = parte,
                         cantidad = cantidad,
                         )
+
+    return HttpResponse(status=204)
+
+class ListFormatoClaro(LoginRequiredMixin, ListView, FormView):
+    login_url = 'users:home'
+    model = FormatoClaro
+    template_name = 'formato_claro/list_formato_claro.html'
+    paginate_by = 15
+    form_class = FormatoClaroForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListFormatoClaro, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(FormatoClaro.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class SearchFormatoClaro(ListFormatoClaro):
+
+    def get_queryset(self):
+        queryset = super(SearchFormatoClaro, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(sitio__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(proyecto__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(sap__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(descripcion__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(ciudad__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(regional__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(semana__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(mes__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchFormatoClaro, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterFormatoClaro(ListFormatoClaro):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterFormatoClaro, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterFormatoClaro, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_formato_claro(request):
+    formato_claro_resource = FormatoClaroResource()
+    query_dict = request.GET.dict()
+    queryset = FormatoClaro.objects.filter(**query_dict)
+    dataset = formato_claro_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="FormatoClaro.xlsx"'
+    return response
+
+def create_formato_claro(request):
+    formatos_parte = FormatoParte.objects.all()
+
+    for formato_parte in formatos_parte:
+        formato_claro = FormatoClaro.objects.create(
+            formato_parte = formato_eparte,
+            )
 
     return HttpResponse(status=204)

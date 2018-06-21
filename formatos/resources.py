@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget, ManyToManyWidget
-from .models import FormatoEstacion, FormatoParte
+from .models import FormatoEstacion, FormatoParte, FormatoClaro
 from estaciones.models import Estacion
 from partes.models import Parte
 
@@ -43,5 +43,31 @@ class FormatoParteResource(resources.ModelResource):
         # 'estado',
         'subestado',
         # 'creado',
+        # 'actualizado',
+        )
+
+class FormatoClaroResource(resources.ModelResource):
+    sitio = fields.Field(
+        column_name='sitio',
+        attribute='sitio',
+        widget=ForeignKeyWidget(Estacion, 'site_name'))
+
+    class Meta:
+        model = FormatoClaro
+        exclude = ('formato_parte', 'estado', 'actualizado',)
+        export_order = (
+        'id',
+        'sitio',
+        'proyecto',
+        'sap',
+        'descripcion',
+        'qty',
+        'ciudad',
+        'regional',
+        'semana',
+        'mes',
+        # 'estado',
+        'subestado',
+        'creado',
         # 'actualizado',
         )

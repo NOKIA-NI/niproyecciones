@@ -16,6 +16,7 @@ class EstacionResource(resources.ModelResource):
         'id',
         'site_name',
         'region',
+        'ciudad',
         'scope_claro',
         'w_fc_sal',
         'w_fc_imp',

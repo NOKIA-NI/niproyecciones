@@ -15,6 +15,7 @@ if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == setti
 class Estacion(models.Model):
     site_name = models.CharField(max_length=255, unique=True, blank=True, null=True)
     region = models.CharField(max_length=255, choices=choices.REGION_CHOICES, blank=True, null=True)
+    ciudad = models.CharField(max_length=255, blank=True, null=True)
     scope_claro = models.CharField(max_length=255, choices=choices.SCOPE_CHOICES, blank=True, null=True)
     w_fc_sal = models.PositiveIntegerField(blank=True, null=True)
     w_fc_imp = models.PositiveIntegerField(blank=True, null=True)

@@ -11,6 +11,12 @@ SearchFormatoParte,
 FilterFormatoParte,
 export_formato_parte,
 create_formato_parte,
+
+ListFormatoClaro,
+SearchFormatoClaro,
+FilterFormatoClaro,
+export_formato_claro,
+create_formato_claro,
 )
 
 app_name = 'formatos'
@@ -27,4 +33,10 @@ urlpatterns = [
     path('filter/formato/parte/', FilterFormatoParte.as_view(), name='filter_formato_parte'),
     path('export/formato/parte/', export_formato_parte, name='export_formato_parte'),
     path('create/formato/parte/', create_formato_parte, name='create_formato_parte'),
+
+    path('list/formato/claro/', ListFormatoClaro.as_view(), name='list_formato_claro'),
+    path('search/formato/claro/', SearchFormatoClaro.as_view(), name='search_formato_claro'),
+    path('filter/formato/claro/', FilterFormatoClaro.as_view(), name='filter_formato_claro'),
+    path('export/formato/claro/', export_formato_claro, name='export_formato_claro'),
+    path('create/formato/claro/', create_formato_claro, name='create_formato_claro'),
 ]

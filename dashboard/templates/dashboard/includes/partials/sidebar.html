@@ -111,13 +111,17 @@
         </a>
       </li>
       <li class="nav-item collapse multi-collapse ml-3" id="formatos">
-        <a {% if request.resolver_match.url_name == 'list_formato_nokia' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_estacion' %}">
+        <a {% if request.resolver_match.url_name == 'list_formato_estacion' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_estacion' %}">
           <span data-feather="file-text"></span>
           Formato Estacion
         </a>
-        <a {% if request.resolver_match.url_name == 'list_formato_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_parte' %}">
+        <a {% if request.resolver_match.url_name == 'list_formato_parte' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_parte' %}">
           <span data-feather="file-text"></span>
           Formato Parte
+        </a>
+        <a {% if request.resolver_match.url_name == 'list_formato_claro' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_claro' %}">
+          <span data-feather="file-text"></span>
+          Formato Claro
         </a>
       </li>
     </ul>

@@ -31,6 +31,7 @@ class HwEstacionResource(resources.ModelResource):
         'id',
         'siteName',
         'region',
+        'ciudad',
         'scope_claro',
         'proyeccion_instalacion',
         'w_proyeccion_instalacion',
