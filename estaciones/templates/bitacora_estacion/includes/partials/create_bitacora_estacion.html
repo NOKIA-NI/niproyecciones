@@ -3,6 +3,8 @@
 {% block tilte_modal %}Crear Bitacora Estacion{% endblock tilte_modal %}
 
 {% block body_modal %}
+<label for="estacion">Buscar Estacion</label>
+<input type="text" class="form-control" name="estacion" id="buscar" placeholder="Nombre Estacion">
 <form method="POST" action="{% url 'estaciones:create_bitacora_estacion' %}" class="">{% csrf_token %}
   <div class="form-group">
     {{ form|crispy }}
@@ -14,6 +16,6 @@
 </form>
 {% endblock body_modal %}
 
-{% block success_ur %}
+{% block success_url %}
 window.location.href
-{% endblock success_ur %}
+{% endblock success_url %}
