@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import FormatoEstacion, FormatoParte, FormatoClaro
+from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal
 
 class FormatoEstacionForm(ModelForm):
     class Meta:
@@ -33,4 +33,15 @@ class FilterFormatoClaroForm(ModelForm):
 
     class Meta:
         model = FormatoClaro
+        fields = '__all__'
+
+class FormatoClaroTotalForm(ModelForm):
+    class Meta:
+        model = FormatoClaroTotal
+        fields = '__all__'
+
+class FilterFormatoClaroTotalForm(ModelForm):
+
+    class Meta:
+        model = FormatoClaroTotal
         fields = '__all__'

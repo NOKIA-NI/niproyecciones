@@ -17,6 +17,12 @@ SearchFormatoClaro,
 FilterFormatoClaro,
 export_formato_claro,
 create_formato_claro,
+
+ListFormatoClaroTotal,
+SearchFormatoClaroTotal,
+FilterFormatoClaroTotal,
+export_formato_claro_total,
+create_formato_claro_total,
 )
 
 app_name = 'formatos'
@@ -39,4 +45,10 @@ urlpatterns = [
     path('filter/formato/claro/', FilterFormatoClaro.as_view(), name='filter_formato_claro'),
     path('export/formato/claro/', export_formato_claro, name='export_formato_claro'),
     path('create/formato/claro/', create_formato_claro, name='create_formato_claro'),
+
+    path('list/formato/claro/total/', ListFormatoClaroTotal.as_view(), name='list_formato_claro_total'),
+    path('search/formato/claro/total/', SearchFormatoClaroTotal.as_view(), name='search_formato_claro_total'),
+    path('filter/formato/claro/total/', FilterFormatoClaroTotal.as_view(), name='filter_formato_claro_total'),
+    path('export/formato/claro/total/', export_formato_claro_total, name='export_formato_claro_total'),
+    path('create/formato/claro/total/', create_formato_claro_total, name='create_formato_claro_total'),
 ]

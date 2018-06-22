@@ -3,6 +3,7 @@ from estaciones.models import Estacion
 from partes.models import Parte
 from . import choices
 from estaciones import choices as estaciones_choices
+from partes import choices as partes_choices
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -140,4 +141,33 @@ class FormatoClaro(models.Model):
     def save_formato_claro(sender, instance, **kwargs):
         instance.formatoclaro.save()
 
+class FormatoClaroTotal(models.Model):
+    parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
+    cod_sap = models.PositiveIntegerField(blank=True, null=True)
+    capex = models.CharField(max_length=255, blank=True, null=True)
+    grupo_parte = models.CharField(max_length=255, choices=partes_choices.GRUPO_PARTE_CHOICES, blank=True, null=True)
+    total = models.PositiveIntegerField(blank=True, null=True)
 
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'formato claro total'
+        verbose_name_plural = 'formatos claro total'
+
+    def __str__(self):
+        return self.parte.parte_nokia
+
+    # def get_absolute_url(self):
+    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        
+        self.cod_sap = self.parte.cod_sap
+        self.capex = self.parte.capex
+        self.grupo_parte = self.parte.grupo_parte
+        
+        super(FormatoClaroTotal, self).save(*args, **kwargs)

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filter_tags %}
+{% block title %}Formatos Claro Total{% endblock title %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'formatos/css/formatos.css' %}"/>
+{% endblock extra_css %}
+
+{% block navbar %}
+{% include 'dashboard/includes/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block sidebar %}
+{% include 'dashboard/includes/partials/sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content_dashboard %}
+
+<main role="main" class="">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom">
+    <h2 class="text-dark">Formatos Claro Total</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-secondary">
+          <span data-feather="plus"></span>
+          Crear
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update">
+          <span data-feather="edit"></span>
+          Actualizar
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled">
+          <span data-feather="trash"></span>
+          Borrar
+        </button>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'formatos:export_formato_claro_total' %}?{{query_dict|get_encoded_dict}}">
+          <span data-feather="download"></span>
+          Exportar
+        </a>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle mr-2  disabled" id="action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="play"></span>
+          Accion
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Detalle</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="calendar"></span>
+          Hoy
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Creado</a>
+          <a class="dropdown-item" href="#">Actualizado</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
+    {% if result %}
+    Se encontraron {{ result }} de  {{ all_items }} items
+    {% else %}
+    {% endif %}
+    <a class="nav-link btn btn-light btn-sm ml-3" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm" id="table_formatos">
+      <thead>
+        {% include 'formato_claro_total/includes/partials/head_formato_claro_total.html' %}
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          {% include 'formato_claro_total/includes/partials/body_formato_claro_total.html' %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> 
+</main>
+<div class="row border-bottom d-flex justify-content-end align-items-center mr-2">
+  {% include 'dashboard/includes/partials/nav_paginate.html' %}
+</div>
+
+{% endblock content_dashboard %}
+
+{% block filter %}
+{% include 'dashboard/includes/partials/filter.html' %}
+{% endblock filter %}
+
+{% block extra_js %}
+<script src="{% static 'formatos/js/formatos.js' %}"></script>
+{% endblock extra_js %}

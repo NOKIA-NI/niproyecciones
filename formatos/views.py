@@ -10,8 +10,8 @@ DeleteView,
 FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm
-from .models import FormatoEstacion, FormatoParte, FormatoClaro
+from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm, FormatoClaroTotalForm
+from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -20,10 +20,12 @@ from django.db.models.functions import Coalesce
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource
+from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource, FormatoClaroTotalResource
 from django.http import HttpResponse
 from django.utils import timezone
 from django.conf import settings
+from django.db.models import Sum, Value as V
+from django.db.models.functions import Coalesce
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
@@ -284,6 +286,95 @@ def create_formato_claro(request):
         except FormatoClaro.DoesNotExist:
             formato_claro = FormatoClaro.objects.create(
                 formato_parte = formato_parte,
+                )
+
+    return HttpResponse(status=204)
+
+class ListFormatoClaroTotal(LoginRequiredMixin, ListView, FormView):
+    login_url = 'users:home'
+    model = FormatoClaroTotal
+    template_name = 'formato_claro_total/list_formato_claro_total.html'
+    paginate_by = 15
+    form_class = FormatoClaroTotalForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListFormatoClaroTotal, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(FormatoClaroTotal.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class SearchFormatoClaroTotal(ListFormatoClaroTotal):
+
+    def get_queryset(self):
+        queryset = super(SearchFormatoClaroTotal, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__parte_nokia__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cod_sap__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(capex__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo_parte__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchFormatoClaroTotal, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterFormatoClaroTotal(ListFormatoClaroTotal):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterFormatoClaroTotal, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterFormatoClaroTotal, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_formato_claro_total(request):
+    formato_claro_total_resource = FormatoClaroTotalResource()
+    query_dict = request.GET.dict()
+    queryset = FormatoClaroTotal.objects.filter(**query_dict)
+    dataset = formato_claro_total_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="FormatoClaroTotal.xlsx"'
+    return response
+
+def create_formato_claro_total(request):
+    formatos_parte = FormatoParte.objects.all().order_by('parte_id').distinct('parte')
+    print(formatos_parte)
+
+    for formato_parte in formatos_parte:
+        try:
+            formatos_claro_total = FormatoClaroTotal.objects.get(parte=formato_parte.parte)
+            total = FormatoParte.objects.filter(parte=formato_parte.parte).aggregate(total=Coalesce(Sum('cantidad'), V(0))).get('total')
+            formatos_claro_total.total = total
+            formatos_claro_total.save()
+        except FormatoClaroTotal.DoesNotExist:
+            total = FormatoParte.objects.filter(parte=formato_parte.parte).aggregate(total=Coalesce(Sum('cantidad'), V(0))).get('total')
+            formato_claro_total = FormatoClaroTotal.objects.create(
+                parte = formato_parte.parte,
+                total = total,
                 )
 
     return HttpResponse(status=204)

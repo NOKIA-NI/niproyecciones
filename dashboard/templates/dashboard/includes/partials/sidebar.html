@@ -123,6 +123,10 @@
           <span data-feather="file-text"></span>
           Formato Claro
         </a>
+        <a {% if request.resolver_match.url_name == 'list_formato_claro_total' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_claro_total' %}">
+            <span data-feather="file-text"></span>
+            Formato Claro Total
+          </a>
       </li>
     </ul>
   </div>

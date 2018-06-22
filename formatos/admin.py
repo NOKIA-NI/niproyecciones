@@ -1,8 +1,18 @@
 from django.contrib import admin
 
-from .models import FormatoEstacion, FormatoParte, FormatoClaro
+from .models import (
+FormatoEstacion,
+FormatoParte,
+FormatoClaro,
+FormatoClaroTotal,
+)
 from import_export.admin import ImportExportModelAdmin
-from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource
+from .resources import (
+FormatoEstacionResource,
+FormatoParteResource,
+FormatoClaroResource,
+FormatoClaroTotalResource,
+)
 
 @admin.register(FormatoEstacion)
 class FormatoEstacionAdmin(ImportExportModelAdmin):
@@ -57,3 +67,21 @@ class FormatoClaroAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'sitio__site_name']
+
+@admin.register(FormatoClaroTotal)
+class FormatoClaroTotalAdmin(ImportExportModelAdmin):
+    resource_class = FormatoClaroTotalResource
+    list_display = (
+    'id',
+    'parte',
+    'cod_sap',
+    'capex',
+    'grupo_parte',
+    'total',
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'parte__parte_nokia']
