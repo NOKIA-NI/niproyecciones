@@ -15,7 +15,7 @@
 
 <script>
 $(function () {
-  var success_url = {% block success_url %}{% endblock success_url %}
+  var success_url = {% block success_url %}{% endblock success_url %};
   var modal_body = $('.modal-body');
   var modal_load_error = 'ERROR! la informacion no fue cargada.';
   $('form').submit(function(event) {
