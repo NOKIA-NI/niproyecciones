@@ -179,7 +179,8 @@ var dataSitioslsm531 = [];
 var dataSitiosbulk = [];
 var dataAirscale167 = [];
 var dataSitioslsmmixto381 = [];
-var dataSitioslsmmixto192 = [];
+var dataSitioslsmmixto114 = [];
+var dataSitioslsmmixto78 = [];
 var dataReemplazositioslsm170 = [];
 var dataSitiossatelitaleslsm36 = [];
 var dataReemplazossitiossatelitaleslsm36 = [];
@@ -362,7 +363,8 @@ $.ajax({
     dataSitiosbulk = data.sitiosbulk
     dataAirscale167 = data.airscale167
     dataSitioslsmmixto381 = data.sitioslsmmixto381
-    dataSitioslsmmixto192 = data.sitioslsmmixto192
+    dataSitioslsmmixto114 = data.sitioslsmmixto114
+    dataSitioslsmmixto78 = data.sitioslsmmixto78
     dataReemplazositioslsm170 = data.reemplazositioslsm170
     dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
     dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -395,7 +397,8 @@ $("#w_fc_cronograma_bolsa").change(function () {
       dataSitiosbulk = data.sitiosbulk
       dataAirscale167 = data.airscale167
       dataSitioslsmmixto381 = data.sitioslsmmixto381
-      dataSitioslsmmixto192 = data.sitioslsmmixto192
+      dataSitioslsmmixto114 = data.sitioslsmmixto114
+      dataSitioslsmmixto78 = data.sitioslsmmixto78
       dataReemplazositioslsm170 = data.reemplazositioslsm170
       dataSitiossatelitaleslsm36 = data.sitiossatelitaleslsm36
       dataReemplazossitiossatelitaleslsm36 = data.reemplazossitiossatelitaleslsm36
@@ -485,14 +488,24 @@ function CronogramaBolsas() {
         pointBackgroundColor: '#6f42c1'
       },
       {
-        label: 'LSM 192 Mixto (Airscale + FSMF)',
+        label: 'LSM 114 Mixto (Airscale + FSMF)',
 				backgroundColor: '#3E2723',
-        data: dataSitioslsmmixto192,
+        data: dataSitioslsmmixto114,
         lineTension: 0,
         backgroundColor: '#3E2723',
         borderColor: '#3E2723',
         borderWidth: 4,
         pointBackgroundColor: '#3E2723'
+      },
+      {
+        label: 'LSM 78 Mixto (Airscale + FSMF)',
+				backgroundColor: '#3F51B5',
+        data: dataSitioslsmmixto114,
+        lineTension: 0,
+        backgroundColor: '#3F51B5',
+        borderColor: '#3F51B5',
+        borderWidth: 4,
+        pointBackgroundColor: '#3F51B5'
       },
       {
         label: 'Reemplazos LSM 170',
