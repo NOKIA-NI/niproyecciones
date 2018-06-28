@@ -58,6 +58,7 @@ function search_url (form) {
   var url_search_formato_parte = '/formatos/search/formato/parte/'
   var url_search_formato_claro = '/formatos/search/formato/claro/'
   var url_search_formato_claro_total = '/formatos/search/formato/claro/total/'
+  var url_search_formato_claro_kit = '/formatos/search/formato/claro/kit/'
   var url_search_bitacora_estacion = '/estaciones/search/bitacora/estacion/'
 
   if (current_url.includes('/bitacora/estacion/')) {
@@ -90,6 +91,8 @@ function search_url (form) {
     form.action = url_search_formato_parte;
   } else if (current_url.includes('/formato/claro/total/')) {
     form.action = url_search_formato_claro_total;
+  } else if (current_url.includes('/formato/claro/kit/')) {
+    form.action = url_search_formato_claro_kit;
   } else if (current_url.includes('/formato/claro/')) {
     form.action = url_search_formato_claro;
   } else if (current_url.includes('/estacion/')) {
@@ -117,6 +120,7 @@ function filter_url (form) {
   var url_filter_formato_parte = '/formatos/filter/formato/parte/'
   var url_filter_formato_claro = '/formatos/filter/formato/claro/'
   var url_filter_formato_claro_total = '/formatos/filter/formato/claro/total/'
+  var url_filter_formato_claro_kit = '/formatos/filter/formato/claro/kit/'
   var url_filter_bitacora_estacion = '/estaciones/filter/bitacora/estacion/'
 
   if (current_url.includes('/bitacora/estacion/')) {
@@ -149,6 +153,8 @@ function filter_url (form) {
     form.action = url_filter_formato_parte;
   } else if (current_url.includes('/formato/claro/total/')) {
     form.action = url_filter_formato_claro_total;
+  } else if (current_url.includes('/formato/claro/kit/')) {
+    form.action = url_filter_formato_claro_kit;
   } else if (current_url.includes('/formato/claro/')) {
     form.action = url_filter_formato_claro;
   } else if (current_url.includes('/estacion/')) {

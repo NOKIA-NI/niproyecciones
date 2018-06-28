@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal
+from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
 
 class FormatoEstacionForm(ModelForm):
     class Meta:
@@ -44,4 +44,15 @@ class FilterFormatoClaroTotalForm(ModelForm):
 
     class Meta:
         model = FormatoClaroTotal
+        fields = '__all__'
+
+class FormatoClaroKitForm(ModelForm):
+    class Meta:
+        model = FormatoClaroKit
+        fields = '__all__'
+
+class FilterFormatoClaroKitForm(ModelForm):
+
+    class Meta:
+        model = FormatoClaroKit
         fields = '__all__'

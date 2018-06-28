@@ -273,7 +273,9 @@ class SearchBitacoraEstacion(ListBitacoraEstacion):
                 reduce(operator.and_,
                           (Q(id__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(estacion__site_name__icontains=q) for q in query_list))
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(observaciones__icontains=q) for q in query_list))
             )
         return queryset
 

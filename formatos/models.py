@@ -64,7 +64,6 @@ class FormatoParte(models.Model):
 
 
 class FormatoClaro(models.Model):
-    # formato_parte = models.ForeignKey(FormatoParte, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
     formato_parte = models.OneToOneField(FormatoParte, on_delete=models.CASCADE, blank=True, null=True)
     id_sitio = models.CharField(max_length=255, blank=True, null=True)
     sitio = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_claro', blank=True, null=True)
@@ -89,7 +88,7 @@ class FormatoClaro(models.Model):
         verbose_name_plural = 'formatos claro'
 
     def __str__(self):
-        return self.formato_parte.formato_estacion.estacion.site_name
+        return self.sitio.site_name
 
     # def get_absolute_url(self):
     #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
@@ -171,3 +170,33 @@ class FormatoClaroTotal(models.Model):
         self.grupo_parte = self.parte.grupo_parte
         
         super(FormatoClaroTotal, self).save(*args, **kwargs)
+
+class FormatoClaroKit(models.Model):
+    id_sitio = models.CharField(max_length=255, blank=True, null=True)
+    sitio = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_claro_kit', blank=True, null=True)
+    proyecto = models.CharField(max_length=255, blank=True, null=True)
+    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='formatos_claro_kit', blank=True, null=True)
+    sap = models.PositiveIntegerField(blank=True, null=True)
+    descripcion = models.CharField(max_length=255, blank=True, null=True)
+    qty = models.PositiveIntegerField(blank=True, null=True)
+    ciudad = models.CharField(max_length=255, blank=True, null=True)
+    regional = models.CharField(max_length=255, choices=estaciones_choices.REGION_CHOICES, blank=True, null=True)
+    semana = models.PositiveIntegerField(blank=True, null=True)
+    mes = models.CharField(max_length=255, choices=choices.MES_CHOICES, blank=True, null=True)
+    generado = models.DateField(auto_now_add=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'formato claro kit'
+        verbose_name_plural = 'formatos claro kit'
+
+    def __str__(self):
+        return self.sitio.site_name
+
+    # def get_absolute_url(self):
+    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})

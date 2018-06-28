@@ -10,8 +10,8 @@ DeleteView,
 FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm, FormatoClaroTotalForm
-from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal
+from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm, FormatoClaroTotalForm, FormatoClaroKitForm
+from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -20,7 +20,7 @@ from django.db.models.functions import Coalesce
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource, FormatoClaroTotalResource
+from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource, FormatoClaroTotalResource, FormatoClaroKitResource
 from django.http import HttpResponse
 from django.utils import timezone
 from django.conf import settings
@@ -34,6 +34,15 @@ if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == setti
     WEEK = WEEK + 1
 
 PENDIENTEPEDIDO = 'Pendiente Pedido'
+
+FCOB = 'FCOB'
+ASIA = 'ASIA'
+AMIA = 'AMIA'
+ABIA = 'ABIA'
+try:
+    PARTE = Parte.objects.get(parte_nokia='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
+except:
+    pass
 
 class ListFormatoEstacion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -362,7 +371,6 @@ def export_formato_claro_total(request):
 
 def create_formato_claro_total(request):
     formatos_parte = FormatoParte.objects.all().order_by('parte_id').distinct('parte')
-    print(formatos_parte)
 
     for formato_parte in formatos_parte:
         try:
@@ -376,5 +384,153 @@ def create_formato_claro_total(request):
                 parte = formato_parte.parte,
                 total = total,
                 )
+
+    return HttpResponse(status=204)
+
+class ListFormatoClaroKit(LoginRequiredMixin, ListView, FormView):
+    login_url = 'users:home'
+    model = FormatoClaroKit
+    template_name = 'formato_claro_kit/list_formato_claro_kit.html'
+    paginate_by = 15
+    form_class = FormatoClaroKitForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListFormatoClaroKit, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(FormatoClaroKit.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class SearchFormatoClaroKit(ListFormatoClaroKit):
+
+    def get_queryset(self):
+        queryset = super(SearchFormatoClaroKit, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(sitio__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(sap__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(descripcion__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(ciudad__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(regional__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(semana__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(mes__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchFormatoClaroKit, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterFormatoClaroKit(ListFormatoClaroKit):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterFormatoClaroKit, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterFormatoClaroKit, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_formato_claro_kit(request):
+    formato_claro_kit_resource = FormatoClaroKitResource()
+    query_dict = request.GET.dict()
+    queryset = FormatoClaroKit.objects.filter(**query_dict)
+    dataset = formato_claro_kit_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="FormatoClaroKit.xlsx"'
+    return response
+
+def create_formato_claro_kit(request):
+    formatos_claro = FormatoClaro.objects.all()
+
+    for formato_claro in formatos_claro:
+
+        if formato_claro.formato_parte.parte.parte_nokia == FCOB or \
+            formato_claro.formato_parte.parte.parte_nokia == ASIA or \
+            formato_claro.formato_parte.parte.parte_nokia == AMIA or \
+            formato_claro.formato_parte.parte.parte_nokia == ABIA:
+            formatos_claro_estacion = formatos_claro.filter(sitio=formato_claro.sitio)
+            list_formatos = []
+            for formato_claro_estacion in formatos_claro_estacion:
+                if formatos_claro_estacion.filter(formato_parte__parte__parte_nokia=FCOB).count() > 0 and \
+                    formatos_claro_estacion.filter(formato_parte__parte__parte_nokia=ASIA).count() > 0 and \
+                    formatos_claro_estacion.filter(formato_parte__parte__parte_nokia=AMIA).count() > 0 and \
+                    formatos_claro_estacion.filter(formato_parte__parte__parte_nokia=ABIA).count() > 0:
+                    list_formatos.append(formato_claro_estacion.id)
+            if formato_claro.id in list_formatos:
+                formato_claro_kit = FormatoClaroKit.objects.create(
+                sitio = formato_claro.sitio,
+                parte = formato_claro.formato_parte.parte,
+                sap = formato_claro.sap,
+                descripcion = formato_claro.descripcion,
+                qty = formato_claro.qty - 1,
+                ciudad = formato_claro.ciudad,
+                regional = formato_claro.regional,
+                semana = formato_claro.semana,
+                mes = formato_claro.mes,
+                )
+                if formato_claro_kit.qty == 0:
+                    formato_claro_kit.delete()
+                try:
+                    formato_claro_kit = FormatoClaroKit.objects.get(sitio=formato_claro.sitio, parte=PARTE)
+                except FormatoClaroKit.DoesNotExist:
+                    formato_claro_kit = FormatoClaroKit.objects.create(
+                    sitio = formato_claro.sitio,
+                    parte = PARTE,
+                    sap = PARTE.cod_sap,
+                    descripcion = PARTE.capex,
+                    qty = 1,
+                    ciudad = formato_claro.ciudad,
+                    regional = formato_claro.regional,
+                    semana = formato_claro.semana,
+                    mes = formato_claro.mes,
+                    )
+            else:
+                formato_claro_kit = FormatoClaroKit.objects.create(
+                sitio = formato_claro.sitio,
+                parte = formato_claro.formato_parte.parte,
+                sap = formato_claro.sap,
+                descripcion = formato_claro.descripcion,
+                qty = formato_claro.qty,
+                ciudad = formato_claro.ciudad,
+                regional = formato_claro.regional,
+                semana = formato_claro.semana,
+                mes = formato_claro.mes,
+                )
+        else:
+            formato_claro_kit = FormatoClaroKit.objects.create(
+            sitio = formato_claro.sitio,
+            parte = formato_claro.formato_parte.parte,
+            sap = formato_claro.sap,
+            descripcion = formato_claro.descripcion,
+            qty = formato_claro.qty,
+            ciudad = formato_claro.ciudad,
+            regional = formato_claro.regional,
+            semana = formato_claro.semana,
+            mes = formato_claro.mes,
+            )
 
     return HttpResponse(status=204)

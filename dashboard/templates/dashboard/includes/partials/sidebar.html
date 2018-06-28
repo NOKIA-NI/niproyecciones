@@ -124,9 +124,13 @@
           Formato Claro
         </a>
         <a {% if request.resolver_match.url_name == 'list_formato_claro_total' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_claro_total' %}">
-            <span data-feather="file-text"></span>
-            Formato Claro Total
-          </a>
+          <span data-feather="file-text"></span>
+          Formato Claro Total
+        </a>
+        <a {% if request.resolver_match.url_name == 'list_formato_claro_kit' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_claro_kit' %}">
+          <span data-feather="file-text"></span>
+          Formato Claro Kit
+        </a>
       </li>
     </ul>
   </div>

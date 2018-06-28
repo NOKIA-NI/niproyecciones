@@ -5,6 +5,7 @@ FormatoEstacion,
 FormatoParte,
 FormatoClaro,
 FormatoClaroTotal,
+FormatoClaroKit,
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
@@ -12,6 +13,7 @@ FormatoEstacionResource,
 FormatoParteResource,
 FormatoClaroResource,
 FormatoClaroTotalResource,
+FormatoClaroKitResource,
 )
 
 @admin.register(FormatoEstacion)
@@ -52,6 +54,7 @@ class FormatoClaroAdmin(ImportExportModelAdmin):
     'id_sitio',
     'sitio',
     'proyecto',
+    'formato_parte',
     'sap',
     'descripcion',
     'qty',
@@ -85,3 +88,28 @@ class FormatoClaroTotalAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'parte__parte_nokia']
+
+@admin.register(FormatoClaroKit)
+class FormatoClaroKitAdmin(ImportExportModelAdmin):
+    resource_class = FormatoClaroKitResource
+    list_display = (
+    'id',
+    'id_sitio',
+    'sitio',
+    'proyecto',
+    'parte',
+    'sap',
+    'descripcion',
+    'qty',
+    'ciudad',
+    'regional',
+    'semana',
+    'mes',
+    'generado',
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'sitio__site_name']
