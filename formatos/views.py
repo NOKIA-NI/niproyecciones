@@ -109,6 +109,9 @@ def export_formato_estacion(request):
     return response
 
 def create_formato_estacion(request):
+    FormatoEstacion.objects.all().delete()
+    FormatoClaroTotal.objects.all().delete()
+    FormatoClaroKit.objects.all().delete()
     weeks = list(range(14, 53))
 
     for week in weeks:
@@ -191,6 +194,7 @@ def export_formato_parte(request):
     return response
 
 def create_formato_parte(request):
+    FormatoParte.objects.all().delete()
     formatos_estacion = FormatoEstacion.objects.all()
     partes = Parte.objects.all()
 
@@ -370,6 +374,7 @@ def export_formato_claro_total(request):
     return response
 
 def create_formato_claro_total(request):
+    FormatoClaroTotal.objects.all().delete()
     formatos_parte = FormatoParte.objects.all().order_by('parte_id').distinct('parte')
 
     for formato_parte in formatos_parte:
@@ -464,6 +469,7 @@ def export_formato_claro_kit(request):
     return response
 
 def create_formato_claro_kit(request):
+    FormatoClaroKit.objects.all().delete()
     formatos_claro = FormatoClaro.objects.all()
 
     for formato_claro in formatos_claro:
