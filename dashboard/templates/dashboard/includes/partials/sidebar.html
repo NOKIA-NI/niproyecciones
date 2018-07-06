@@ -132,6 +132,25 @@
           Formato Claro Kit
         </a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#rastreos">
+          <span data-feather="file-text"></span>
+          Rastreos
+          <span data-feather="chevron-down" id="rastreosOpen"></span>
+          <span data-feather="chevron-up" id="rastreosClose"></span>
+        </a>
+      </li>
+      <li class="nav-item collapse multi-collapse ml-3" id="rastreos">
+          <a {% if request.resolver_match.url_name == 'list_rastreo' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'rastreos:list_rastreo' %}">
+            <span data-feather="git-commit"></span>
+            Rastreos
+          </a>
+          <a {% if request.resolver_match.url_name == 'list_proceso' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'rastreos:list_proceso' %}">
+            <span data-feather="copy"></span>
+            Procesos
+          </a>
+      </li>
     </ul>
   </div>
 </nav>

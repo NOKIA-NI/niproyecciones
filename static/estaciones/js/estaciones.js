@@ -7,6 +7,7 @@ $('#table_estacion').on('click', '.clickable-row', function(event) {
   $('#delete').removeClass('disabled');
   $('#action').removeClass('disabled');
   var data = $(this);
+  console.log(data)
   var id = data[0].cells[0].innerText
   window.url_update = '/estaciones/update/estacion'+ '/' +  id + '/';
   window.url_delete = '/estaciones/delete/estacion'+ '/' +  id + '/';

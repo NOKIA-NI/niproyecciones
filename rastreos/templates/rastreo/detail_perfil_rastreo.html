@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Rastreo {{ object }}{% endblock title %}
+
+{% block navbar %}
+{% include 'dashboard/includes/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block content_dashboard %}
+
+<main role="main" class="">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 mt-2 border-bottom">
+        <h2 class="text-dark">Rastreo {{ object }}</h2>
+    </div>
+
+    <div class="progress d-flex justify-content-start flex-wrap flex-md-nowrap" style="height: 40px">
+        {% for proceso in object.procesos.all %}
+        <div {% if proceso.estado_proceso == 'Cerrado' %}class="progress-bar bg-success"{% endif %} class="progress-bar bg-secondary" role="progressbar" style="width: 15%" aria-valuemax="100">{{ proceso.tipo_proceso }}</div>
+        {% endfor %}
+    </div>
+
+    <h2>Procesos</h2>
+
+    {% for proceso in object.procesos.all %}
+    <ul class="list-group mb-3">
+        <!-- {% if proceso.estado_proceso == 'Abierto' %}{% endif %} -->
+        <li {% if proceso.estado_proceso == 'Cerrado' %}class="list-group-item list-group-item-light d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center"{% endif %}class="list-group-item list-group-item-success d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+            Id: {{ proceso.tipo_proceso }}
+        </li> 
+        <li class="list-group-item">
+            Responsable: {{ proceso.responsable }}
+        </li>  
+        <li class="list-group-item">
+            Estado Proceso: {{ proceso.estado_proceso }}
+        </li> 
+        <li class="list-group-item">
+            Comentario: {{ proceso.comentario }}
+        </li> 
+        <li class="list-group-item">
+            Archivo: {% if proceso.archivo %}
+            <a href="{{ proceso.archivo.url }}">Descargar</a>
+            {% else %}
+            None
+            {% endif %}
+        </li> 
+    </ul>
+    {% endfor %}
+
+</main>
+
+{% endblock content_dashboard %}
+
+{% block extra_js %}
+<script src="{% static 'rastreos/js/rastreos.js' %}"></script>
+{% endblock extra_js %}

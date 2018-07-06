@@ -39,6 +39,15 @@ $('#estaciones').on('shown.bs.collapse', function() {
      $('#estacionesClose').hide()
    });
 
+$('#rastreosClose').hide()
+$('#rastreos').on('shown.bs.collapse', function() {
+  $('#rastreosOpen').hide()
+  $('#rastreosClose').show()
+  }).on('hidden.bs.collapse', function() {
+    $('#rastreosOpen').show()
+    $('#rastreosClose').hide()
+  });
+
 
 function search_url (form) {
   var current_url = window.location.href
@@ -60,9 +69,15 @@ function search_url (form) {
   var url_search_formato_claro_total = '/formatos/search/formato/claro/total/'
   var url_search_formato_claro_kit = '/formatos/search/formato/claro/kit/'
   var url_search_bitacora_estacion = '/estaciones/search/bitacora/estacion/'
+  var url_search_rastreo = '/rastreos/search/rastreo/'
+  var url_search_proceso = '/rastreos/search/proceso/'
+  var url_search_perfil_rastreo = '/rastreos/search/perfil/rastreo/'
+  var url_search_perfil_proceso = '/rastreos/search/perfil/proceso/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
+  } else if (current_url.includes('/estacion/')) {
+    form.action = url_search_estacion;
   } else if (current_url.includes('/partes/')) {
     form.action = url_search_parte;
   } else if (current_url.includes('/proyeccion/web/')) {
@@ -95,8 +110,14 @@ function search_url (form) {
     form.action = url_search_formato_claro_kit;
   } else if (current_url.includes('/formato/claro/')) {
     form.action = url_search_formato_claro;
-  } else if (current_url.includes('/estacion/')) {
-    form.action = url_search_estacion;
+  } else if (current_url.includes('/perfil/rastreo/')) {
+    form.action = url_search_perfil_rastreo;
+  } else if (current_url.includes('/perfil/proceso/')) {
+    form.action = url_search_perfil_proceso;
+  } else if (current_url.includes('/rastreo/')) {
+    form.action = url_search_rastreo;
+  } else if (current_url.includes('/proceso/')) {
+    form.action = url_search_proceso;
   } else {
     form.action = ''
   }
@@ -122,9 +143,15 @@ function filter_url (form) {
   var url_filter_formato_claro_total = '/formatos/filter/formato/claro/total/'
   var url_filter_formato_claro_kit = '/formatos/filter/formato/claro/kit/'
   var url_filter_bitacora_estacion = '/estaciones/filter/bitacora/estacion/'
+  var url_filter_rastreo = '/rastreos/filter/rastreo/'
+  var url_filter_proceso = '/rastreos/filter/proceso/'
+  var url_filter_perfil_rastreo = '/rastreos/filter/perfil/rastreo/'
+  var url_filter_perfil_proceso = '/rastreos/filter/perfil/proceso/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
+  } else if (current_url.includes('/estacion/')) {
+    form.action = url_filter_estacion;
   } else if (current_url.includes('/partes/')) {
     form.action = url_filter_parte;
   } else if (current_url.includes('/proyeccion/web/')) {
@@ -157,8 +184,14 @@ function filter_url (form) {
     form.action = url_filter_formato_claro_kit;
   } else if (current_url.includes('/formato/claro/')) {
     form.action = url_filter_formato_claro;
-  } else if (current_url.includes('/estacion/')) {
-    form.action = url_filter_estacion;
+  } else if (current_url.includes('/perfil/rastreo/')) {
+    form.action = url_filter_perfil_rastreo;
+  } else if (current_url.includes('/perfil/proceso/')) {
+    form.action = url_filter_perfil_proceso;
+  } else if (current_url.includes('/rastreo/')) {
+    form.action = url_filter_rastreo;
+  } else if (current_url.includes('/proceso/')) {
+    form.action = url_filter_proceso;
   } else {
     form.action = ''
   }
@@ -167,3 +200,11 @@ function filter_url (form) {
 $("#paginate_by").on('change', function () {
   $(this).submit()
 })
+
+if (window.location.href.includes('/perfil/rastreo/')) {
+  $('#dashboard').removeClass('content_dashboard');
+}
+
+if (window.location.href.includes('/perfil/proceso/')) {
+  $('#dashboard').removeClass('content_dashboard');
+}

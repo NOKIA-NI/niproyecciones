@@ -27,8 +27,12 @@ class Perfil(models.Model):
         ordering = ('-creado',)
         verbose_name = "perfil"
         verbose_name_plural = "perfiles"
-        permissions = (('perm_ni_administrador', 'Permisos para NI Administrador'),
-                       ('perm_ni_visitante', 'Permisos para NI Visitante'),)
+        permissions = (
+            ('perm_ni_administrador', 'Permisos para NI Administrador'),
+            ('perm_ni_visitante', 'Permisos para NI Visitante'),
+            ('perm_ni_rastreo', 'Permisos para NI Rastreo'),
+            ('perm_ni_proceso', 'Permisos para NI Proceso'),
+        )
 
     def __str__(self):
         return self.user.get_full_name()

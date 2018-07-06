@@ -1,0 +1,14 @@
+<tr>
+    <td><input type="checkbox" class="checkeable-row"></td>
+    <td>{{ object.id }}</td>
+    <td>{{ object.rastreo }}</td>
+    <td>{{ object.responsable }}</td>
+    <td>{{ object.tipo_proceso }}</td>
+    <td>{{ object.estado_proceso }}</td>
+    <td>{{ object.comentario }}</td>
+    {% if object.archivo %}
+    <td><a href="{{ object.archivo.url }}">Descargar</a></td>
+    {% else %}
+    <td>None</td>
+    {% endif %}
+</tr>

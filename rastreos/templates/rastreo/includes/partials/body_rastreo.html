@@ -1,0 +1,6 @@
+<tr>
+    <td><input type="checkbox" class="checkeable-row"></td>
+    <td><a href="{% url 'rastreos:detail_rastreo' object.id %}">{{ object.id }}</a></td>
+    <td>{{ object.responsable }}</td>
+    <td>{{ object.nombre }}</td>
+</tr>

@@ -1,0 +1,15 @@
+{% extends 'base_modal_file.html' %}
+{% load crispy_forms_tags %}
+{% block tilte_modal %}Actualizar Proceso{% endblock tilte_modal %}
+
+{% block body_modal %}
+<form method="POST" enctype="multipart/form-data" action="" onsubmit="return update_url_proceso (this)" class="">{% csrf_token %}
+  <div class="form-group">
+    {{ form|crispy }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+  </div>
+</form>
+{% endblock body_modal %}

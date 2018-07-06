@@ -27,7 +27,11 @@ DEBUG = False
 
 ADMINS = [('Julio Brito', 'jucebridu@gmail.com')]
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = [
+    os.getenv('ALLOWED_HOSTS_1'),
+    os.getenv('ALLOWED_HOSTS_2'),
+    os.getenv('ALLOWED_HOSTS_3'),
+]
 
 
 # Application definition
@@ -54,9 +58,11 @@ INSTALLED_APPS = [
     'resultados.apps.ResultadosConfig',
     'impactos.apps.ImpactosConfig',
     'formatos.apps.FormatosConfig',
+    'rastreos.apps.RastreosConfig',
     # third
     'crispy_forms',
     'import_export',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -169,13 +175,19 @@ USE_TZ = True
 
 STATIC_URL = os.getenv('STATIC_URL')
 
-STATIC_ROOT = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = os.getenv('MEDIA_URL')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_PROFILE_MODULE = 'users.Perfil'
 
-BUCKET_NAME = os.getenv('BUCKET_NAME')
+GS_BUCKET_NAME = os.getenv('BUCKET_NAME')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
@@ -188,6 +200,28 @@ VIERNES = 4
 SABADO = 5
 
 DOMINGO = 6
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SECURE_REDIRECT_EXEMPT = ['create/hw/estacion/',
+                          'update/hw/estacion/',
+                          'delete/hw/proyeccion/',
+                          'create/hw/proyeccion/',
+                          'update/hw/proyeccion/',
+                          'update/hw/actividad/',
+                          'calculate/consumo/nokia/',
+                          'delete/impacto/',
+                          'create/impacto/',
+                          'calculate/impacto/',
+                          'calculate/tipo/impacto/',
+                         ]
+
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 try:
     from local_settings import *
