@@ -18,6 +18,7 @@ from .forms import RastreoForm, ProcesoForm, FilterRastreoForm, FilterProcesoFor
 import operator
 from django.db.models import Q
 from functools import reduce
+from users.models import Perfil
 
 def testemail(request):
     send_mail(
@@ -128,6 +129,12 @@ class ListPerfilRastreo(LoginRequiredMixin,
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_queryset(self, **kwargs):
+        queryset = super(ListPerfilRastreo, self).get_queryset()
+        perfil = self.request.user.perfil
+        queryset = queryset.filter(responsable=perfil)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(ListPerfilRastreo, self).get_context_data(**kwargs)
@@ -293,6 +300,12 @@ class ListPerfilProceso(LoginRequiredMixin,
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_queryset(self, **kwargs):
+        queryset = super(ListPerfilProceso, self).get_queryset()
+        perfil = self.request.user.perfil
+        queryset = queryset.filter(responsable=perfil)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(ListPerfilProceso, self).get_context_data(**kwargs)
