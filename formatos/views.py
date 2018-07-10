@@ -33,12 +33,13 @@ WEEKDAY = TODAY.weekday()
 if WEEKDAY == settings.VIERNES or WEEKDAY == settings.SABADO or WEEKDAY == settings.DOMINGO:
     WEEK = WEEK + 1
 
-PENDIENTEPEDIDO = 'Pendiente Pedido'
+FORMATOABASTECIMIENTO = 'Formato Abastecimiento'
 
 FCOB = 'FCOB'
 ASIA = 'ASIA'
 AMIA = 'AMIA'
 ABIA = 'ABIA'
+
 try:
     PARTE = Parte.objects.get(parte_nokia='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
 except:
@@ -113,7 +114,7 @@ def create_formato_estacion(request):
     FormatoClaroTotal.objects.all().delete()
     FormatoClaroKit.objects.all().delete()
 
-    proyecciones = Proyeccion.objects.filter(estacion__bolsa=PENDIENTEPEDIDO).order_by('estacion_id').distinct('estacion')
+    proyecciones = Proyeccion.objects.filter(estacion__bolsa=FORMATOABASTECIMIENTO).order_by('estacion_id').distinct('estacion')
     for proyeccion in proyecciones:
         try:
             formato_estacion = FormatoEstacion.objects.get(estacion=proyeccion.estacion)

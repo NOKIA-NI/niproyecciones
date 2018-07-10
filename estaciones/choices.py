@@ -103,6 +103,7 @@ BOLSA_CHOICES = (
     ('Reemplazo 36 sitios Satelitales LSM', 'Reemplazo 36 sitios Satelitales LSM'),
     ('Partes 302 sitios LSM', 'Partes 302 sitios LSM'),
     ('Pendiente Pedido', 'Pendiente Pedido'),
+    ('Formato Abastecimiento', 'Formato Abastecimiento'),
 )
 
 """ STATUS_NOKIA_CHOICES  """
