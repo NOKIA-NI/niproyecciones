@@ -112,18 +112,15 @@ def create_formato_estacion(request):
     FormatoEstacion.objects.all().delete()
     FormatoClaroTotal.objects.all().delete()
     FormatoClaroKit.objects.all().delete()
-    weeks = list(range(14, 53))
 
-    for week in weeks:
-        if week >= WEEK:
-            proyecciones = Proyeccion.objects.filter(estacion__w_fc_imp=week, estacion__bolsa=PENDIENTEPEDIDO).order_by('estacion_id').distinct('estacion')
-            for proyeccion in proyecciones:
-                try:
-                    formato_estacion = FormatoEstacion.objects.get(estacion=proyeccion.estacion)
-                except FormatoEstacion.DoesNotExist:
-                    formato_estacion = FormatoEstacion.objects.create(
-                    estacion = proyeccion.estacion,
-                    )
+    proyecciones = Proyeccion.objects.filter(estacion__bolsa=PENDIENTEPEDIDO).order_by('estacion_id').distinct('estacion')
+    for proyeccion in proyecciones:
+        try:
+            formato_estacion = FormatoEstacion.objects.get(estacion=proyeccion.estacion)
+        except FormatoEstacion.DoesNotExist:
+            formato_estacion = FormatoEstacion.objects.create(
+            estacion = proyeccion.estacion,
+            )
 
     return HttpResponse(status=204)
 
