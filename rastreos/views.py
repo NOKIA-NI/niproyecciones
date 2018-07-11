@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.views.generic import (
 TemplateView,
@@ -19,15 +19,11 @@ import operator
 from django.db.models import Q
 from functools import reduce
 from users.models import Perfil
+from formatos.tasks import send_mail
 
 def testemail(request):
-    send_mail(
-    'Test Email',
-    'This is a Test Email',
-    'notificaciones@nihardware.com',
-    ['jbri.gap@nokia.com', 'jucebridu@gmail.com'],
-    fail_silently=False,
-    )
+    task = send_mail.delay()
+    print(task.id)
     return HttpResponse(status=204)
 
 class ListRastreo(LoginRequiredMixin,
