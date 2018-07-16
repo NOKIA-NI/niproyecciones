@@ -5,6 +5,10 @@ app.yaml
 index.yaml
 cron.yaml
 
+# docker
+Dockerfile
+supervisord.conf
+
 # python
 # Byte-compiled / optimized / DLL files
 __pycache__/
