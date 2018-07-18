@@ -29,6 +29,18 @@ SearchFormatoClaroKit,
 FilterFormatoClaroKit,
 export_formato_claro_kit,
 create_formato_claro_kit,
+
+ListFormatoParteInput,
+SearchFormatoParteInput,
+FilterFormatoParteInput,
+export_formato_parte_input,
+create_formato_parte_input,
+
+ListFormatoParteDelta,
+SearchFormatoParteDelta,
+FilterFormatoParteDelta,
+export_formato_parte_delta,
+create_formato_parte_delta,
 )
 
 app_name = 'formatos'
@@ -63,4 +75,16 @@ urlpatterns = [
     path('filter/formato/claro/kit/', FilterFormatoClaroKit.as_view(), name='filter_formato_claro_kit'),
     path('export/formato/claro/kit/', export_formato_claro_kit, name='export_formato_claro_kit'),
     path('create/formato/claro/kit/', create_formato_claro_kit, name='create_formato_claro_kit'),
+
+    path('list/formato/parte/input/', ListFormatoParteInput.as_view(), name='list_formato_parte_input'),
+    path('search/formato/parte/input/', SearchFormatoParteInput.as_view(), name='search_formato_parte_input'),
+    path('filter/formato/parte/input/', FilterFormatoParteInput.as_view(), name='filter_formato_parte_input'),
+    path('export/formato/parte/input/', export_formato_parte_input, name='export_formato_parte_input'),
+    path('create/formato/parte/input/', create_formato_parte_input, name='create_formato_parte_input'),
+
+    path('list/formato/parte/delta/', ListFormatoParteDelta.as_view(), name='list_formato_parte_delta'),
+    path('search/formato/parte/delta/', SearchFormatoParteDelta.as_view(), name='search_formato_parte_delta'),
+    path('filter/formato/parte/delta/', FilterFormatoParteDelta.as_view(), name='filter_formato_parte_delta'),
+    path('export/formato/parte/delta/', export_formato_parte_delta, name='export_formato_parte_delta'),
+    path('create/formato/parte/delta/', create_formato_parte_delta, name='create_formato_parte_delta'),
 ]

@@ -1,6 +1,20 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget, ManyToManyWidget
-from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
+from import_export.widgets import (
+    ForeignKeyWidget,
+    DateWidget,
+    DateTimeWidget,
+    IntegerWidget,
+    ManyToManyWidget,
+    )
+from .models import (
+    FormatoEstacion,
+    FormatoParte,
+    FormatoClaro,
+    FormatoClaroTotal,
+    FormatoClaroKit,
+    FormatoParteInput,
+    FormatoParteDelta,
+    )
 from estaciones.models import Estacion
 from partes.models import Parte
 
@@ -130,6 +144,57 @@ class FormatoClaroKitResource(resources.ModelResource):
         'generado',
         # 'estado',
         # 'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class FormatoParteInputResource(resources.ModelResource):
+    estacion = fields.Field(
+        column_name='estacion',
+        attribute='estacion',
+        widget=ForeignKeyWidget(Estacion, 'site_name'))
+    parte = fields.Field(
+        column_name='parte',
+        attribute='parte',
+        widget=ForeignKeyWidget(Parte, 'parte_nokia'))
+
+    class Meta:
+        model = FormatoParteInput
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'estacion',
+        'parte',
+        'cantidad',
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class FormatoParteDeltaResource(resources.ModelResource):
+    estacion = fields.Field(
+        column_name='estacion',
+        attribute='estacion',
+        widget=ForeignKeyWidget(Estacion, 'site_name'))
+    parte = fields.Field(
+        column_name='parte',
+        attribute='parte',
+        widget=ForeignKeyWidget(Parte, 'parte_nokia'))
+
+    class Meta:
+        model = FormatoParteDelta
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'estacion',
+        'parte',
+        'cantidad_parte',
+        'cantidad_input',
+        'cantidad_delta',
+        'fecha_delta',
+        # 'estado',
+        'subestado',
         # 'creado',
         # 'actualizado',
         )

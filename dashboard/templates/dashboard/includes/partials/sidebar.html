@@ -131,6 +131,14 @@
           <span data-feather="file-text"></span>
           Formato Claro Kit
         </a>
+        <a {% if request.resolver_match.url_name == 'list_formato_parte_input' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_parte_input' %}">
+          <span data-feather="file-text"></span>
+          Formato Parte Input
+        </a>
+        <a {% if request.resolver_match.url_name == 'list_formato_parte_delta' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'formatos:list_formato_parte_delta' %}">
+          <span data-feather="file-text"></span>
+          Formato Parte Delta
+        </a>
       </li>
 
       <li class="nav-item">

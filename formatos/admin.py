@@ -1,19 +1,23 @@
 from django.contrib import admin
 
 from .models import (
-FormatoEstacion,
-FormatoParte,
-FormatoClaro,
-FormatoClaroTotal,
-FormatoClaroKit,
+    FormatoEstacion,
+    FormatoParte,
+    FormatoClaro,
+    FormatoClaroTotal,
+    FormatoClaroKit,
+    FormatoParteInput,
+    FormatoParteDelta,
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
-FormatoEstacionResource,
-FormatoParteResource,
-FormatoClaroResource,
-FormatoClaroTotalResource,
-FormatoClaroKitResource,
+    FormatoEstacionResource,
+    FormatoParteResource,
+    FormatoClaroResource,
+    FormatoClaroTotalResource,
+    FormatoClaroKitResource,
+    FormatoParteInputResource,
+    FormatoParteDeltaResource,
 )
 
 @admin.register(FormatoEstacion)
@@ -113,3 +117,38 @@ class FormatoClaroKitAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'sitio__site_name']
+
+@admin.register(FormatoParteInput)
+class FormatoParteInputAdmin(ImportExportModelAdmin):
+    resource_class = FormatoParteInputResource
+    list_display = (
+    'id',
+    'estacion',
+    'parte',
+    'cantidad',
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion__site_name', 'parte__parte_nokia']
+
+@admin.register(FormatoParteDelta)
+class FormatoParteDeltaAdmin(ImportExportModelAdmin):
+    resource_class = FormatoParteDeltaResource
+    list_display = (
+    'id',
+    'estacion',
+    'parte',
+    'cantidad_parte',
+    'cantidad_input',
+    'cantidad_delta',
+    'fecha_delta',
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion__site_name', 'parte__parte_nokia']

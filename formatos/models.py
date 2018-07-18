@@ -38,7 +38,7 @@ class FormatoEstacion(models.Model):
         return self.estacion.site_name
 
     # def get_absolute_url(self):
-    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
 
 class FormatoParte(models.Model):
     formato_estacion = models.ForeignKey(FormatoEstacion, on_delete=models.CASCADE, related_name='formatos_parte', blank=True, null=True)
@@ -60,7 +60,7 @@ class FormatoParte(models.Model):
         return self.parte.parte_nokia
 
     # def get_absolute_url(self):
-    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
 
 
 class FormatoClaro(models.Model):
@@ -91,7 +91,7 @@ class FormatoClaro(models.Model):
         return self.sitio.site_name
 
     # def get_absolute_url(self):
-    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         
@@ -161,7 +161,7 @@ class FormatoClaroTotal(models.Model):
         return self.parte.parte_nokia
 
     # def get_absolute_url(self):
-    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         
@@ -199,4 +199,51 @@ class FormatoClaroKit(models.Model):
         return self.sitio.site_name
 
     # def get_absolute_url(self):
-    #     return reverse('formatos:detail_estacion', kwargs={'pk': self.pk})
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
+
+class FormatoParteInput(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_parte_input', blank=True, null=True)
+    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='formatos_parte_input', blank=True, null=True)
+    cantidad = models.PositiveIntegerField(blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'formato parte input'
+        verbose_name_plural = 'formatos parte input'
+        unique_together = ('estacion', 'parte')
+
+    def __str__(self):
+        return self.parte.parte_nokia
+
+    # def get_absolute_url(self):
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
+
+class FormatoParteDelta(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_parte_delta', blank=True, null=True)
+    parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='formatos_parte_delta', blank=True, null=True)
+    cantidad_parte = models.PositiveIntegerField(blank=True, null=True)
+    cantidad_input = models.PositiveIntegerField(blank=True, null=True)
+    cantidad_delta = models.PositiveIntegerField(blank=True, null=True)
+    fecha_delta = models.DateField(auto_now_add=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'formato parte delta'
+        verbose_name_plural = 'formatos parte delta'
+        unique_together = ('estacion', 'parte')
+
+    def __str__(self):
+        return self.parte.parte_nokia
+
+    # def get_absolute_url(self):
+    #     return reverse('formatos:', kwargs={'pk': self.pk})
