@@ -1,17 +1,29 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import (
-TemplateView,
-ListView,
-DetailView,
-UpdateView,
-CreateView,
-DeleteView,
-FormView,
+    TemplateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    CreateView,
+    DeleteView,
+    FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import FormatoEstacionForm, FormatoParteForm, FormatoClaroForm, FormatoClaroTotalForm, FormatoClaroKitForm
-from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
+from .forms import (
+    FormatoEstacionForm,
+    FormatoParteForm,
+    FormatoClaroForm,
+    FormatoClaroTotalForm,
+    FormatoClaroKitForm,
+)
+from .models import (
+    FormatoEstacion,
+    FormatoParte,
+    FormatoClaro,
+    FormatoClaroTotal,
+    FormatoClaroKit,
+)
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -22,15 +34,16 @@ from .tasks import (
     task_create_formato_claro_total,
     task_create_formato_claro_kit,
 )
-from django.db.models import Sum, Value as V
-from django.db.models.functions import Coalesce
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import FormatoEstacionResource, FormatoParteResource, FormatoClaroResource, FormatoClaroTotalResource, FormatoClaroKitResource
-from django.http import HttpResponse
-from django.utils import timezone
-from django.conf import settings
+from .resources import (
+    FormatoEstacionResource,
+    FormatoParteResource,
+    FormatoClaroResource,
+    FormatoClaroTotalResource,
+    FormatoClaroKitResource,
+)
 
 
 class ListFormatoEstacion(LoginRequiredMixin, ListView, FormView):
@@ -99,8 +112,8 @@ def export_formato_estacion(request):
 
 def create_formato_estacion(request):
     task = task_create_formato_estacion.delay()
-    print(task.id)
-    return HttpResponse(status=204)
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
 
 class ListFormatoParte(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -170,8 +183,8 @@ def export_formato_parte(request):
 
 def create_formato_parte(request):
     task = task_create_formato_parte.delay()
-    print(task.id)
-    return HttpResponse(status=204)
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
 
 class ListFormatoClaro(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -251,8 +264,8 @@ def export_formato_claro(request):
 
 def create_formato_claro(request):
     task = task_create_formato_claro.delay()
-    print(task.id)
-    return HttpResponse(status=204)
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
 
 class ListFormatoClaroTotal(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -326,8 +339,8 @@ def export_formato_claro_total(request):
 
 def create_formato_claro_total(request):
     task = task_create_formato_claro_total.delay()
-    print(task.id)
-    return HttpResponse(status=204)
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
 
 class ListFormatoClaroKit(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -407,5 +420,5 @@ def export_formato_claro_kit(request):
 
 def create_formato_claro_kit(request):
     task = task_create_formato_claro_kit.delay()
-    print(task.id)
-    return HttpResponse(status=204)
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)

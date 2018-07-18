@@ -84,12 +84,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['antenas'] = antenas
         return context
 
-class TaskView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
-    login_url = 'users:home'
-    template_name = 'dashboard/task.html'
-    permission_required = 'is_superuser'
-
-
 # def get_data(request):
 #     impactos_14 = Impacto.objects.filter(w_fc_sal=14)
 #     return JsonResponse(serializers.serialize('json', impactos_14), safe=False)

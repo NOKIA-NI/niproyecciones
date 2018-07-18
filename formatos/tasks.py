@@ -1,4 +1,4 @@
-from celery import shared_task
+from celery import shared_task, current_task
 from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
 from django.core.mail import send_mail as _send_mail
 from proyecciones.models import Proyeccion
@@ -41,6 +41,7 @@ def task_create_formato_estacion():
             formato_estacion = FormatoEstacion.objects.create(
             estacion = proyeccion.estacion,
             )
+        current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
@@ -61,6 +62,7 @@ def task_create_formato_parte():
                         parte = parte,
                         cantidad = cantidad,
                         )
+            current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
@@ -91,6 +93,7 @@ def task_create_formato_claro_total():
                 parte = formato_parte.parte,
                 total = total,
                 )
+        current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
@@ -162,4 +165,5 @@ def task_create_formato_claro_kit():
             semana = formato_claro.semana,
             mes = formato_claro.mes,
             )
+        current_task.update_state(state='PROGRESS')
     return {'ok':200}
