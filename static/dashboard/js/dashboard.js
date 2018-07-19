@@ -69,6 +69,7 @@ function search_url (form) {
   var url_search_formato_claro_total = '/formatos/search/formato/claro/total/'
   var url_search_formato_claro_kit = '/formatos/search/formato/claro/kit/'
   var url_search_bitacora_estacion = '/estaciones/search/bitacora/estacion/'
+  var url_search_proyeccion_estacion = '/estaciones/search/proyeccion/estacion/'
   var url_search_rastreo = '/rastreos/search/rastreo/'
   var url_search_proceso = '/rastreos/search/proceso/'
   var url_search_perfil_rastreo = '/rastreos/search/perfil/rastreo/'
@@ -76,6 +77,8 @@ function search_url (form) {
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
+  } else if (current_url.includes('/proyeccion/estacion/')) {
+    form.action = url_search_proyeccion_estacion;
   } else if (current_url.includes('/estacion/')) {
     form.action = url_search_estacion;
   } else if (current_url.includes('/partes/')) {
@@ -143,6 +146,7 @@ function filter_url (form) {
   var url_filter_formato_claro_total = '/formatos/filter/formato/claro/total/'
   var url_filter_formato_claro_kit = '/formatos/filter/formato/claro/kit/'
   var url_filter_bitacora_estacion = '/estaciones/filter/bitacora/estacion/'
+  var url_filter_proyeccion_estacion = '/estaciones/filter/proyeccion/estacion/'
   var url_filter_rastreo = '/rastreos/filter/rastreo/'
   var url_filter_proceso = '/rastreos/filter/proceso/'
   var url_filter_perfil_rastreo = '/rastreos/filter/perfil/rastreo/'
@@ -150,6 +154,8 @@ function filter_url (form) {
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
+  } else if (current_url.includes('/proyeccion/estacion/')) {
+    form.action = url_filter_proyeccion_estacion;
   } else if (current_url.includes('/estacion/')) {
     form.action = url_filter_estacion;
   } else if (current_url.includes('/partes/')) {

@@ -20,6 +20,15 @@ DeleteBitacoraEstacion,
 SearchBitacoraEstacion,
 FilterBitacoraEstacion,
 export_bitacora_estacion,
+
+ListProyeccionEstacion,
+DetailProyeccionEstacion,
+CreateProyeccionEstacion,
+UpdateProyeccionEstacion,
+DeleteProyeccionEstacion,
+SearchProyeccionEstacion,
+FilterProyeccionEstacion,
+export_proyeccion_estacion,
 )
 
 app_name = 'estaciones'
@@ -45,4 +54,13 @@ urlpatterns = [
     path('search/bitacora/estacion/', SearchBitacoraEstacion.as_view(), name='search_bitacora_estacion'),
     path('filter/bitacora/estacion/', FilterBitacoraEstacion.as_view(), name='filter_bitacora_estacion'),
     path('export/bitacora/estacion/', export_bitacora_estacion, name='export_bitacora_estacion'),
+
+    path('list/proyeccion/estacion/', ListProyeccionEstacion.as_view(), name='list_proyeccion_estacion'),
+    path('detail/proyeccion/estacion/<int:pk>/', DetailProyeccionEstacion.as_view(), name='detail_proyeccion_estacion'),
+    path('create/proyeccion/estacion/', CreateProyeccionEstacion.as_view(), name='create_proyeccion_estacion'),
+    path('update/proyeccion/estacion/<int:pk>/', UpdateProyeccionEstacion.as_view(), name='update_proyeccion_estacion'),
+    path('delete/proyeccion/estacion/<int:pk>/', DeleteProyeccionEstacion.as_view(), name='delete_proyeccion_estacion'),
+    path('search/proyeccion/estacion/', SearchProyeccionEstacion.as_view(), name='search_proyeccion_estacion'),
+    path('filter/proyeccion/estacion/', FilterProyeccionEstacion.as_view(), name='filter_proyeccion_estacion'),
+    path('export/proyeccion/estacion/', export_proyeccion_estacion, name='export_proyeccion_estacion'),
 ]

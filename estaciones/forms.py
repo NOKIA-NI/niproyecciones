@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Estacion, BitacoraEstacion
+from .models import Estacion, BitacoraEstacion, ProyeccionEstacion
 from . import choices
 
 # REGION_CHOICES_EMPTY = (('', '---------'),) + choices.REGION_CHOICES
@@ -32,5 +32,17 @@ class FilterBitacoraEstacionForm(ModelForm):
 
     class Meta:
         model = BitacoraEstacion
+        fields = '__all__'
+
+class ProyeccionEstacionForm(ModelForm):
+
+    class Meta:
+        model = ProyeccionEstacion
+        fields = '__all__'
+
+class FilterProyeccionEstacionForm(ModelForm):
+
+    class Meta:
+        model = ProyeccionEstacion
         fields = '__all__'
 

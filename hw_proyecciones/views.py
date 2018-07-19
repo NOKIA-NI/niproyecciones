@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from hw_proyecciones.models import HwProyeccion, HwEstacion
 from proyecciones.models import Proyeccion
-from estaciones.models import Estacion
+from estaciones.models import Estacion, ProyeccionEstacion
 from partes.models import Parte
 from hw_actividades.models import HwActividad
 from django.db.models import Sum
@@ -14,6 +14,8 @@ TODAY = timezone.now().date()
 TOMORROW = timezone.now() + datetime.timedelta(1)
 
 SI = 'Si'
+ENTRO = 'Entro'
+SALIO = 'Salio'
 
 def create_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
@@ -812,5 +814,37 @@ def calculate_consumo_nokia(request):
             parte.consumonokia.w52 = 0
 
         parte.consumonokia.save()
+
+    return HttpResponse(status=204)
+
+def create_proyeccion_estacion_entro(request):
+    # if request.headers["X-Appengine-Cron"]:
+    proyeciones = Proyeccion.objects.all().order_by('estacion_id').distinct('estacion')
+    proyeciones_estacion = ProyeccionEstacion.objects.all()
+
+    for proyecion in proyeciones:
+        try:
+            proyeccion_estacion = ProyeccionEstacion.objects.get(estacion=proyecion.estacion)
+        except ProyeccionEstacion.DoesNotExist:
+            proyeccion_estacion = ProyeccionEstacion.objects.create(
+                estacion=proyecion.estacion,
+                proyeccion=ENTRO
+            )
+
+    return HttpResponse(status=204)
+
+def create_proyeccion_estacion_salio(request):
+    # if request.headers["X-Appengine-Cron"]:
+    proyeciones_estacion = ProyeccionEstacion.objects.all()
+    proyeciones = Proyeccion.objects.all().order_by('estacion_id').distinct('estacion')
+
+    for proyecion_estacion in proyeciones_estacion:
+        try:
+            proyeccion = proyeciones.objects.get(estacion=proyecion_estacion.estacion)
+        except ProyeccionEstacion.DoesNotExist:
+            proyeccion_estacion = ProyeccionEstacion.objects.create(
+                estacion=proyecion.estacion,
+                proyeccion=SALIO
+            )
 
     return HttpResponse(status=204)

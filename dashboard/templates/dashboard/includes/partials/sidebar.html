@@ -47,6 +47,11 @@
           <span data-feather="bar-chart-2"></span>
           Bitacora Estaciones
         </a>
+        <a {% if request.resolver_match.url_name == 'list_proyeccion_estacion' %}
+          class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'estaciones:list_proyeccion_estacion' %}">
+          <span data-feather="bar-chart-2"></span>
+          Proyeccion Estaciones
+        </a>
       </li>
       <li class="nav-item">
         <a {% if request.resolver_match.url_name == 'list_parte' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'partes:list_parte' %}">

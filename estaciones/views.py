@@ -11,15 +11,22 @@ FormView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from .forms import EstacionForm, FilterEstacionForm, BitacoraEstacionForm, FilterBitacoraEstacionForm
-from .models import Estacion, BitacoraEstacion
+from .models import Estacion, BitacoraEstacion, ProyeccionEstacion
+from .forms import (
+    EstacionForm,
+    FilterEstacionForm,
+    BitacoraEstacionForm,
+    FilterBitacoraEstacionForm,
+    ProyeccionEstacionForm,
+    FilterProyeccionEstacionForm,
+)
+from .resources import EstacionResource, BitacoraEstacionResource, ProyeccionEstacionResource
+from hw_actividades.models import HwActividad
 import operator
 from django.db.models import Q
 from functools import reduce
-from .resources import EstacionResource, BitacoraEstacionResource
 from django.http import HttpResponse
 from django.utils import timezone
-from hw_actividades.models import HwActividad
 from django.conf import settings
 
 TODAY = timezone.now()
@@ -308,4 +315,99 @@ def export_bitacora_estacion(request):
     dataset = bitacora_estacion_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="BitacoraEstacion.xlsx"'
+    return response
+
+class ListProyeccionEstacion(LoginRequiredMixin, ListView, FormView):
+    login_url = 'users:home'
+    model = ProyeccionEstacion
+    template_name = 'proyeccion_estacion/list_proyeccion_estacion.html'
+    paginate_by = 15
+    form_class = FilterProyeccionEstacionForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListProyeccionEstacion, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(ProyeccionEstacion.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class DetailProyeccionEstacion(LoginRequiredMixin, DetailView):
+    login_url = 'users:home'
+    model = ProyeccionEstacion
+    template_name = 'proyeccion_estacion/detail_proyeccion_estacion.html'
+
+class CreateProyeccionEstacion(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            CreateView):
+    login_url = 'users:home'
+    success_message = "%(estacion)s fue creada exitosamente"
+    form_class = ProyeccionEstacionForm
+    template_name = 'proyeccion_estacion/includes/partials/create_proyeccion_estacion.html'
+
+class UpdateProyeccionEstacion(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            UpdateView):
+    login_url = 'users:home'
+    success_message = "%(estacion)s fue actualizada exitosamente"
+    model = ProyeccionEstacion
+    form_class = ProyeccionEstacionForm
+    template_name = 'proyeccion_estacion/includes/partials/update_proyeccion_estacion.html'
+
+class DeleteProyeccionEstacion(LoginRequiredMixin,
+                            DeleteView):
+    login_url = 'users:home'
+    model = ProyeccionEstacion
+    template_name = 'proyeccion_estacion/includes/partials/delete_proyeccion_estacion.html'
+    success_url = reverse_lazy('estaciones:list_proyeccion_estacion')
+
+class SearchProyeccionEstacion(ListProyeccionEstacion):
+
+    def get_queryset(self):
+        queryset = super(SearchProyeccionEstacion, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(proyeccion__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchProyeccionEstacion, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterProyeccionEstacion(ListProyeccionEstacion):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterProyeccionEstacion, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterProyeccionEstacion, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_proyeccion_estacion(request):
+    proyeccion_estacion_resource = ProyeccionEstacionResource()
+    query_dict = request.GET.dict()
+    queryset = ProyeccionEstacion.objects.filter(**query_dict)
+    dataset = proyeccion_estacion_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="ProyeccionEstacion.xlsx"'
     return response

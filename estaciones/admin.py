@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import Estacion, BitacoraEstacion
+from .models import Estacion, BitacoraEstacion, ProyeccionEstacion
 from import_export.admin import ImportExportModelAdmin
-from .resources import EstacionResource, BitacoraEstacionResource
+from .resources import EstacionResource, BitacoraEstacionResource, ProyeccionEstacionResource
 
 #@admin.register(Estacion)
 #class EstacionAdmin(admin.ModelAdmin):
@@ -48,6 +48,22 @@ class BitacoraEstacionAdmin(ImportExportModelAdmin):
     'estacion',
     'fecha_bitacora',
     'observaciones',
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion__site_name']
+
+@admin.register(ProyeccionEstacion)
+class ProyeccionEstacionAdmin(ImportExportModelAdmin):
+    resource_class = ProyeccionEstacionResource
+    list_display = (
+    'id',
+    'estacion',
+    'proyeccion',
+    'fecha_proyeccion',
     'estado',
     'subestado',
     'creado',

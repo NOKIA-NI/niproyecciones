@@ -80,3 +80,24 @@ class BitacoraEstacion(models.Model):
 
     def get_absolute_url(self):
         return reverse('estaciones:detail_bitacora_estacion', kwargs={'pk': self.pk})
+
+class ProyeccionEstacion(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='proyecciones_estacion', blank=True, null=True)
+    proyeccion = models.CharField(max_length=255, choices=choices.PROYECCION_CHOICES, blank=True, null=True)
+    fecha_proyeccion = models.DateField(auto_now_add=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'proyecion estacion'
+        verbose_name_plural = 'proyeciones estacion'
+
+    def __str__(self):
+        return self.estacion.site_name
+
+    # def get_absolute_url(self):
+    #     return reverse('estaciones:detail_estacion_proyeccion', kwargs={'pk': self.pk})

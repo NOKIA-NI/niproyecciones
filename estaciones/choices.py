@@ -136,3 +136,9 @@ IMPACTAR_CHOICES = (
     ('Si', 'Si'),
     ('No', 'No'),
 )
+
+""" PROYECCION_CHOICES  """
+PROYECCION_CHOICES = (
+    ('Entro', 'Entro'),
+    ('Salio', 'Salio'),
+)
