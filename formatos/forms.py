@@ -71,6 +71,7 @@ class FormatoParteInputForm(ModelForm):
         fields = '__all__'
 
 class FilterFormatoParteInputForm(ModelForm):
+    fecha_formato = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}), required=False)
 
     class Meta:
         model = FormatoParteInput
@@ -82,6 +83,7 @@ class FormatoParteDeltaForm(ModelForm):
         fields = '__all__'
 
 class FilterFormatoParteDeltaForm(ModelForm):
+    fecha_formato = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}), required=False)
 
     class Meta:
         model = FormatoParteDelta

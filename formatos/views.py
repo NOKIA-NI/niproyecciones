@@ -21,12 +21,19 @@ from .models import (
 )
 from .forms import (
     FormatoEstacionForm,
+    FilterFormatoEstacionForm,
     FormatoParteForm,
+    FilterFormatoParteForm,
     FormatoClaroForm,
+    FilterFormatoClaroForm,
     FormatoClaroTotalForm,
+    FilterFormatoClaroTotalForm,
     FormatoClaroKitForm,
+    FilterFormatoClaroKitForm,
     FormatoParteInputForm,
+    FilterFormatoParteInputForm,
     FormatoParteDeltaForm,
+    FilterFormatoParteDeltaForm,
 )
 from .resources import (
     FormatoEstacionResource,
@@ -57,7 +64,7 @@ class ListFormatoEstacion(LoginRequiredMixin, ListView, FormView):
     model = FormatoEstacion
     template_name = 'formato_estacion/list_formato_estacion.html'
     paginate_by = 15
-    form_class = FormatoEstacionForm
+    form_class = FilterFormatoEstacionForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -126,7 +133,7 @@ class ListFormatoParte(LoginRequiredMixin, ListView, FormView):
     model = FormatoParte
     template_name = 'formato_parte/list_formato_parte.html'
     paginate_by = 15
-    form_class = FormatoParteForm
+    form_class = FilterFormatoParteForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -197,7 +204,7 @@ class ListFormatoClaro(LoginRequiredMixin, ListView, FormView):
     model = FormatoClaro
     template_name = 'formato_claro/list_formato_claro.html'
     paginate_by = 15
-    form_class = FormatoClaroForm
+    form_class = FilterFormatoClaroForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -278,7 +285,7 @@ class ListFormatoClaroTotal(LoginRequiredMixin, ListView, FormView):
     model = FormatoClaroTotal
     template_name = 'formato_claro_total/list_formato_claro_total.html'
     paginate_by = 15
-    form_class = FormatoClaroTotalForm
+    form_class = FilterFormatoClaroTotalForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -353,7 +360,7 @@ class ListFormatoClaroKit(LoginRequiredMixin, ListView, FormView):
     model = FormatoClaroKit
     template_name = 'formato_claro_kit/list_formato_claro_kit.html'
     paginate_by = 15
-    form_class = FormatoClaroKitForm
+    form_class = FilterFormatoClaroKitForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -434,7 +441,7 @@ class ListFormatoParteInput(LoginRequiredMixin, ListView, FormView):
     model = FormatoParteInput
     template_name = 'formato_parte_input/list_formato_parte_input.html'
     paginate_by = 15
-    form_class = FormatoParteInputForm
+    form_class = FilterFormatoParteInputForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
@@ -505,7 +512,7 @@ class ListFormatoParteDelta(LoginRequiredMixin, ListView, FormView):
     model = FormatoParteDelta
     template_name = 'formato_parte_delta/list_formato_parte_delta.html'
     paginate_by = 15
-    form_class = FormatoParteDeltaForm
+    form_class = FilterFormatoParteDeltaForm
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)

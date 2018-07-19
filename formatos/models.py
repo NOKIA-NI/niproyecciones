@@ -205,6 +205,7 @@ class FormatoParteInput(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='formatos_parte_input', blank=True, null=True)
     parte = models.ForeignKey(Parte, on_delete=models.CASCADE, related_name='formatos_parte_input', blank=True, null=True)
     cantidad = models.PositiveIntegerField(blank=True, null=True)
+    fecha_formato = models.DateField()
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)
@@ -229,7 +230,7 @@ class FormatoParteDelta(models.Model):
     cantidad_parte = models.PositiveIntegerField(blank=True, null=True)
     cantidad_input = models.PositiveIntegerField(blank=True, null=True)
     cantidad_delta = models.PositiveIntegerField(blank=True, null=True)
-    fecha_delta = models.DateField(auto_now_add=True)
+    fecha_formato = models.DateField(auto_now_add=True)
 
     estado = models.BooleanField(default=True, editable=False)
     subestado = models.BooleanField(default=False, editable=False)

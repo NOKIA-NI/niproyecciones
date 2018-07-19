@@ -41,6 +41,7 @@ class ProyeccionEstacionForm(ModelForm):
         fields = '__all__'
 
 class FilterProyeccionEstacionForm(ModelForm):
+    fecha_proyeccion = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}), required=False)
 
     class Meta:
         model = ProyeccionEstacion
