@@ -8,6 +8,7 @@ from hw_actividades.models import HwActividad
 from django.db.models import Sum
 from django.utils import timezone
 import datetime
+from django.core.mail import send_mail
 
 TODAY = timezone.now().date()
 # TODAY = datetime.date.today()
@@ -830,6 +831,19 @@ def create_proyeccion_estacion_entro(request):
                 estacion=proyecion.estacion,
                 proyeccion=ENTRO
             )
+            send_mail(
+                'Entrada de '+ proyeccion_estacion.estacion +' a la Proyeccion de Hardware',
+                'El Sitio '+ proyeccion_estacion.estacion +' Entro a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion,
+                'notificaciones@nihardware.com',
+                [
+                'jbri.gap@nokia.com',
+                'hw.proyections@nokia.com',
+                'administration.hw@nokia.com',
+                'hw_control_2.ni@nokia.com',
+                'csp_support.ni_co@nokia.com',
+                ],
+                fail_silently=False,
+            )
 
     return HttpResponse(status=204)
 
@@ -840,11 +854,24 @@ def create_proyeccion_estacion_salio(request):
 
     for proyecion_estacion in proyeciones_estacion:
         try:
-            proyeccion = proyeciones.objects.get(estacion=proyecion_estacion.estacion)
-        except ProyeccionEstacion.DoesNotExist:
+            proyeccion = proyeciones.get(estacion=proyecion_estacion.estacion)
+        except Proyeccion.DoesNotExist:
             proyeccion_estacion = ProyeccionEstacion.objects.create(
                 estacion=proyecion.estacion,
                 proyeccion=SALIO
+            )
+            send_mail(
+                'Salida de '+ proyeccion_estacion.estacion +' de la Proyeccion de Hardware',
+                'El Sitio '+ proyeccion_estacion.estacion +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion,
+                'notificaciones@nihardware.com',
+                [
+                'jbri.gap@nokia.com',
+                'hw.proyections@nokia.com',
+                'administration.hw@nokia.com',
+                'hw_control_2.ni@nokia.com',
+                'csp_support.ni_co@nokia.com',
+                ],
+                fail_silently=False,
             )
 
     return HttpResponse(status=204)
