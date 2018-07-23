@@ -832,8 +832,8 @@ def create_proyeccion_estacion_entro(request):
                 proyeccion=ENTRO
             )
             send_mail(
-                'Entrada de '+ proyeccion_estacion.estacion +' a la Proyeccion de Hardware',
-                'El Sitio '+ proyeccion_estacion.estacion +' Entro a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion,
+                'Entrada de '+ proyeccion_estacion.estacion.site_name +' a la Proyeccion de Hardware',
+                'El Sitio '+ proyeccion_estacion.estacion.site_name +' Entro a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d'),
                 'notificaciones@nihardware.com',
                 [
                 'jbri.gap@nokia.com',
@@ -857,12 +857,12 @@ def create_proyeccion_estacion_salio(request):
             proyeccion = proyeciones.get(estacion=proyecion_estacion.estacion)
         except Proyeccion.DoesNotExist:
             proyeccion_estacion = ProyeccionEstacion.objects.create(
-                estacion=proyecion.estacion,
+                estacion=proyecion_estacion.estacion,
                 proyeccion=SALIO
             )
             send_mail(
-                'Salida de '+ proyeccion_estacion.estacion +' de la Proyeccion de Hardware',
-                'El Sitio '+ proyeccion_estacion.estacion +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion,
+                'Salida de '+ proyeccion_estacion.estacion.site_name +' de la Proyeccion de Hardware',
+                'El Sitio '+ proyeccion_estacion.estacion.site_name +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d'),
                 'notificaciones@nihardware.com',
                 [
                 'jbri.gap@nokia.com',
