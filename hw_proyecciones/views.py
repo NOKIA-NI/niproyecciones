@@ -822,6 +822,7 @@ def create_proyeccion_estacion_entro(request):
     # if request.headers["X-Appengine-Cron"]:
     proyeciones = Proyeccion.objects.all().order_by('estacion_id').distinct('estacion')
     proyeciones_estacion = ProyeccionEstacion.objects.all()
+    pk_list = []
 
     for proyecion in proyeciones:
         try:
@@ -831,19 +832,24 @@ def create_proyeccion_estacion_entro(request):
                 estacion=proyecion.estacion,
                 proyeccion=ENTRO
             )
-            send_mail(
-                'Entrada de '+ proyeccion_estacion.estacion.site_name +' a la Proyeccion de Hardware',
-                'El Sitio '+ proyeccion_estacion.estacion.site_name +' Entro a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d'),
-                'notificaciones@nihardware.com',
-                [
-                'jbri.gap@nokia.com',
-                'hw.proyections@nokia.com',
-                'administration.hw@nokia.com',
-                'hw_control_2.ni@nokia.com',
-                'csp_support.ni_co@nokia.com',
-                ],
-                fail_silently=False,
-            )
+            pk_list.append(proyeccion_estacion.estacion.pk)
+
+    estaciones = Estacion.objects.filter(pk__in=pk_list)
+    data = str([estacion.site_name for estacion in estaciones])
+    send_mail(
+        'Entrada de Sitios a la Proyeccion de Hardware',
+        'Sitios que Entraron a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
+        data,
+        'notificaciones@nihardware.com',
+        [
+        'jbri.gap@nokia.com',
+        'hw.proyections@nokia.com',
+        'administration.hw@nokia.com',
+        'hw_control_2.ni@nokia.com',
+        'csp_support.ni_co@nokia.com',
+        ],
+        fail_silently=False,
+    )
 
     return HttpResponse(status=204)
 
@@ -851,6 +857,7 @@ def create_proyeccion_estacion_salio(request):
     # if request.headers["X-Appengine-Cron"]:
     proyeciones_estacion = ProyeccionEstacion.objects.all()
     proyeciones = Proyeccion.objects.all().order_by('estacion_id').distinct('estacion')
+    pk_list = []
 
     for proyecion_estacion in proyeciones_estacion:
         try:
@@ -860,18 +867,23 @@ def create_proyeccion_estacion_salio(request):
                 estacion=proyecion_estacion.estacion,
                 proyeccion=SALIO
             )
-            send_mail(
-                'Salida de '+ proyeccion_estacion.estacion.site_name +' de la Proyeccion de Hardware',
-                'El Sitio '+ proyeccion_estacion.estacion.site_name +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d'),
-                'notificaciones@nihardware.com',
-                [
-                'jbri.gap@nokia.com',
-                'hw.proyections@nokia.com',
-                'administration.hw@nokia.com',
-                'hw_control_2.ni@nokia.com',
-                'csp_support.ni_co@nokia.com',
-                ],
-                fail_silently=False,
-            )
+            pk_list.append(proyeccion_estacion.estacion.pk)
+    
+    estaciones = Estacion.objects.filter(pk__in=pk_list)
+    data = str([estacion.site_name for estacion in estaciones])
+    send_mail(
+        'Salida de '+ proyeccion_estacion.estacion.site_name +' de la Proyeccion de Hardware',
+        'El Sitio '+ proyeccion_estacion.estacion.site_name +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
+        data,
+        'notificaciones@nihardware.com',
+        [
+        'jbri.gap@nokia.com',
+        'hw.proyections@nokia.com',
+        'administration.hw@nokia.com',
+        'hw_control_2.ni@nokia.com',
+        'csp_support.ni_co@nokia.com',
+        ],
+        fail_silently=False,
+    )
 
     return HttpResponse(status=204)
