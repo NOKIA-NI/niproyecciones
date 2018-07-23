@@ -835,7 +835,8 @@ def create_proyeccion_estacion_entro(request):
             pk_list.append(proyeccion_estacion.estacion.pk)
 
     estaciones = Estacion.objects.filter(pk__in=pk_list)
-    data = str([estacion.site_name for estacion in estaciones])
+    data = [estacion.site_name for estacion in estaciones]
+    data = ', '.join(data)
     send_mail(
         'Entrada de Sitios a la Proyeccion de Hardware',
         'Sitios que Entraron a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
@@ -870,7 +871,8 @@ def create_proyeccion_estacion_salio(request):
             pk_list.append(proyeccion_estacion.estacion.pk)
     
     estaciones = Estacion.objects.filter(pk__in=pk_list)
-    data = str([estacion.site_name for estacion in estaciones])
+    data = [estacion.site_name for estacion in estaciones]
+    data = ', '.join(data)
     send_mail(
         'Salida de '+ proyeccion_estacion.estacion.site_name +' de la Proyeccion de Hardware',
         'El Sitio '+ proyeccion_estacion.estacion.site_name +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
