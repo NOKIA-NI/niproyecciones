@@ -874,8 +874,8 @@ def create_proyeccion_estacion_salio(request):
     data = [estacion.site_name for estacion in estaciones]
     data = ', '.join(data)
     send_mail(
-        'Salida de '+ proyeccion_estacion.estacion.site_name +' de la Proyeccion de Hardware',
-        'El Sitio '+ proyeccion_estacion.estacion.site_name +' Salio de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
+        'Salida de Sitios de la Proyeccion de Hardware',
+        'Sitios que Salieron de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
         data,
         'notificaciones@nihardware.com',
         [

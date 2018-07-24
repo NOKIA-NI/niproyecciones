@@ -5,6 +5,8 @@ DetailTarea,
 # CreateTarea,
 # UpdateTarea,
 # DeleteTarea,
+SearchTarea,
+FilterTarea,
 
 get_task_status,
 )
@@ -17,6 +19,8 @@ urlpatterns = [
     # path('create/tarea/', CreateTarea.as_view(), name='create_tarea'),
     # path('update/tarea/<int:pk>/', UpdateTarea.as_view(), name='update_tarea'),
     # path('delete/tarea/<int:pk>/', DeleteTarea.as_view(), name='delete_tarea'),
+    path('search/tarea/', SearchTarea.as_view(), name='search_tarea'),
+    path('filter/tarea/', FilterTarea.as_view(), name='filter_tarea'),
 
     path('get/task/status/', get_task_status, name='get_task_status'),
 ]
