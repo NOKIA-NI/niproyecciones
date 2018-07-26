@@ -33,10 +33,7 @@ class Consulta(models.Model):
         if self.contenido is not None:
             with connection.cursor() as cursor:
                 cursor.execute(self.contenido)
-                # data = cursor.fetchall()
                 columns = [col[0] for col in cursor.description]
                 data = [dict(zip(columns, row)) for row in cursor.fetchall()]
-                print(data)
-            self.data = data
-            # self.data = json.dumps(data)
+            self.data = json.dumps(data, default=str)
         super(Consulta, self).save(*args, **kwargs)

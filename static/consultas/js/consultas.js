@@ -1,16 +1,19 @@
-// event.PreventDefault()
-// event.stopPropagation()
-
-$('#table_consulta').on('click', '.clickable-row', function(event) {
-    $(this).addClass('active').siblings().removeClass('active');
-    $('#update').removeClass('disabled');
-    $('#delete').removeClass('disabled');
-    $('#action').removeClass('disabled');
-    var data = $(this);
-    var id = data[0].cells[0].innerText
+window.url_create = '/consultas/create/consulta/';
+$('#table_consulta').on('click', '.checkeable-row', function() {
+    $('.checkeable-row').not(this).prop('checked', false);
+    if ($('.checkeable-row').is(':checked')) {
+        $('#update').removeClass('disabled');
+        $('#delete').removeClass('disabled');
+        $('#action').removeClass('disabled');
+    } else {
+        $('#update').addClass('disabled');
+        $('#delete').addClass('disabled');
+        $('#action').addClass('disabled');
+    }
+    var data = $(this).parent().parent();
+    var id = data[0].cells[1].innerText
     window.url_update = '/consultas/update/consulta'+ '/' +  id + '/';
     window.url_delete = '/consultas/delete/consulta'+ '/' +  id + '/';
-    window.url_detail = '/consultas/detail/consulta'+ '/' +  id + '/';
   });
   
   function create_consulta (url) {
@@ -18,10 +21,6 @@ $('#table_consulta').on('click', '.clickable-row', function(event) {
       $(this).modal('show');
     });
     event.stopPropagation()
-  }
-
-  function detail_consulta (url_detail) {
-    window.location.href=url_detail;
   }
   
   function update_consulta (url_update) {

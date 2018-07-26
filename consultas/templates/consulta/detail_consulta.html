@@ -16,19 +16,51 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 mt-2 border-bottom">
     <h2 class="text-dark">Consultas</h2>
   </div>
-
-{{ object.data }}
-
-<table id="table">
-    <thead>
-        <tr>
-            <th data-field="id">Item ID</th>
-            <th data-field="nombre">Item Name</th>
-            <th data-field="descripcion">Item Price</th>
-        </tr>
-    </thead>
-</table>
-  
+<table id="table_consulta" class="table table-striped table-sm" width="100%"></table>
 </main>
 
 {% endblock content_dashboard %}
+
+{% block extra_js %}
+<script>
+var objectData = '{{ object.data }}';
+console.log('objectData', objectData.replace(/(&quot\;)/g,"\""))
+var data = JSON.parse(objectData.replace(/(&quot\;)/g,"\""));
+console.log('data', data)
+var columns = []
+$.each(data[0] , function(key, value) {
+    columns.push(key);
+}); 
+columnsData = []
+columns.forEach(element => {
+    columnsData.push({ "mData": element })
+})
+columnsDataDef = []
+var i= 0;
+columns.forEach(element => {
+    columnsDataDef.push({ "sTitle": element, "aTargets": [i] });
+    i++
+})
+$('#table_consulta').DataTable({
+    // "bProcessing": true,
+    dom: 'Bfrtip',
+    buttons: [
+    'pageLength',
+    'excelHtml5',
+    ],
+    "aaData": data,
+    "aoColumns":columnsData,
+    // "aoColumns": [
+    //     { "mData": 'id' },
+    //     { "mData": 'site_name' },
+    //     { "mData": 'region' },
+    // ],
+    'aoColumnDefs': columnsDataDef,
+    // 'aoColumnDefs': [                              
+    //     { "sTitle": "id", "aTargets": [0] },    
+    //     { "sTitle": "site_name", "aTargets": [1] },
+    //     { "sTitle": "region", "aTargets": [2] },
+    // ],
+});
+</script>
+{% endblock extra_js %}

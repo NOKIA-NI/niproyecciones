@@ -15,6 +15,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Consulta
 from .forms import ConsultaForm, FilterConsultaForm
+import operator
+from django.db.models import Q
+from functools import reduce
 
 class ListConsulta(LoginRequiredMixin,
                    PermissionRequiredMixin,
@@ -36,7 +39,47 @@ class ListConsulta(LoginRequiredMixin,
         context['all_items'] = str(Consulta.objects.all().count())
         context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
         context['query'] = self.request.GET.get('qs')
-        # context['estacion_form'] = self.estacion_form
+        return context
+
+class SearchConsulta(ListConsulta):
+
+    def get_queryset(self):
+        queryset = super(SearchConsulta, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(nombre__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(descripcion__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(tipo_consulta__icontains=q) for q in query_list))
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchConsulta, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterConsulta(ListConsulta):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterConsulta, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterConsulta, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
         return context
 
 class DetailConsulta(LoginRequiredMixin,
@@ -56,7 +99,6 @@ class CreateConsulta(LoginRequiredMixin,
     success_message = "%(nombre)s fue creada exitosamente"
     form_class = ConsultaForm
     template_name = 'consulta/includes/partials/create_consulta.html'
-    # success_url = '/detail/consulta/'
 
 class UpdateConsulta(LoginRequiredMixin,
                      PermissionRequiredMixin,
@@ -68,7 +110,6 @@ class UpdateConsulta(LoginRequiredMixin,
     model = Consulta
     form_class = ConsultaForm
     template_name = 'consulta/includes/partials/update_consulta.html'
-    # success_url = '/detail/consulta/'
 
 class DeleteConsulta(LoginRequiredMixin,
                      PermissionRequiredMixin,

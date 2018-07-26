@@ -21,7 +21,7 @@
     <h2 class="text-dark">Consultas</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary" onclick="return create_consulta('{% url 'consultas:create_consulta' %}')">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_consulta(url_create)">
           <span data-feather="plus"></span>
           Crear
         </button>
@@ -44,7 +44,7 @@
           Accion
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#" id="detail" onclick="return detail_consulta(url_detail)">Detalle</a>
+          <a class="dropdown-item" href="#">Link</a>
           <a class="dropdown-item" href="#">link</a>
         </div>
       </div>

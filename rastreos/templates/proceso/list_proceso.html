@@ -21,7 +21,7 @@
     <h2 class="text-dark">Procesos</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary" onclick="return create_proceso(url_create_proceso)">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_proceso(url_create)">
           <span data-feather="plus"></span>
           Crear
         </button>
@@ -100,5 +100,5 @@
 {% endblock filter %}
 
 {% block extra_js %}
-<script src="{% static 'rastreos/js/rastreos.js' %}"></script>
+<script src="{% static 'rastreos/js/procesos.js' %}"></script>
 {% endblock extra_js %}

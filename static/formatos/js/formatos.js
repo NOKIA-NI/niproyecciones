@@ -1,6 +1,3 @@
-// event.PreventDefault()
-// event.stopPropagation()
-
 $('#table_formato_estacion').on('click', '.clickable-row', function(event) {
     $(this).addClass('active').siblings().removeClass('active');
     $('#update').removeClass('disabled');
@@ -10,7 +7,6 @@ $('#table_formato_estacion').on('click', '.clickable-row', function(event) {
     var id = data[0].cells[0].innerText
     window.url_update = '/formato_estacions/update/formato_estacion'+ '/' +  id + '/';
     window.url_delete = '/formato_estacions/delete/formato_estacion'+ '/' +  id + '/';
-    window.url_detail = '/formato_estacions/detail/formato_estacion'+ '/' +  id + '/';
   });
   
   function create_formato_estacion (url) {
@@ -18,10 +14,6 @@ $('#table_formato_estacion').on('click', '.clickable-row', function(event) {
       $(this).modal('show');
     });
     event.stopPropagation()
-  }
-
-  function detail_formato_estacion (url_detail) {
-    window.location.href=url_detail;
   }
   
   function update_formato_estacion (url_update) {
@@ -55,7 +47,6 @@ $('#table_formato_estacion').on('click', '.clickable-row', function(event) {
     var id = data[0].cells[0].innerText
     window.url_update = '/formato_partes/update/formato_parte'+ '/' +  id + '/';
     window.url_delete = '/formato_partes/delete/formato_parte'+ '/' +  id + '/';
-    window.url_detail = '/formato_partes/detail/formato_parte'+ '/' +  id + '/';
   });
   
   function create_formato_parte (url) {
@@ -63,10 +54,6 @@ $('#table_formato_estacion').on('click', '.clickable-row', function(event) {
       $(this).modal('show');
     });
     event.stopPropagation()
-  }
-
-  function detail_formato_parte (url_detail) {
-    window.location.href=url_detail;
   }
   
   function update_formato_parte (url_update) {

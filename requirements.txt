@@ -10,3 +10,4 @@ django-sendgrid-v5
 celery
 redis
 git+https://github.com/Supervisor/supervisor
+openpyxl==2.4.9

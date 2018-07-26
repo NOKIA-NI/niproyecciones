@@ -1,5 +1,3 @@
-// event.PreventDefault()
-// event.stopPropagation()
 $('#sidebar-toggle').on('click', function (event) {
   $('.sidebar').toggleClass('d-md-block');
   $('#dashboard').toggleClass('content_dashboard');
@@ -62,7 +60,6 @@ function search_url (form) {
   var url_search_existencia = '/existencias/search/existencia/'
   var url_search_resultado = '/resultados/search/resultado/'
   var url_search_impacto = '/impactos/search/impacto/'
-  var url_search_consulta = '/consultas/search/consulta/'
   var url_search_formato_estacion = '/formatos/search/formato/estacion/'
   var url_search_formato_parte = '/formatos/search/formato/parte/'
   var url_search_formato_claro = '/formatos/search/formato/claro/'
@@ -75,6 +72,7 @@ function search_url (form) {
   var url_search_perfil_rastreo = '/rastreos/search/perfil/rastreo/'
   var url_search_perfil_proceso = '/rastreos/search/perfil/proceso/'
   var url_search_tarea = '/tareas/search/tarea/'
+  var url_search_consulta = '/consultas/search/consulta/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
@@ -142,7 +140,6 @@ function filter_url (form) {
   var url_filter_existencia= '/existencias/filter/existencia/'
   var url_filter_resultado= '/resultados/filter/resultado/'
   var url_filter_impacto= '/impactos/filter/impacto/'
-  var url_filter_consulta = '/consultas/filter/consulta/'
   var url_filter_formato_estacion = '/formatos/filter/formato/estacion/'
   var url_filter_formato_parte = '/formatos/filter/formato/parte/'
   var url_filter_formato_claro = '/formatos/filter/formato/claro/'
@@ -155,6 +152,7 @@ function filter_url (form) {
   var url_filter_perfil_rastreo = '/rastreos/filter/perfil/rastreo/'
   var url_filter_perfil_proceso = '/rastreos/filter/perfil/proceso/'
   var url_filter_tarea = '/tareas/filter/tarea/'
+  var url_filter_consulta = '/consultas/filter/consulta/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
