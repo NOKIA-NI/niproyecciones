@@ -9,7 +9,7 @@ from django.db.models import Sum
 from django.utils import timezone
 import datetime
 from django.core.mail import send_mail, EmailMessage
-from hw_proyecciones.resources import HwProyeccionResource
+from proyecciones.resources import ProyeccionResource
 
 TODAY = timezone.now().date()
 # TODAY = datetime.date.today()
@@ -891,9 +891,9 @@ def create_proyeccion_estacion_salio(request):
 
     return HttpResponse(status=204)
 
-def send_mail_hw_proyeccion(request):
+def send_mail_proyeccion(request):
     # if request.headers["X-Appengine-Cron"]:
-    proyeccion_resource = HwProyeccionResource()
+    proyeccion_resource = ProyeccionResource()
     proyeccion = proyeccion_resource.export()
     filename = 'Proyeccion-' + TODAY.strftime('%Y-%m-%d') + '.xlsx'
     content = proyeccion.xlsx
@@ -907,7 +907,9 @@ def send_mail_hw_proyeccion(request):
         'hw.proyections@nokia.com',
         'administration.hw@nokia.com',
         'hw_control_2.ni@nokia.com',
+        'hw_control.ni@nokia.com',
         'csp_support.ni_co@nokia.com',
+        'camilo.lozano@nokia.com',
         ],
         )
     message.attach(filename, content, mimetype)

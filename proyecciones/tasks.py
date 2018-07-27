@@ -23,7 +23,9 @@ def send_mail_proyeccion():
         'hw.proyections@nokia.com',
         'administration.hw@nokia.com',
         'hw_control_2.ni@nokia.com',
+        'hw_control.ni@nokia.com',
         'csp_support.ni_co@nokia.com',
+        'camilo.lozano@nokia.com',
         ],
         )
     message.attach(filename, content, mimetype)
