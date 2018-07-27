@@ -19,16 +19,6 @@ except:
     pass
 
 @shared_task
-def send_mail():
-    _send_mail(
-    'Test Email',
-    'This is a Test Email',
-    'notificaciones@nihardware.com',
-    ['jbri.gap@nokia.com', 'jucebridu@gmail.com'],
-    fail_silently=False,
-    )
-
-@shared_task
 def task_create_formato_estacion():
     FormatoEstacion.objects.all().delete()
     FormatoClaroTotal.objects.all().delete()

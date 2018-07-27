@@ -20,6 +20,8 @@ calculate_consumo_nokia,
 
 create_proyeccion_estacion_entro,
 create_proyeccion_estacion_salio,
+
+send_mail_hw_proyeccion,
 )
 
 app_name = 'hw_proyecciones'
@@ -45,4 +47,6 @@ urlpatterns = [
 
     path('create/proyeccion/estacion/entro/', create_proyeccion_estacion_entro, name='create_proyeccion_estacion_entro'),
     path('create/proyeccion/estacion/salio/', create_proyeccion_estacion_salio, name='create_proyeccion_estacion_salio'),
+
+    path('send/mail/hw/proyeccion/', send_mail_hw_proyeccion, name='send_mail_hw_proyeccion'),
 ]

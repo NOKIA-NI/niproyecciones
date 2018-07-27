@@ -42,25 +42,16 @@ columns.forEach(element => {
     i++
 })
 $('#table_consulta').DataTable({
-    // "bProcessing": true,
     dom: 'Bfrtip',
+    "scrollX": true,
     buttons: [
     'pageLength',
+    'colvis',
     'excelHtml5',
     ],
     "aaData": data,
     "aoColumns":columnsData,
-    // "aoColumns": [
-    //     { "mData": 'id' },
-    //     { "mData": 'site_name' },
-    //     { "mData": 'region' },
-    // ],
     'aoColumnDefs': columnsDataDef,
-    // 'aoColumnDefs': [                              
-    //     { "sTitle": "id", "aTargets": [0] },    
-    //     { "sTitle": "site_name", "aTargets": [1] },
-    //     { "sTitle": "region", "aTargets": [2] },
-    // ],
 });
 </script>
 {% endblock extra_js %}

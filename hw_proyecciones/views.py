@@ -8,7 +8,8 @@ from hw_actividades.models import HwActividad
 from django.db.models import Sum
 from django.utils import timezone
 import datetime
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
+from hw_proyecciones.resources import HwProyeccionResource
 
 TODAY = timezone.now().date()
 # TODAY = datetime.date.today()
@@ -887,5 +888,29 @@ def create_proyeccion_estacion_salio(request):
         ],
         fail_silently=False,
     )
+
+    return HttpResponse(status=204)
+
+def send_mail_hw_proyeccion(request):
+    # if request.headers["X-Appengine-Cron"]:
+    proyeccion_resource = HwProyeccionResource()
+    proyeccion = proyeccion_resource.export()
+    filename = 'Proyeccion-' + TODAY.strftime('%Y-%m-%d') + '.xlsx'
+    content = proyeccion.xlsx
+    mimetype = 'application/vnd.ms-excel'
+    message = EmailMessage(
+        'Proyecciones de Hardware',
+        'Proyecciones de Hardware ' + TODAY.strftime('%Y-%m-%d'),
+        'notificaciones@nihardware.com',
+        [
+        'jbri.gap@nokia.com',
+        'hw.proyections@nokia.com',
+        'administration.hw@nokia.com',
+        'hw_control_2.ni@nokia.com',
+        'csp_support.ni_co@nokia.com',
+        ],
+        )
+    message.attach(filename, content, mimetype)
+    message.send(fail_silently=False)
 
     return HttpResponse(status=204)

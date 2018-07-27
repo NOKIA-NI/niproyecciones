@@ -220,6 +220,7 @@ SECURE_REDIRECT_EXEMPT = ['create/hw/estacion/',
                           'calculate/tipo/impacto/',
                           'create/proyeccion/estacion/entro/',
                           'create/proyeccion/estacion/salio/',
+                          'send/mail/hw/proyeccion/',
                          ]
 
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'

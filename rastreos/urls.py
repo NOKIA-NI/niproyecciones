@@ -12,7 +12,6 @@ ListPerfilRastreo,
 DetailPerfilRastreo,
 SearchPerfilRastreo,
 FilterPerfilRastreo,
-testemail,
 
 ListProceso,
 DetailProceso,
@@ -38,7 +37,6 @@ urlpatterns = [
     path('delete/rastreo/<int:pk>/', DeleteRastreo.as_view(), name='delete_rastreo'),
     path('search/rastreo/', SearchRastreo.as_view(), name='search_rastreo'),
     path('filter/rastreo/', FilterRastreo.as_view(), name='filter_rastreo'),
-    path('testemail', testemail, name='testemail'),
 
     path('list/perfil/rastreo/', ListPerfilRastreo.as_view(), name='list_perfil_rastreo'),
     path('detail/perfil/rastreo/<int:pk>/', DetailPerfilRastreo.as_view(), name='detail_perfil_rastreo'),

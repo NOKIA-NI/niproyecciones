@@ -16,31 +16,31 @@ $('#table_consulta').on('click', '.checkeable-row', function() {
     window.url_delete = '/consultas/delete/consulta'+ '/' +  id + '/';
   });
   
-  function create_consulta (url) {
-    $('#create_consulta').load(url, function() {
-      $(this).modal('show');
-    });
-    event.stopPropagation()
-  }
-  
-  function update_consulta (url_update) {
-    $('#update_consulta').load(url_update, function() {
-      $(this).modal('show')
-    });
-    event.stopPropagation()
-  }
-  
-  function delete_consulta (url_delete) {
-    $('#delete_consulta').load(url_delete, function() {
-      $(this).modal('show')
-    });
-    event.stopPropagation()
-  }
-  
-  function update_url_consulta (form) {
-    form.action = url_update;
-  }
-  
-  function delete_url_consulta (form) {
-    form.action = url_delete;
-  }
+function create_consulta (url) {
+  $('#create_consulta').load(url, function() {
+    $(this).modal('show');
+  });
+  event.stopPropagation()
+}
+
+function update_consulta (url_update) {
+  $('#update_consulta').load(url_update, function() {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
+}
+
+function delete_consulta (url_delete) {
+  $('#delete_consulta').load(url_delete, function() {
+    $(this).modal('show')
+  });
+  event.stopPropagation()
+}
+
+function update_url_consulta (form) {
+  form.action = url_update;
+}
+
+function delete_url_consulta (form) {
+  form.action = url_delete;
+}

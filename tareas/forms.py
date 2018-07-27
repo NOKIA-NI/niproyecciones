@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from .models import Tarea, GrupoTarea
 
 class GrupoTareaForm(ModelForm):
+    
     class Meta:
         model = GrupoTarea
         fields = '__all__'
@@ -15,6 +16,7 @@ class FilterGrupoTareaForm(ModelForm):
         fields = ('nombre',)
 
 class TareaForm(ModelForm):
+
     class Meta:
         model = Tarea
         fields = '__all__'

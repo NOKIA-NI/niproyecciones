@@ -18,12 +18,6 @@ import operator
 from django.db.models import Q
 from functools import reduce
 from users.models import Perfil
-from formatos.tasks import send_mail
-
-def testemail(request):
-    task = send_mail.delay()
-    print(task.id)
-    return HttpResponse(status=204)
 
 class ListRastreo(LoginRequiredMixin,
                             ListView,

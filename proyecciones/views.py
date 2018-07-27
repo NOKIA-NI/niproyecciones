@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import (
 TemplateView,
 ListView,
@@ -15,7 +16,7 @@ import operator
 from django.db.models import Q
 from functools import reduce
 from .resources import ProyeccionResource
-from django.http import HttpResponse
+from .tasks import send_mail_proyeccion
 
 class ListProyeccion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -115,3 +116,8 @@ def export_proyeccion(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Proyeccion.xlsx"'
     return response
+
+def send_proyeccion(request):
+    task = send_mail_proyeccion.delay()
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)

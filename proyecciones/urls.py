@@ -8,6 +8,7 @@ DeleteProyeccion,
 SearchProyeccion,
 FilterProyeccion,
 export_proyeccion,
+send_proyeccion,
 )
 
 app_name = 'proyecciones'
@@ -21,4 +22,5 @@ urlpatterns = [
     path('search/proyeccion/web/', SearchProyeccion.as_view(), name='search_proyeccion_web'),
     path('filter/proyeccion/web/', FilterProyeccion.as_view(), name='filter_proyeccion_web'),
     path('export/proyeccion/web/', export_proyeccion, name='export_proyeccion'),
+    path('send/proyeccion/', send_proyeccion, name='send_proyeccion'),
 ]
