@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'impactos.apps.ImpactosConfig',
     'formatos.apps.FormatosConfig',
     'rastreos.apps.RastreosConfig',
-    # third
+    # thirds
     'crispy_forms',
     'import_export',
     'storages',
@@ -209,6 +209,7 @@ CSRF_COOKIE_SECURE = True
 
 SECURE_REDIRECT_EXEMPT = ['create/hw/estacion/',
                           'update/hw/estacion/',
+                          'delete/hw/estacion/',
                           'delete/hw/proyeccion/',
                           'create/hw/proyeccion/',
                           'update/hw/proyeccion/',
