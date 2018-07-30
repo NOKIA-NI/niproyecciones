@@ -827,31 +827,35 @@ def create_proyeccion_estacion_entro(request):
 
     for proyecion in proyeciones:
         try:
-            proyeccion_estacion = ProyeccionEstacion.objects.get(estacion=proyecion.estacion)
-        except ProyeccionEstacion.DoesNotExist:
-            proyeccion_estacion = ProyeccionEstacion.objects.create(
+            proyeccion_estacion = ProyeccionEstacion.objects.filter(estacion=proyecion.estacion).last()
+            if proyeccion_estacion and proyeccion_estacion.proyeccion == SALIO:
+                print(proyeccion_estacion, proyeccion_estacion.proyeccion)
+                proyeccion_estacion = ProyeccionEstacion.objects.create(
                 estacion=proyecion.estacion,
                 proyeccion=ENTRO
-            )
-            pk_list.append(proyeccion_estacion.estacion.pk)
+                )
+                pk_list.append(proyeccion_estacion.estacion.pk)
+        except ProyeccionEstacion.DoesNotExist:
+            pass
 
-    estaciones = Estacion.objects.filter(pk__in=pk_list)
-    data = [estacion.site_name for estacion in estaciones]
-    data = ', '.join(data)
-    send_mail(
-        'Entrada de Sitios a la Proyeccion de Hardware',
-        'Sitios que Entraron a la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
-        data,
-        'notificaciones@nihardware.com',
-        [
-        'jbri.gap@nokia.com',
-        'hw.proyections@nokia.com',
-        'administration.hw@nokia.com',
-        'hw_control_2.ni@nokia.com',
-        'csp_support.ni_co@nokia.com',
-        ],
-        fail_silently=False,
-    )
+    if len(pk_list) >= 1:
+        estaciones = Estacion.objects.filter(pk__in=pk_list)
+        data = [estacion.site_name for estacion in estaciones]
+        data = ', '.join(data)
+        send_mail(
+            'Entrada de Sitios a la Proyeccion de Hardware',
+            'Sitios que Entraron a la Proyeccion de Hardware el '+ TODAY.strftime('%Y-%m-%d') +'\n'+'\n'+ \
+            data,
+            'notificaciones@nihardware.com',
+            [
+            'jbri.gap@nokia.com',
+            'hw.proyections@nokia.com',
+            'administration.hw@nokia.com',
+            'hw_control_2.ni@nokia.com',
+            'csp_support.ni_co@nokia.com',
+            ],
+            fail_silently=False,
+        )
 
     return HttpResponse(status=204)
 
@@ -865,29 +869,32 @@ def create_proyeccion_estacion_salio(request):
         try:
             proyeccion = proyeciones.get(estacion=proyecion_estacion.estacion)
         except Proyeccion.DoesNotExist:
-            proyeccion_estacion = ProyeccionEstacion.objects.create(
-                estacion=proyecion_estacion.estacion,
-                proyeccion=SALIO
-            )
-            pk_list.append(proyeccion_estacion.estacion.pk)
+            proyeccion_estacion = ProyeccionEstacion.objects.filter(estacion=proyecion_estacion.estacion).last()
+            if proyeccion_estacion.proyeccion == ENTRO:
+                proyeccion_estacion = ProyeccionEstacion.objects.create(
+                    estacion=proyecion_estacion.estacion,
+                    proyeccion=SALIO
+                )
+                pk_list.append(proyeccion_estacion.estacion.pk)
     
-    estaciones = Estacion.objects.filter(pk__in=pk_list)
-    data = [estacion.site_name for estacion in estaciones]
-    data = ', '.join(data)
-    send_mail(
-        'Salida de Sitios de la Proyeccion de Hardware',
-        'Sitios que Salieron de la Proyeccion de Hardware el '+ proyeccion_estacion.fecha_proyeccion.strftime('%Y-%m-%d') +'\n'+'\n'+ \
-        data,
-        'notificaciones@nihardware.com',
-        [
-        'jbri.gap@nokia.com',
-        'hw.proyections@nokia.com',
-        'administration.hw@nokia.com',
-        'hw_control_2.ni@nokia.com',
-        'csp_support.ni_co@nokia.com',
-        ],
-        fail_silently=False,
-    )
+    if len(pk_list) >= 1:
+        estaciones = Estacion.objects.filter(pk__in=pk_list)
+        data = [estacion.site_name for estacion in estaciones]
+        data = ', '.join(data)
+        send_mail(
+            'Salida de Sitios de la Proyeccion de Hardware',
+            'Sitios que Salieron de la Proyeccion de Hardware el '+ TODAY.strftime('%Y-%m-%d') +'\n'+'\n'+ \
+            data,
+            'notificaciones@nihardware.com',
+            [
+            'jbri.gap@nokia.com',
+            'hw.proyections@nokia.com',
+            'administration.hw@nokia.com',
+            'hw_control_2.ni@nokia.com',
+            'csp_support.ni_co@nokia.com',
+            ],
+            fail_silently=False,
+        )
 
     return HttpResponse(status=204)
 
