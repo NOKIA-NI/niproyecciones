@@ -37,6 +37,7 @@ urlpatterns = [
     path('impactos/', include('impactos.urls', namespace='impactos')),
     path('formatos/', include('formatos.urls', namespace='formatos')),
     path('rastreos/', include('rastreos.urls', namespace='rastreos')),
+    path('asignaciones/', include('asignaciones.urls', namespace='asignaciones')),
 ]
 
 if settings.DEBUG:

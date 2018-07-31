@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'impactos.apps.ImpactosConfig',
     'formatos.apps.FormatosConfig',
     'rastreos.apps.RastreosConfig',
+    'asignaciones.apps.AsignacionesConfig',
     # thirds
     'crispy_forms',
     'import_export',
@@ -237,7 +238,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
 REDIS = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=6379, db=0)
-print('REDIS: ', REDIS.keys())
 
 try:
     from local_settings import *

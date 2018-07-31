@@ -46,6 +46,15 @@ $('#rastreos').on('shown.bs.collapse', function() {
     $('#rastreosClose').hide()
   });
 
+$('#asignacionesClose').hide()
+$('#asignaciones').on('shown.bs.collapse', function() {
+  $('#asignacionesOpen').hide()
+  $('#asignacionesClose').show()
+  }).on('hidden.bs.collapse', function() {
+    $('#asignacionesOpen').show()
+    $('#asignacionesClose').hide()
+  });
+
 
 function search_url (form) {
   var current_url = window.location.href
@@ -73,6 +82,9 @@ function search_url (form) {
   var url_search_perfil_proceso = '/rastreos/search/perfil/proceso/'
   var url_search_tarea = '/tareas/search/tarea/'
   var url_search_consulta = '/consultas/search/consulta/'
+  var url_search_asignacion_bulk = '/asignaciones/search/asignacion/bulk/'
+  var url_search_asignacion_antena = '/asignaciones/search/asignacion/antena/'
+  var url_search_estado_po = '/asignaciones/search/estado/po/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
@@ -122,6 +134,12 @@ function search_url (form) {
     form.action = url_search_proceso;
   } else if (current_url.includes('/tarea/')) {
     form.action = url_search_tarea;
+  } else if (current_url.includes('/asignacion/bulk/')) {
+    form.action = url_search_asignacion_bulk;
+  } else if (current_url.includes('/asignacion/antena/')) {
+    form.action = url_search_asignacion_antena;
+  } else if (current_url.includes('/estado/po/')) {
+    form.action = url_search_estado_po;
   } else {
     form.action = ''
   }
@@ -153,6 +171,9 @@ function filter_url (form) {
   var url_filter_perfil_proceso = '/rastreos/filter/perfil/proceso/'
   var url_filter_tarea = '/tareas/filter/tarea/'
   var url_filter_consulta = '/consultas/filter/consulta/'
+  var url_filter_asignacion_bulk = '/asignaciones/filter/asignacion/bulk/'
+  var url_filter_asignacion_antena = '/asignaciones/filter/asignacion/antena/'
+  var url_filter_estado_po = '/asignaciones/filter/estado/po/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
@@ -202,6 +223,12 @@ function filter_url (form) {
     form.action = url_filter_proceso;
   } else if (current_url.includes('/tarea/')) {
     form.action = url_filter_tarea;
+  } else if (current_url.includes('/asignacion/bulk/')) {
+    form.action = url_filter_asignacion_bulk;
+  } else if (current_url.includes('/asignacion/antena/')) {
+    form.action = url_filter_asignacion_antena;
+  } else if (current_url.includes('/estado/po/')) {
+    form.action = url_filter_estado_po;
   } else {
     form.action = ''
   }

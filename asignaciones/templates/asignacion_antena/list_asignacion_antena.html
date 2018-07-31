@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filter_tags %}
+{% block title %}Asignaciones Antena{% endblock title %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'asignaciones/css/asignacion_antena.css' %}"/>
+{% endblock extra_css %}
+
+{% block navbar %}
+{% include 'dashboard/includes/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block sidebar %}
+{% include 'dashboard/includes/partials/sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content_dashboard %}
+
+<main role="main" class="">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 border-bottom">
+    <h2 class="text-dark">Asignaciones Antena</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="return create_asignacion_antena(url_create)">
+          <span data-feather="plus"></span>
+          Crear
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="update" onclick="return update_asignacion_antena(url_update)">
+          <span data-feather="edit"></span>
+          Actualizar
+        </button>
+        <button class="btn btn-sm btn-outline-secondary disabled" id="delete" onclick="return delete_asignacion_antena(url_delete)">
+          <span data-feather="trash"></span>
+          Borrar
+        </button>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle mr-2  disabled" id="action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="play"></span>
+          Accion
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Detalle</a>
+          <a class="dropdown-item" href="#">link</a>
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-feather="calendar"></span>
+          Hoy
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Creado</a>
+          <a class="dropdown-item" href="#">Actualizado</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center">
+    {% if result %}
+    Se encontraron {{ result }} de  {{ all_items }} items
+    {% else %}
+    {% endif %}
+    <a class="nav-link btn btn-light btn-sm ml-3" href="#" id="filter-toggle"><span data-feather="menu"></span> Filtrar</a>
+  </div>
+  {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %} role="alert">
+      <strong>OK!</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+  {% endif %}
+  <div class="table-responsive">
+    <table class="table table-striped table-sm" id="table_asignacion">
+      <thead>
+        {% include 'asignacion_antena/includes/partials/head_asignacion_antena.html' %}
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          {% include 'asignacion_antena/includes/partials/body_asignacion_antena.html' %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> 
+</main>
+<div class="row border-bottom d-flex justify-content-end align-items-center mr-2">
+  {% include 'dashboard/includes/partials/nav_paginate.html' %}
+</div>
+<div class="modal fade" id="create_asignacion_antena" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div class="modal fade" id="update_asignacion_antena" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div class="modal fade" id="delete_asignacion_antena" tabindex="-1" role="dialog" aria-hidden="true"></div>
+{% endblock content_dashboard %}
+
+{% block filter %}
+{% include 'dashboard/includes/partials/filter.html' %}
+{% endblock filter %}
+
+{% block extra_js %}
+<script src="{% static 'asignaciones/js/asignacion_antena.js' %}"></script>
+{% endblock extra_js %}

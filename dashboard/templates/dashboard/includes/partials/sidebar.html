@@ -164,6 +164,28 @@
             Procesos
           </a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#asignaciones">
+            <span data-feather="file-text"></span>
+            Asignaciones
+            <span data-feather="chevron-down" id="asignacionesOpen"></span>
+            <span data-feather="chevron-up" id="asignacionesClose"></span>
+          </a>
+        </li>
+        <li class="nav-item collapse multi-collapse ml-3" id="asignaciones">
+            <a {% if request.resolver_match.url_name == 'list_asignacion_bulk' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_asignacion_bulk' %}">
+              <span data-feather="copy"></span>
+              Asignaciones Bulk
+            </a>
+            <a {% if request.resolver_match.url_name == 'list_asignacion_antena' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_asignacion_antena' %}">
+              <span data-feather="copy"></span>
+              Asignaciones Antena
+            </a>
+            <a {% if request.resolver_match.url_name == 'list_estado_po' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_estado_po' %}">
+                <span data-feather="copy"></span>
+                Estado Po
+            </a>
+        </li>
     </ul>
   </div>
 </nav>

@@ -1,0 +1,13 @@
+<tr>
+    <td><input type="checkbox" class="checkeable-row"></td>
+    <td><a href="{% url 'asignaciones:detail_asignacion_bulk' object.id %}">{{ object.id }}</a></td>
+    <td>{{ object.parte }}</td>
+    <td>{{ object.cod_sap }}</td>
+    <td>{{ object.capex }}</td>
+    <td>{{ object.cantidad }}</td>
+    <td>{{ object.cod_bodega }}</td>
+    <td>{{ object.bodega }}</td>
+    <th>{{ object.comentario_bodega }}</th>
+    <th>{{ object.so }}</th>
+    <th>{{ object.po }}</th> 
+</tr>
