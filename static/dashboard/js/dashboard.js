@@ -85,6 +85,7 @@ function search_url (form) {
   var url_search_asignacion_bulk = '/asignaciones/search/asignacion/bulk/'
   var url_search_asignacion_antena = '/asignaciones/search/asignacion/antena/'
   var url_search_estado_po = '/asignaciones/search/estado/po/'
+  var url_search_po_zina = '/asignaciones/search/po/zina/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
@@ -140,6 +141,8 @@ function search_url (form) {
     form.action = url_search_asignacion_antena;
   } else if (current_url.includes('/estado/po/')) {
     form.action = url_search_estado_po;
+  } else if (current_url.includes('/po/zina/')) {
+    form.action = url_search_po_zina;
   } else {
     form.action = ''
   }
@@ -174,6 +177,7 @@ function filter_url (form) {
   var url_filter_asignacion_bulk = '/asignaciones/filter/asignacion/bulk/'
   var url_filter_asignacion_antena = '/asignaciones/filter/asignacion/antena/'
   var url_filter_estado_po = '/asignaciones/filter/estado/po/'
+  var url_filter_po_zina = '/asignaciones/filter/po/zina/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
@@ -229,6 +233,8 @@ function filter_url (form) {
     form.action = url_filter_asignacion_antena;
   } else if (current_url.includes('/estado/po/')) {
     form.action = url_filter_estado_po;
+  } else if (current_url.includes('/po/zina/')) {
+    form.action = url_filter_po_zina;
   } else {
     form.action = ''
   }

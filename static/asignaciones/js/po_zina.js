@@ -1,5 +1,5 @@
-window.url_create= '/asignaciones/create/estado/po/';
-$('#table_estado_po').on('change', '.checkeable-row', function() {
+window.url_create= '/asignaciones/create/po/zina/';
+$('#table_po_zina').on('change', '.checkeable-row', function() {
     $('.checkeable-row').not(this).prop('checked', false);
     if ($('.checkeable-row').is(':checked')) {
         $('#update').removeClass('disabled');
@@ -12,32 +12,32 @@ $('#table_estado_po').on('change', '.checkeable-row', function() {
     }
     var data = $(this).parent().parent();
     var id = data[0].cells[1].innerText
-    window.url_update = '/asignaciones/update/estado/po'+ '/' +  id + '/';
-    window.url_delete = '/asignaciones/delete/estado/po'+ '/' +  id + '/';
+    window.url_update = '/asignaciones/update/po/zina'+ '/' +  id + '/';
+    window.url_delete = '/asignaciones/delete/po/zina'+ '/' +  id + '/';
   });
 
-function create_estado_po (url) {
-    $('#create_estado_po').load(url, function() {
+function create_po_zina (url) {
+    $('#create_po_zina').load(url, function() {
         $(this).modal('show');
     });
 }
 
-function update_estado_po (url_update) {
-    $('#update_estado_po').load(url_update, function() {
+function update_po_zina (url_update) {
+    $('#update_po_zina').load(url_update, function() {
         $(this).modal('show')
     });
 }
 
-function delete_estado_po (url_delete) {
-    $('#delete_estado_po').load(url_delete, function() {
+function delete_po_zina (url_delete) {
+    $('#delete_po_zina').load(url_delete, function() {
         $(this).modal('show')
     });
 }
 
-function update_url_estado_po (form) {
+function update_url_po_zina (form) {
     form.action = url_update;
 }
 
-function delete_url_estado_po (form) {
+function delete_url_po_zina (form) {
     form.action = url_delete;
 }

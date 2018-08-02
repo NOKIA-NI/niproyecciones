@@ -12,8 +12,8 @@ $('#table_asignacion_bulk').on('change', '.checkeable-row', function() {
     }
     var data = $(this).parent().parent();
     var id = data[0].cells[1].innerText
-    window.url_update = '/asignaciones/update/asignacion_bulk'+ '/' +  id + '/';
-    window.url_delete = '/asignaciones/delete/asignacion_bulk'+ '/' +  id + '/';
+    window.url_update = '/asignaciones/update/asignacion/bulk'+ '/' +  id + '/';
+    window.url_delete = '/asignaciones/delete/asignacion/bulk'+ '/' +  id + '/';
   });
 
 function create_asignacion_bulk (url) {

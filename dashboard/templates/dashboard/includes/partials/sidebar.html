@@ -183,7 +183,11 @@
             </a>
             <a {% if request.resolver_match.url_name == 'list_estado_po' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_estado_po' %}">
                 <span data-feather="copy"></span>
-                Estado Po
+                Estados Po
+            </a>
+            <a {% if request.resolver_match.url_name == 'list_po_zina' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_po_zina' %}">
+                <span data-feather="copy"></span>
+                Pos Zina
             </a>
         </li>
     </ul>

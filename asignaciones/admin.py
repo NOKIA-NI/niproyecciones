@@ -4,12 +4,14 @@ from .models import (
     AsignacionBulk,
     AsignacionAntena,
     EstadoPo,
+    PoZina,
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
     AsignacionBulkResource,
     AsignacionAntenaResource,
     EstadoPoResource,
+    PoZinaResource,
 )
 
 @admin.register(AsignacionBulk)
@@ -46,6 +48,9 @@ class AsignacionAntenaAdmin(ImportExportModelAdmin):
     'cantidad',
     'cod_bodega',
     'bodega',
+    'comentario_bodega',
+    'so',
+    'po',
     'familia',
     'caracteristicas',
     'puertos',
@@ -95,3 +100,25 @@ class EstadoPoAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'estacion__site_name']
+
+@admin.register(PoZina)
+class PoZinaAdmin(ImportExportModelAdmin):
+    resource_class = PoZinaResource
+    list_display = (
+    'id',
+    'cpo_number',
+    'so_jumper',
+    'so_bts',
+    'project',
+    'site_name',
+    'material_description',
+    'parte_capex',
+    'quantity',
+    
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'site_name']

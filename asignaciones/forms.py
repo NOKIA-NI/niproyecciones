@@ -4,6 +4,7 @@ from .models import (
     AsignacionBulk,
     AsignacionAntena,
     EstadoPo,
+    PoZina,
 )
 
 class AsignacionBulkForm(ModelForm):
@@ -37,4 +38,15 @@ class FilterEstadoPoForm(ModelForm):
 
     class Meta:
         model = EstadoPo
+        fields = '__all__'
+
+class PoZinaForm(ModelForm):
+    class Meta:
+        model = PoZina
+        fields = '__all__'
+
+class FilterPoZinaForm(ModelForm):
+
+    class Meta:
+        model = PoZina
         fields = '__all__'

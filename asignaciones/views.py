@@ -16,6 +16,7 @@ from .models import (
     AsignacionBulk,
     AsignacionAntena,
     EstadoPo,
+    PoZina,
 )
 from .forms import (
     AsignacionBulkForm,
@@ -24,6 +25,8 @@ from .forms import (
     FilterAsignacionAntenaForm,
     EstadoPoForm,
     FilterEstadoPoForm,
+    PoZinaForm,
+    FilterPoZinaForm,
 )
 from .resources import (
     AsignacionBulkResource,
@@ -323,7 +326,7 @@ class SearchEstadoPo(ListEstadoPo):
                 reduce(operator.and_,
                           (Q(numero_po__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(estacion__site_name__icontains=q) for q in query_list)) |
+                          (Q(estacion__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(project__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
@@ -401,4 +404,108 @@ def export_estado_po(request):
     dataset = estado_po_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="EstadoPo.xlsx"'
+    return response
+
+class ListPoZina(LoginRequiredMixin,
+                            ListView,
+                            FormView):
+    login_url = 'users:home'
+    model = PoZina
+    template_name = 'po_zina/list_po_zina.html'
+    paginate_by = 15
+    form_class = FilterPoZinaForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListPoZina, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(PoZina.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class DetailPoZina(LoginRequiredMixin, DetailView):
+    login_url = 'users:home'
+    model = PoZina
+    template_name = 'po_zina/detail_po_zina.html'
+
+class CreatePoZina(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            CreateView):
+    login_url = 'users:home'
+    success_message = "Asignacion Antena fue creada exitosamente"
+    form_class = PoZinaForm
+    template_name = 'po_zina/includes/partials/create_po_zina.html'
+
+class UpdatePoZina(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            UpdateView):
+    login_url = 'users:home'
+    success_message = "Asignacion Antena fue actualizada exitosamente"
+    model = PoZina
+    form_class = PoZinaForm
+    template_name = 'po_zina/includes/partials/update_po_zina.html'
+
+class DeletePoZina(LoginRequiredMixin,
+                            DeleteView):
+    login_url = 'users:home'
+    model = PoZina
+    template_name = 'po_zina/includes/partials/delete_po_zina.html'
+    success_url = reverse_lazy('asignaciones:list_po_zina')
+
+class SearchPoZina(ListPoZina):
+
+    def get_queryset(self):
+        queryset = super(SearchPoZina, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(cpo_number__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(project__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(material_description__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte_capex__icontains=q) for q in query_list))
+            )
+            
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchPoZina, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterPoZina(ListPoZina):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterPoZina, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterPoZina, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_po_zina(request):
+    po_zina_resource = PoZinaResource()
+    query_dict = request.GET.dict()
+    queryset = PoZina.objects.filter(**query_dict)
+    dataset = po_zina_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="PoZina.xlsx"'
     return response

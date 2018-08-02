@@ -12,8 +12,8 @@ $('#table_asignacion_antena').on('change', '.checkeable-row', function() {
     }
     var data = $(this).parent().parent();
     var id = data[0].cells[1].innerText
-    window.url_update = '/asignaciones/update/asignacion_antena'+ '/' +  id + '/';
-    window.url_delete = '/asignaciones/delete/asignacion_antena'+ '/' +  id + '/';
+    window.url_update = '/asignaciones/update/asignacion/antena'+ '/' +  id + '/';
+    window.url_delete = '/asignaciones/delete/asignacion/antena'+ '/' +  id + '/';
   });
 
 function create_asignacion_antena (url) {

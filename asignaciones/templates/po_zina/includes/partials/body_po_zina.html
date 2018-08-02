@@ -1,0 +1,12 @@
+<tr>
+    <td><input type="checkbox" class="checkeable-row"></td>
+    <td><a href="{% url 'asignaciones:detail_po_zina' object.id %}">{{ object.id }}</a></td>
+    <td>{{ object.cpo_number }}</td>
+    <td>{{ object.so_jumper }}</td>
+    <td>{{ object.so_bts }}</td>
+    <td>{{ object.project }}</td>
+    <td>{{ object.site_name }}</td>
+    <td>{{ object.material_description }}</td>
+    <td>{{ object.parte_capex }}</td>
+    <td>{{ object.quantity }}</td>
+</tr>

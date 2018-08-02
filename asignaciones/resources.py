@@ -10,6 +10,7 @@ from .models import (
     AsignacionBulk,
     AsignacionAntena,
     EstadoPo,
+    PoZina,
     )
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -58,6 +59,9 @@ class AsignacionAntenaResource(resources.ModelResource):
         'cantidad',
         'cod_bodega',
         'bodega',
+        'comentario_bodega',
+        'so',
+        'po',
         'familia',
         'caracteristicas',
         'puertos',
@@ -69,10 +73,6 @@ class AsignacionAntenaResource(resources.ModelResource):
         )
 
 class EstadoPoResource(resources.ModelResource):
-    estacion = fields.Field(
-        column_name='estacion',
-        attribute='estacion',
-        widget=ForeignKeyWidget(Estacion, 'estacion'))
 
     class Meta:
         model = EstadoPo
@@ -103,6 +103,28 @@ class EstadoPoResource(resources.ModelResource):
         'share',
         'w_reviewed',
         'columna_924',
+
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class PoZinaResource(resources.ModelResource):
+
+    class Meta:
+        model = PoZina
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'cpo_number',
+        'so_jumper',
+        'so_bts',
+        'project',
+        'site_name',
+        'material_description',
+        'parte_capex',
+        'quantity',
 
         # 'estado',
         'subestado',
