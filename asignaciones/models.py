@@ -7,7 +7,7 @@ from partes import choices as partes_choices
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-ANTENAS = 'Antenas y Otros'
+ANTENAS = 'Antenas'
 
 class AsignacionBulk(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
@@ -47,8 +47,11 @@ class AsignacionBulk(models.Model):
 
     @receiver(post_save, sender=Parte)
     def save_asignacion_bulk(sender, instance, **kwargs):
-        if instance.grupo_parte != ANTENAS:
-            instance.asignacionbulk.save()
+        try:
+            if instance.grupo_parte != ANTENAS and instance.asignacionbulk:
+                instance.asignacionbulk.save()
+        except:
+            pass
 
 class AsignacionAntena(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
@@ -92,8 +95,11 @@ class AsignacionAntena(models.Model):
 
     @receiver(post_save, sender=Parte)
     def save_asignacion_Antena(sender, instance, **kwargs):
-        if instance.grupo_parte == ANTENAS:
-            instance.asignacionbulk.save()
+        try:
+            if instance.grupo_parte == ANTENAS and instance.asignacionantena:
+                instance.asignacionantena.save()
+        except:
+            pass
 
 class EstadoPo(models.Model):
     numero_po = models.BigIntegerField(blank=True, null=True, unique=True)

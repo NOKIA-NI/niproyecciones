@@ -3,7 +3,7 @@ GRUPO_PARTE_CHOICES = (
     ('', '---------'),
     ('Accesorios', 'Accesorios'),
     ('Modulos', 'Modulos'),
-    ('Antenas y Otros', 'Antenas y Otros'),
+    ('Antenas', 'Antenas'),
 )
 
 GRUPO_FAMILIA_CHOICES = (

@@ -16,6 +16,7 @@ from django.db.models import Q
 from functools import reduce
 from .resources import ParteResource
 from django.http import HttpResponse
+from hw_proyecciones.models import HwParte
 
 class ListParte(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'

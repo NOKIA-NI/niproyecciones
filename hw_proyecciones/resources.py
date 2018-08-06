@@ -76,6 +76,9 @@ class HwSiteListResource(resources.ModelResource):
         'w_fc_c',
         'status_nokia',
         'estado_HW',
+        'fecha_solicitud_hw',
+        'solicitante_asignacion_hw',
+        'solicitud_hw',
         )
 
 class HwControlRfeResource(resources.ModelResource):

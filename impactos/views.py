@@ -36,7 +36,7 @@ NO = 'No'
 
 ACCESORIOS = 'Accesorios'
 MODULOS = 'Modulos'
-ANTENAS_Y_OTROS = 'Antenas y Otros'
+ANTENAS = 'Antenas'
 
 MODULO_ACCESORIO = 'Modulo-Accesorio'
 ANTENA = 'Antena'
@@ -181,13 +181,13 @@ def calculate_tipo_impacto(request):
     # impactos = Impacto.objects.filter(impactado=SI)
     # impactos_modulos = impactos.filter(grupo_parte=MODULOS)
     # impactos_accesorios = impactos.filter(grupo_parte=ACCESORIOS)
-    # impactos_antenas = impactos.filter(grupo_parte=ANTENAS_Y_OTROS)
+    # impactos_antenas = impactos.filter(grupo_parte=ANTENAS)
 
     for estacion in estaciones:
         # impacto_estaciones = impactos.filter(estacion=estacion)
         impactos_estacion = estacion.impactos.filter(impactado=SI)
 
-        impactos_antena = impactos_estacion.filter(grupo_parte=ANTENAS_Y_OTROS)
+        impactos_antena = impactos_estacion.filter(grupo_parte=ANTENAS)
         if impactos_antena.count() >= 1:
             for i in impactos_estacion:
                 i.tipo_impacto = ANTENA

@@ -31,7 +31,7 @@ class HwEstacion(models.Model):
     scope_claro = models.CharField(max_length=150, blank=True, null=True)
     proyeccion_instalacion = models.DateField(blank=True, null=True)
     w_proyeccion_instalacion = models.IntegerField(blank=True, null=True)
-    actividades = models.BigIntegerField(default=0, blank=True, null=True)
+    actividades = models.BigIntegerField(blank=True, null=True)
     bolsa = models.CharField(max_length=255, blank=True, null=True)
     w_fc_c = models.CharField(max_length=45, blank=True, null=True)
     status_nokia = models.CharField(max_length=255, blank=True, null=True)
@@ -72,6 +72,9 @@ class HwSiteList(models.Model):
     w_fc_c = models.PositiveIntegerField(blank=True, null=True)
     status_nokia = models.CharField(max_length=255, blank=True, null=True)
     estado_HW = models.CharField(max_length=13, blank=True, null=True)
+    fecha_solicitud_hw = models.DateField(blank=True, null=True)
+    solicitante_asignacion_hw = models.BigIntegerField(blank=True, null=True)
+    solicitud_hw = models.CharField(max_length=4, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -84,7 +87,7 @@ class HwSiteList(models.Model):
 
 class HwControlRfe(models.Model):
     id_hw_config = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
-    wp = models.BigIntegerField(default=0, blank=True, null=True)
+    wp = models.BigIntegerField(blank=True, null=True)
     siteName = models.CharField(max_length=60, blank=True, null=True)
     proyecto = models.CharField(max_length=30, blank=True, null=True)
     escenario = models.CharField(max_length=20, blank=True, null=True)
@@ -93,7 +96,7 @@ class HwControlRfe(models.Model):
     referencia = models.CharField(max_length=20, blank=True, null=True)
     cantidad = models.PositiveIntegerField(blank=True, null=True)
     parte = models.CharField(max_length=45, blank=True, null=True)
-    total_smr = models.BigIntegerField(default=0, blank=True, null=True)
+    total_smr = models.BigIntegerField(blank=True, null=True)
     fuente = models.CharField(max_length=45, blank=True, null=True)
     RFE = models.DateField(blank=True, null=True)
     so = models.CharField(max_length=255, blank=True, null=True)# si

@@ -81,6 +81,9 @@ class HwSiteListAdmin(ImportExportModelAdmin):
     'w_fc_c',
     'status_nokia',
     'estado_HW',
+    'fecha_solicitud_hw',
+    'solicitante_asignacion_hw',
+    'solicitud_hw',
     )
     # list_filter = ()
     search_fields = ['idsitesList', 'siteName']

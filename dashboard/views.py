@@ -19,7 +19,7 @@ SI = 'Si'
 NO = 'No'
 ACCESORIOS = 'Accesorios'
 MODULOS = 'Modulos'
-ANTENAS_Y_OTROS = 'Antenas y Otros'
+ANTENAS = 'Antenas'
 MODULO_ACCESORIO = 'Modulo-Accesorio'
 ANTENA = 'Antena'
 MODULO_ACCESORIO_ANTENA = 'Modulo-Accesorio-Antena'
@@ -56,7 +56,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         weeks = [week for week in weeks if week >= WEEK]
         accesorios = Parte.objects.filter(grupo_parte=ACCESORIOS)
         modulos = Parte.objects.filter(grupo_parte=MODULOS)
-        antenas = Parte.objects.filter(grupo_parte=ANTENAS_Y_OTROS)
+        antenas = Parte.objects.filter(grupo_parte=ANTENAS)
         context['week'] = week
         context['weeks'] = weeks
         context['impactos_antena'] = Impacto.objects.filter(w_fc_imp=week, tipo_impacto=ANTENA, impactado=SI).order_by('estacion_id').distinct('estacion').count()
@@ -191,7 +191,7 @@ def impactos_grupo_parte(request):
     labels = [week for week in weeks if week >= WEEK]
     impactos_accesorios = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'grupo_parte':ACCESORIOS}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     impactos_modulos = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'grupo_parte':MODULOS}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
-    impactos_antenas = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'grupo_parte':ANTENAS_Y_OTROS}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
+    impactos_antenas = [Impacto.objects.filter(**{w_fc:week, 'impactado':SI, 'grupo_parte':ANTENAS}).order_by('estacion_id').distinct('estacion').count() for week in weeks if int(week) >= WEEK]
     data = {
         'labels': labels,
         'impactos_accesorios': impactos_accesorios,

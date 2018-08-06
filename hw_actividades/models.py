@@ -25,7 +25,7 @@ DESPACHO_SOLICITADO = 'Despacho_Solicitado'
 HW_RECIBIDO = 'HW_Recibido'
 ON_AIR = 'On_Air'
 
-ANTENAS_Y_OTROS = 'Antenas y Otros'
+ANTENAS = 'Antenas'
 
 SI = 'Si'
 NO = 'No'
@@ -81,7 +81,7 @@ class HwActividad(models.Model):
             self.estacion.bolsa != SITIOSLSMMIXTO381 and \
             self.estacion.bolsa != SITIOSLSMMIXTO114 and \
             self.estacion.bolsa != SITIOSLSMMIXTO78 and \
-            self.parte.grupo_parte == ANTENAS_Y_OTROS:
+            self.parte.grupo_parte == ANTENAS:
             self.impactar = SI
         if self.impactar == SI and self.estacion.w_fc_imp is None:
             self.impactar = NO
