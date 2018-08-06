@@ -11,14 +11,13 @@
 {% endblock sidebar %}
 
 {% block content_dashboard %}
-
 <main role="main" class="">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 mt-2 border-bottom">
     <h2 class="text-dark">Consulta {{ object }}</h2>
   </div>
-<table id="table_consulta" class="table table-striped table-sm" width="100%"></table>
+  <div class="loading"><span data-feather="loader"></span> Loading ...</div>
+  <table id="table_consulta" class="table table-striped table-sm" width="100%"></table>
 </main>
-
 {% endblock content_dashboard %}
 
 {% block extra_js %}
@@ -27,6 +26,9 @@ var objectData = '{{ object.data }}';
 console.log('objectData', objectData.replace(/(&quot\;)/g,"\""))
 var data = JSON.parse(objectData.replace(/(&quot\;)/g,"\""));
 console.log('data', data)
+if (data) {
+    $('.loading').hide()
+}
 var columns = []
 $.each(data[0] , function(key, value) {
     columns.push(key);
@@ -42,6 +44,7 @@ columns.forEach(element => {
     i++
 })
 $('#table_consulta').DataTable({
+    processing: true,
     dom: 'Bfrtip',
     "scrollX": true,
     buttons: [

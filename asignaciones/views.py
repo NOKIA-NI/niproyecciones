@@ -33,9 +33,12 @@ from .resources import (
     AsignacionAntenaResource,
     EstadoPoResource,
 )
-# from .tasks import (
-    
-# )
+from .tasks import (
+    task_sitios_asignacion,
+    task_asignacion_bolsa,
+    task_asignacion_bulk,
+)
+from tareas.models import Tarea
 from estaciones.models import Estacion
 from partes.models import Parte
 import operator
@@ -509,3 +512,30 @@ def export_po_zina(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="PoZina.xlsx"'
     return response
+
+def sitios_asignacion(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
+    task = task_sitios_asignacion.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
+
+def asignacion_bolsa(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
+    task = task_asignacion_bolsa.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
+
+def asignacion_bulk(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
+    task = task_asignacion_bulk.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)

@@ -5,6 +5,8 @@ from .models import (
     AsignacionAntena,
     EstadoPo,
     PoZina,
+    SitioBolsa,
+    SitioBulk,
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
@@ -12,6 +14,8 @@ from .resources import (
     AsignacionAntenaResource,
     EstadoPoResource,
     PoZinaResource,
+    SitioBolsaResource,
+    SitioBulkResource,
 )
 
 @admin.register(AsignacionBulk)
@@ -122,3 +126,33 @@ class PoZinaAdmin(ImportExportModelAdmin):
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
     search_fields = ['id', 'site_name']
+
+@admin.register(SitioBolsa)
+class SitioBolsaAdmin(ImportExportModelAdmin):
+    resource_class = SitioBolsaResource
+    list_display = (
+    'id',
+    'estacion',
+    
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion.site_name']
+
+@admin.register(SitioBulk)
+class SitioBulkAdmin(ImportExportModelAdmin):
+    resource_class = SitioBulkResource
+    list_display = (
+    'id',
+    'estacion',
+    
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion.site_name']

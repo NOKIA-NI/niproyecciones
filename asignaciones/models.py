@@ -138,7 +138,7 @@ class EstadoPo(models.Model):
         return reverse('asignaciones:detail_estado_po', kwargs={'pk': self.pk})
 
 class PoZina(models.Model):
-    cpo_number = models.BigIntegerField(blank=True, null=True, unique=True)
+    cpo_number = models.BigIntegerField(blank=True, null=True)
     so_jumper = models.PositiveIntegerField(blank=True, null=True)
     so_bts = models.PositiveIntegerField(blank=True, null=True)
     project = models.CharField(max_length=255, blank=True, null=True)
@@ -162,3 +162,41 @@ class PoZina(models.Model):
 
     def get_absolute_url(self):
         return reverse('asignaciones:detail_po_zina', kwargs={'pk': self.pk})
+
+class SitioBolsa(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='sitios_bolsa', blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'sitio bolsa'
+        verbose_name_plural = 'sitios bolsa'
+
+    def __str__(self):
+        return self.estacion.site_name
+
+    # def get_absolute_url(self):
+    #     return reverse('asignaciones:detail_asignacion_bulk', kwargs={'pk': self.pk})
+
+class SitioBulk(models.Model):
+    estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='sitios_bulk', blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'sitio bulk'
+        verbose_name_plural = 'sitios bulk'
+
+    def __str__(self):
+        return self.estacion.site_name
+
+    # def get_absolute_url(self):
+    #     return reverse('asignaciones:detail_asignacion_bulk', kwargs={'pk': self.pk})

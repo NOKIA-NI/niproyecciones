@@ -17,6 +17,7 @@ from django.db.models import Q
 from functools import reduce
 from .resources import ProyeccionResource
 from .tasks import send_mail_proyeccion
+from tareas.models import Tarea
 
 class ListProyeccion(LoginRequiredMixin, ListView, FormView):
     login_url = 'users:home'
@@ -118,6 +119,10 @@ def export_proyeccion(request):
     return response
 
 def send_proyeccion(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = send_mail_proyeccion.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)

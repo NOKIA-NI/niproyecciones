@@ -60,3 +60,65 @@ class HwParte(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class HwSiteList(models.Model):
+    idsitesList = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    siteName = models.CharField(max_length=100, blank=True, null=True)
+    zona = models.CharField(max_length=20, blank=True, null=True)
+    proyeccion_instalacion = models.DateField(blank=True, null=True)
+    W_Proyeccion_Instalacion = models.PositiveIntegerField(blank=True, null=True)
+    scope_claro = models.CharField(max_length=150, blank=True, null=True)
+    Bolsa_HW = models.CharField(max_length=255, blank=True, null=True)
+    w_fc_c = models.PositiveIntegerField(blank=True, null=True)
+    status_nokia = models.CharField(max_length=255, blank=True, null=True)
+    estado_HW = models.CharField(max_length=13, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sitesList_hw'
+        verbose_name = 'hw sitelist'
+        verbose_name_plural = 'hw sitelist'
+
+    def __str__(self):
+        return str(self.idsitesList)
+
+class HwControlRfe(models.Model):
+    id_hw_config = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    wp = models.BigIntegerField(default=0, blank=True, null=True)
+    siteName = models.CharField(max_length=60, blank=True, null=True)
+    proyecto = models.CharField(max_length=30, blank=True, null=True)
+    escenario = models.CharField(max_length=20, blank=True, null=True)
+    banda = models.CharField(max_length=30, blank=True, null=True)
+    seccion = models.CharField(max_length=45, blank=True, null=True)
+    referencia = models.CharField(max_length=20, blank=True, null=True)
+    cantidad = models.PositiveIntegerField(blank=True, null=True)
+    parte = models.CharField(max_length=45, blank=True, null=True)
+    total_smr = models.BigIntegerField(default=0, blank=True, null=True)
+    fuente = models.CharField(max_length=45, blank=True, null=True)
+    RFE = models.DateField(blank=True, null=True)
+    so = models.CharField(max_length=255, blank=True, null=True)# si
+    po = models.CharField(max_length=255, blank=True, null=True)# si
+    bodega_origen = models.CharField(max_length=50, blank=True, null=True)# si
+    bodega_origen_fecha = models.DateField(blank=True, null=True)
+    issue_bodega_origen = models.CharField(max_length=255, blank=True, null=True)# si
+    material_sobrante = models.TextField(blank=True, null=True)# si
+    bts_status = models.CharField(max_length=50, blank=True, null=True)
+    reemplazo = models.CharField(max_length=255, blank=True, null=True)
+    po_date = models.DateField(blank=True, null=True)
+    so_date = models.DateField(blank=True, null=True)
+    envio_capex = models.DateField(blank=True, null=True)
+    last_updated_ghw = models.DateField(blank=True, null=True)
+    homologacion = models.CharField(max_length=85, blank=True, null=True)# si
+    
+
+    class Meta:
+        managed = False
+        db_table = 'hw_control_rfe'
+        verbose_name = 'hw control rfe'
+        verbose_name_plural = 'hw control rfe'
+
+    def __str__(self):
+        return str(self.id_hw_config)
+    
+    def save(self, *args, **kwargs):
+        super(HwControlRfe, self).save(update_fields=['so', 'po', 'bodega_origen', 'issue_bodega_origen', 'material_sobrante', 'homologacion'], *args, **kwargs)

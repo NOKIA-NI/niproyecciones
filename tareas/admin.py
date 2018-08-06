@@ -23,6 +23,7 @@ class TareaAdmin(admin.ModelAdmin):
         'descripcion',
         'grupo_tarea',
         'ejecutar',
+        'tarea_id',
         'estado',
         'subestado',
         'creado',

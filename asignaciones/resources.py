@@ -11,6 +11,8 @@ from .models import (
     AsignacionAntena,
     EstadoPo,
     PoZina,
+    SitioBolsa,
+    SitioBulk,
     )
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -125,6 +127,36 @@ class PoZinaResource(resources.ModelResource):
         'material_description',
         'parte_capex',
         'quantity',
+
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class SitioBolsaResource(resources.ModelResource):
+
+    class Meta:
+        model = SitioBolsa
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'estacion',
+
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class SitioBulkResource(resources.ModelResource):
+
+    class Meta:
+        model = SitioBulk
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'estacion',
 
         # 'estado',
         'subestado',

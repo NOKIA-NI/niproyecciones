@@ -166,3 +166,9 @@ body {
 .head_menu ul {
   right: 0;
 }
+
+.loading {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+}

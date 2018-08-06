@@ -46,10 +46,14 @@ function run_tarea (tarea_url, tarea_id) {
     $.ajax({
         method: 'GET',
         url: tarea_url,
+        data: {
+            'tarea_id': tarea_id
+        },
         dataType: 'json',
         success: function(data){
             if (data.task_id != null) {
-                get_task_status(data.task_id, tarea_id);
+                var task_id = data.task_id
+                get_task_status(task_id, tarea_id);
             }
         },
         error: function(error){
@@ -58,7 +62,7 @@ function run_tarea (tarea_url, tarea_id) {
     })
 }
 
-function get_task_status (task_id, id) {
+function get_task_status (task_id, tarea_id) {
     $.ajax({
         method: 'GET',
         url: '/tareas/get/task/status/',
@@ -67,16 +71,16 @@ function get_task_status (task_id, id) {
         },
         dataType: 'json',
         success: function(data){
-            if (data.state == 'PENDING' || data.state == 'STARTED') {
-                $('#'+ id).html(data.state);
+            if (data.state == 'PENDING' || data.state == 'STARTED' || data.state == 'PROGRESS') {
+                $('#'+tarea_id).html(data.state);
             }
             if (data.state == 'SUCCESS') {
-                $('#'+ id).html(data.state);
+                $('#'+tarea_id).html(data.state);
             }
             if (data.state != 'SUCCESS') {
-                $('#'+ id).html(data.state);
+                $('#'+tarea_id).html(data.state);
                 setTimeout(function () {
-                    get_task_status (task_id, id)
+                    get_task_status (task_id, tarea_id)
                 }, 1000);
             }
         },

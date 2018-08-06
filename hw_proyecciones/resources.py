@@ -1,6 +1,12 @@
 from import_export import resources
 from import_export.widgets import ForeignKeyWidget, DateWidget, DateTimeWidget, IntegerWidget
-from .models import HwProyeccion, HwEstacion, HwParte
+from .models import (
+    HwProyeccion,
+    HwEstacion,
+    HwParte,
+    HwSiteList,
+    HwControlRfe,
+)
 
 class HwProyeccionResource(resources.ModelResource):
 
@@ -52,4 +58,56 @@ class HwParteResource(resources.ModelResource):
         'nombre_nokia',
         'nombre_capex',
         'seccion_parte',
+        )
+
+class HwSiteListResource(resources.ModelResource):
+
+    class Meta:
+        model = HwSiteList
+        # exclude = ('id',)
+        export_order = (
+        'idsitesList',
+        'siteName',
+        'zona',
+        'proyeccion_instalacion',
+        'W_Proyeccion_Instalacion',
+        'scope_claro',
+        'Bolsa_HW',
+        'w_fc_c',
+        'status_nokia',
+        'estado_HW',
+        )
+
+class HwControlRfeResource(resources.ModelResource):
+
+    class Meta:
+        model = HwControlRfe
+        # exclude = ('id',)
+        export_order = (
+        'id_hw_config',
+        'wp',
+        'siteName',
+        'proyecto',
+        'escenario',
+        'banda',
+        'seccion',
+        'referencia',
+        'cantidad',
+        'parte',
+        'total_smr',
+        'fuente',
+        'RFE',
+        'so',
+        'po',
+        'bodega_origen',
+        'bodega_origen_fecha',
+        'issue_bodega_origen',
+        'material_sobrante',
+        'bts_status',
+        'reemplazo',
+        'po_date',
+        'so_date',
+        'envio_capex',
+        'last_updated_ghw',
+        'homologacion',
         )

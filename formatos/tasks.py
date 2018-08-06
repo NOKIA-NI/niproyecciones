@@ -1,10 +1,10 @@
 from celery import shared_task, current_task
 from .models import FormatoEstacion, FormatoParte, FormatoClaro, FormatoClaroTotal, FormatoClaroKit
-from django.core.mail import send_mail as _send_mail
 from proyecciones.models import Proyeccion
 from partes.models import Parte
 from django.db.models import Sum, Value as V
 from django.db.models.functions import Coalesce
+from django.core.mail import send_mail as _send_mail
 
 FORMATOABASTECIMIENTO = 'Formato Abastecimiento'
 
@@ -20,6 +20,7 @@ except:
 
 @shared_task
 def task_create_formato_estacion():
+    current_task.update_state(state='PROGRESS')
     FormatoEstacion.objects.all().delete()
     FormatoClaroTotal.objects.all().delete()
     FormatoClaroKit.objects.all().delete()
@@ -31,11 +32,11 @@ def task_create_formato_estacion():
             formato_estacion = FormatoEstacion.objects.create(
             estacion = proyeccion.estacion,
             )
-        current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
 def task_create_formato_parte():
+    current_task.update_state(state='PROGRESS')
     FormatoParte.objects.all().delete()
     formatos_estacion = FormatoEstacion.objects.all()
     partes = Parte.objects.all()
@@ -52,11 +53,11 @@ def task_create_formato_parte():
                         parte = parte,
                         cantidad = cantidad,
                         )
-            current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
 def task_create_formato_claro():
+    current_task.update_state(state='PROGRESS')
     formatos_parte = FormatoParte.objects.all()
     for formato_parte in formatos_parte:
         try:
@@ -69,6 +70,7 @@ def task_create_formato_claro():
 
 @shared_task
 def task_create_formato_claro_total():
+    current_task.update_state(state='PROGRESS')
     FormatoClaroTotal.objects.all().delete()
     formatos_parte = FormatoParte.objects.all().order_by('parte_id').distinct('parte')
     for formato_parte in formatos_parte:
@@ -83,11 +85,11 @@ def task_create_formato_claro_total():
                 parte = formato_parte.parte,
                 total = total,
                 )
-        current_task.update_state(state='PROGRESS')
     return {'ok':200}
 
 @shared_task
 def task_create_formato_claro_kit():
+    current_task.update_state(state='PROGRESS')
     FormatoClaroKit.objects.all().delete()
     formatos_claro = FormatoClaro.objects.all()
     for formato_claro in formatos_claro:
@@ -155,5 +157,4 @@ def task_create_formato_claro_kit():
             semana = formato_claro.semana,
             mes = formato_claro.mes,
             )
-        current_task.update_state(state='PROGRESS')
     return {'ok':200}

@@ -51,6 +51,7 @@ from .tasks import (
     task_create_formato_claro_total,
     task_create_formato_claro_kit,
 )
+from tareas.models import Tarea
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -124,7 +125,11 @@ def export_formato_estacion(request):
     return response
 
 def create_formato_estacion(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_estacion.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -195,7 +200,11 @@ def export_formato_parte(request):
     return response
 
 def create_formato_parte(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_parte.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -276,7 +285,11 @@ def export_formato_claro(request):
     return response
 
 def create_formato_claro(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_claro.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -351,7 +364,11 @@ def export_formato_claro_total(request):
     return response
 
 def create_formato_claro_total(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_claro_total.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -432,7 +449,11 @@ def export_formato_claro_kit(request):
     return response
 
 def create_formato_claro_kit(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_claro_kit.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -503,7 +524,11 @@ def export_formato_parte_input(request):
     return response
 
 def create_formato_parte_input(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_parte_input.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
 
@@ -574,6 +599,10 @@ def export_formato_parte_delta(request):
     return response
 
 def create_formato_parte_delta(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
     task = task_create_formato_parte_delta.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
     data = { 'task_id': task.id }
     return JsonResponse(data, safe=False)
