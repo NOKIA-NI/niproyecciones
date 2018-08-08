@@ -11,10 +11,6 @@ create_proyeccion,
 update_proyeccion,
 delete_proyeccion,
 
-create_estacion,
-update_estacion,
-delete_estacion,
-
 update_hw_actividad,
 calculate_consumo_nokia,
 
@@ -37,10 +33,6 @@ urlpatterns = [
     # path('create/hw/proyeccion/four/', create_proyeccion_four, name='create_hw_proyeccion_four'),
     path('update/hw/proyeccion/', update_proyeccion, name='update_hw_proyeccion'),
     path('delete/hw/proyeccion/', delete_proyeccion, name='delete_hw_proyeccion'),
-
-    path('create/hw/estacion/', create_estacion, name='create_hw_estacion'),
-    path('update/hw/estacion/', update_estacion, name='update_hw_estacion'),
-    path('delete/hw/estacion/', delete_estacion, name='delete_hw_estacion'),
 
     path('update/hw/actividad/', update_hw_actividad, name='update_hw_actividad'),
     path('calculate/consumo/nokia/', calculate_consumo_nokia, name='calculate_consumo_nokia'),

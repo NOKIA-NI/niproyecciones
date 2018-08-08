@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from hw_proyecciones.models import HwProyeccion, HwEstacion
+from hw_proyecciones.models import HwProyeccion
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion, ProyeccionEstacion
 from partes.models import Parte
@@ -532,88 +532,11 @@ def delete_proyeccion(request):
 #
 #     return HttpResponse(status=204)
 
-
-def create_estacion(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_estaciones = HwEstacion.objects.all()
-    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
-    estaciones = Estacion.objects.all()
-
-    for hw_estacion in hw_estaciones:
-        try:
-            estacion = estaciones.get(site_name__iexact=hw_estacion.siteName)
-        except Estacion.DoesNotExist:
-            estacion = Estacion.objects.create(
-                site_name=hw_estacion.siteName,
-                region=hw_estacion.region,
-                ciudad=hw_estacion.ciudad,
-                scope_claro=hw_estacion.scope_claro,
-                w_fc_imp=hw_estacion.w_fc_c,
-                w_fc_c=hw_estacion.w_fc_c,
-                total_actividades=hw_estacion.actividades,
-                bolsa=hw_estacion.bolsa,
-                status_nokia=hw_estacion.status_nokia,
-            )
-
-    return HttpResponse(status=204)
-
-def update_estacion(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_estaciones = HwEstacion.objects.all()
-    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
-    estaciones = Estacion.objects.all()
-
-    for hw_estacion in hw_estaciones:
-        try:
-            estacion = estaciones.get(site_name__iexact=hw_estacion.siteName)
-            if estacion.site_name != hw_estacion.siteName or \
-                estacion.region != hw_estacion.region or \
-                estacion.ciudad != hw_estacion.ciudad or \
-                estacion.scope_claro != hw_estacion.scope_claro or \
-                estacion.w_fc_imp != hw_estacion.w_fc_c or \
-                estacion.w_fc_c != hw_estacion.w_fc_c or \
-                estacion.total_actividades != hw_estacion.actividades or \
-                estacion.bolsa != hw_estacion.bolsa or \
-                estacion.status_nokia != hw_estacion.status_nokia:
-
-                estacion.site_name = hw_estacion.siteName
-                estacion.region = hw_estacion.region
-                estacion.ciudad = hw_estacion.ciudad
-                estacion.scope_claro = hw_estacion.scope_claro
-                estacion.w_fc_imp = hw_estacion.w_fc_c
-                estacion.w_fc_c = hw_estacion.w_fc_c
-                estacion.total_actividades = hw_estacion.actividades
-                estacion.bolsa = hw_estacion.bolsa
-                estacion.status_nokia = hw_estacion.status_nokia
-                estacion.save()
-                # estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
-                # estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion
-
-        except Estacion.DoesNotExist:
-            pass
-
-    return HttpResponse(status=204)
-
-def delete_estacion(request):
-    # if request.headers["X-Appengine-Cron"]:
-    hw_estaciones = HwEstacion.objects.all()
-    estaciones = Estacion.objects.all()
-
-    for hw_estacion in hw_estaciones:
-        try:
-            estaciones = estaciones.exclude(site_name__iexact=hw_estacion.siteName)
-        except Estacion.DoesNotExist:
-            pass
-    estaciones.delete()
-
-    return HttpResponse(status=204)
-
 def update_hw_actividad(request):
     hw_actividades = HwActividad.objects.all()
 
     for hw_actividad in hw_actividades:
         hw_actividad.save()
-
     return HttpResponse(status=204)
 
 def calculate_consumo_nokia(request):
@@ -818,7 +741,6 @@ def calculate_consumo_nokia(request):
             parte.consumonokia.w52 = 0
 
         parte.consumonokia.save()
-
     return HttpResponse(status=204)
 
 def create_proyeccion_estacion_entro(request):
@@ -858,7 +780,6 @@ def create_proyeccion_estacion_entro(request):
             ],
             fail_silently=False,
         )
-
     return HttpResponse(status=204)
 
 def create_proyeccion_estacion_salio(request):
@@ -897,7 +818,6 @@ def create_proyeccion_estacion_salio(request):
             ],
             fail_silently=False,
         )
-
     return HttpResponse(status=204)
 
 
@@ -952,5 +872,4 @@ def send_mail_proyeccion(request):
         )
     message.attach(filename, content, mimetype)
     message.send(fail_silently=False)
-
     return HttpResponse(status=204)

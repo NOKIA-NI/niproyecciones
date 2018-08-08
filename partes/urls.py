@@ -7,7 +7,11 @@ UpdateParte,
 DeleteParte,
 SearchParte,
 FilterParte,
-export_parte
+export_parte,
+
+create_hw_parte,
+update_hw_parte,
+delete_hw_parte,
 )
 
 app_name = 'partes'
@@ -21,4 +25,8 @@ urlpatterns = [
     path('search/parte/', SearchParte.as_view(), name='search_parte'),
     path('filter/parte/', FilterParte.as_view(), name='filter_parte'),
     path('export/parte/', export_parte, name='export_parte'),
+
+    path('create/hw/parte/', create_hw_parte, name='create_hw_parte'),
+    path('update/hw/parte/', update_hw_parte, name='update_hw_parte'),
+    path('delete/hw/parte/', delete_hw_parte, name='delete_hw_parte'),
 ]

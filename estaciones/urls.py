@@ -12,6 +12,10 @@ CronogramaFcImpEstacion,
 CronogramaFcSalEstacion,
 export_cronograma_estacion,
 
+create_hw_estacion,
+update_hw_estacion,
+delete_hw_estacion,
+
 ListBitacoraEstacion,
 DetailBitacoraEstacion,
 CreateBitacoraEstacion,
@@ -45,6 +49,10 @@ urlpatterns = [
     path('cronograma/fc/imp/estacion/', CronogramaFcImpEstacion.as_view(), name='cronograma_fc_imp_estacion'),
     path('cronograma/fc/sal/estacion/', CronogramaFcSalEstacion.as_view(), name='cronograma_fc_sal_estacion'),
     path('export/cronograma/estacion/', export_cronograma_estacion, name='export_cronograma_estacion'),
+
+    path('create/hw/estacion/', create_hw_estacion, name='create_hw_estacion'),
+    path('update/hw/estacion/', update_hw_estacion, name='update_hw_estacion'),
+    path('delete/hw/estacion/', delete_hw_estacion, name='delete_hw_estacion'),
 
     path('list/bitacora/estacion/', ListBitacoraEstacion.as_view(), name='list_bitacora_estacion'),
     path('detail/bitacora/estacion/<int:pk>/', DetailBitacoraEstacion.as_view(), name='detail_bitacora_estacion'),

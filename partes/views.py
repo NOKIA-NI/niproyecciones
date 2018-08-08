@@ -112,3 +112,47 @@ def export_parte(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Parte.xlsx"'
     return response
+
+def create_hw_parte(request):
+    hw_partes = HwParte.objects.all()
+    partes = Parte.objects.all()
+    for hw_parte in hw_partes:
+        try:
+            parte = partes.get(parte_nokia__iexact=hw_parte.nombre_nokia)
+        except Parte.DoesNotExist:
+            parte = Parte.objects.create(
+                cod_sap=hw_parte.cod_capex,
+                parte_nokia=hw_parte.nombre_nokia,
+                capex=hw_parte.nombre_capex,
+            )
+    return HttpResponse(status=204)
+
+def update_hw_parte(request):
+    hw_partes = HwParte.objects.all()
+    partes = Parte.objects.all()
+    for hw_parte in hw_partes:
+        try:
+            parte = partes.get(parte_nokia__iexact=hw_parte.nombre_nokia)
+            if parte.cod_sap != hw_parte.cod_capex or \
+                parte.parte_nokia != hw_parte.nombre_nokia or \
+                parte.capex != hw_parte.nombre_capex:
+
+                parte.cod_sap = hw_parte.cod_capex
+                parte.parte_nokia = hw_parte.nombre_nokia
+                parte.capex = hw_parte.nombre_capex
+                parte.save()
+
+        except Parte.DoesNotExist:
+            pass
+    return HttpResponse(status=204)
+
+def delete_hw_parte(request):
+    hw_partes = HwParte.objects.all()
+    partes = Parte.objects.all()
+    for hw_parte in hw_partes:
+        try:
+            partes = partes.exclude(parte_nokia__iexact=hw_parte.nombre_nokia)
+        except Estacion.DoesNotExist:
+            pass
+    partes.delete()
+    return HttpResponse(status=204)

@@ -90,6 +90,11 @@ class DetailConsulta(LoginRequiredMixin,
     model = Consulta
     template_name = 'consulta/detail_consulta.html'
 
+    def get_object(self):
+        obj = super().get_object()
+        obj.save()
+        return obj
+
 class CreateConsulta(LoginRequiredMixin,
                      PermissionRequiredMixin,
                      SuccessMessageMixin,

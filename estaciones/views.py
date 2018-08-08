@@ -28,6 +28,7 @@ from functools import reduce
 from django.http import HttpResponse
 from django.utils import timezone
 from django.conf import settings
+from hw_proyecciones.models import HwEstacion
 
 TODAY = timezone.now()
 WEEK = TODAY.isocalendar()[1]
@@ -411,3 +412,75 @@ def export_proyeccion_estacion(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="ProyeccionEstacion.xlsx"'
     return response
+
+def create_hw_estacion(request):
+    # if request.headers["X-Appengine-Cron"]:
+    hw_estaciones = HwEstacion.objects.all()
+    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+    estaciones = Estacion.objects.all()
+
+    for hw_estacion in hw_estaciones:
+        try:
+            estacion = estaciones.get(site_name__iexact=hw_estacion.siteName)
+        except Estacion.DoesNotExist:
+            estacion = Estacion.objects.create(
+                site_name=hw_estacion.siteName,
+                region=hw_estacion.region,
+                ciudad=hw_estacion.ciudad,
+                scope_claro=hw_estacion.scope_claro,
+                w_fc_imp=hw_estacion.w_fc_c,
+                w_fc_c=hw_estacion.w_fc_c,
+                total_actividades=hw_estacion.actividades,
+                bolsa=hw_estacion.bolsa,
+                status_nokia=hw_estacion.status_nokia,
+            )
+    return HttpResponse(status=204)
+
+def update_hw_estacion(request):
+    # if request.headers["X-Appengine-Cron"]:
+    hw_estaciones = HwEstacion.objects.all()
+    # hw_proyecciones = HwProyeccion.objects.filter(created__gte=TODAY, created__lt=TOMORROW)
+    estaciones = Estacion.objects.all()
+
+    for hw_estacion in hw_estaciones:
+        try:
+            estacion = estaciones.get(site_name__iexact=hw_estacion.siteName)
+            if estacion.site_name != hw_estacion.siteName or \
+                estacion.region != hw_estacion.region or \
+                estacion.ciudad != hw_estacion.ciudad or \
+                estacion.scope_claro != hw_estacion.scope_claro or \
+                estacion.w_fc_imp != hw_estacion.w_fc_c or \
+                estacion.w_fc_c != hw_estacion.w_fc_c or \
+                estacion.total_actividades != hw_estacion.actividades or \
+                estacion.bolsa != hw_estacion.bolsa or \
+                estacion.status_nokia != hw_estacion.status_nokia:
+
+                estacion.site_name = hw_estacion.siteName
+                estacion.region = hw_estacion.region
+                estacion.ciudad = hw_estacion.ciudad
+                estacion.scope_claro = hw_estacion.scope_claro
+                estacion.w_fc_imp = hw_estacion.w_fc_c
+                estacion.w_fc_c = hw_estacion.w_fc_c
+                estacion.total_actividades = hw_estacion.actividades
+                estacion.bolsa = hw_estacion.bolsa
+                estacion.status_nokia = hw_estacion.status_nokia
+                estacion.save()
+                # estacion.w_fc_imp != hw_estacion.w_proyeccion_instalacion or \
+                # estacion.w_fc_imp = hw_estacion.w_proyeccion_instalacion
+
+        except Estacion.DoesNotExist:
+            pass
+    return HttpResponse(status=204)
+
+def delete_hw_estacion(request):
+    # if request.headers["X-Appengine-Cron"]:
+    hw_estaciones = HwEstacion.objects.all()
+    estaciones = Estacion.objects.all()
+
+    for hw_estacion in hw_estaciones:
+        try:
+            estaciones = estaciones.exclude(site_name__iexact=hw_estacion.siteName)
+        except Estacion.DoesNotExist:
+            pass
+    estaciones.delete()
+    return HttpResponse(status=204)

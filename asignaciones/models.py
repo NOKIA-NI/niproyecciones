@@ -47,11 +47,8 @@ class AsignacionBulk(models.Model):
 
     @receiver(post_save, sender=Parte)
     def save_asignacion_bulk(sender, instance, **kwargs):
-        try:
-            if instance.grupo_parte != ANTENAS and instance.asignacionbulk:
-                instance.asignacionbulk.save()
-        except:
-            pass
+        if instance.grupo_parte != ANTENAS:
+            instance.asignacionbulk.save()
 
 class AsignacionAntena(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
@@ -95,11 +92,8 @@ class AsignacionAntena(models.Model):
 
     @receiver(post_save, sender=Parte)
     def save_asignacion_Antena(sender, instance, **kwargs):
-        try:
-            if instance.grupo_parte == ANTENAS and instance.asignacionantena:
-                instance.asignacionantena.save()
-        except:
-            pass
+        if instance.grupo_parte == ANTENAS:
+            instance.asignacionantena.save()
 
 class EstadoPo(models.Model):
     numero_po = models.BigIntegerField(blank=True, null=True, unique=True)
