@@ -7,6 +7,7 @@ from .models import (
     PoZina,
     SitioBolsa,
     SitioBulk,
+    SitioPo,
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
@@ -16,6 +17,7 @@ from .resources import (
     PoZinaResource,
     SitioBolsaResource,
     SitioBulkResource,
+    SitioPoResource,
 )
 
 @admin.register(AsignacionBulk)
@@ -81,7 +83,7 @@ class EstadoPoAdmin(ImportExportModelAdmin):
     'jumper',
     'jumper_status',
     'jumper_arrival_week',
-    'fxcb_bts',
+    'fxcb',
     'fxcb_status',
     'customs_ceared',
     'sr',
@@ -125,7 +127,7 @@ class PoZinaAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'site_name']
+    search_fields = ['id', 'cpo_number', 'site_name', 'parte_capex']
 
 @admin.register(SitioBolsa)
 class SitioBolsaAdmin(ImportExportModelAdmin):
@@ -148,6 +150,28 @@ class SitioBulkAdmin(ImportExportModelAdmin):
     list_display = (
     'id',
     'estacion',
+    
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion.site_name']
+
+@admin.register(SitioPo)
+class SitioPoAdmin(ImportExportModelAdmin):
+    resource_class = SitioPoResource
+    list_display = (
+    'id',
+    'numero_po',
+    'estacion',
+    'bts',
+    'bts_status',
+    'jumper',
+    'jumper_status',
+    'fxcb',
+    'fxcb_status',
     
     'estado',
     'subestado',

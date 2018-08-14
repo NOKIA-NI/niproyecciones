@@ -37,6 +37,7 @@ from .tasks import (
     task_sitios_asignacion,
     task_asignacion_bolsa,
     task_asignacion_bulk,
+    task_sitios_po,
 )
 from tareas.models import Tarea
 from estaciones.models import Estacion
@@ -517,6 +518,15 @@ def sitios_asignacion(request):
     tarea_id = request.GET.get('tarea_id', None)
     tarea = Tarea.objects.get(id=tarea_id)
     task = task_sitios_asignacion.delay()
+    tarea.tarea_id = task.id
+    tarea.save()
+    data = { 'task_id': task.id }
+    return JsonResponse(data, safe=False)
+
+def sitios_po(request):
+    tarea_id = request.GET.get('tarea_id', None)
+    tarea = Tarea.objects.get(id=tarea_id)
+    task = task_sitios_po.delay()
     tarea.tarea_id = task.id
     tarea.save()
     data = { 'task_id': task.id }

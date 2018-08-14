@@ -13,6 +13,7 @@ from .models import (
     PoZina,
     SitioBolsa,
     SitioBulk,
+    SitioPo,
     )
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -90,7 +91,7 @@ class EstadoPoResource(resources.ModelResource):
         'jumper',
         'jumper_status',
         'jumper_arrival_week',
-        'fxcb_bts',
+        'fxcb',
         'fxcb_status',
         'customs_ceared',
         'sr',
@@ -157,6 +158,28 @@ class SitioBulkResource(resources.ModelResource):
         export_order = (
         'id',
         'estacion',
+
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class SitioPoResource(resources.ModelResource):
+
+    class Meta:
+        model = SitioPo
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'numero_po',
+        'estacion',
+        'bts',
+        'bts_status',
+        'jumper',
+        'jumper_status',
+        'fxcb',
+        'fxcb_status',
 
         # 'estado',
         'subestado',

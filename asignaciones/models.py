@@ -13,7 +13,7 @@ class AsignacionBulk(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
     cod_sap = models.PositiveIntegerField(blank=True, null=True)
     capex = models.CharField(max_length=255, blank=True, null=True)
-    cantidad = models.PositiveIntegerField(blank=True, null=True)
+    cantidad = models.PositiveIntegerField(default=0)
     cod_bodega = models.CharField(max_length=255, blank=True, null=True)
     bodega = models.CharField(max_length=255, blank=True, null=True)
     comentario_bodega = models.CharField(max_length=255, blank=True, null=True)
@@ -105,7 +105,7 @@ class EstadoPo(models.Model):
     jumper = models.CharField(max_length=255, blank=True, null=True)
     jumper_status = models.CharField(max_length=255, blank=True, null=True)
     jumper_arrival_week = models.PositiveIntegerField(blank=True, null=True)
-    fxcb_bts = models.CharField(max_length=255, blank=True, null=True)
+    fxcb = models.CharField(max_length=255, blank=True, null=True)
     fxcb_status = models.CharField(max_length=255, blank=True, null=True)
     customs_ceared = models.DateField(blank=True, null=True)
     sr = models.CharField(max_length=255, blank=True, null=True)
@@ -180,7 +180,7 @@ class SitioBolsa(models.Model):
         return self.estacion.site_name
 
     # def get_absolute_url(self):
-    #     return reverse('asignaciones:detail_asignacion_bulk', kwargs={'pk': self.pk})
+    #     return reverse('asignaciones:detail_sitio_bolsa', kwargs={'pk': self.pk})
 
 class SitioBulk(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE, related_name='sitios_bulk', blank=True, null=True)
@@ -199,4 +199,31 @@ class SitioBulk(models.Model):
         return self.estacion.site_name
 
     # def get_absolute_url(self):
-    #     return reverse('asignaciones:detail_asignacion_bulk', kwargs={'pk': self.pk})
+    #     return reverse('asignaciones:detail_sitio_bulk', kwargs={'pk': self.pk})
+
+
+class SitioPo(models.Model):
+    numero_po = models.BigIntegerField(blank=True, null=True, unique=True)
+    estacion = models.CharField(max_length=255, blank=True, null=True)
+    bts = models.PositiveIntegerField(blank=True, null=True)
+    bts_status = models.CharField(max_length=255, blank=True, null=True)
+    jumper = models.CharField(max_length=255, blank=True, null=True)
+    jumper_status = models.CharField(max_length=255, blank=True, null=True)
+    fxcb = models.CharField(max_length=255, blank=True, null=True)
+    fxcb_status = models.CharField(max_length=255, blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('creado',)
+        verbose_name = 'sitio po'
+        verbose_name_plural = 'sitios po'
+
+    def __str__(self):
+        return self.estacion.site_name
+
+    # def get_absolute_url(self):
+    #     return reverse('asignaciones:detail_sitio_po', kwargs={'pk': self.pk})

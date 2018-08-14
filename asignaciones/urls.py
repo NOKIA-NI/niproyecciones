@@ -37,6 +37,7 @@ FilterPoZina,
 export_po_zina,
 
 sitios_asignacion,
+sitios_po,
 asignacion_bolsa,
 asignacion_bulk,
 )
@@ -78,9 +79,10 @@ urlpatterns = [
     path('delete/po/zina/<int:pk>/', DeletePoZina.as_view(), name='delete_po_zina'),
     path('search/po/zina/', SearchPoZina.as_view(), name='search_po_zina'),
     path('filter/po/zina/', FilterPoZina.as_view(), name='filter_po_zina'),
-    path('export/po/zina/', export_po_zina, name='export_estado_zina'),
+    path('export/po/zina/', export_po_zina, name='export_po_zina'),
 
     path('sitios/asignacion/', sitios_asignacion, name='sitios_asignacion'),
+    path('sitios/po/', sitios_po, name='sitios_po'),
     path('asignacion/bolsa/', asignacion_bolsa, name='asignacion_bolsa'),
     path('asignacion/bulk/', asignacion_bulk, name='asignacion_bulk'),
 ]

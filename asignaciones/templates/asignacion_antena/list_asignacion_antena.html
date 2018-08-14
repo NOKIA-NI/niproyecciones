@@ -33,6 +33,10 @@
           <span data-feather="trash"></span>
           Borrar
         </button>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'asignaciones:export_asignacion_antena' %}?{{query_dict|get_encoded_dict}}">
+          <span data-feather="download"></span>
+          Exportar
+        </a>
       </div>
       <div class="btn-group" role="group">
         <button class="btn btn-sm btn-outline-secondary dropdown-toggle mr-2  disabled" id="action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
