@@ -86,6 +86,7 @@ class HwControlRfeResource(resources.ModelResource):
     class Meta:
         model = HwControlRfe
         # exclude = ('id',)
+        import_id_fields = ('id_hw_config',)
         export_order = (
         'id_hw_config',
         'wp',
