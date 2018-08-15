@@ -346,7 +346,7 @@ class SearchEstadoPo(ListEstadoPo):
                 reduce(operator.and_,
                           (Q(jumper_arrival_week__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(fxcb_bts__icontains=q) for q in query_list)) |
+                          (Q(fxcb__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(fxcb_status__icontains=q) for q in query_list)) |
                 reduce(operator.and_,

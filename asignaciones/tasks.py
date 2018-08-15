@@ -39,8 +39,9 @@ def task_sitios_po():
     current_task.update_state(state='PROGRESS')
     sitios_bolsa = SitioBolsa.objects.all()
     list_site_name = [ sitio.estacion.site_name for sitio in sitios_bolsa ]
-    sitios_pos_zina = PoZina.objects.filter(site_name__in=list_site_name).order_by('site_name').distinct('site_name')
+    sitios_pos_zina = PoZina.objects.filter(site_name__in=list_site_name)
     list_pos_zina = [ pos_zina.cpo_number for pos_zina in sitios_pos_zina ]
+    list_pos_zina = list(set(list_pos_zina))
     estados_po = EstadoPo.objects.filter(numero_po__in=list_pos_zina)
     SitioPo.objects.all().delete()
     for estado_po in estados_po:
@@ -122,7 +123,7 @@ def task_asignacion_bolsa():
                             try:
                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
                                 if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
-                                    sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' Bulk ' + asignacion_bulk.bodega  
+                                    sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                     sitio_hw_control_rfe.save() # termina asignar
                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
                                     asignacion_bulk.save() # modifica cantidad
@@ -136,7 +137,7 @@ def task_asignacion_bolsa():
                             if count > 0:
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                 sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
-                                sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr)
+                                sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr - count)
                                 sitio_hw_control_rfe.bodega_origen = 'Panalpina'
                                 sitio_hw_control_rfe.save() # termina asignar
                                 po_zina.quantity = (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count
@@ -175,7 +176,7 @@ def task_asignacion_bolsa():
                     try:
                         asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
                         if (asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr) + count > asignacion_bulk.cantidad * 0.1:
-                            sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' Bulk ' + asignacion_bulk.bodega  
+                            sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                             sitio_hw_control_rfe.save() # termina asignar
                             asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
                             asignacion_bulk.save() # modifica cantidad
@@ -200,22 +201,52 @@ def task_asignacion_bolsa():
             for sitio_hw_control_rfe in sitios_hw_control_rfe:
                 if sitio_hw_control_rfe.total_smr > 0:
                     if sitio_po_zina.quantity < 10:
-                        sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     if sitio_po_zina.quantity >= 10 and sitio_po_zina.quantity < 100:
-                        sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     if sitio_po_zina.quantity >= 100:
-                        sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     break
         else:
             sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name)
             for sitio_hw_control_rfe in sitios_hw_control_rfe:
                 if sitio_hw_control_rfe.total_smr > 0:
                     if sitio_po_zina.quantity < 10:
-                        sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     if sitio_po_zina.quantity >= 10 and sitio_po_zina.quantity < 100:
-                        sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     if sitio_po_zina.quantity >= 100:
-                        sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                        if sitio_hw_control_rfe.material_sobrante:
+                            sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
+                        else:
+                            sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                            sitio_hw_control_rfe.save()
                     break
     return { 'ok':200 }
 
