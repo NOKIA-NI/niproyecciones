@@ -18,7 +18,6 @@ def task_sitios_asignacion():
     SitioBolsa.objects.all().delete()
     SitioBulk.objects.all().delete()
     # status_nokia = ['Complete Sites (Installed)', 'Parcial FXCB', 'Parcial Jumpers', 'Complete Sites (Por Armar LSM)']
-    # sitios_asignacion = HwSiteList.objects.filter(status_nokia__in=status_nokia, solicitud_hw='1', estado_HW='NO CONFIRMADO')
     status_nokia = ['Prueba']
     sitios_asignacion = HwSiteList.objects.filter(status_nokia__in=status_nokia, solicitud_hw='1', estado_HW='NO CONFIRMADO')
     Bolsa_HW = ['Sitios Bulk', 'LSM A BULK']
@@ -90,88 +89,159 @@ def task_asignacion_bolsa():
             if pos_zina.count() == 1: # hay una po en zina
                 count = 0
                 for po_zina in pos_zina:
-                    if po_zina.quantity == 0: # asignar bulk
-                        try:
-                            asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
-                            if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr  + count > asignacion_bulk.cantidad * 0.1:
-                                sitio_hw_control_rfe.so = asignacion_bulk.so
-                                sitio_hw_control_rfe.po = asignacion_bulk.po
-                                sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega
-                                sitio_hw_control_rfe.save() # termina asignar
-                                asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
-                                asignacion_bulk.save() # modifica cantidad
-                        except AsignacionBulk.DoesNotExist:
-                            pass
-                    if po_zina.quantity > 0: # asignar
-                        if po_zina.quantity - sitio_hw_control_rfe.total_smr >= 0: # asignar po
-                            sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                            sitio_hw_control_rfe.so = sitio_po.bts
-                            sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr)
-                            sitio_hw_control_rfe.bodega_origen = 'Panalpina'
-                            sitio_hw_control_rfe.save() # termina asignar
-                            po_zina.quantity = po_zina.quantity - sitio_hw_control_rfe.total_smr
-                            po_zina.save() # modifica quantity
-                        else:
-                            count = po_zina.quantity
-                            sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                            sitio_hw_control_rfe.so = sitio_po.bts
-                            sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(po_zina.quantity)
-                            sitio_hw_control_rfe.bodega_origen = 'Panalpina'
-                            sitio_hw_control_rfe.save() # termina asignar
-                            po_zina.quantity -= po_zina.quantity
-                            po_zina.save() # modifica quantity
+                    switch = True # switch encendido
+                    if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                    or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                    or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                        sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
+                        if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
                             try:
                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
                                 if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
-                                    sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                    sitio_hw_control_rfe.so = asignacion_bulk.so
+                                    sitio_hw_control_rfe.po = asignacion_bulk.po
+                                    sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega
+                                    sitio_hw_control_rfe.save() # termina asignar
+                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
+                                    asignacion_bulk.save() # modifica cantidad
+                                    switch = False # switch apagado
+                            except AsignacionBulk.DoesNotExist:
+                                pass
+                    if sitio_hw_control_rfe == 'FXCB':
+                        sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
+                        if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
+                            try:
+                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
+                                if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
+                                    sitio_hw_control_rfe.so = asignacion_bulk.so
+                                    sitio_hw_control_rfe.po = asignacion_bulk.po
+                                    sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega
+                                    sitio_hw_control_rfe.save() # termina asignar
+                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
+                                    asignacion_bulk.save() # modifica cantidad
+                                    switch = False # switch apagado
+                            except AsignacionBulk.DoesNotExist:
+                                pass
+                    if switch: # switch encendido
+                        if po_zina.quantity == 0: # asignar bulk
+                            try:
+                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
+                                if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
+                                    sitio_hw_control_rfe.so = asignacion_bulk.so
+                                    sitio_hw_control_rfe.po = asignacion_bulk.po
+                                    sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega
                                     sitio_hw_control_rfe.save() # termina asignar
                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
                                     asignacion_bulk.save() # modifica cantidad
                             except AsignacionBulk.DoesNotExist:
                                 pass
-            if pos_zina.count() > 1: # hay mas de una po en zina
-                count = 0
-                for po_zina in pos_zina:
-                    if po_zina.quantity > 0: # asignar
-                        if (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count >= 0: # asignar po
-                            if count > 0:
+                        if po_zina.quantity > 0: # asignar
+                            if po_zina.quantity - sitio_hw_control_rfe.total_smr >= 0: # asignar po
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                                sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
-                                sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr - count)
+                                if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                                or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                                or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                                    sitio_hw_control_rfe.so = sitio_po.jumper
+                                else:
+                                    sitio_hw_control_rfe.so = sitio_po.bts
+                                sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr)
                                 sitio_hw_control_rfe.bodega_origen = 'Panalpina'
                                 sitio_hw_control_rfe.save() # termina asignar
-                                po_zina.quantity = (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count
+                                po_zina.quantity = po_zina.quantity - sitio_hw_control_rfe.total_smr
                                 po_zina.save() # modifica quantity
-                                count = -1
-                                break
-                            sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                            sitio_hw_control_rfe.so = sitio_po.bts
-                            sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr)
-                            sitio_hw_control_rfe.bodega_origen = 'Panalpina'
-                            sitio_hw_control_rfe.save() # termina asignar
-                            po_zina.quantity = po_zina.quantity - sitio_hw_control_rfe.total_smr
-                            po_zina.save() # modifica quantity
-                            count = -1
-                            break
-                        if (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count < 0: # asignar po
-                            if count > 0:
-                                count += po_zina.quantity
+                            else:
+                                count = po_zina.quantity
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                                sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
-                                sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(po_zina.quantity)
-                                sitio_hw_control_rfe.bodega_origen = 'Panalpina'
-                                sitio_hw_control_rfe.save() # termina asignar
-                                po_zina.quantity -= po_zina.quantity
-                                po_zina.save() # modifica quantity
-                            if count == 0:
-                                count += po_zina.quantity
-                                sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
-                                sitio_hw_control_rfe.so = sitio_po.bts
+                                if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                                or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                                or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                                    sitio_hw_control_rfe.so = sitio_po.jumper
+                                else:
+                                    sitio_hw_control_rfe.so = sitio_po.bts
                                 sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(po_zina.quantity)
                                 sitio_hw_control_rfe.bodega_origen = 'Panalpina'
                                 sitio_hw_control_rfe.save() # termina asignar
                                 po_zina.quantity -= po_zina.quantity
                                 po_zina.save() # modifica quantity
+                                try:
+                                    asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
+                                    if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
+                                        sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                        sitio_hw_control_rfe.save() # termina asignar
+                                        asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
+                                        asignacion_bulk.save() # modifica cantidad
+                                except AsignacionBulk.DoesNotExist:
+                                    pass
+            if pos_zina.count() > 1: # hay mas de una po en zina
+                count = 0
+                for po_zina in pos_zina:
+                    switch = True # switch encendido
+                    if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                    or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                    or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                        sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
+                        if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
+                            switch = False # switch apagado
+                    if sitio_hw_control_rfe == 'FXCB':
+                        sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
+                        if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
+                            switch = False # switch apagado
+                    if switch: # switch encendido
+                        if po_zina.quantity > 0: # asignar
+                            if (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count >= 0: # asignar po
+                                if count > 0:
+                                    sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
+                                    if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                                        sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.jumper)
+                                    else:
+                                        sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
+                                    sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr - count)
+                                    sitio_hw_control_rfe.bodega_origen = 'Panalpina'
+                                    sitio_hw_control_rfe.save() # termina asignar
+                                    po_zina.quantity = (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count
+                                    po_zina.save() # modifica quantity
+                                    count = -1
+                                    break
+                                sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
+                                sitio_hw_control_rfe.so = sitio_po.bts
+                                sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(sitio_hw_control_rfe.total_smr)
+                                sitio_hw_control_rfe.bodega_origen = 'Panalpina'
+                                sitio_hw_control_rfe.save() # termina asignar
+                                po_zina.quantity = po_zina.quantity - sitio_hw_control_rfe.total_smr
+                                po_zina.save() # modifica quantity
+                                count = -1
+                                break
+                            if (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count < 0: # asignar po
+                                if count > 0:
+                                    count += po_zina.quantity
+                                    sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
+                                    if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                                        sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.jumper)
+                                    else:
+                                        sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
+                                    sitio_hw_control_rfe.po = str(sitio_hw_control_rfe.po) + '+' + str(sitio_po.numero_po) + 'X' + str(po_zina.quantity)
+                                    sitio_hw_control_rfe.bodega_origen = 'Panalpina'
+                                    sitio_hw_control_rfe.save() # termina asignar
+                                    po_zina.quantity -= po_zina.quantity
+                                    po_zina.save() # modifica quantity
+                                if count == 0:
+                                    count += po_zina.quantity
+                                    sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
+                                    if sitio_hw_control_rfe.parte == 'J_MR_MA_4MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_8MTS_DCLASS'\
+                                    or sitio_hw_control_rfe.parte == 'J_MR_MA_14MTS_DCLASS':
+                                        sitio_hw_control_rfe.so = sitio_po.jumper
+                                    else:
+                                        sitio_hw_control_rfe.so = sitio_po.bts
+                                    sitio_hw_control_rfe.po = str(sitio_po.numero_po) + 'X' + str(po_zina.quantity)
+                                    sitio_hw_control_rfe.bodega_origen = 'Panalpina'
+                                    sitio_hw_control_rfe.save() # termina asignar
+                                    po_zina.quantity -= po_zina.quantity
+                                    po_zina.save() # modifica quantity
                 if count > 0: # asignar bulk
                     try:
                         asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
@@ -185,7 +255,7 @@ def task_asignacion_bolsa():
                 if count == 0: # asignar bulk
                         try:
                             asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=sitio_hw_control_rfe.parte)
-                            if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr  + count > asignacion_bulk.cantidad * 0.1:
+                            if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
                                 sitio_hw_control_rfe.so = asignacion_bulk.so
                                 sitio_hw_control_rfe.po = asignacion_bulk.po
                                 sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega
