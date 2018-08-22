@@ -85,7 +85,7 @@ class HwSiteListAdmin(ImportExportModelAdmin):
     'solicitante_asignacion_hw',
     'solicitud_hw',
     )
-    # list_filter = ()
+    list_filter = ('Bolsa_HW', 'status_nokia', 'solicitud_hw')
     search_fields = ['idsitesList', 'siteName']
 
 @admin.register(HwControlRfe)
@@ -120,25 +120,25 @@ class HwControlRfeAdmin(ImportExportModelAdmin):
     'homologacion',
     )
     # list_filter = ()
-    readonly_fields=[
-        'wp',
-        'siteName',
-        'proyecto',
-        'escenario',
-        'banda',
-        'seccion',
-        'referencia',
-        'cantidad',
-        'parte',
-        'total_smr',
-        'fuente',
-        'RFE',
-        'bodega_origen_fecha',
-        'bts_status',
-        'reemplazo',
-        'po_date',
-        'so_date',
-        'envio_capex',
-        'last_updated_ghw',
+    readonly_fields = [
+    'wp',
+    'siteName',
+    'proyecto',
+    'escenario',
+    'banda',
+    'seccion',
+    'referencia',
+    'cantidad',
+    'parte',
+    'total_smr',
+    'fuente',
+    'RFE',
+    'bodega_origen_fecha',
+    'bts_status',
+    'reemplazo',
+    'po_date',
+    'so_date',
+    'envio_capex',
+    'last_updated_ghw',
     ]
     search_fields = ['id_hw_config', 'siteName', 'parte']

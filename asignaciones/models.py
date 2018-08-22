@@ -223,7 +223,7 @@ class SitioPo(models.Model):
         verbose_name_plural = 'sitios po'
 
     def __str__(self):
-        return self.estacion.site_name
+        return self.estacion
 
     # def get_absolute_url(self):
     #     return reverse('asignaciones:detail_sitio_po', kwargs={'pk': self.pk})

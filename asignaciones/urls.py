@@ -39,6 +39,7 @@ export_po_zina,
 sitios_asignacion,
 sitios_po,
 asignacion_bolsa,
+sobrantes,
 asignacion_bulk,
 )
 
@@ -84,5 +85,6 @@ urlpatterns = [
     path('sitios/asignacion/', sitios_asignacion, name='sitios_asignacion'),
     path('sitios/po/', sitios_po, name='sitios_po'),
     path('asignacion/bolsa/', asignacion_bolsa, name='asignacion_bolsa'),
+    path('sobrantes/', sobrantes, name='sobrantes'),
     path('asignacion/bulk/', asignacion_bulk, name='asignacion_bulk'),
 ]

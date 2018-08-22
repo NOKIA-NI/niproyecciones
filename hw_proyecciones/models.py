@@ -99,19 +99,19 @@ class HwControlRfe(models.Model):
     total_smr = models.BigIntegerField(blank=True, null=True)
     fuente = models.CharField(max_length=45, blank=True, null=True)
     RFE = models.DateField(blank=True, null=True)
-    so = models.CharField(max_length=255, blank=True, null=True)# si
-    po = models.CharField(max_length=255, blank=True, null=True)# si
-    bodega_origen = models.CharField(max_length=50, blank=True, null=True)# si
+    so = models.CharField(max_length=255, blank=True, null=True)
+    po = models.CharField(max_length=255, blank=True, null=True)
+    bodega_origen = models.CharField(max_length=50, blank=True, null=True)
     bodega_origen_fecha = models.DateField(blank=True, null=True)
-    issue_bodega_origen = models.CharField(max_length=255, blank=True, null=True)# si
-    material_sobrante = models.TextField(blank=True, null=True)# si
+    issue_bodega_origen = models.CharField(max_length=255, blank=True, null=True)
+    material_sobrante = models.TextField(blank=True, null=True)
     bts_status = models.CharField(max_length=50, blank=True, null=True)
     reemplazo = models.CharField(max_length=255, blank=True, null=True)
     po_date = models.DateField(blank=True, null=True)
     so_date = models.DateField(blank=True, null=True)
     envio_capex = models.DateField(blank=True, null=True)
     last_updated_ghw = models.DateField(blank=True, null=True)
-    homologacion = models.CharField(max_length=85, blank=True, null=True)# si
+    homologacion = models.CharField(max_length=85, blank=True, null=True)
     
 
     class Meta:

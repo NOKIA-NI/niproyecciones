@@ -105,7 +105,7 @@ class EstadoPoAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'estacion']
+    search_fields = ['id', 'estacion', 'numero_po']
 
 @admin.register(PoZina)
 class PoZinaAdmin(ImportExportModelAdmin):
@@ -179,4 +179,4 @@ class SitioPoAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'estacion.site_name']
+    search_fields = ['id', 'estacion']
