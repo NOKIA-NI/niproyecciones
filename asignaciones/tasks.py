@@ -31,7 +31,7 @@ def task_sitios_asignacion():
         sitio_bolsa = SitioBulk.objects.create(
             estacion=Estacion.objects.get(site_name__iexact=sitio_asignacion_bulk.siteName)
         )
-    return { 'ok':200 }
+    return { 'status_code':200 }
 
 @shared_task
 def task_sitios_po():
@@ -54,7 +54,7 @@ def task_sitios_po():
             fxcb=estado_po.fxcb,
             fxcb_status=estado_po.fxcb_status,
         )
-    return { 'ok':200 }
+    return { 'status_code':200 }
 
 @shared_task
 def task_asignacion_bolsa():
@@ -65,6 +65,7 @@ def task_asignacion_bolsa():
     list_site_name = [ sitio.site_name for sitio in sitios_pos_zina ]
     list_site_name = list(set(list_site_name)) # elimina items duplicados
     sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__in=list_site_name) # filtra sitios en rfe por po's zina
+    list_ids_air_scale = []
     for sitio_hw_control_rfe in sitios_hw_control_rfe: # for principal
         if sitio_hw_control_rfe.total_smr == 0: # la necesidad es 0
             sitio_hw_control_rfe.so = 'N/A'
@@ -116,162 +117,175 @@ def task_asignacion_bolsa():
                 and sitio_hw_control_rfe.total_smr > 0: # kit air scale
                     kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                     if kit_air_scale:
+                        sitio_po = SitioPo.objects.get(estacion=sitio_hw_control_rfe.siteName)
                         if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
-                            list_fcob = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
-                            for fcob in list_fcob:
-                                if fcob.total_smr > 1:
-                                    fcobs_zina = sitios_pos_zina.filter(site_name=fcob.siteName, parte_capex=fcob.parte)
+                            list_fcob_rfe = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
+                            for fcob_rfe in list_fcob_rfe:
+                                if fcob_rfe.total_smr > 1:
+                                    fcobs_zina = sitios_pos_zina.filter(site_name=fcob_rfe.siteName, parte_capex=fcob_rfe.parte)
                                     for fcob_zina in fcobs_zina:
-                                        if fcob_zina.quantity - fcob.total_smr + 1 >= 0:
-                                            fcob.so = sitio_po.bts
-                                            fcob.po = str(sitio_po.numero_po) + 'X' + str(fcob.total_smr)
-                                            fcob.bodega_origen = 'Panalpina'
-                                            fcob.save()
-                                            fcob_zina.quantity = fcob_zina.quantity - fcob.total_smr + 1
+                                        if fcob_zina.quantity - fcob_rfe.total_smr + 1 >= 0:
+                                            fcob_rfe.so = sitio_po.bts
+                                            fcob_rfe.po = str(sitio_po.numero_po) + 'X' + str(fcob_rfe.total_smr)
+                                            fcob_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(fcob_rfe.id_hw_config)
+                                            fcob_rfe.save()
+                                            fcob_zina.quantity = fcob_zina.quantity - fcob_rfe.total_smr + 1
                                             fcob_zina.save()
                                             break
                                         else:
-                                            fcob.so = sitio_po.bts
-                                            fcob.po = str(sitio_po.numero_po) + 'X' + str(fcob_zina.quantity + 1)
-                                            fcob.bodega_origen = 'Panalpina'
-                                            fcob.save()
+                                            fcob_rfe.so = sitio_po.bts
+                                            fcob_rfe.po = str(sitio_po.numero_po) + 'X' + str(fcob_zina.quantity + 1)
+                                            fcob_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(fcob_rfe.id_hw_config)
+                                            fcob_rfe.save()
                                             fcob_zina.quantity = 0
                                             fcob_zina.save()
                                             try:
-                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=fcob.parte)
-                                                if (asignacion_bulk.cantidad - fcob.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
-                                                    fcob.save() # termina asignar
-                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - fcob.total_smr + 1
+                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=fcob_rfe.parte)
+                                                if (asignacion_bulk.cantidad - fcob_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
+                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    fcob_rfe.save() # termina asignar
+                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - fcob_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                    fcob.save() # termina asignar
+                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    fcob_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                fcob.save() # termina asignar 
-                                if fcob.total_smr == 1:
-                                    fcob.so = sitio_po.bts
-                                    fcob.po = str(sitio_po.numero_po) + 'X1'
-                                    fcob.bodega_origen = 'Panalpina'
-                                    fcob.save()
+                                                fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                fcob_rfe.save() # termina asignar 
+                                if fcob_rfe.total_smr == 1:
+                                    fcob_rfe.so = sitio_po.bts
+                                    fcob_rfe.po = str(sitio_po.numero_po) + 'X1'
+                                    fcob_rfe.bodega_origen = 'Panalpina'
+                                    list_ids_air_scale.append(fcob_rfe.id_hw_config)
+                                    fcob_rfe.save()
                                     break
-                            list_amia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='AMIA')
-                            for amia in list_amia:
-                                if amia.total_smr > 1:
-                                    amias_zina = sitios_pos_zina.filter(site_name=amia.siteName, parte_capex=amia.parte)
+                            list_amia_rfe = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='AMIA')
+                            for amia_rfe in list_amia_rfe:
+                                if amia_rfe.total_smr > 1:
+                                    amias_zina = sitios_pos_zina.filter(site_name=amia_rfe.siteName, parte_capex=amia_rfe.parte)
                                     for amia_zina in amias_zina:
-                                        if amia_zina.quantity - amia.total_smr + 1 >= 0:
-                                            amia.so = sitio_po.bts
-                                            amia.po = str(sitio_po.numero_po) + 'X' + str(amia.total_smr)
-                                            amia.bodega_origen = 'Panalpina'
-                                            amia.save()
-                                            amia_zina.quantity = amia_zina.quantity - amia.total_smr + 1
+                                        if amia_zina.quantity - amia_rfe.total_smr + 1 >= 0:
+                                            amia_rfe.so = sitio_po.bts
+                                            amia_rfe.po = str(sitio_po.numero_po) + 'X' + str(amia_rfe.total_smr)
+                                            amia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(amia_rfe.id_hw_config)
+                                            amia_rfe.save()
+                                            amia_zina.quantity = amia_zina.quantity - amia_rfe.total_smr + 1
                                             amia_zina.save()
                                             break
                                         else:
-                                            amia.so = sitio_po.bts
-                                            amia.po = str(sitio_po.numero_po) + 'X' + str(amia_zina.quantity + 1)
-                                            amia.bodega_origen = 'Panalpina'
-                                            amia.save()
+                                            amia_rfe.so = sitio_po.bts
+                                            amia_rfe.po = str(sitio_po.numero_po) + 'X' + str(amia_zina.quantity + 1)
+                                            amia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(amia_rfe.id_hw_config)
+                                            amia_rfe.save()
                                             amia_zina.quantity = 0
                                             amia_zina.save()
                                             try:
-                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=amia.parte)
-                                                if (asignacion_bulk.cantidad - amia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
-                                                    amia.save() # termina asignar
-                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - amia.total_smr + 1
+                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=amia_rfe.parte)
+                                                if (asignacion_bulk.cantidad - amia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
+                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    amia_rfe.save() # termina asignar
+                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - amia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                    amia.save() # termina asignar
+                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    amia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                amia.save() # termina asignar 
-                                if amia.total_smr == 1:
-                                    amia.so = sitio_po.bts
-                                    amia.po = str(sitio_po.numero_po) + 'X1'
-                                    amia.bodega_origen = 'Panalpina'
-                                    amia.save()
+                                                amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                amia_rfe.save() # termina asignar 
+                                if amia_rfe.total_smr == 1:
+                                    amia_rfe.so = sitio_po.bts
+                                    amia_rfe.po = str(sitio_po.numero_po) + 'X1'
+                                    amia_rfe.bodega_origen = 'Panalpina'
+                                    list_ids_air_scale.append(amia_rfe.id_hw_config)
+                                    amia_rfe.save()
                                     break
-                            list_abia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ABIA')
-                            for abia in list_abia:
-                                if abia.total_smr > 1:
-                                    abias_zina = sitios_pos_zina.filter(site_name=abia.siteName, parte_capex=abia.parte)
+                            list_abia_rfe = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ABIA')
+                            for abia_rfe in list_abia_rfe:
+                                if abia_rfe.total_smr > 1:
+                                    abias_zina = sitios_pos_zina.filter(site_name=abia_rfe.siteName, parte_capex=abia_rfe.parte)
                                     for abia_zina in abias_zina:
-                                        if abia_zina.quantity - abia.total_smr + 1 >= 0:
-                                            abia.so = sitio_po.bts
-                                            abia.po = str(sitio_po.numero_po) + 'X' + str(abia.total_smr)
-                                            abia.bodega_origen = 'Panalpina'
-                                            abia.save()
-                                            abia_zina.quantity = abia_zina.quantity - abia.total_smr + 1
+                                        if abia_zina.quantity - abia_rfe.total_smr + 1 >= 0:
+                                            abia_rfe.so = sitio_po.bts
+                                            abia_rfe.po = str(sitio_po.numero_po) + 'X' + str(abia_rfe.total_smr)
+                                            abia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(abia_rfe.id_hw_config)
+                                            abia_rfe.save()
+                                            abia_zina.quantity = abia_zina.quantity - abia_rfe.total_smr + 1
                                             abia_zina.save()
                                             break
                                         else:
-                                            abia.so = sitio_po.bts
-                                            abia.po = str(sitio_po.numero_po) + 'X' + str(abia_zina.quantity + 1)
-                                            abia.bodega_origen = 'Panalpina'
-                                            abia.save()
+                                            abia_rfe.so = sitio_po.bts
+                                            abia_rfe.po = str(sitio_po.numero_po) + 'X' + str(abia_zina.quantity + 1)
+                                            abia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(abia_rfe.id_hw_config)
+                                            abia_rfe.save()
                                             abia_zina.quantity = 0
                                             abia_zina.save()
                                             try:
-                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=abia.parte)
-                                                if (asignacion_bulk.cantidad - abia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
-                                                    abia.save() # termina asignar
-                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - abia.total_smr + 1
+                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=abia_rfe.parte)
+                                                if (asignacion_bulk.cantidad - abia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
+                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    abia_rfe.save() # termina asignar
+                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - abia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                    abia.save() # termina asignar
+                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    abia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                abia.save() # termina asignar 
-                                if abia.total_smr == 1:
-                                    abia.so = sitio_po.bts
-                                    abia.po = str(sitio_po.numero_po) + 'X1'
-                                    abia.bodega_origen = 'Panalpina'
-                                    abia.save()
+                                                abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                abia_rfe.save() # termina asignar 
+                                if abia_rfe.total_smr == 1:
+                                    abia_rfe.so = sitio_po.bts
+                                    abia_rfe.po = str(sitio_po.numero_po) + 'X1'
+                                    abia_rfe.bodega_origen = 'Panalpina'
+                                    list_ids_air_scale.append(abia_rfe.id_hw_config)
+                                    abia_rfe.save()
                                     break
-                            list_asia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ASIA')
-                            for asia in list_asia:
-                                if asia.total_smr > 1:
-                                    asias_zina = sitios_pos_zina.filter(site_name=asia.siteName, parte_capex=asia.parte)
+                            list_asia_rfe = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ASIA')
+                            for asia_rfe in list_asia_rfe:
+                                if asia_rfe.total_smr > 1:
+                                    asias_zina = sitios_pos_zina.filter(site_name=asia_rfe.siteName, parte_capex=asia_rfe.parte)
                                     for asia_zina in asias_zina:
-                                        if asia_zina.quantity - asia.total_smr + 1 >= 0:
-                                            asia.so = sitio_po.bts
-                                            asia.po = str(sitio_po.numero_po) + 'X' + str(asia.total_smr)
-                                            asia.bodega_origen = 'Panalpina'
-                                            asia.save()
-                                            asia_zina.quantity = asia_zina.quantity - asia.total_smr + 1
+                                        if asia_zina.quantity - asia_rfe.total_smr + 1 >= 0:
+                                            asia_rfe.so = sitio_po.bts
+                                            asia_rfe.po = str(sitio_po.numero_po) + 'X' + str(asia_rfe.total_smr)
+                                            asia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(asia_rfe.id_hw_config)
+                                            asia_rfe.save()
+                                            asia_zina.quantity = asia_zina.quantity - asia_rfe.total_smr + 1
                                             asia_zina.save()
                                             break
                                         else:
-                                            asia.so = sitio_po.bts
-                                            asia.po = str(sitio_po.numero_po) + 'X' + str(asia_zina.quantity + 1)
-                                            asia.bodega_origen = 'Panalpina'
-                                            asia.save()
+                                            asia_rfe.so = sitio_po.bts
+                                            asia_rfe.po = str(sitio_po.numero_po) + 'X' + str(asia_zina.quantity + 1)
+                                            asia_rfe.bodega_origen = 'Panalpina'
+                                            list_ids_air_scale.append(asia_rfe.id_hw_config)
+                                            asia_rfe.save()
                                             asia_zina.quantity = 0
                                             asia_zina.save()
                                             try:
-                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=asia.parte)
-                                                if (asignacion_bulk.cantidad - asia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
-                                                    asia.save() # termina asignar
-                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - asia.total_smr + 1
+                                                asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=asia_rfe.parte)
+                                                if (asignacion_bulk.cantidad - asia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
+                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    asia_rfe.save() # termina asignar
+                                                    asignacion_bulk.cantidad = asignacion_bulk.cantidad - asia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                    asia.save() # termina asignar
+                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    asia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
-                                                asia.save() # termina asignar 
-                                if asia.total_smr == 1:
-                                    asia.so = sitio_po.bts
-                                    asia.po = str(sitio_po.numero_po) + 'X1'
-                                    asia.bodega_origen = 'Panalpina'
-                                    asia.save()
+                                                asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                asia_rfe.save() # termina asignar 
+                                if asia_rfe.total_smr == 1:
+                                    asia_rfe.so = sitio_po.bts
+                                    asia_rfe.po = str(sitio_po.numero_po) + 'X1'
+                                    asia_rfe.bodega_origen = 'Panalpina'
+                                    list_ids_air_scale.append(asia_rfe.id_hw_config)
+                                    asia_rfe.save()
                                     break
                             kit_air_scale.quantity = 0
                             kit_air_scale.save()
@@ -319,7 +333,7 @@ def task_asignacion_bolsa():
                             asignacion_bulk.save() # modifica cantidad
                     except AsignacionBulk.DoesNotExist:
                         pass
-            if pos_zina.count() == 1: # hay una po en zina
+            if pos_zina.count() == 1: # hay una po en Zina
                 count = 0
                 for po_zina in pos_zina:
                     switch = True # switch encendido
@@ -330,7 +344,10 @@ def task_asignacion_bolsa():
                     and sitio_hw_control_rfe.total_smr > 0: # kit air scale
                         kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                         if kit_air_scale:
+                            sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
+                                sitio_hw_control_rfe.homologacion = 'ENTRO KIT hay una po en Zina'
+                                sitio_hw_control_rfe.save()
                                 list_fcob = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
                                 for fcob in list_fcob:
                                     if fcob.total_smr > 1:
@@ -340,6 +357,7 @@ def task_asignacion_bolsa():
                                                 fcob.so = sitio_po.bts
                                                 fcob.po = str(sitio_po.numero_po) + 'X' + str(fcob.total_smr)
                                                 fcob.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(fcob_rfe.id_hw_config)
                                                 fcob.save()
                                                 fcob_zina.quantity = fcob_zina.quantity - fcob.total_smr + 1
                                                 fcob_zina.save()
@@ -348,6 +366,7 @@ def task_asignacion_bolsa():
                                                 fcob.so = sitio_po.bts
                                                 fcob.po = str(sitio_po.numero_po) + 'X' + str(fcob_zina.quantity + 1)
                                                 fcob.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(fcob_rfe.id_hw_config)
                                                 fcob.save()
                                                 fcob_zina.quantity = 0
                                                 fcob_zina.save()
@@ -368,6 +387,7 @@ def task_asignacion_bolsa():
                                         fcob.so = sitio_po.bts
                                         fcob.po = str(sitio_po.numero_po) + 'X1'
                                         fcob.bodega_origen = 'Panalpina'
+                                        list_ids_air_scale.append(fcob_rfe.id_hw_config)
                                         fcob.save()
                                         break
                                 list_amia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='AMIA')
@@ -379,6 +399,7 @@ def task_asignacion_bolsa():
                                                 amia.so = sitio_po.bts
                                                 amia.po = str(sitio_po.numero_po) + 'X' + str(amia.total_smr)
                                                 amia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(amia_rfe.id_hw_config)
                                                 amia.save()
                                                 amia_zina.quantity = amia_zina.quantity - amia.total_smr + 1
                                                 amia_zina.save()
@@ -387,6 +408,7 @@ def task_asignacion_bolsa():
                                                 amia.so = sitio_po.bts
                                                 amia.po = str(sitio_po.numero_po) + 'X' + str(amia_zina.quantity + 1)
                                                 amia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(amia_rfe.id_hw_config)
                                                 amia.save()
                                                 amia_zina.quantity = 0
                                                 amia_zina.save()
@@ -407,6 +429,7 @@ def task_asignacion_bolsa():
                                         amia.so = sitio_po.bts
                                         amia.po = str(sitio_po.numero_po) + 'X1'
                                         amia.bodega_origen = 'Panalpina'
+                                        list_ids_air_scale.append(amia_rfe.id_hw_config)
                                         amia.save()
                                         break
                                 list_abia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ABIA')
@@ -418,6 +441,7 @@ def task_asignacion_bolsa():
                                                 abia.so = sitio_po.bts
                                                 abia.po = str(sitio_po.numero_po) + 'X' + str(abia.total_smr)
                                                 abia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(abia_rfe.id_hw_config)
                                                 abia.save()
                                                 abia_zina.quantity = abia_zina.quantity - abia.total_smr + 1
                                                 abia_zina.save()
@@ -426,6 +450,7 @@ def task_asignacion_bolsa():
                                                 abia.so = sitio_po.bts
                                                 abia.po = str(sitio_po.numero_po) + 'X' + str(abia_zina.quantity + 1)
                                                 abia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(abia_rfe.id_hw_config)
                                                 abia.save()
                                                 abia_zina.quantity = 0
                                                 abia_zina.save()
@@ -446,6 +471,7 @@ def task_asignacion_bolsa():
                                         abia.so = sitio_po.bts
                                         abia.po = str(sitio_po.numero_po) + 'X1'
                                         abia.bodega_origen = 'Panalpina'
+                                        list_ids_air_scale.append(abia_rfe.id_hw_config)
                                         abia.save()
                                         break
                                 list_asia = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='ASIA')
@@ -457,6 +483,7 @@ def task_asignacion_bolsa():
                                                 asia.so = sitio_po.bts
                                                 asia.po = str(sitio_po.numero_po) + 'X' + str(asia.total_smr)
                                                 asia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(abia_rfe.id_hw_config)
                                                 asia.save()
                                                 asia_zina.quantity = asia_zina.quantity - asia.total_smr + 1
                                                 asia_zina.save()
@@ -465,6 +492,7 @@ def task_asignacion_bolsa():
                                                 asia.so = sitio_po.bts
                                                 asia.po = str(sitio_po.numero_po) + 'X' + str(asia_zina.quantity + 1)
                                                 asia.bodega_origen = 'Panalpina'
+                                                list_ids_air_scale.append(abia_rfe.id_hw_config)
                                                 asia.save()
                                                 asia_zina.quantity = 0
                                                 asia_zina.save()
@@ -485,6 +513,7 @@ def task_asignacion_bolsa():
                                         asia.so = sitio_po.bts
                                         asia.po = str(sitio_po.numero_po) + 'X1'
                                         asia.bodega_origen = 'Panalpina'
+                                        list_ids_air_scale.append(abia_rfe.id_hw_config)
                                         asia.save()
                                         break
                                 kit_air_scale.quantity = 0
@@ -495,6 +524,7 @@ def task_asignacion_bolsa():
                     or PARTE == 'FYGB': # kit gps
                         kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
                         if kit_gps:
+                            sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_gps.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fyma = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FYMA')
                                 for fyma in list_fyma:
@@ -568,7 +598,7 @@ def task_asignacion_bolsa():
                                     asignacion_bulk.save() # modifica cantidad
                             except AsignacionBulk.DoesNotExist:
                                 pass
-                        if po_zina.quantity > 0: # asignar
+                        if po_zina.quantity > 0 and sitio_hw_control_rfe.id_hw_config not in list_ids_air_scale: # asignar po + bulk
                             if po_zina.quantity - sitio_hw_control_rfe.total_smr >= 0: # asignar po
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                 if PARTE == 'J_MR_MA_4MTS_DCLASS'\
@@ -621,7 +651,7 @@ def task_asignacion_bolsa():
                                         asignacion_bulk.save() # modifica cantidad
                                 except AsignacionBulk.DoesNotExist:
                                     pass
-            if pos_zina.count() > 1: # hay mas de una po en zina
+            if pos_zina.count() > 1: # hay mas de una po en Zina
                 count = 0
                 for po_zina in pos_zina:
                     switch = True # switch encendido
@@ -632,6 +662,7 @@ def task_asignacion_bolsa():
                     and sitio_hw_control_rfe.total_smr == 1: # kit air scale
                         kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                         if kit_air_scale:
+                            sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fcob = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
                                 for fcob in list_fcob:
@@ -670,6 +701,7 @@ def task_asignacion_bolsa():
                     or PARTE == 'FYGB': # kit gps
                         kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
                         if kit_gps:
+                            sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_gps.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fyma = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FYMA')
                                 for fyma in list_fyma:
@@ -790,7 +822,7 @@ def task_asignacion_bolsa():
                                 asignacion_bulk.save() # modifica cantidad
                         except AsignacionBulk.DoesNotExist:
                             pass
-    return { 'ok':200 }
+    return { 'status_code':200 }
 
 @shared_task
 def task_sobrantes():
@@ -799,7 +831,7 @@ def task_sobrantes():
     list_sitio_po = [ sitio_po.numero_po for sitio_po in sitios_po ]
     sitios_pos_zina = PoZina.objects.filter(cpo_number__in=list_sitio_po) # filtra sitios en zina por po's AVAILABLE IN WH
     sitios_pos_zina = sitios_pos_zina.filter(quantity__gt=0) # sobrantes
-    for sitio_po_zina in sitios_pos_zina:
+    for sitio_po_zina in sitios_pos_zina: # for principal
         if sitio_po_zina.parte_capex == 'J_MR_MA_4MTS_DCLASS'\
         or sitio_po_zina.parte_capex == 'J_MR_MA_8MTS_DCLASS'\
         or sitio_po_zina.parte_capex == 'J_MR_MA_14MTS_DCLASS' and sitios_po.get(numero_po=sitio_po_zina.cpo_number).jumper_status != 'AVAILABLE IN WH':
@@ -809,6 +841,7 @@ def task_sobrantes():
         and sitios_po.get(numero_po=sitio_po_zina.cpo_number).fxcb == 'FXCB separated':
             pass
         else:
+            switch = True
             sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name, parte=sitio_po_zina.parte_capex) # sitios filtro rfe
             if sitios_hw_control_rfe.count() > 0:
                 for sitio_hw_control_rfe in sitios_hw_control_rfe:
@@ -834,34 +867,35 @@ def task_sobrantes():
                             else:
                                 sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
                                 sitio_hw_control_rfe.save()
+                        switch = False
                         break
-                    else:
-                        sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name)
-                        for sitio_hw_control_rfe in sitios_hw_control_rfe:
-                            if sitio_hw_control_rfe.total_smr > 0:
-                                if sitio_po_zina.quantity < 10:
-                                    if sitio_hw_control_rfe.material_sobrante:
-                                        sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                    else:
-                                        sitio_hw_control_rfe.material_sobrante = '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                if sitio_po_zina.quantity >= 10 and sitio_po_zina.quantity < 100:
-                                    if sitio_hw_control_rfe.material_sobrante:
-                                        sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                    else:
-                                        sitio_hw_control_rfe.material_sobrante = '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                if sitio_po_zina.quantity >= 100:
-                                    if sitio_hw_control_rfe.material_sobrante:
-                                        sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                    else:
-                                        sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
-                                        sitio_hw_control_rfe.save()
-                                break
-                        break
+        
+                if switch:
+                    sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name)
+                    for sitio_hw_control_rfe in sitios_hw_control_rfe:
+                        if sitio_hw_control_rfe.total_smr > 0:
+                            if sitio_po_zina.quantity < 10:
+                                if sitio_hw_control_rfe.material_sobrante:
+                                    sitio_hw_control_rfe.material_sobrante += '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                                else:
+                                    sitio_hw_control_rfe.material_sobrante = '00' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                            if sitio_po_zina.quantity >= 10 and sitio_po_zina.quantity < 100:
+                                if sitio_hw_control_rfe.material_sobrante:
+                                    sitio_hw_control_rfe.material_sobrante += '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                                else:
+                                    sitio_hw_control_rfe.material_sobrante = '0' + str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                            if sitio_po_zina.quantity >= 100:
+                                if sitio_hw_control_rfe.material_sobrante:
+                                    sitio_hw_control_rfe.material_sobrante += str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                                else:
+                                    sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
+                                    sitio_hw_control_rfe.save()
+                            break
             else:
                 sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name)
                 for sitio_hw_control_rfe in sitios_hw_control_rfe:
@@ -888,7 +922,7 @@ def task_sobrantes():
                                 sitio_hw_control_rfe.material_sobrante = str(sitio_po_zina.quantity) + 'X' + sitio_po_zina.parte_capex + 'X' + str(sitio_po_zina.cpo_number) + ','
                                 sitio_hw_control_rfe.save()
                         break
-    return { 'ok':200 }
+    return { 'status_code':200 }
 
 @shared_task
 def task_asignacion_bulk():
@@ -942,5 +976,5 @@ def task_asignacion_bulk():
                 asignacion_bulk.save() # modifica cantidad
         except AsignacionBulk.DoesNotExist:
             pass
-    return { 'ok':200 }
+    return { 'status_code':200 }
 

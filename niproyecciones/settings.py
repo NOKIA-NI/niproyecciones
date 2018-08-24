@@ -245,7 +245,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-REDIS = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=6379, db=0)
+REDIS = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=6379, db=0, charset='utf-8', decode_responses=True)
 
 try:
     from local_settings import *

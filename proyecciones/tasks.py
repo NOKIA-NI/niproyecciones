@@ -57,4 +57,4 @@ def send_mail_proyeccion():
         )
     message.attach(filename, content, mimetype)
     message.send(fail_silently=False)
-    return {'ok':200}
+    return { 'status_code':200 }

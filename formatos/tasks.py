@@ -32,7 +32,7 @@ def task_create_formato_estacion():
             formato_estacion = FormatoEstacion.objects.create(
             estacion = proyeccion.estacion,
             )
-    return {'ok':200}
+    return { 'status_code':200 }
 
 @shared_task
 def task_create_formato_parte():
@@ -53,7 +53,7 @@ def task_create_formato_parte():
                         parte = parte,
                         cantidad = cantidad,
                         )
-    return {'ok':200}
+    return { 'status_code':200 }
 
 @shared_task
 def task_create_formato_claro():
@@ -66,7 +66,7 @@ def task_create_formato_claro():
             formato_claro = FormatoClaro.objects.create(
                 formato_parte = formato_parte,
                 )
-    return {'ok':200}
+    return { 'status_code':200 }
 
 @shared_task
 def task_create_formato_claro_total():
@@ -85,7 +85,7 @@ def task_create_formato_claro_total():
                 parte = formato_parte.parte,
                 total = total,
                 )
-    return {'ok':200}
+    return { 'status_code':200 }
 
 @shared_task
 def task_create_formato_claro_kit():
@@ -157,4 +157,4 @@ def task_create_formato_claro_kit():
             semana = formato_claro.semana,
             mes = formato_claro.mes,
             )
-    return {'ok':200}
+    return { 'status_code':200 }

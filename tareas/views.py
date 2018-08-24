@@ -18,6 +18,8 @@ import operator
 from django.db.models import Q
 from functools import reduce
 from celery.result import AsyncResult
+from django.conf import settings
+import json
 
 class ListTarea(LoginRequiredMixin,
                             ListView,
@@ -82,6 +84,17 @@ class DetailTarea(LoginRequiredMixin, DetailView):
     login_url = 'users:home'
     model = Tarea
     template_name = 'tarea/detail_tarea.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailTarea, self).get_context_data(**kwargs)
+        task = json.loads(settings.REDIS.get('celery-task-meta-' + str(self.object.tarea_id)))
+        task_info = AsyncResult(self.object.tarea_id)
+        context['task'] = task
+        context['status'] = task['status']
+        context['result'] = task['result']
+        context['status_code'] = task['result']['status_code']
+        context['info'] = task_info.info
+        return context
 
 def get_task_status(request):
     task_id = request.GET.get('task_id', None)
