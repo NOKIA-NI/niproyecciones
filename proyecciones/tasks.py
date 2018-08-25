@@ -10,6 +10,7 @@ TODAY = timezone.now().date()
 
 @shared_task
 def send_mail_proyeccion():
+    current_task.update_state(state='PROGRESS')
     proyeciones = Proyeccion.objects.select_related('estacion', 'parte').all()
     output = BytesIO()
     wb = Workbook()

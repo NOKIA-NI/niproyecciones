@@ -74,7 +74,7 @@ function get_task_status (task_id, tarea_id) {
             if (data.state == 'PENDING' || data.state == 'STARTED' || data.state == 'PROGRESS') {
                 $('#'+tarea_id).html(data.state);
             }
-            if (data.state == 'SUCCESS') {
+            if (data.state == 'SUCCESS' || 'FAILURE') {
                 $('#'+tarea_id).html(data.state);
             }
             if (data.state != 'SUCCESS') {
