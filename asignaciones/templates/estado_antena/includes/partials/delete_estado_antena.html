@@ -1,9 +1,9 @@
 {% extends 'base_modal.html' %}
 {% load crispy_forms_tags %}
-{% block tilte_modal %}Borrar Po Zina{% endblock tilte_modal %}
+{% block tilte_modal %}Borrar Estado_antena{% endblock tilte_modal %}
 
 {% block body_modal %}
-<form method="POST" action="" onsubmit="return delete_url_po_zina(this)" class="">{% csrf_token %}
+<form method="POST" action="" onsubmit="return delete_url_estado_antena (this)" class="">{% csrf_token %}
   <div class="form-group">
     <p>Estas seguro que quiers borrar "{{ object }}"?</p>
   </div>

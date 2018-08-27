@@ -227,3 +227,34 @@ class SitioPo(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse('asignaciones:detail_sitio_po', kwargs={'pk': self.pk})
+
+class EstadoAntena(models.Model):
+    site_name = models.CharField(max_length=255, blank=True, null=True)
+    parte = models.CharField(max_length=255, blank=True, null=True)
+    cantiad_estimada = models.CharField(max_length=255, blank=True, null=True)
+    grupo = models.CharField(max_length=255, blank=True, null=True)
+    marca = models.CharField(max_length=255, blank=True, null=True)
+    fc_salida = models.PositiveIntegerField(blank=True, null=True)
+    estado = models.CharField(max_length=255, blank=True, null=True)
+    familia = models.PositiveIntegerField(blank=True, null=True)
+    categoria = models.CharField(max_length=255, blank=True, null=True)
+    impacto = models.CharField(max_length=255, blank=True, null=True)
+    reserva = models.CharField(max_length=255, blank=True, null=True)
+    estado_tss = models.CharField(max_length=255, blank=True, null=True)
+    estado_antena = models.CharField(max_length=255, blank=True, null=True)
+
+    estado = models.BooleanField(default=True, editable=False)
+    subestado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+
+class Meta:
+    ordering = ('creado',)
+    verbose_name = 'estado antena'
+    verbose_name_plural = 'estados antena'
+
+def __str__(self):
+    return self.site_name
+
+# def get_absolute_url(self):
+#     return reverse('asignaciones:detail_estado_antena', kwargs={'pk': self.pk})

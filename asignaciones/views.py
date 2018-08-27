@@ -17,6 +17,7 @@ from .models import (
     AsignacionAntena,
     EstadoPo,
     PoZina,
+    EstadoAntena,
 )
 from .forms import (
     AsignacionBulkForm,
@@ -27,11 +28,15 @@ from .forms import (
     FilterEstadoPoForm,
     PoZinaForm,
     FilterPoZinaForm,
+    EstadoAntenaForm,
+    FilterEstadoAntenaForm,
 )
 from .resources import (
     AsignacionBulkResource,
     AsignacionAntenaResource,
     EstadoPoResource,
+    PoZinaResource,
+    EstadoAntenaResource,
 )
 from .tasks import (
     task_sitios_asignacion,
@@ -513,6 +518,120 @@ def export_po_zina(request):
     dataset = po_zina_resource.export(queryset)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="PoZina.xlsx"'
+    return response
+
+class ListEstadoAntena(LoginRequiredMixin,
+                            ListView,
+                            FormView):
+    login_url = 'users:home'
+    model = EstadoAntena
+    template_name = 'estado_antena/list_estado_antena.html'
+    paginate_by = 15
+    form_class = FilterEstadoAntenaForm
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+    def get_context_data(self, **kwargs):
+        context = super(ListEstadoAntena, self).get_context_data(**kwargs)
+        context['items'] = self.get_queryset
+        context['all_items'] = str(EstadoAntena.objects.all().count())
+        context['paginate_by'] = self.request.GET.get('paginate_by', self.paginate_by)
+        context['query'] = self.request.GET.get('qs')
+        return context
+
+class DetailEstadoAntena(LoginRequiredMixin, DetailView):
+    login_url = 'users:home'
+    model = EstadoAntena
+    template_name = 'estado_antena/detail_estado_antena.html'
+
+class CreateEstadoAntena(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            CreateView):
+    login_url = 'users:home'
+    success_message = "Asignacion Antena fue creada exitosamente"
+    form_class = EstadoAntenaForm
+    template_name = 'estado_antena/includes/partials/create_estado_antena.html'
+
+class UpdateEstadoAntena(LoginRequiredMixin,
+                            SuccessMessageMixin,
+                            UpdateView):
+    login_url = 'users:home'
+    success_message = "Asignacion Antena fue actualizada exitosamente"
+    model = EstadoAntena
+    form_class = EstadoAntenaForm
+    template_name = 'estado_antena/includes/partials/update_estado_antena.html'
+
+class DeleteEstadoAntena(LoginRequiredMixin,
+                            DeleteView):
+    login_url = 'users:home'
+    model = EstadoAntena
+    template_name = 'estado_antena/includes/partials/delete_estado_antena.html'
+    success_url = reverse_lazy('asignaciones:list_estado_antena')
+
+class SearchEstadoAntena(ListEstadoAntena):
+
+    def get_queryset(self):
+        queryset = super(SearchEstadoAntena, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_,
+                          (Q(id__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(site_name__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(parte__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(grupo__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(marca__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estado__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(categoria__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(impacto__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(reserva__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estado_tss__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(estado_antena__icontains=q) for q in query_list))
+            )
+            
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchEstadoAntena, self).get_context_data(**kwargs)
+        context['result'] = self.get_queryset().count()
+        return context
+
+class FilterEstadoAntena(ListEstadoAntena):
+    query_dict = {}
+
+    def get_queryset(self):
+        queryset = super(FilterEstadoAntena, self).get_queryset()
+        request_dict = self.request.GET.dict()
+        query_dict = { k: v for k, v in request_dict.items() if v if k != 'page' if k != 'paginate_by' }
+        self.query_dict = query_dict
+        queryset = queryset.filter(**query_dict)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterEstadoAntena, self).get_context_data(**kwargs)
+        context['query_dict'] = self.query_dict
+        context['result'] = self.get_queryset().count()
+        return context
+
+def export_estado_antena(request):
+    estado_antena_resource = EstadoAntenaResource()
+    query_dict = request.GET.dict()
+    queryset = EstadoAntena.objects.filter(**query_dict)
+    dataset = estado_antena_resource.export(queryset)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="EstadoAntena.xlsx"'
     return response
 
 def sitios_asignacion(request):

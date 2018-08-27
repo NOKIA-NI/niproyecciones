@@ -8,6 +8,7 @@ from .models import (
     SitioBolsa,
     SitioBulk,
     SitioPo,
+    EstadoAntena
 )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
@@ -18,6 +19,7 @@ from .resources import (
     SitioBolsaResource,
     SitioBulkResource,
     SitioPoResource,
+    EstadoAntenaResource
 )
 
 @admin.register(AsignacionBulk)
@@ -172,6 +174,33 @@ class SitioPoAdmin(ImportExportModelAdmin):
     'jumper_status',
     'fxcb',
     'fxcb_status',
+    
+    'estado',
+    'subestado',
+    'creado',
+    'actualizado',
+    )
+    list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    search_fields = ['id', 'estacion']
+
+@admin.register(EstadoAntena)
+class EstadoAntenaAdmin(ImportExportModelAdmin):
+    resource_class = EstadoAntenaResource
+    list_display = (
+    'id',
+    'site_name',
+    'parte',
+    'cantiad_estimada',
+    'grupo',
+    'marca',
+    'fc_salida',
+    'estado',
+    'familia',
+    'categoria',
+    'impacto',
+    'reserva',
+    'estado_tss',
+    'estado_antena',
     
     'estado',
     'subestado',

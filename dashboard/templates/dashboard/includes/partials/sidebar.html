@@ -189,6 +189,10 @@
                 <span data-feather="copy"></span>
                 Pos Zina
             </a>
+            <a {% if request.resolver_match.url_name == 'list_estado_antena' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'asignaciones:list_estado_antena' %}">
+              <span data-feather="copy"></span>
+              Estados Antena
+          </a>
         </li>
     </ul>
   </div>

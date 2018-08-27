@@ -1,15 +1,15 @@
 {% extends 'base_modal.html' %}
 {% load crispy_forms_tags %}
-{% block tilte_modal %}Borrar Po Zina{% endblock tilte_modal %}
+{% block tilte_modal %}Crear Estado Antena{% endblock tilte_modal %}
 
 {% block body_modal %}
-<form method="POST" action="" onsubmit="return delete_url_po_zina(this)" class="">{% csrf_token %}
+<form method="POST" action="{% url 'asignaciones:create_estado_antena' %}" class="">{% csrf_token %}
   <div class="form-group">
-    <p>Estas seguro que quiers borrar "{{ object }}"?</p>
+    {{ form|crispy }}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-    <button type="submit" class="btn btn-primary">Borrar</button>
+    <button type="submit" class="btn btn-primary">Crear</button>
   </div>
 </form>
 {% endblock body_modal %}

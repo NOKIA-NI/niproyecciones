@@ -14,6 +14,7 @@ from .models import (
     SitioBolsa,
     SitioBulk,
     SitioPo,
+    EstadoAntena,
     )
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -180,6 +181,33 @@ class SitioPoResource(resources.ModelResource):
         'jumper_status',
         'fxcb',
         'fxcb_status',
+
+        # 'estado',
+        'subestado',
+        # 'creado',
+        # 'actualizado',
+        )
+
+class EstadoAntenaResource(resources.ModelResource):
+
+    class Meta:
+        model = EstadoAntena
+        exclude = ('estado', 'creado', 'actualizado',)
+        export_order = (
+        'id',
+        'site_name',
+        'parte',
+        'cantiad_estimada',
+        'grupo',
+        'marca',
+        'fc_salida',
+        'estado',
+        'familia',
+        'categoria',
+        'impacto',
+        'reserva',
+        'estado_tss',
+        'estado_antena',
 
         # 'estado',
         'subestado',
