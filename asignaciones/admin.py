@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from .models import (
     AsignacionBulk,
     AsignacionAntena,
@@ -21,6 +20,7 @@ from .resources import (
     SitioPoResource,
     EstadoAntenaResource
 )
+from advanced_filters.admin import AdminAdvancedFiltersMixin
 
 @admin.register(AsignacionBulk)
 class AsignacionBulkAdmin(ImportExportModelAdmin):
@@ -110,7 +110,7 @@ class EstadoPoAdmin(ImportExportModelAdmin):
     search_fields = ['id', 'estacion', 'numero_po']
 
 @admin.register(PoZina)
-class PoZinaAdmin(ImportExportModelAdmin):
+class PoZinaAdmin(AdminAdvancedFiltersMixin, ImportExportModelAdmin):
     resource_class = PoZinaResource
     list_display = (
     'id',
@@ -129,6 +129,9 @@ class PoZinaAdmin(ImportExportModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
+    advanced_filter_fields = (
+        'id', 'cpo_number', 'site_name', 'parte_capex',
+    )
     search_fields = ['id', 'cpo_number', 'site_name', 'parte_capex']
 
 @admin.register(SitioBolsa)

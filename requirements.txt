@@ -11,3 +11,5 @@ celery==4.2.1
 redis==2.10.6
 git+https://github.com/Supervisor/supervisor
 openpyxl==2.4.9
+git+https://github.com/modlinltd/django-advanced-filters
+django-braces==1.13.0

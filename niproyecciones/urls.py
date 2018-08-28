@@ -38,6 +38,9 @@ urlpatterns = [
     path('formatos/', include('formatos.urls', namespace='formatos')),
     path('rastreos/', include('rastreos.urls', namespace='rastreos')),
     path('asignaciones/', include('asignaciones.urls', namespace='asignaciones')),
+
+    # third
+    path('advanced_filters/', include('advanced_filters.urls'))
 ]
 
 if settings.DEBUG:

@@ -7,6 +7,7 @@ from .models import (
     SitioBolsa,
     SitioBulk,
     SitioPo,
+    EstadoAntena,
     )
 from estaciones.models import Estacion
 from partes.models import Parte
@@ -115,8 +116,8 @@ def task_asignacion_bolsa():
                 or PARTE == 'ABIA'\
                 or PARTE == 'ASIA')\
                 and sitio_hw_control_rfe.total_smr > 0: # kit air scale
-                    kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
-                    if kit_air_scale:
+                    try:
+                        kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                         sitio_po = SitioPo.objects.get(estacion=sitio_hw_control_rfe.siteName)
                         if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                             list_fcob_rfe = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
@@ -290,11 +291,13 @@ def task_asignacion_bolsa():
                             kit_air_scale.quantity = 0
                             kit_air_scale.save()
                             switch = False # switch apagado
+                    except:
+                        pass
                 if PARTE == 'FYMA'\
                 or PARTE == 'FTSE'\
                 or PARTE == 'FYGB': # kit gps
-                    kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
-                    if kit_gps:
+                    try:
+                        kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
                         if kit_gps.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                             list_fyma = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FYMA')
                             for fyma in list_fyma:
@@ -320,6 +323,8 @@ def task_asignacion_bolsa():
                             kit_gps.quantity = 0
                             kit_gps.save()
                             switch = False # switch apagado
+                    except:
+                        pass
                 if switch:# si el switch encendido
                     try:
                         asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=PARTE)
@@ -342,12 +347,10 @@ def task_asignacion_bolsa():
                     or PARTE == 'ABIA'\
                     or PARTE == 'ASIA')\
                     and sitio_hw_control_rfe.total_smr > 0: # kit air scale
-                        kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
-                        if kit_air_scale:
+                        try:
+                            kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                             sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
-                                sitio_hw_control_rfe.homologacion = 'ENTRO KIT hay una po en Zina'
-                                sitio_hw_control_rfe.save()
                                 list_fcob = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
                                 for fcob in list_fcob:
                                     if fcob.total_smr > 1:
@@ -519,11 +522,13 @@ def task_asignacion_bolsa():
                                 kit_air_scale.quantity = 0
                                 kit_air_scale.save()
                                 switch = False # switch apagado
+                        except:
+                            pass
                     if PARTE == 'FYMA'\
                     or PARTE == 'FTSE'\
                     or PARTE == 'FYGB': # kit gps
-                        kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
-                        if kit_gps:
+                        try:
+                            kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
                             sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_gps.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fyma = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FYMA')
@@ -550,9 +555,12 @@ def task_asignacion_bolsa():
                                 kit_gps.quantity = 0
                                 kit_gps.save()
                                 switch = False # switch apagado
+                        except:
+                            pass
                     if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                     or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                    or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                    or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                    or PARTE == 'Jumper M-M FRHG':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
                             try:
@@ -603,7 +611,8 @@ def task_asignacion_bolsa():
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                 if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                                 or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                                or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                                or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                                or PARTE == 'Jumper M-M FRHG':
                                     sitio_hw_control_rfe.so = sitio_po.jumper
                                 else:
                                     sitio_hw_control_rfe.so = sitio_po.bts
@@ -633,7 +642,8 @@ def task_asignacion_bolsa():
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                 if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                                 or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                                or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                                or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                                or PARTE == 'Jumper M-M FRHG':
                                     sitio_hw_control_rfe.so = sitio_po.jumper
                                 else:
                                     sitio_hw_control_rfe.so = sitio_po.bts
@@ -660,8 +670,8 @@ def task_asignacion_bolsa():
                     or PARTE == 'ABIA'\
                     or PARTE == 'ASIA')\
                     and sitio_hw_control_rfe.total_smr == 1: # kit air scale
-                        kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
-                        if kit_air_scale:
+                        try:
+                            kit_air_scale = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='AirScale Base Setup Outdoor Rack + Shelf + 1 ASIA + 1 ABIA')
                             sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_air_scale.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fcob = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FCOB')
@@ -696,11 +706,13 @@ def task_asignacion_bolsa():
                                 kit_air_scale.save()
                                 switch = False # switch apagado
                                 break
+                        except:
+                            pass
                     if PARTE == 'FYMA'\
                     or PARTE == 'FTSE'\
                     or PARTE == 'FYGB': # kit gps
-                        kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
-                        if kit_gps:
+                        try:
+                            kit_gps = sitios_pos_zina.get(site_name=sitio_hw_control_rfe.siteName, parte_capex='GPS receiver FYGB FYMA FTSE kit')
                             sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                             if kit_gps.quantity == 1 and (not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None):
                                 list_fyma = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FYMA')
@@ -728,9 +740,12 @@ def task_asignacion_bolsa():
                                 kit_gps.save()
                                 switch = False # switch apagado
                                 break
+                        except:
+                            pass
                     if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                     or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                    or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                    or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                    or PARTE == 'Jumper M-M FRHG':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
                             switch = False # switch apagado
@@ -745,7 +760,8 @@ def task_asignacion_bolsa():
                                     sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                     if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                                     or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                                    or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                                    or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                                    or PARTE == 'Jumper M-M FRHG':
                                         sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.jumper)
                                     else:
                                         sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
@@ -776,7 +792,8 @@ def task_asignacion_bolsa():
                                         sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                         if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                                         or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                                        or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                                        or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                                        or PARTE == 'Jumper M-M FRHG':
                                             sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.jumper)
                                         else:
                                             sitio_hw_control_rfe.so = str(sitio_hw_control_rfe.so) + '+' + str(sitio_po.bts)
@@ -790,7 +807,8 @@ def task_asignacion_bolsa():
                                         sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                         if PARTE == 'J_MR_MA_4MTS_DCLASS'\
                                         or PARTE == 'J_MR_MA_8MTS_DCLASS'\
-                                        or PARTE == 'J_MR_MA_14MTS_DCLASS':
+                                        or PARTE == 'J_MR_MA_14MTS_DCLASS'\
+                                        or PARTE == 'Jumper M-M FRHG':
                                             sitio_hw_control_rfe.so = sitio_po.jumper
                                         else:
                                             sitio_hw_control_rfe.so = sitio_po.bts
