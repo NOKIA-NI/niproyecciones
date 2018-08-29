@@ -33,7 +33,8 @@ $(function () {
           window.location.href = success_url;
         };
       },
-      error: function () {
+      error: function (xhr) {
+        console.log(xhr.responseText)
         modal_body.text(modal_load_error);
       }
     });

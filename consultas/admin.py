@@ -8,6 +8,7 @@ class ConsultaAdmin(admin.ModelAdmin):
     'nombre',
     'descripcion',
     'tipo_consulta',
+    'database',
     'contenido',
     
     'estado',
@@ -16,4 +17,4 @@ class ConsultaAdmin(admin.ModelAdmin):
     'actualizado',
     )
     list_filter = ('estado', 'subestado', 'creado', 'actualizado')
-    search_fields = ['id', 'nombre', 'tipo_consulta']
+    search_fields = ['id', 'nombre', 'tipo_consulta', 'database']

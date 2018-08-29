@@ -197,7 +197,7 @@ class EstadoAntenaAdmin(ImportExportModelAdmin):
     'grupo',
     'marca',
     'fc_salida',
-    'estado',
+    'estado_sitio',
     'familia',
     'categoria',
     'impacto',

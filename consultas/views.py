@@ -56,7 +56,9 @@ class SearchConsulta(ListConsulta):
                 reduce(operator.and_,
                           (Q(descripcion__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(tipo_consulta__icontains=q) for q in query_list))
+                          (Q(tipo_consulta__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                          (Q(database__icontains=q) for q in query_list))
             )
         return queryset
 

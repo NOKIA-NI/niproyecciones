@@ -235,7 +235,7 @@ class EstadoAntena(models.Model):
     grupo = models.CharField(max_length=255, blank=True, null=True)
     marca = models.CharField(max_length=255, blank=True, null=True)
     fc_salida = models.PositiveIntegerField(blank=True, null=True)
-    estado = models.CharField(max_length=255, blank=True, null=True)
+    estado_sitio = models.CharField(max_length=255, blank=True, null=True)
     familia = models.PositiveIntegerField(blank=True, null=True)
     categoria = models.CharField(max_length=255, blank=True, null=True)
     impacto = models.CharField(max_length=255, blank=True, null=True)

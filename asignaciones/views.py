@@ -588,7 +588,7 @@ class SearchEstadoAntena(ListEstadoAntena):
                 reduce(operator.and_,
                           (Q(marca__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
-                          (Q(estado__icontains=q) for q in query_list)) |
+                          (Q(estado_sitio__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
                           (Q(categoria__icontains=q) for q in query_list)) |
                 reduce(operator.and_,
