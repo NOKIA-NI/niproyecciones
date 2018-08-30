@@ -15,4 +15,4 @@ class FilterConsultaForm(ModelForm):
     
     class Meta:
         model = Consulta
-        fields = ('nombre', 'tipo_consulta')
+        fields = ('nombre', 'tipo_consulta', 'database')

@@ -79,6 +79,10 @@ class HwSiteListResource(resources.ModelResource):
         'fecha_solicitud_hw',
         'solicitante_asignacion_hw',
         'solicitud_hw',
+        'PO_Status',
+        'Antena_Issue',
+        'Status_Despachos',
+        'gap_rfe_sitio',
         )
 
 class HwControlRfeResource(resources.ModelResource):

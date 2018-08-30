@@ -145,15 +145,15 @@ def task_asignacion_bolsa():
                                             try:
                                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=fcob_rfe.parte)
                                                 if (asignacion_bulk.cantidad - fcob_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - (fcob_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                     fcob_rfe.save() # termina asignar
                                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - fcob_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - (fcob_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     fcob_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                fcob_rfe.issue_bodega_origen = 'FaltanteX' + str(fcob_rfe.total_smr - (fcob_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                 fcob_rfe.save() # termina asignar 
                                 if fcob_rfe.total_smr == 1:
                                     fcob_rfe.so = sitio_po.bts
@@ -187,15 +187,15 @@ def task_asignacion_bolsa():
                                             try:
                                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=amia_rfe.parte)
                                                 if (asignacion_bulk.cantidad - amia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - (amia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                     amia_rfe.save() # termina asignar
                                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - amia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - (amia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     amia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                amia_rfe.issue_bodega_origen = 'FaltanteX' + str(amia_rfe.total_smr - (amia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                 amia_rfe.save() # termina asignar 
                                 if amia_rfe.total_smr == 1:
                                     amia_rfe.so = sitio_po.bts
@@ -229,15 +229,15 @@ def task_asignacion_bolsa():
                                             try:
                                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=abia_rfe.parte)
                                                 if (asignacion_bulk.cantidad - abia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - (abia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                     abia_rfe.save() # termina asignar
                                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - abia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - (abia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     abia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                abia_rfe.issue_bodega_origen = 'FaltanteX' + str(abia_rfe.total_smr - (abia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                 abia_rfe.save() # termina asignar 
                                 if abia_rfe.total_smr == 1:
                                     abia_rfe.so = sitio_po.bts
@@ -271,15 +271,15 @@ def task_asignacion_bolsa():
                                             try:
                                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=asia_rfe.parte)
                                                 if (asignacion_bulk.cantidad - asia_rfe.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - (asia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                     asia_rfe.save() # termina asignar
                                                     asignacion_bulk.cantidad = asignacion_bulk.cantidad - asia_rfe.total_smr + 1
                                                     asignacion_bulk.save() # modifica cantidad
                                                 else:
-                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - (asia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     asia_rfe.save() # termina asignar
                                             except AsignacionBulk.DoesNotExist:
-                                                asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                asia_rfe.issue_bodega_origen = 'FaltanteX' + str(asia_rfe.total_smr - (asia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                 asia_rfe.save() # termina asignar 
                                 if asia_rfe.total_smr == 1:
                                     asia_rfe.so = sitio_po.bts
@@ -376,15 +376,15 @@ def task_asignacion_bolsa():
                                                 try:
                                                     asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=fcob.parte)
                                                     if (asignacion_bulk.cantidad - fcob.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                        fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                        fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - (fcob_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                         fcob.save() # termina asignar
                                                         asignacion_bulk.cantidad = asignacion_bulk.cantidad - fcob.total_smr + 1
                                                         asignacion_bulk.save() # modifica cantidad
                                                     else:
-                                                        fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                        fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - (fcob_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                         fcob.save() # termina asignar
                                                 except AsignacionBulk.DoesNotExist:
-                                                    fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - fcob_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    fcob.issue_bodega_origen = 'FaltanteX' + str(fcob.total_smr - (fcob_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     fcob.save() # termina asignar 
                                     if fcob.total_smr == 1:
                                         fcob.so = sitio_po.bts
@@ -418,15 +418,15 @@ def task_asignacion_bolsa():
                                                 try:
                                                     asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=amia.parte)
                                                     if (asignacion_bulk.cantidad - amia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                        amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                        amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - (amia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                         amia.save() # termina asignar
                                                         asignacion_bulk.cantidad = asignacion_bulk.cantidad - amia.total_smr + 1
                                                         asignacion_bulk.save() # modifica cantidad
                                                     else:
-                                                        amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                        amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - (amia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                         amia.save() # termina asignar
                                                 except AsignacionBulk.DoesNotExist:
-                                                    amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - amia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    amia.issue_bodega_origen = 'FaltanteX' + str(amia.total_smr - (amia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     amia.save() # termina asignar 
                                     if amia.total_smr == 1:
                                         amia.so = sitio_po.bts
@@ -460,15 +460,15 @@ def task_asignacion_bolsa():
                                                 try:
                                                     asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=abia.parte)
                                                     if (asignacion_bulk.cantidad - abia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                        abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                        abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - (abia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                         abia.save() # termina asignar
                                                         asignacion_bulk.cantidad = asignacion_bulk.cantidad - abia.total_smr + 1
                                                         asignacion_bulk.save() # modifica cantidad
                                                     else:
-                                                        abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                        abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - (abia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                         abia.save() # termina asignar
                                                 except AsignacionBulk.DoesNotExist:
-                                                    abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - abia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    abia.issue_bodega_origen = 'FaltanteX' + str(abia.total_smr - (abia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     abia.save() # termina asignar 
                                     if abia.total_smr == 1:
                                         abia.so = sitio_po.bts
@@ -502,15 +502,15 @@ def task_asignacion_bolsa():
                                                 try:
                                                     asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=asia.parte)
                                                     if (asignacion_bulk.cantidad - asia.total_smr) + 1 > asignacion_bulk.cantidad * 0.1:
-                                                        asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
+                                                        asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - (asia_zina.quantity + 1)) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                                         asia.save() # termina asignar
                                                         asignacion_bulk.cantidad = asignacion_bulk.cantidad - asia.total_smr + 1
                                                         asignacion_bulk.save() # modifica cantidad
                                                     else:
-                                                        asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                        asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - (asia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                         asia.save() # termina asignar
                                                 except AsignacionBulk.DoesNotExist:
-                                                    asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - asia_zina.quantity + 1) + ' Sin diponibilidad en bodega'
+                                                    asia.issue_bodega_origen = 'FaltanteX' + str(asia.total_smr - (asia_zina.quantity + 1)) + ' Sin diponibilidad en bodega'
                                                     asia.save() # termina asignar 
                                     if asia.total_smr == 1:
                                         asia.so = sitio_po.bts
@@ -850,9 +850,10 @@ def task_sobrantes():
     sitios_pos_zina = PoZina.objects.filter(cpo_number__in=list_sitio_po) # filtra sitios en zina por po's AVAILABLE IN WH
     sitios_pos_zina = sitios_pos_zina.filter(quantity__gt=0) # sobrantes
     for sitio_po_zina in sitios_pos_zina: # for principal
-        if sitio_po_zina.parte_capex == 'J_MR_MA_4MTS_DCLASS'\
+        if (sitio_po_zina.parte_capex == 'J_MR_MA_4MTS_DCLASS'\
         or sitio_po_zina.parte_capex == 'J_MR_MA_8MTS_DCLASS'\
-        or sitio_po_zina.parte_capex == 'J_MR_MA_14MTS_DCLASS' and sitios_po.get(numero_po=sitio_po_zina.cpo_number).jumper_status != 'AVAILABLE IN WH':
+        or sitio_po_zina.parte_capex == 'J_MR_MA_14MTS_DCLASS'\
+        or sitio_po_zina.parte_capex == 'Jumper M-M FRHG') and sitios_po.get(numero_po=sitio_po_zina.cpo_number).jumper_status != 'AVAILABLE IN WH':
             pass
         elif sitio_po_zina.parte_capex == 'FXCB'\
         and sitios_po.get(numero_po=sitio_po_zina.cpo_number).fxcb_status != 'AVAILABLE IN WH'\

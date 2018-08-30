@@ -75,6 +75,10 @@ class HwSiteList(models.Model):
     fecha_solicitud_hw = models.DateField(blank=True, null=True)
     solicitante_asignacion_hw = models.BigIntegerField(blank=True, null=True)
     solicitud_hw = models.CharField(max_length=4, blank=True, null=True)
+    PO_Status = models.CharField(max_length=255, blank=True, null=True)
+    Antena_Issue = models.CharField(max_length=255, blank=True, null=True)
+    Status_Despachos = models.CharField(max_length=255, blank=True, null=True)
+    gap_rfe_sitio = models.CharField(max_length=80, blank=True, null=True)
 
     class Meta:
         managed = False
