@@ -563,6 +563,7 @@ def task_asignacion_bolsa():
                     or PARTE == 'Jumper M-M FRHG':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
+                            switch = False # switch apagado
                             try:
                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=PARTE)
                                 if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
@@ -579,6 +580,7 @@ def task_asignacion_bolsa():
                     if sitio_hw_control_rfe == 'FXCB':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
+                            switch = False # switch apagado
                             try:
                                 asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=PARTE)
                                 if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
