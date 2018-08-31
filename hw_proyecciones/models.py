@@ -79,6 +79,7 @@ class HwSiteList(models.Model):
     Antena_Issue = models.CharField(max_length=255, blank=True, null=True)
     Status_Despachos = models.CharField(max_length=255, blank=True, null=True)
     gap_rfe_sitio = models.CharField(max_length=80, blank=True, null=True)
+    Cosite = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

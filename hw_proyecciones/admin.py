@@ -88,6 +88,7 @@ class HwSiteListAdmin(ImportExportModelAdmin):
     'Antena_Issue',
     'Status_Despachos',
     'gap_rfe_sitio',
+    'Cosite',
     )
     list_filter = ('Bolsa_HW', 'status_nokia', 'solicitud_hw')
     search_fields = ['idsitesList', 'siteName']

@@ -83,6 +83,7 @@ class HwSiteListResource(resources.ModelResource):
         'Antena_Issue',
         'Status_Despachos',
         'gap_rfe_sitio',
+        'Cosite',
         )
 
 class HwControlRfeResource(resources.ModelResource):
