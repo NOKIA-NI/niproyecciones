@@ -637,9 +637,9 @@ def task_asignacion_bolsa():
                                             sitio_hw_control_rfe.save() # termina asignar
                                             asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
                                             asignacion_bulk.save() # modifica cantidad
-                                            break
                                     except AsignacionBulk.DoesNotExist:
                                         pass
+                                    break
                                 count = po_zina.quantity
                                 sitio_po = sitios_po.get(numero_po=po_zina.cpo_number)
                                 if PARTE == 'J_MR_MA_4MTS_DCLASS'\
@@ -659,7 +659,7 @@ def task_asignacion_bolsa():
                                     if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count > asignacion_bulk.cantidad * 0.1:
                                         sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                                         sitio_hw_control_rfe.save() # termina asignar
-                                        asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
+                                        asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count
                                         asignacion_bulk.save() # modifica cantidad
                                 except AsignacionBulk.DoesNotExist:
                                     pass
@@ -825,7 +825,7 @@ def task_asignacion_bolsa():
                         if (asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr) + count > asignacion_bulk.cantidad * 0.1:
                             sitio_hw_control_rfe.issue_bodega_origen = 'FaltanteX' + str(sitio_hw_control_rfe.total_smr - count) + ' ' + asignacion_bulk.po + ' ' + asignacion_bulk.bodega  
                             sitio_hw_control_rfe.save() # termina asignar
-                            asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr
+                            asignacion_bulk.cantidad = asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr + count
                             asignacion_bulk.save() # modifica cantidad
                     except AsignacionBulk.DoesNotExist:
                         pass
