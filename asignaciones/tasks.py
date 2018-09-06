@@ -12,10 +12,11 @@ from .models import (
 from estaciones.models import Estacion
 from partes.models import Parte
 from hw_proyecciones.models import HwSiteList, HwControlRfe
+from django.db.models import Avg, Max, Min, Sum
 
 @shared_task
 def task_sitios_asignacion():
-    current_task.update_state(state='PROGRESS')
+    # current_task.update_state(state='PROGRESS')
     SitioBolsa.objects.all().delete()
     SitioBulk.objects.all().delete()
     # status_nokia = ['Complete Sites (Installed)', 'Parcial FXCB', 'Parcial Jumpers', 'Complete Sites (Por Armar LSM)']
@@ -36,7 +37,7 @@ def task_sitios_asignacion():
 
 @shared_task
 def task_sitios_po():
-    current_task.update_state(state='PROGRESS')
+    # current_task.update_state(state='PROGRESS')
     sitios_bolsa = SitioBolsa.objects.all()
     list_site_name = [ sitio.estacion.site_name for sitio in sitios_bolsa ]
     sitios_pos_zina = PoZina.objects.filter(site_name__in=list_site_name)
@@ -59,7 +60,7 @@ def task_sitios_po():
 
 @shared_task
 def task_asignacion_bolsa():
-    current_task.update_state(state='PROGRESS')
+    # current_task.update_state(state='PROGRESS')
     sitios_po = SitioPo.objects.filter(bts_status='AVAILABLE IN WH') # filtra sitios por po's AVAILABLE IN WH
     list_sitio_po = [ sitio_po.numero_po for sitio_po in sitios_po ]
     sitios_pos_zina = PoZina.objects.filter(cpo_number__in=list_sitio_po) # filtra sitios en zina por po's AVAILABLE IN WH
@@ -325,6 +326,63 @@ def task_asignacion_bolsa():
                             switch = False # switch apagado
                     except:
                         pass
+                if PARTE == 'FTDJ'\
+                or PARTE == 'FTDE'\
+                or PARTE == 'FTDH' and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:
+                    state = True
+                    # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
+                    # mts_cable = amphenol.total_smr + 10
+                    mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                    qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
+                    list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
+                    for ftdj in list_ftdj:
+                        if ftdj.total_smr > 0:
+                            if state:
+                                ftdj.so = 'Bulk'
+                                ftdj.po = 'Bulk'
+                                ftdj.bodega_origen = 'Microlink'
+                                ftdj.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                ftdj.save()
+                                state = False
+                            else:
+                                ftdj.so = 'N/A'
+                                ftdj.po = 'N/A'
+                                ftdj.bodega_origen = 'N/A'
+                                ftdj.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                ftdj.save()
+                    list_ftde = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDE')
+                    for ftde in list_ftde:
+                        if ftde.total_smr > 0:
+                            if state:
+                                ftde.so = 'Bulk'
+                                ftde.po = 'Bulk'
+                                ftde.bodega_origen = 'Microlink'
+                                ftde.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                ftde.save()
+                                state = False
+                            else:
+                                ftde.so = 'N/A'
+                                ftde.po = 'N/A'
+                                ftde.bodega_origen = 'N/A'
+                                ftde.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                ftde.save()
+                    list_ftdh = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDH')
+                    for ftdh in list_ftdh:
+                        if ftdh.total_smr > 0:
+                            if state:
+                                ftdh.so = 'Bulk'
+                                ftdh.po = 'Bulk'
+                                ftdh.bodega_origen = 'Microlink'
+                                ftdh.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                ftdh.save()
+                                state = False
+                            else:
+                                ftdh.so = 'N/A'
+                                ftdh.po = 'N/A'
+                                ftdh.bodega_origen = 'N/A'
+                                ftdh.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                ftdh.save()
+                    switch = False
                 if switch:# si el switch encendido
                     try:
                         asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=PARTE)
@@ -594,6 +652,63 @@ def task_asignacion_bolsa():
                                     switch = False # switch apagado
                             except AsignacionBulk.DoesNotExist:
                                 pass
+                    if PARTE == 'FTDJ'\
+                    or PARTE == 'FTDE'\
+                    or PARTE == 'FTDH' and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:
+                        state = True
+                        # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
+                        # mts_cable = amphenol.total_smr + 10
+                        mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
+                        list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
+                        for ftdj in list_ftdj:
+                            if ftdj.total_smr > 0:
+                                if state:
+                                    ftdj.so = 'Bulk'
+                                    ftdj.po = 'Bulk'
+                                    ftdj.bodega_origen = 'Microlink'
+                                    ftdj.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftdj.save()
+                                    state = False
+                                else:
+                                    ftdj.so = 'N/A'
+                                    ftdj.po = 'N/A'
+                                    ftdj.bodega_origen = 'N/A'
+                                    ftdj.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftdj.save()
+                        list_ftde = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDE')
+                        for ftde in list_ftde:
+                            if ftde.total_smr > 0:
+                                if state:
+                                    ftde.so = 'Bulk'
+                                    ftde.po = 'Bulk'
+                                    ftde.bodega_origen = 'Microlink'
+                                    ftde.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftde.save()
+                                    state = False
+                                else:
+                                    ftde.so = 'N/A'
+                                    ftde.po = 'N/A'
+                                    ftde.bodega_origen = 'N/A'
+                                    ftde.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftde.save()
+                        list_ftdh = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDH')
+                        for ftdh in list_ftdh:
+                            if ftdh.total_smr > 0:
+                                if state:
+                                    ftdh.so = 'Bulk'
+                                    ftdh.po = 'Bulk'
+                                    ftdh.bodega_origen = 'Microlink'
+                                    ftdh.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftdh.save()
+                                    state = False
+                                else:
+                                    ftdh.so = 'N/A'
+                                    ftdh.po = 'N/A'
+                                    ftdh.bodega_origen = 'N/A'
+                                    ftdh.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftdh.save()
+                        switch = False
                     if switch:# si el switch encendido
                         if po_zina.quantity == 0: # asignar bulk
                             try:
@@ -755,6 +870,63 @@ def task_asignacion_bolsa():
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
                             switch = False # switch apagado
+                    if PARTE == 'FTDJ'\
+                    or PARTE == 'FTDE'\
+                    or PARTE == 'FTDH' and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:
+                        state = True
+                        # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
+                        # mts_cable = amphenol.total_smr + 10
+                        mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
+                        list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
+                        for ftdj in list_ftdj:
+                            if ftdj.total_smr > 0:
+                                if state:
+                                    ftdj.so = 'Bulk'
+                                    ftdj.po = 'Bulk'
+                                    ftdj.bodega_origen = 'Microlink'
+                                    ftdj.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftdj.save()
+                                    state = False
+                                else:
+                                    ftdj.so = 'N/A'
+                                    ftdj.po = 'N/A'
+                                    ftdj.bodega_origen = 'N/A'
+                                    ftdj.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftdj.save()
+                        list_ftde = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDE')
+                        for ftde in list_ftde:
+                            if ftde.total_smr > 0:
+                                if state:
+                                    ftde.so = 'Bulk'
+                                    ftde.po = 'Bulk'
+                                    ftde.bodega_origen = 'Microlink'
+                                    ftde.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftde.save()
+                                    state = False
+                                else:
+                                    ftde.so = 'N/A'
+                                    ftde.po = 'N/A'
+                                    ftde.bodega_origen = 'N/A'
+                                    ftde.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftde.save()
+                        list_ftdh = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDH')
+                        for ftdh in list_ftdh:
+                            if ftdh.total_smr > 0:
+                                if state:
+                                    ftdh.so = 'Bulk'
+                                    ftdh.po = 'Bulk'
+                                    ftdh.bodega_origen = 'Microlink'
+                                    ftdh.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                                    ftdh.save()
+                                    state = False
+                                else:
+                                    ftdh.so = 'N/A'
+                                    ftdh.po = 'N/A'
+                                    ftdh.bodega_origen = 'N/A'
+                                    ftdh.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                                    ftdh.save()
+                        switch = False
                     if switch:# si el switch encendido
                         if po_zina.quantity > 0: # asignar
                             if (po_zina.quantity - sitio_hw_control_rfe.total_smr) + count >= 0: # asignar po
@@ -846,7 +1018,7 @@ def task_asignacion_bolsa():
 
 @shared_task
 def task_sobrantes():
-    current_task.update_state(state='PROGRESS')
+    # current_task.update_state(state='PROGRESS')
     sitios_po = SitioPo.objects.filter(bts_status='AVAILABLE IN WH') # filtra sitios por po's AVAILABLE IN WH
     list_sitio_po = [ sitio_po.numero_po for sitio_po in sitios_po ]
     sitios_pos_zina = PoZina.objects.filter(cpo_number__in=list_sitio_po) # filtra sitios en zina por po's AVAILABLE IN WH
@@ -947,7 +1119,7 @@ def task_sobrantes():
 
 @shared_task
 def task_asignacion_bulk():
-    current_task.update_state(state='PROGRESS')
+    # current_task.update_state(state='PROGRESS')
     sitios_bulk = SitioBulk.objects.all()
     list_site_name = [ sitio.estacion.site_name for sitio in sitios_bulk ]
     sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__in=list_site_name) # filtra sitios bilk en rfe
@@ -985,9 +1157,66 @@ def task_asignacion_bulk():
             PARTE = 'FUFAY'
             sitio_hw_control_rfe.homologacion = 'FUFAY'
             sitio_hw_control_rfe.save()
+
+        if PARTE == 'FTDJ'\
+        or PARTE == 'FTDE'\
+        or PARTE == 'FTDH' and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:
+            state = True
+            # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
+            # mts_cable = amphenol.total_smr + 10
+            mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+            qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
+            list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
+            for ftdj in list_ftdj:
+                if ftdj.total_smr > 0:
+                    if state:
+                        ftdj.so = 'Bulk'
+                        ftdj.po = 'Bulk'
+                        ftdj.bodega_origen = 'Microlink'
+                        ftdj.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                        ftdj.save()
+                        state = False
+                    else:
+                        ftdj.so = 'N/A'
+                        ftdj.po = 'N/A'
+                        ftdj.bodega_origen = 'N/A'
+                        ftdj.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                        ftdj.save()
+            list_ftde = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDE')
+            for ftde in list_ftde:
+                if ftde.total_smr > 0:
+                    if state:
+                        ftde.so = 'Bulk'
+                        ftde.po = 'Bulk'
+                        ftde.bodega_origen = 'Microlink'
+                        ftde.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                        ftde.save()
+                        state = False
+                    else:
+                        ftde.so = 'N/A'
+                        ftde.po = 'N/A'
+                        ftde.bodega_origen = 'N/A'
+                        ftde.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                        ftde.save()
+            list_ftdh = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDH')
+            for ftdh in list_ftdh:
+                if ftdh.total_smr > 0:
+                    if state:
+                        ftdh.so = 'Bulk'
+                        ftdh.po = 'Bulk'
+                        ftdh.bodega_origen = 'Microlink'
+                        ftdh.issue_bodega_origen = 'Fabricar ' + str(qty_cable) + ' cables Ethernet de ' + str(mts_cable) + ' mts.'
+                        ftdh.save()
+                        state = False
+                    else:
+                        ftdh.so = 'N/A'
+                        ftdh.po = 'N/A'
+                        ftdh.bodega_origen = 'N/A'
+                        ftdh.issue_bodega_origen = 'Por contingencia, se restringen solicitudes de cable ETH'
+                        ftdh.save()               
         try:
             asignacion_bulk = AsignacionBulk.objects.get(parte__parte_nokia=PARTE)
-            if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr > asignacion_bulk.cantidad * 0.1:            
+            if asignacion_bulk.cantidad - sitio_hw_control_rfe.total_smr > asignacion_bulk.cantidad * 0.1 and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:            
                 sitio_hw_control_rfe.so = asignacion_bulk.so
                 sitio_hw_control_rfe.po = asignacion_bulk.po
                 sitio_hw_control_rfe.bodega_origen = asignacion_bulk.bodega

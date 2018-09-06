@@ -190,9 +190,9 @@ MEDIA_URL = os.getenv('MEDIA_URL')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 AUTH_PROFILE_MODULE = 'users.Perfil'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 GS_BUCKET_NAME = os.getenv('BUCKET_NAME')
 
@@ -235,16 +235,16 @@ SECURE_REDIRECT_EXEMPT = ['create/hw/estacion/',
                           'delete/hw/parte/',
                          ]
 
-EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
-
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-
 CELERY_BROKER_URL = os.getenv('REDIS_URL')
 CELERY_RESULT_BACKEND = os.getenv('REDIS_URL')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 REDIS = redis.StrictRedis(host=os.getenv('REDIS_HOST'), port=6379, db=0, charset='utf-8', decode_responses=True)
 

@@ -88,12 +88,14 @@ class DetailTarea(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailTarea, self).get_context_data(**kwargs)
         task = json.loads(settings.REDIS.get('celery-task-meta-' + str(self.object.tarea_id)))
-        # task_info = AsyncResult(self.object.tarea_id)
         context['task'] = task
         context['status'] = task['status']
         context['result'] = task['result']
-        context['status_code'] = task['result']['status_code']
-        # context['info'] = task_info.info
+        # task = AsyncResult(self.object.tarea_id)
+        # context['task'] = task
+        # context['info'] = task.info
+        # context['status'] = task.status
+        # context['result'] = task.result
         return context
 
 def get_task_status(request):

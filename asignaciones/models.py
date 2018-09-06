@@ -48,7 +48,10 @@ class AsignacionBulk(models.Model):
     @receiver(post_save, sender=Parte)
     def save_asignacion_bulk(sender, instance, **kwargs):
         if instance.grupo_parte != ANTENAS:
-            instance.asignacionbulk.save()
+            try:
+                instance.asignacionbulk.save()
+            except:
+                pass
 
 class AsignacionAntena(models.Model):
     parte = models.OneToOneField(Parte, on_delete=models.CASCADE, blank=True, null=True)
