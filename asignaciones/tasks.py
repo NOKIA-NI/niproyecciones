@@ -1062,7 +1062,6 @@ def task_sobrantes():
                                 sitio_hw_control_rfe.save()
                         switch = False
                         break
-        
                 if switch:
                     sitios_hw_control_rfe = HwControlRfe.objects.filter(siteName__iexact=sitio_po_zina.site_name)
                     for sitio_hw_control_rfe in sitios_hw_control_rfe:
@@ -1157,7 +1156,6 @@ def task_asignacion_bulk():
             PARTE = 'FUFAY'
             sitio_hw_control_rfe.homologacion = 'FUFAY'
             sitio_hw_control_rfe.save()
-
         if PARTE == 'FTDJ'\
         or PARTE == 'FTDE'\
         or PARTE == 'FTDH' and not sitio_hw_control_rfe.so or sitio_hw_control_rfe.so is None:
