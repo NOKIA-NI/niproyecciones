@@ -194,6 +194,12 @@
               Estados Antena
           </a>
         </li>
+        <li class="nav-item">
+          <a {% if request.resolver_match.url_name == 'list_adicional' %}class="nav-link active"{% else %}class="nav-link"{% endif %} href="{% url 'adicionales:list_adicional' %}">
+            <span data-feather="plus-square"></span>
+            Adicionales
+          </a>
+        </li>
     </ul>
   </div>
 </nav>

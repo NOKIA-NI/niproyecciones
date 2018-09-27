@@ -87,6 +87,7 @@ function search_url (form) {
   var url_search_estado_po = '/asignaciones/search/estado/po/'
   var url_search_po_zina = '/asignaciones/search/po/zina/'
   var url_search_estado_antena = '/asignaciones/search/estado/antena/'
+  var url_search_adicional = '/adicionales/search/adicional/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_search_bitacora_estacion;
@@ -146,6 +147,8 @@ function search_url (form) {
     form.action = url_search_po_zina;
   } else if (current_url.includes('/estado/antena/')) {
     form.action = url_search_estado_antena;
+  } else if (current_url.includes('/adicional/')) {
+    form.action = url_search_adicional;
   } else {
     form.action = ''
   }
@@ -182,6 +185,7 @@ function filter_url (form) {
   var url_filter_estado_po = '/asignaciones/filter/estado/po/'
   var url_filter_po_zina = '/asignaciones/filter/po/zina/'
   var url_filter_estado_antena = '/asignaciones/filter/estado/antena/'
+  var url_filter_adicional = '/adicionales/filter/adicional/'
 
   if (current_url.includes('/bitacora/estacion/')) {
     form.action = url_filter_bitacora_estacion;
@@ -241,6 +245,8 @@ function filter_url (form) {
     form.action = url_filter_po_zina;
   } else if (current_url.includes('/estado/antena/')) {
     form.action = url_filter_estado_antena;
+  } else if (current_url.includes('/adicional/')) {
+    form.action = url_filter_adicional;
   } else {
     form.action = ''
   }

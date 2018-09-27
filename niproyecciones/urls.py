@@ -38,6 +38,7 @@ urlpatterns = [
     path('formatos/', include('formatos.urls', namespace='formatos')),
     path('rastreos/', include('rastreos.urls', namespace='rastreos')),
     path('asignaciones/', include('asignaciones.urls', namespace='asignaciones')),
+    path('adicionales/', include('adicionales.urls', namespace='adicionales')),
 
     # third
     path('advanced_filters/', include('advanced_filters.urls'))

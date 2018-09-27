@@ -28,6 +28,8 @@ DEBUG = False
 
 ADMINS = [('Julio Brito', 'jucebridu@gmail.com')]
 
+MANAGERS = ADMINS
+
 ALLOWED_HOSTS = [
     os.getenv('ALLOWED_HOSTS_1'),
     os.getenv('ALLOWED_HOSTS_2'),
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     'formatos.apps.FormatosConfig',
     'rastreos.apps.RastreosConfig',
     'asignaciones.apps.AsignacionesConfig',
+    'adicionales.apps.AdicionalesConfig',
     # thirds
     'crispy_forms',
     'import_export',

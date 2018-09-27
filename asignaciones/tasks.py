@@ -332,7 +332,11 @@ def task_asignacion_bolsa():
                     state = True
                     # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
                     # mts_cable = amphenol.total_smr + 10
-                    mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                    amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').count()
+                    if amphenol > 0:
+                        mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                    else:
+                        mts_cable = 20
                     qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
                     list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
                     for ftdj in list_ftdj:
@@ -635,7 +639,7 @@ def task_asignacion_bolsa():
                                     switch = False # switch apagado
                             except AsignacionBulk.DoesNotExist:
                                 pass
-                    if sitio_hw_control_rfe == 'FXCB':
+                    if PARTE == 'FXCB':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
                             switch = False # switch apagado
@@ -658,7 +662,11 @@ def task_asignacion_bolsa():
                         state = True
                         # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
                         # mts_cable = amphenol.total_smr + 10
-                        mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').count()
+                        if amphenol > 0:
+                            mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        else:
+                            mts_cable = 20
                         qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
                         list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
                         for ftdj in list_ftdj:
@@ -866,7 +874,7 @@ def task_asignacion_bolsa():
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.jumper_status != 'AVAILABLE IN WH': # asignar bulk
                             switch = False # switch apagado
-                    if sitio_hw_control_rfe == 'FXCB':
+                    if PARTE == 'FXCB':
                         sitio_po = SitioPo.objects.get(numero_po=po_zina.cpo_number)
                         if sitio_po.fxcb == 'FXCB separated' and sitio_po.fxcb_status != 'AVAILABLE IN WH': # asignar bulk
                             switch = False # switch apagado
@@ -876,7 +884,11 @@ def task_asignacion_bolsa():
                         state = True
                         # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
                         # mts_cable = amphenol.total_smr + 10
-                        mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').count()
+                        if amphenol > 0:
+                            mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+                        else:
+                            mts_cable = 20
                         qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
                         list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
                         for ftdj in list_ftdj:
@@ -1162,7 +1174,11 @@ def task_asignacion_bulk():
             state = True
             # amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').order_by('total_smr').latest('total_smr')
             # mts_cable = amphenol.total_smr + 10
-            mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+            amphenol = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').count()
+            if amphenol > 0:
+                mts_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='Amphenol_2x25').aggregate(total=Max('total_smr')).get('total') + 10
+            else:
+                mts_cable = 20
             qty_cable = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FPFH').aggregate(total=Sum('total_smr')).get('total')
             list_ftdj = HwControlRfe.objects.filter(siteName=sitio_hw_control_rfe.siteName, parte='FTDJ')
             for ftdj in list_ftdj:
