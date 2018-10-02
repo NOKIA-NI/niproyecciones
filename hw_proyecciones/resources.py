@@ -6,6 +6,7 @@ from .models import (
     HwParte,
     HwSiteList,
     HwControlRfe,
+    DrillDown,
 )
 
 class HwProyeccionResource(resources.ModelResource):
@@ -119,4 +120,25 @@ class HwControlRfeResource(resources.ModelResource):
         'envio_capex',
         'last_updated_ghw',
         'homologacion',
+        )
+
+class DrillDownResource(resources.ModelResource):
+
+    class Meta:
+        model = DrillDown
+        # exclude = ('id',)
+        import_id_fields = ('id_drill_down_d1',)
+        export_order = (
+        'id_drill_down_d1',
+        'Site_Name',
+        'Implemented',
+        'TSS',
+        'RFIC',
+        'FC_RFIC',
+        'CPO_Status1',
+        'CPO_Status2',
+        'HW_Status',
+        'FC_HW',
+        'Status_Despachos',
+        'FC_Antenas',
         )

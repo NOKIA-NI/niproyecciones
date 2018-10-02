@@ -236,6 +236,7 @@ SECURE_REDIRECT_EXEMPT = ['create/hw/estacion/',
                           'create/hw/parte/',
                           'update/hw/parte/',
                           'delete/hw/parte/',
+                          'save/drill/down/',
                          ]
 
 CELERY_BROKER_URL = os.getenv('REDIS_URL')

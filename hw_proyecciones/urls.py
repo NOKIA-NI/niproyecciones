@@ -18,6 +18,8 @@ create_proyeccion_estacion_entro,
 create_proyeccion_estacion_salio,
 
 send_mail_proyeccion,
+
+save_drill_down,
 )
 
 app_name = 'hw_proyecciones'
@@ -41,4 +43,6 @@ urlpatterns = [
     path('create/proyeccion/estacion/salio/', create_proyeccion_estacion_salio, name='create_proyeccion_estacion_salio'),
 
     path('send/mail/proyeccion/', send_mail_proyeccion, name='send_mail_proyeccion'),
+
+    path('save/drill/down/', save_drill_down, name='save_drill_down'),
 ]

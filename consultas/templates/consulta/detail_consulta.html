@@ -24,7 +24,7 @@
 <script>
 var objectData = '{{ object.data }}';
 console.log('objectData', objectData.replace(/(&quot\;)/g,"\""))
-var data = JSON.parse(objectData.replace(/(&quot\;)/g,"\""));
+var data = JSON.parse(objectData.replace(/(&quot\;)/g,"\"").replace(/\t/g, "\\t"));
 console.log('data', data)
 if (data) {
     $('.loading').hide()
@@ -50,7 +50,8 @@ $('#table_consulta').DataTable({
     buttons: [
     'pageLength',
     'colvis',
-    'excelHtml5',
+    // 'excelHtml5',
+    { extend: 'excelHtml5', title: null }
     ],
     "order": [],
     "aaData": data,

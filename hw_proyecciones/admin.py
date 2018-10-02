@@ -5,6 +5,7 @@ from .models import (
     HwParte,
     HwSiteList,
     HwControlRfe,
+    DrillDown,
     )
 from import_export.admin import ImportExportModelAdmin
 from .resources import (
@@ -13,6 +14,7 @@ from .resources import (
     HwParteResource,
     HwSiteListResource,
     HwControlRfeResource,
+    DrillDownResource,
     )
 
 @admin.register(HwProyeccion)
@@ -93,57 +95,35 @@ class HwSiteListAdmin(ImportExportModelAdmin):
     list_filter = ('Bolsa_HW', 'status_nokia', 'solicitud_hw')
     search_fields = ['idsitesList', 'siteName']
 
-@admin.register(HwControlRfe)
-class HwControlRfeAdmin(ImportExportModelAdmin):
-    resource_class = HwControlRfeResource
+@admin.register(DrillDown)
+class DrillDownAdmin(ImportExportModelAdmin):
+    resource_class = DrillDownResource
     list_display = (
-    'id_hw_config',
-    'wp',
-    'siteName',
-    'proyecto',
-    'escenario',
-    'banda',
-    'seccion',
-    'referencia',
-    'cantidad',
-    'parte',
-    'total_smr',
-    'fuente',
-    'RFE',
-    'so',
-    'po',
-    'bodega_origen',
-    'bodega_origen_fecha',
-    'issue_bodega_origen',
-    'material_sobrante',
-    'bts_status',
-    'reemplazo',
-    'po_date',
-    'so_date',
-    'envio_capex',
-    'last_updated_ghw',
-    'homologacion',
+    'id_drill_down_d1',
+    'Site_Name',
+    'Implemented',
+    'TSS',
+    'RFIC',
+    'FC_RFIC',
+    'CPO_Status1',
+    'CPO_Status2',
+    'HW_Status',
+    'FC_HW',
+    'Status_Despachos',
+    'FC_Antenas',
     )
     # list_filter = ()
-    readonly_fields = [
-    'wp',
-    'siteName',
-    'proyecto',
-    'escenario',
-    'banda',
-    'seccion',
-    'referencia',
-    'cantidad',
-    'parte',
-    'total_smr',
-    'fuente',
-    'RFE',
-    'bodega_origen_fecha',
-    'bts_status',
-    'reemplazo',
-    'po_date',
-    'so_date',
-    'envio_capex',
-    'last_updated_ghw',
-    ]
-    search_fields = ['id_hw_config', 'siteName', 'parte']
+    # readonly_fields = [
+    # 'Site_Name',
+    # 'Implemented',
+    # 'TSS',
+    # 'RFIC',
+    # 'FC_RFIC',
+    # 'CPO_Status1',
+    # 'CPO_Status2',
+    # 'HW_Status',
+    # 'FC_HW',
+    # 'Status_Despachos',
+    # 'FC_Antenas',
+    # ]
+    search_fields = ['id_drill_down_d1', 'Site_Name']

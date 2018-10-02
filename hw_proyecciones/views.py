@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from hw_proyecciones.models import HwProyeccion
+from hw_proyecciones.models import HwProyeccion, DrillDown
 from proyecciones.models import Proyeccion
 from estaciones.models import Estacion, ProyeccionEstacion
 from partes.models import Parte
@@ -12,6 +12,7 @@ from django.core.mail import send_mail, EmailMessage
 from proyecciones.resources import ProyeccionResource
 from openpyxl import Workbook
 from io import BytesIO
+from django.db import connections
 
 TODAY = timezone.now().date()
 # TODAY = datetime.date.today()
@@ -872,4 +873,18 @@ def send_mail_proyeccion(request):
         )
     message.attach(filename, content, mimetype)
     message.send(fail_silently=False)
+    return HttpResponse(status=204)
+
+def save_drill_down(request):
+    # if request.headers["X-Appengine-Cron"]:
+    DrillDown.objects.all().delete()
+    query = "INSERT INTO `DrillDown_D1` (`Site_Name`, `Implemented`, `TSS`, `RFIC`, `FC_RFIC`, `CPO_Status1`, `CPO_Status2`, `HW_Status`, `FC_HW`, `Status_Despachos`, `FC_Antenas`)\
+            SELECT slh.`siteName` AS Site_Name, CASE WHEN (cp.`instalacion` IS NOT NULL AND cp.`instalacion` NOT LIKE '') AND (cp.`integracion` IS NOT NULL AND cp.`integracion` NOT LIKE '') AND\
+            (cp.`inservice` IS NOT NULL AND cp.`inservice` NOT LIKE '') THEN '[INSTALADO] / [INTEGRADO] / [ONAIR]' WHEN (cp.`instalacion` IS NOT NULL AND cp.`instalacion` NOT LIKE '') AND\
+            (cp.`integracion` IS NOT NULL AND cp.`integracion` NOT LIKE '') THEN '[INSTALADO] / [INTEGRADO] / ' WHEN cp.`instalacion` IS NOT NULL AND cp.`instalacion` NOT LIKE '' THEN '[INSTALADO] / / ' ELSE '/ /' END AS Implemented,\
+            slt.`gap_tss` AS TSS, cp.`rfic` AS RFIC, cp.`fc_rfic_lb2` AS FC_RFIC, slh.`cpo_status1` AS CPO_Status1, slh.`Bolsa_HW` AS CPO_Status2, slh.`status_nokia`\
+            AS HW_Status, slh.`fc_hw` AS FC_HW, slh.`Status_Despachos` AS Status_Despachos, slh.`fc_antena` AS FC_Antenas FROM `sitesList_hw` slh LEFT JOIN `control_panel` cp ON slh.`siteName` = cp.`sitio`\
+            LEFT JOIN `sitesList_tss` slt ON slh.`siteName` = slt.`siteName`  WHERE cp.`seguimiento` LIKE 'X' AND cp.`ejecuta` LIKE 'Nokia'"
+    with connections['nokiagi_db'].cursor() as cursor:
+        cursor.execute(query)
     return HttpResponse(status=204)

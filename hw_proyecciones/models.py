@@ -130,3 +130,30 @@ class HwControlRfe(models.Model):
     
     def save(self, *args, **kwargs):
         super(HwControlRfe, self).save(update_fields=['so', 'po', 'bodega_origen', 'issue_bodega_origen', 'material_sobrante', 'homologacion'], *args, **kwargs)
+
+
+class DrillDown(models.Model):
+    id_drill_down_d1 = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    Site_Name = models.CharField(max_length=255, blank=True, null=True)
+    Implemented = models.CharField(max_length=255, blank=True, null=True)
+    TSS = models.CharField(max_length=255, blank=True, null=True)
+    RFIC = models.IntegerField(blank=True, null=True)
+    FC_RFIC = models.IntegerField(blank=True, null=True)
+    CPO_Status1 = models.CharField(max_length=255, blank=True, null=True)
+    CPO_Status2 = models.CharField(max_length=255, blank=True, null=True)
+    HW_Status = models.CharField(max_length=255, blank=True, null=True)
+    FC_HW = models.IntegerField(blank=True, null=True)
+    Status_Despachos = models.CharField(max_length=255, blank=True, null=True)
+    FC_Antenas = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'DrillDown_D1'
+        verbose_name = 'DrillDown'
+        verbose_name_plural = 'DrillDown'
+
+    def __str__(self):
+        return str(self.id_drill_down_d1)
+    
+    # def save(self, *args, **kwargs):
+    #     super(HwControlRfe, self).save(update_fields=['so', 'po', 'bodega_origen', 'issue_bodega_origen', 'material_sobrante', 'homologacion'], *args, **kwargs)
