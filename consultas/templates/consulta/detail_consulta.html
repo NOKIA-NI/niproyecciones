@@ -38,7 +38,7 @@ columns.forEach(element => {
     columnsData.push({ "mData": element })
 })
 columnsDataDef = []
-var i= 0;
+var i = 0;
 columns.forEach(element => {
     columnsDataDef.push({ "sTitle": element, "aTargets": [i] });
     i++
@@ -51,7 +51,7 @@ $('#table_consulta').DataTable({
     'pageLength',
     'colvis',
     // 'excelHtml5',
-    { extend: 'excelHtml5', title: null }
+    { extend: 'excelHtml5', filename: '{{ object.nombre }}', title: null }
     ],
     "order": [],
     "aaData": data,

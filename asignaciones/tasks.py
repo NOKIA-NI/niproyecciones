@@ -20,8 +20,8 @@ def task_sitios_asignacion():
     SitioBolsa.objects.all().delete()
     SitioBulk.objects.all().delete()
     # status_nokia = ['Complete Sites (Installed)', 'Parcial FXCB', 'Parcial Jumpers', 'Complete Sites (Por Armar LSM)']
-    status_nokia = ['Piloto 1']
-    sitios_asignacion = HwSiteList.objects.filter(status_nokia__in=status_nokia, solicitud_hw='1', estado_HW='NO CONFIRMADO')
+    # status_nokia = ['Piloto 1']
+    sitios_asignacion = HwSiteList.objects.filter(solicitud_hw='1', estado_HW='NO CONFIRMADO')
     Bolsa_HW = ['Sitios Bulk', 'LSM A BULK']
     sitios_asignacion_bolsa = sitios_asignacion.exclude(Bolsa_HW__in=Bolsa_HW)
     sitios_asignacion_bulk = sitios_asignacion.filter(Bolsa_HW__in=Bolsa_HW)
