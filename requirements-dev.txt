@@ -40,7 +40,7 @@ pytz==2018.5
 PyYAML==3.13
 redis==2.10.6
 requests==2.19.1
-rsa==3.4.2
+rsa==4.1
 sendgrid==5.4.1
 six==1.11.0
 supervisor==4.0.0.dev0
